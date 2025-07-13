@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KIOKS</title>
+    <link href="../output.css" rel="stylesheet" />
+    <link href="../input.css" rel="stylesheet" />
+  </head>
+
+  <body class="bg-[var(--background-color)] min-h-screen">
+    <div class="toggle">
+      <button
+        class="theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
+        id="theme-toggle"
+        title="Toggles light & dark"
+        aria-label="auto"
+        aria-live="polite"
+      >
+        <svg
+          class="sun-and-moon"
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="24" cy="10" r="6" fill="black" />
+          </mask>
+          <circle
+            class="sun"
+            cx="12"
+            cy="12"
+            r="6"
+            mask="url(#moon-mask)"
+            fill="currentColor"
+          />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div class="flex justify-center items-center h-screen">
+      <div class="w-full">
+        <!-- Grid Layout -->
+        <div
+          class="grid grid-cols-4 landscape:grid-cols-5 gap-1 w-full h-[60vh] p-4"
+        >
+          <div class="text-white col-span-1 landscape:col-span-1">
+            <div
+              class="flex justify-center gap-2 items-center flex-col h-full"
+              id="actionBtnContainer"
+            >
+              <div class="text-center">
+                <div
+                  class="display-date portrait:text-[.7rem] mb-2 text-md font-semibold"
+                >
+                  <span
+                    id="day"
+                    class="portrait:text-[.7rem] text-[var(--text-color)]"
+                    >day</span
+                  ><span class="text-[var(--text-color)]">,</span>
+                  <span
+                    id="daynum"
+                    class="portrait:text-[.7rem] text-[var(--text-color)]"
+                    >00</span
+                  >
+                  <span
+                    id="month"
+                    class="portrait:text-[.7rem] text-[var(--text-color)]"
+                    >month</span
+                  >
+                  <span
+                    id="year"
+                    class="portrait:text-[.7rem] text-[var(--text-color)]"
+                    >0000</span
+                  >
+                </div>
+                <div
+                  id="time"
+                  class="portrait:text-[.7em] portrait:p-2 text-[var(--text-color)] display-time font-extrabold text-xl p-2 border-2 border-[var(--border-color)] rounded-lg transition-all duration-100 ease-in-out hover:shadow-xl"
+                >
+                  <!-- Time will be displayed here -->
+                </div>
+              </div>
+              <button
+                class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow-lg transition-all duration-200 overflow-hidden group"
+              >
+                <span
+                  class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+                >
+                  SIZE
+                </span>
+                <span
+                  class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+                >
+                  <img
+                    src="../assets/SVG/ACTION BTN/SIZE.svg"
+                    alt="SIZE ICON"
+                    class="w-[70%] h-[70%]"
+                  />
+                </span>
+              </button>
+              <button
+                class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-[#e62222] hover:bg-[#ff3636] text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+              >
+                <span
+                  class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+                >
+                  VOID
+                </span>
+                <span
+                  class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+                >
+                  <img
+                    src="../assets/SVG/ACTION BTN/VOID.svg"
+                    alt="VOID ICON"
+                    class="w-[70%] h-[70%]"
+                  />
+                </span>
+              </button>
+              <button
+                class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+              >
+                <span
+                  class="text-[.6rem] md:text-[.7rem] lg:text-[1rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+                >
+                  ADD-ONS
+                </span>
+                <span
+                  class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+                >
+                  <img
+                    src="../assets/SVG/ACTION BTN/ADD_ONS.svg"
+                    alt="ADD-ONS ICON"
+                    class="w-[70%] h-[70%]"
+                  />
+                </span>
+              </button>
+              <button
+                class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+              >
+                <span
+                  class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+                >
+                  MODIFY
+                </span>
+                <span
+                  class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+                >
+                  <img
+                    src="../assets/SVG/ACTION BTN/MODIFY.svg"
+                    alt="MODIFY ICON"
+                    class="w-[70%] h-[70%]"
+                  />
+                </span>
+              </button>
+              <button
+                onclick="history.back()"
+                class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+              >
+                <span
+                  class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+                >
+                  BACK
+                </span>
+                <span
+                  class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+                >
+                  <img
+                    src="../assets/SVG/ACTION BTN/RETURN.svg"
+                    alt="RETURN ICON"
+                    class="w-[70%] h-[70%]"
+                  />
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            id="menuContainer"
+            class="bg-[var(--order-container)] border-1 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- overflow-y-auto hide-scrollbar portrait:active:cursor-grabbing"
+          >
+            <h1
+              id="menuTitle"
+              class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+            >
+              Milk Tea Menu
+            </h1>
+            <hr class="border-1 border-[var(--border-color)]" />
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black"
+            >
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/winter melon.png"
+                  alt="WINTER MELON IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  WINTER MELON
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/taro.png"
+                  alt="TARO IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  TARO
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/strawberry.png"
+                  alt="STRAWBERRY IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  STRAWBERRY
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/salted caramel.png"
+                  alt="SALT CARAME IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  SALTED CARAMEL
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/red velvet.png"
+                  alt="RED VELVET IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  RED VELVET
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/matcha.png"
+                  alt="MATCHA IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  MATCHA
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/double dutch.png"
+                  alt="DOUBLE DUTCH IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  DOUBLE DUTCH
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/dark choco.png"
+                  alt="DARK CHOCOLATE IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  DARK CHOCOLATE
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/cookies & cream.png"
+                  alt="COOKIES & CREAM IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  Cookies & Cream
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/choco hazelnut.png"
+                  alt="CHOCOLATE HAZELNUT IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  CHOCOLATE HAZELNUT
+                </p>
+              </div>
+              <div
+                class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+              >
+                <img
+                  src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/brown sugar.png"
+                  alt="BROWN SUGAR IMAGE"
+                  class="w-full h-auto object-cover rounded-t-lg"
+                />
+                <p
+                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                >
+                  BROWN SUGAR
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Added missing closing div -->
+
+          <!-- Hidden on Portrait ver  -->
+          <div
+            id="col3"
+            class="portrait:hidden portrait:col-span-0 landscape:block landscape:col-span-1 p-4 rounded-lg col-span-2 md:col-span-1 relative"
+          >
+            <div
+              id="cartContainer"
+              class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl"
+            >
+              <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
+                Orders
+              </h2>
+              <!-- Content above the button -->
+              <button
+                class="portrait:hidden absolute bottom-4 left-4 right-4 w-[calc(100%-2rem)] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group"
+              >
+                <span
+                  class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+                >
+                  Checkout
+                </span>
+                <span
+                  class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
+                >
+                  <img
+                    src="../assets/SVG/ACTION BTN/CART.svg"
+                    alt="VOID ICON"
+                    class="color-white"
+                  />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART WHEN PORTRAIT VER START -->
+    <div
+      class="landscape:hidden mt-4 flex justify-center gap-4 fixed bottom-5 right-5"
+    >
+      <button
+        onclick="toggleModal('cart')"
+        class="actionBtn border-1 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+      >
+        <span
+          class="text transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+        >
+          CART
+        </span>
+        <span
+          class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
+        >
+          <img
+            src="../assets/SVG/ACTION BTN/CART.svg"
+            alt="VOID ICON"
+            class="color-white"
+          />
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal for Cart -->
+    <div
+      id="cart"
+      class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50"
+    >
+      <div class="bg-white text-black p-6 rounded w-[50vh] h-[70vh] relative">
+        <!-- Close button for the modal -->
+        <button
+          onclick="toggleModal('cart')"
+          class="absolute top-2 right-2 text-red-600 font-bold"
+        >
+          &times;
+        </button>
+
+        <!-- Cart content here (previous cartContainer content) -->
+        <div
+          id="cartContainer"
+          class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl relative"
+        >
+          <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
+            Orders
+          </h2>
+          <!-- You can add other content above the checkout button as needed -->
+          <p>123</p>
+          <p>123</p>
+          <p>123</p>
+          <div
+            id="kioskBtns"
+            class="flex absolute bottom-4 left-4 right-4 justify-between"
+          >
+            <button
+              class="w-[45%] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group relative"
+            >
+              <span
+                class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+              >
+                Counter
+              </span>
+              <span
+                class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+              >
+                <img
+                  src="../assets/QR.svg"
+                  alt="SIZE ICON"
+                  class="w-[70%] h-[70%]"
+                />
+              </span>
+            </button>
+            <button
+              class="w-[45%] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group relative"
+            >
+              <span
+                class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+              >
+                Pay Now
+              </span>
+              <span
+                class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200"
+              >
+                <img
+                  src="../assets/CASHLESS.svg"
+                  alt="SIZE ICON"
+                  class="w-[70%] h-[70%]"
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleModal(id) {
+        const modal = document.getElementById(id);
+        modal.classList.toggle("hidden");
+        modal.classList.toggle("flex");
+      }
+      z;
+    </script>
+    <script></script>
+    <script src="../JS/theme-toggle.js"></script>
+    <script src="../JS/time.js"></script>
+  </body>
+</html>
