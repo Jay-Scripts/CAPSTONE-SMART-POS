@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS Manager Analytics</title>
+    <!--  linked css below for animations purpose -->
+    <link href="../css/input.css" rel="stylesheet" />
+    <!--  linked css below for tailwind dependencies to work ofline -->
+    <link href="../css/output.css" rel="stylesheet" />
+    <!--  linked script below cdn of tailwind for online use -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  </head>
+  <body class="font-sans bg-[var(--background-color)] text-[var(--text-color)]">
+    <!-- Main Container -->
+
+    <main class="flex min-h-screen">
+      <!-- 
+      ==================================
+      =   Theme toggle Btn Starts Here =
+      ==================================
+    -->
+      <button
+        class="toggle theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
+        id="theme-toggle"
+        title="Toggles light & dark"
+        aria-label="auto"
+        aria-live="polite"
+      >
+        <svg
+          class="sun-and-moon"
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="24" cy="10" r="6" fill="black" />
+          </mask>
+          <circle
+            class="sun"
+            cx="12"
+            cy="12"
+            r="6"
+            mask="url(#moon-mask)"
+            fill="currentColor"
+          />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+        </svg>
+      </button>
+
+      <!-- 
+      ================================
+      =   Theme toggle Btn Ends Here =
+      ================================
+    -->
+      <!-- Side Navigation -->
+      <nav
+        class="w-64 bg-[var(--managers-nav-bg)] text-[var(--managers-nav-text)] shadow-lg overflow-y-auto h-screen"
+      >
+        <!-- Header -->
+        <div class="p-6 shadow-sm shadow-[var(--managers-nav-text)]">
+          <h1 class="text-xl font-bold">Manager Analytics</h1>
+          <p class="text-sm mt-1">Dashboard & Reports</p>
+        </div>
+
+        <!-- Navigation Menu -->
+        <section class="mt-6">
+          <!-- Dashboard Section -->
+          <section class="px-6 py-2">
+            <h3
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Dashboard
+            </h3>
+          </section>
+          <ul class="space-y-1 px-3">
+            <li>
+              <a
+                href="#"
+                data-module="overview"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                  ></path>
+                </svg>
+                Overview
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                data-module="realTimeMetrics"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  ></path>
+                </svg>
+                Real-time Metrics
+              </a>
+            </li>
+          </ul>
+
+          <!-- Sales Analytics -->
+          <div class="px-6 py-2 mt-6">
+            <h3
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Sales Management
+            </h3>
+          </div>
+          <ul class="space-y-1 px-3">
+            <li>
+              <a
+                data-module="salesReports"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Sales Reports
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="performanceTrend"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  ></path>
+                </svg>
+                Performance Trends
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="refund"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+                  ></path>
+                </svg>
+                Refund
+              </a>
+            </li>
+          </ul>
+
+          <!-- Staff Management -->
+          <div class="px-6 py-2 mt-6">
+            <h3
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Staff Management
+            </h3>
+          </div>
+          <ul class="space-y-1 px-3">
+            <li>
+              <a
+                data-module="registerStaff"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a3 3 0 11-6 0 3 3 0 016 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  ></path>
+                </svg>
+                Register Staff
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="modifyPosition"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Modify Position
+              </a>
+            </li>
+          </ul>
+
+          <!-- Inventory -->
+          <div class="px-6 py-2 mt-6">
+            <h3
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Inventory Management
+            </h3>
+          </div>
+          <ul class="space-y-1 px-3">
+            <li>
+              <a
+                data-module="stockEntry"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"
+                  ></path>
+                </svg>
+                Stock Entry
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="stockLevel"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  ></path>
+                </svg>
+                Stock Levels
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="lowStockAlerts"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  ></path>
+                </svg>
+                Low Stock Alerts
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="stocksMovementHistory"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
+                  />
+                </svg>
+
+                Movement History
+              </a>
+            </li>
+          </ul>
+
+          <div class="px-6 py-2 mt-6">
+            <h3
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Product Management
+            </h3>
+          </div>
+          <ul class="space-y-1 px-3">
+            <li>
+              <a
+                data-module="logWaste"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
+                </svg>
+                Log Waste
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="disableItem"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M18.364 5.636l-12.728 12.728m0-12.728l12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Disable Item
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="productMovementHistory"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
+                  />
+                </svg>
+
+                Movement History
+              </a>
+            </li>
+          </ul>
+          <div class="px-6 py-2 mt-6">
+            <h3
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Customer Management
+            </h3>
+          </div>
+          <ul class="space-y-1 px-3">
+            <li>
+              <a
+                data-module="satisfactionDashboard"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                  ></path>
+                </svg>
+                Satisfaction Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="complaintsManagement"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  ></path>
+                </svg>
+                Complaint Management
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="rewards&LoyaltyProgram"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  ></path>
+                </svg>
+                Rewards & Loyalty Program
+              </a>
+            </li>
+            <li>
+              <a
+                data-module="discountDasboard"
+                href="#"
+                class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  ></path>
+                </svg>
+                Discount Dashboard
+              </a>
+            </li>
+          </ul>
+        </section>
+      </nav>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col">
+        <!-- Top Header -->
+        <header
+          class="shadow-sm shadow-[var(--border-color)] border-b border-[var(--border-color)]order-color)] px-6 py-4"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-bold">Analytics Dashboard</h2>
+              <p class="text-sm text-gray-600">
+                Welcome back, here's what's happening with your store today.
+              </p>
+            </div>
+          </div>
+        </header>
+        <div id="overview" class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-2">📊 Overview</h2>
+          <p>This is the Overview section.</p>
+        </div>
+
+        <div id="realTimeMetrics" class="hidden bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-2">📈 Sales Reports</h2>
+          <p>This is the Sales Reports section.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- 
+      ========================
+      = JS Links Starts Here =
+      ========================
+    -->
+
+    <!-- linked JS file below for theme toggle interaction -->
+    <script src="../JS/theme-toggle.js"></script>
+    <script src="../JS/managerModules.js"></script>
+
+    <!-- 
+      ======================
+      = JS Links Ends Here =
+      ======================
+    -->
+
+    <!-- <script>
+      // Navigation functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const navItems = document.querySelectorAll(".);
+
+        navItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Remove active class from all items
+            navItems.forEach((navItem) => {
+              navItem.classList.remove("active");
+            });
+
+            // Add active class to clicked item
+            this.classList.add("active");
+          });
+        });
+      });
+    </script> -->
+  </body>
+</html>

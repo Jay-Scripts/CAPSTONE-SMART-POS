@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Side Nav Module Switcher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script defer>
+      function showModule(moduleId) {
+        const modules = [
+          "overview",
+          "sales-reports",
+          "register-staff",
+          "modify-position",
+        ];
+
+        modules.forEach((module) => {
+          document.getElementById(`${module}-content`).classList.add("hidden");
+        });
+
+        document
+          .getElementById(`${moduleId}-content`)
+          .classList.remove("hidden");
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        showModule("overview");
+
+        document.querySelectorAll(".nav-item").forEach((item) => {
+          item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const module = item.getAttribute("data-module");
+            showModule(module);
+          });
+        });
+      });
+    </script>
+  </head>
+  <body class="flex h-screen bg-gray-100">
+    <!-- Side Navigation -->
+    <nav class="w-64 bg-white shadow-lg overflow-y-auto">
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="text-xl font-bold">Manager Analytics</h1>
+        <p class="text-sm mt-1 text-gray-500">Dashboard & Reports</p>
+      </div>
+
+      <section class="mt-6">
+        <!-- Dashboard -->
+        <div class="px-6 py-2">
+          <h3 class="text-xs font-semibold text-gray-400 uppercase">
+            Dashboard
+          </h3>
+        </div>
+        <ul class="space-y-1 px-3">
+          <li>
+            <a
+              href="#"
+              data-module="overview"
+              class="nav-item flex items-center px-3 py-2 text-sm rounded-lg hover:bg-gray-200 transition"
+            >
+              📊 Overview
+            </a>
+          </li>
+        </ul>
+
+        <!-- Sales -->
+        <div class="px-6 py-2 mt-6">
+          <h3 class="text-xs font-semibold text-gray-400 uppercase">
+            Sales Management
+          </h3>
+        </div>
+        <ul class="space-y-1 px-3">
+          <li>
+            <a
+              href="#"
+              data-module="sales-reports"
+              class="nav-item flex items-center px-3 py-2 text-sm rounded-lg hover:bg-gray-200 transition"
+            >
+              📈 Sales Reports
+            </a>
+          </li>
+        </ul>
+
+        <!-- Staff -->
+        <div class="px-6 py-2 mt-6">
+          <h3 class="text-xs font-semibold text-gray-400 uppercase">
+            Staff Management
+          </h3>
+        </div>
+        <ul class="space-y-1 px-3 mb-6">
+          <li>
+            <a
+              href="#"
+              data-module="register-staff"
+              class="nav-item flex items-center px-3 py-2 text-sm rounded-lg hover:bg-gray-200 transition"
+            >
+              👥 Register Staff
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              data-module="modify-position"
+              class="nav-item flex items-center px-3 py-2 text-sm rounded-lg hover:bg-gray-200 transition"
+            >
+              🛠️ Modify Position
+            </a>
+          </li>
+        </ul>
+      </section>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 overflow-y-auto">
+      <!-- Overview Content -->
+      <div id="overview-content" class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">📊 Overview</h2>
+        <p>This is the Overview section.</p>
+      </div>
+
+      <!-- Sales Reports -->
+      <div
+        id="sales-reports-content"
+        class="hidden bg-white p-6 rounded-lg shadow"
+      >
+        <h2 class="text-xl font-semibold mb-2">📈 Sales Reports</h2>
+        <p>This is the Sales Reports section.</p>
+      </div>
+
+      <!-- Register Staff -->
+      <div
+        id="register-staff-content"
+        class="hidden bg-white p-6 rounded-lg shadow"
+      >
+        <h2 class="text-xl font-semibold mb-2">👥 Register Staff</h2>
+        <p>This is the Register Staff section.</p>
+      </div>
+
+      <!-- Modify Position -->
+      <div
+        id="modify-position-content"
+        class="hidden bg-white p-6 rounded-lg shadow"
+      >
+        <h2 class="text-xl font-semibold mb-2">🛠️ Modify Position</h2>
+        <p>This is the Modify Position section.</p>
+      </div>
+    </main>
+  </body>
+</html>

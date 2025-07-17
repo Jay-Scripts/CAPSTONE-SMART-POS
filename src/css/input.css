@@ -377,6 +377,10 @@ body {
   --choice-name-color: black;
   --order-container: rgba(0, 0, 0, 0.1);
   --container-border: rgba(0, 0, 0, 0.4);
+  --tool-tip-background-color: #111827;
+  --tool-tip-text-color: white;
+  --managers-nav-bg: #111827;
+  --managers-nav-text: white;
 }
 [data-theme="dark"] {
   --background-color: #111827;
@@ -389,6 +393,10 @@ body {
   --choice-name-color: white;
   --order-container: rgba(255, 255, 255, 0.1);
   --container-border: rgba(255, 255, 255, 0.4);
+  --tool-tip-background-color: white;
+  --tool-tip-text-color: black;
+  --managers-nav-bg: white;
+  --managers-nav-text: #111827;
 }
 
 .theme-toggle {
