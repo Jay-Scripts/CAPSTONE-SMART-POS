@@ -14,8 +14,13 @@
 
   <body class="bg-[var(--background-color)] min-h-screen">
     <header>
+      <!-- 
+      ==================================
+      =   Theme toggle Btn Starts Here =
+      ==================================
+    -->
       <button
-        class="toggle z-50 theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
+        class="toggle theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
         id="theme-toggle"
         title="Toggles light & dark"
         aria-label="auto"
@@ -31,7 +36,6 @@
           <mask class="moon" id="moon-mask">
             <rect x="0" y="0" width="100%" height="100%" fill="white" />
             <circle cx="24" cy="10" r="6" fill="black" />
-            5
           </mask>
           <circle
             class="sun"
@@ -53,14 +57,25 @@
           </g>
         </svg>
       </button>
-    </header>
+      <!-- 
+      ================================
+      =   Theme toggle Btn Ends Here =
+      ================================
+    --></header>
     <main class="flex justify-center items-center h-screen">
-      <div class="w-full z-0">
+      <!-- 
+      ==========================================================================================================================================
+      =                                                                                                                                        =
+      =                                                  Main Menu Container Starts Here                                                       =
+      =                                                                                                                                        =
+      ==========================================================================================================================================
+    -->
+      <section class="w-full z-0">
         <!-- Grid Layout -->
-        <div
+        <section
           class="grid grid-cols-4 landscape:grid-cols-5 gap-1 w-full h-[70vh] p-4"
         >
-          <div class="text-white col-span-1 landscape:col-span-1">
+          <aside class="text-white col-span-1 landscape:col-span-1">
             <div
               class="flex justify-center gap-2 items-center flex-col h-full"
               id="actionBtnContainer"
@@ -210,10 +225,10 @@
                 </span>
               </button>
             </div>
-          </div>
+          </aside>
           <div
             id="menuContainer"
-            class="border-1 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing"
+            class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing"
           >
             <div
               id="orderCategory"
@@ -230,7 +245,7 @@
                 />
                 <label
                   for="milktea_module"
-                  class="border-[var(--border-color)] border-1 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>MILK TEA</span>
                 </label>
@@ -246,7 +261,7 @@
                 />
                 <label
                   for="fruittea_module"
-                  class="border-[var(--border-color)] border-1 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>FRUIT TEA</span>
                 </label>
@@ -262,7 +277,7 @@
                 />
                 <label
                   for="hotbrew_module"
-                  class="border-[var(--border-color)] border-1 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>HOT BREW</span>
                 </label>
@@ -278,7 +293,7 @@
                 />
                 <label
                   for="praf_module"
-                  class="border-[var(--border-color)] border-1 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>PRAF</span>
                 </label>
@@ -294,7 +309,7 @@
                 />
                 <label
                   for="icedcoffee_module"
-                  class="border-[var(--border-color)] border-1 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>ICED COFFEE</span>
                 </label>
@@ -310,7 +325,7 @@
                 />
                 <label
                   for="promos_module"
-                  class="border-[var(--border-color)] border-1 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>PROMOS</span>
                 </label>
@@ -319,7 +334,7 @@
 
             <div id="milktea-content" class="hidden">
               <div class="titleContainer">
-                <hr class="border-1 border-[var(--border-color)] my-5" />
+                <hr class="border-2 border-[var(--border-color)] my-5" />
 
                 <h1
                   id="menuTitle"
@@ -327,14 +342,14 @@
                 >
                   Milk Tea Menu
                 </h1>
-                <hr class="border-1 border-[var(--border-color)] my-5" />
+                <hr class="border-2 border-[var(--border-color)] my-5" />
               </div>
               <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
                 id="milkteaMenu"
               >
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/winter melon.png"
@@ -348,7 +363,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/taro.png"
@@ -362,7 +377,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/strawberry.png"
@@ -376,7 +391,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/salted caramel.png"
@@ -390,7 +405,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/red velvet.png"
@@ -404,7 +419,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/matcha.png"
@@ -418,7 +433,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/double dutch.png"
@@ -432,7 +447,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/dark choco.png"
@@ -446,7 +461,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/cookies & cream.png"
@@ -460,7 +475,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/choco hazelnut.png"
@@ -470,11 +485,11 @@
                   <p
                     class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
                   >
-                    CHOCOLATE HAZELNUT
+                    CHOCO HAZELNUT
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/brown sugar.png"
@@ -490,7 +505,7 @@
               </div>
             </div>
             <div id="fruittea-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -498,13 +513,13 @@
               >
                 Fruit Tea Menu
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
                 id="milkteaMenu"
               >
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/GREEN APPLE.png"
@@ -518,7 +533,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/KIWI.png"
@@ -532,7 +547,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/LEMON.png"
@@ -546,7 +561,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/PASSION FRUIT.png"
@@ -560,7 +575,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/STRAWBERRY.png"
@@ -574,7 +589,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/WATERMELON.png"
@@ -590,7 +605,7 @@
               </div>
             </div>
             <div id="hotbrew-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -598,14 +613,14 @@
               >
                 Hot Brew Menu
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
                 id="milkteaMenu"
               ></div>
             </div>
             <div id="praf-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -613,13 +628,13 @@
               >
                 Praf Menu
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
                 id="milkteaMenu"
               >
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CARAMEL MATCCH.png"
@@ -633,7 +648,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CHEESECAKE.png"
@@ -647,7 +662,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CHOCO CREAM.png"
@@ -661,7 +676,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/COFFEE JELLY.png"
@@ -675,7 +690,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/COOKIES & CREAM.png"
@@ -689,7 +704,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CREAMY AVOCADO.png"
@@ -703,7 +718,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/MATCHA.png"
@@ -717,7 +732,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/MELON.png"
@@ -731,7 +746,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/MOCHA.png"
@@ -745,7 +760,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/STRAWBERRY.png"
@@ -759,7 +774,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/VANILLA COFFEE.png"
@@ -775,7 +790,7 @@
               </div>
             </div>
             <div id="icedcoffee-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -783,13 +798,13 @@
               >
                 ICED COFFEE Menu
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
                 id="milkteaMenu"
               >
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE BRUSKO.png"
@@ -803,7 +818,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE MACCH.png"
@@ -817,7 +832,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE KARAMEL.png"
@@ -831,7 +846,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE VANILLA.png"
@@ -847,7 +862,7 @@
               </div>
             </div>
             <div id="promos-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -855,13 +870,13 @@
               >
                 Promos Menu
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
                 id="milkteaMenu"
               >
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/5 + 1.png"
@@ -875,7 +890,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/BLACKPINK.png"
@@ -889,7 +904,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/BOSS BREW.png"
@@ -903,7 +918,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/DARK CHOCO.png"
@@ -917,7 +932,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/KAPE KMJS.png"
@@ -931,7 +946,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/KARA VAN.png"
@@ -945,7 +960,7 @@
                   </p>
                 </div>
                 <div
-                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-1 border-[var(--border-color)] relative shadow-md"
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
                 >
                   <img
                     src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/SUPREME MOCA.png"
@@ -961,7 +976,7 @@
               </div>
             </div>
             <div id="addOns-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -969,11 +984,11 @@
               >
                 Add-ons
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               Add-ons Content
             </div>
             <div id="modify-content" class="hidden">
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
                 id="menuTitle"
@@ -981,12 +996,10 @@
               >
                 Modify
               </h1>
-              <hr class="border-1 border-[var(--border-color)] my-5" />
+              <hr class="border-2 border-[var(--border-color)] my-5" />
               Modify Content
             </div>
           </div>
-
-          <!-- Added missing closing div -->
 
           <!-- Hidden on Portrait ver  -->
           <div
@@ -1023,9 +1036,15 @@
               </button>
             </div>
           </div>
-        </div>
-      </div>
-    </main>
+        </section>
+      </section>
+      <!-- 
+      ==========================================================================================================================================
+      =                                                                                                                                        =
+      =                                                  Main Menu Container Starts Here                                                       =
+      =                                                                                                                                        =
+      ==========================================================================================================================================
+    --></main>
 
     <!-- CART WHEN PORTRAIT VER START -->
     <section
@@ -1033,7 +1052,7 @@
     >
       <button
         onclick="toggleModal('cart')"
-        class="actionBtn border-1 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+        class="actionBtn border-2 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
       >
         <span
           class="text transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
