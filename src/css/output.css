@@ -980,16 +980,6 @@ video {
   border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
 }
 
-.border-red-100 {
-  --tw-border-opacity: 1;
-  border-color: rgb(254 226 226 / var(--tw-border-opacity, 1));
-}
-
-.border-red-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(239 68 68 / var(--tw-border-opacity, 1));
-}
-
 .bg-\[\#e62222\] {
   --tw-bg-opacity: 1;
   background-color: rgb(230 34 34 / var(--tw-bg-opacity, 1));
@@ -1041,11 +1031,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-60 {
@@ -1241,11 +1226,6 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
-}
-
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -1284,11 +1264,6 @@ video {
 
 .shadow-\[var\(--managers-nav-text\)\] {
   --tw-shadow-color: var(--managers-nav-text);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-red-600 {
-  --tw-shadow-color: #dc2626;
   --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -1348,24 +1323,35 @@ video {
  |                      Animations - Starts Here               |
  ---------------------------------------------------------------*/
 
-/*--------------------------------------------------------------
- |         Category Btns Animations - Starts Here               |
- ---------------------------------------------------------------*/
+/*-------------------------------------------------------------- */
 
-@keyframes slide-in-left {
+|         Category Btns Animations - Starts Here               |
+ ---------------------------------------------------------------*/
+@-webkit-keyframes scale-in-center {
   0% {
-    transform: translateX(-1000px);
-    opacity: 0;
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in-center {
+  0% {
+    transform: scale(0);
+    opacity: 1;
   }
 
   100% {
-    transform: translateX(0);
+    transform: scale(1);
     opacity: 1;
   }
 }
 
 .categoryButtons {
-  animation: slide-in-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .categoryButtons:nth-child(1) {
@@ -1455,9 +1441,20 @@ video {
  |                   Option Choices keyframes - Starts Here                |
  ------------------------------------------------------------------------*/
 
+@keyframes fade-in-bottom {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .optionChoice {
-  animation: slide-in-elliptic-top-fwd 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-    both;
+  animation: fade-in-bottom 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 .optionChoice:nth-child(1) {

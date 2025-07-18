@@ -1,0 +1,7 @@
+ * {
+  //Prevents the user from selecting text with mouse or keyboard.
+  user-select: none; // Standard property – supported in modern browsers.
+  -webkit-user-select: none; // For WebKit-based browsers like Chrome, Safari, and some versions of Edge.
+  -moz-user-select: none; // For Mozilla Firefox (Gecko engine).
+  -ms-user-select: none; // For older versions of Internet Explorer and Edge Legacy (Microsoft browsers).
+}
