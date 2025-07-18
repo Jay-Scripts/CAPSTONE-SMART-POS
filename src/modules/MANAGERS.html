@@ -14,58 +14,68 @@
   <body class="font-sans bg-[var(--background-color)] text-[var(--text-color)]">
     <!-- Main Container -->
 
-    <main class="flex min-h-screen">
-      <!-- 
+    <!-- 
       ==================================
       =   Theme toggle Btn Starts Here =
       ==================================
     -->
-      <button
-        class="toggle theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
-        id="theme-toggle"
-        title="Toggles light & dark"
-        aria-label="auto"
-        aria-live="polite"
+    <button
+      class="toggle theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
+      id="theme-toggle"
+      title="Toggles light & dark"
+      aria-label="auto"
+      aria-live="polite"
+    >
+      <svg
+        class="sun-and-moon"
+        aria-hidden="true"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
       >
-        <svg
-          class="sun-and-moon"
-          aria-hidden="true"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <mask class="moon" id="moon-mask">
-            <rect x="0" y="0" width="100%" height="100%" fill="white" />
-            <circle cx="24" cy="10" r="6" fill="black" />
-          </mask>
-          <circle
-            class="sun"
-            cx="12"
-            cy="12"
-            r="6"
-            mask="url(#moon-mask)"
-            fill="currentColor"
-          />
-          <g class="sun-beams" stroke="currentColor">
-            <line x1="12" y1="1" x2="12" y2="3" />
-            <line x1="12" y1="21" x2="12" y2="23" />
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-            <line x1="1" y1="12" x2="3" y2="12" />
-            <line x1="21" y1="12" x2="23" y2="12" />
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-          </g>
-        </svg>
-      </button>
+        <mask class="moon" id="moon-mask">
+          <rect x="0" y="0" width="100%" height="100%" fill="white" />
+          <circle cx="24" cy="10" r="6" fill="black" />
+        </mask>
+        <circle
+          class="sun"
+          cx="12"
+          cy="12"
+          r="6"
+          mask="url(#moon-mask)"
+          fill="currentColor"
+        />
+        <g class="sun-beams" stroke="currentColor">
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </g>
+      </svg>
+    </button>
 
-      <!-- 
+    <!-- 
       ================================
       =   Theme toggle Btn Ends Here =
       ================================
     -->
-      <!-- Side Navigation -->
-      <nav
+
+    <!-- 
+      ======================
+      =   Main Starts Here =
+      ======================
+    -->
+    <main class="flex min-h-screen">
+      <!-- 
+      ========================
+      =   NavBar Starts Here =
+      ========================
+    -->
+      <aside
         class="w-64 bg-[var(--managers-nav-bg)] text-[var(--managers-nav-text)] shadow-lg overflow-y-auto h-screen"
       >
         <!-- Header -->
@@ -515,7 +525,7 @@
             </li>
             <li>
               <a
-                data-module="discountDasboard"
+                data-module="discountDashboard"
                 href="#"
                 class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-colors"
               >
@@ -537,34 +547,608 @@
             </li>
           </ul>
         </section>
-      </nav>
+      </aside>
+      <!-- 
+      ======================
+      =   NavBar Ends Here =
+      ======================
+    -->
 
-      <!-- Main Content Area -->
-      <div class="flex-1 flex flex-col">
-        <!-- Top Header -->
-        <header
-          class="shadow-sm shadow-[var(--border-color)] border-b border-[var(--border-color)]order-color)] px-6 py-4"
-        >
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Analytics Dashboard</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+      <!-- 
+      ==============================
+      =   Main Content Starts Here =
+      ==============================
+    -->
+      <section class="flex-1 flex flex-col">
+        <!-- 
+      ================================
+      =   Overview module Stars Here =
+      ================================
+    -->
+        <section id="overview" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Analytics Dashboard</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <div id="overview" class="bg-white p-6 rounded-lg shadow">
-          <h2 class="text-xl font-semibold mb-2">📊 Overview</h2>
-          <p>This is the Overview section.</p>
-        </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">📊 Overview</h3>
+          <p>
+            // overview module nato for overview analytics reports ng mga total
+            transactions total profit total sold items etc. <br /><br />// free
+            suggestions if may maisip kapa
+          </p>
+        </section>
+        <!-- 
+      ===============================
+      =   Overview module Ends Here =
+      ===============================
+    -->
+        <!-- 
+      ==================================
+      =   Realtime Metrics Starts Here =
+      ==================================
+    -->
+        <section id="realTimeMetrics" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Realtime Metrics</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Realtime Metrics</h3>
+          <p>// real time metrics more on graph</p>
+        </section>
+        <!-- 
+      ================================
+      =   Realtime Metrics Ends Here =
+      ================================
+    -->
 
-        <div id="realTimeMetrics" class="hidden bg-white p-6 rounded-lg shadow">
-          <h2 class="text-xl font-semibold mb-2">📈 Sales Reports</h2>
-          <p>This is the Sales Reports section.</p>
-        </div>
-      </div>
+        <!-- 
+      ======================================================================================================
+      =                                     Sales Management Ends Here                                     =
+      ======================================================================================================
+    -->
+
+        <!-- 
+      ==============================
+      =   Sales Report Start Here =
+      =============================
+    -->
+        <section id="salesReports" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Sales Report</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Sales Reports</h3>
+          <p>
+            // sales report dito naman more on average ng data na napasok sa
+            database dito naten ifefetch
+          </p>
+        </section>
+        <!-- 
+      ============================
+      =   Sales Report Ends Here =
+      ============================
+    -->
+
+        <!-- 
+      ==================================
+      =   Performance Trend Start Here =
+      ==================================
+    -->
+        <section id="performanceTrend" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Performance Trends</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Performace Trends</h3>
+          <p>
+            // performance trend dito naman yung graph or charts ng sales per
+            day, week, month, and year
+          </p>
+        </section>
+        <!-- 
+      ==================================
+      =   Performance Trends Ends Here =
+      ==================================
+    -->
+        <!-- 
+      =======================
+      =   Refund Start Here =
+      =======================
+    -->
+        <section id="refund" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Refund</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // refunds dito naten rerefund yung mga transactions may form to
+            preformat ka ng design as of now kase sa form mang gagaling yung
+            data na ipupull naten sa database para marefund yung transactions
+          </p>
+        </section>
+        <!-- 
+      ======================
+      =   Refund Ends Here =
+      ======================
+    -->
+        <!-- 
+      =======================================================================================================
+      =                                    Sales Management Starts Here                                     =
+      =======================================================================================================
+    -->
+
+        <!-- 
+      =====================================================================================================
+      =                                    Staff Management Ends Here                                     =
+      =====================================================================================================
+    -->
+
+        <!-- 
+      ===============================
+      =   Register Staff Start Here =
+      ===============================
+    -->
+        <section id="registerStaff" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Register Staff</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>// adding staffs dito naman form rin for account creation</p>
+        </section>
+        <!-- 
+      ==============================
+      =   Register Staff Ends Here =
+      ==============================
+    -->
+
+        <!-- 
+      ================================
+      =   Modify Position Start Here =
+      ================================
+    -->
+        <section id="modifyPosition" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Modify Staff</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // modify position same rin pre designded form para pasukan ng data
+          </p>
+        </section>
+        <!-- 
+      ===============================
+      =   Modify Position Ends Here =
+      ===============================
+    -->
+        <!-- 
+      =======================================================================================================
+      =                                      Staff Management Ends Here                                     =
+      =======================================================================================================
+    -->
+
+        <!-- 
+      ======================================================================================================
+      =                                   Stock Management Starts Here                                     =
+      ======================================================================================================
+    -->
+        <!-- 
+      ============================
+      =   Stock Entry Start Here =
+      ============================
+    -->
+        <section id="stockEntry" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Entry</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>// stock entry predesign form ng insertion of stock</p>
+        </section>
+        <!-- 
+      ===========================
+      =   Stock Entry Ends Here =
+      ===========================
+    -->
+
+        <!-- 
+      ============================
+      =   Stock Level Start Here =
+      ============================
+    -->
+        <section id="stockLevel" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Level</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // dito naman sa stock levels more on graphs to and reports like
+            line chart bat chart or pie charts analytics
+          </p>
+        </section>
+        <!-- 
+      ===========================
+      =   Stock Level Ends Here =
+      ===========================
+    -->
+
+        <!-- 
+      ================================
+      =   Low Stock Alert Start Here =
+      ================================
+    -->
+        <section id="lowStockAlerts" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Low Stock Alert</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // low stocks history lalabas lang rito charts for analytics views
+            ng mga critical stocks
+          </p>
+        </section>
+        <!-- 
+      ===============================
+      =   Low Stock Alert Ends Here =
+      ===============================
+    -->
+
+        <!-- 
+      =======================================
+      =   Stock Movement History Start Here =
+      =======================================
+    -->
+        <section id="stocksMovementHistory" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Movement History</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // movement hist. dito naman analytics view lang ng galaw ng stocks
+          </p>
+        </section>
+        <!-- 
+      ======================================
+      =   Stock Movement History Ends Here =
+      ======================================
+    -->
+
+        <!-- 
+      =======================================================================================================
+      =                                      Stock Management Ends Here                                     =
+      =======================================================================================================
+    -->
+        <!-- 
+      =======================================================================================================
+      =                                  Product Management Starts Here                                     =
+      =======================================================================================================
+    -->
+
+        <!-- 
+      =================================
+      =       Log Waste Starts Here    =
+      =================================
+    -->
+        <section id="logWaste" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Log Waste</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // log waste pre design form para pag pasukan ng data ng product na
+            iwawaste
+          </p>
+        </section>
+        <!-- 
+      =================================
+      =        Log Waste Ends Here    =
+      =================================
+    -->
+
+        <!-- 
+      =================================
+      =        Disable Starts Here    =
+      =================================
+    -->
+        <section id="disableItem" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Disable Item</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // disable waste same lang rin dito predesign form na paglalagyan ng
+            data ng item na ididisable much better if kaya mo drop down or
+            choice mo basta best sa UX
+          </p>
+        </section>
+        <!-- 
+      =================================
+      =          Disable Ends Here    =
+      =================================
+    -->
+
+        <!-- 
+      ==================================================
+      =        Product Movement History Starts Here    =
+      ==================================================
+    -->
+        <section id="productMovementHistory" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Product Movement History</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // movement hist. dito naman analytics view lang ng galaw ng product
+          </p>
+        </section>
+        <!-- 
+      ==================================================
+      =          Product Movement History Ends Here    =
+      ==================================================
+    -->
+
+        <!-- 
+      =====================================================================================================
+      =                                  Product Management Ends Here                                     =
+      =====================================================================================================
+    -->
+
+        <!-- 
+      =========================================================================================================
+      =                                  Customers Management Starts Here                                     =
+      =========================================================================================================
+    -->
+        <!-- 
+      ========================================================
+      =        Satisfaction Dashboard History Starts Here    =
+      ========================================================
+    -->
+        <section id="satisfactionDashboard" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Satisfaction Dashboard</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // satisfaction dashboard dito naman more on overview ng feedbacks
+            like chat box graphs pie charts etc.
+          </p>
+        </section>
+        <!-- 
+      ==================================================
+      =            Satisfaction Dashboard Ends Here    =
+      ==================================================
+    -->
+
+        <!-- 
+      ========================================================
+      =         Complaints Management History Starts Here    =
+      ========================================================
+    -->
+        <section id="complaintsManagement" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Complaints Management</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // rewards & loyalty program dito naman yung analytics view ng mga
+            registered customer na may rewarding card or app
+          </p>
+        </section>
+        <!-- 
+      ==================================================
+      =             Complaints Management Ends Here    =
+      ==================================================
+    -->
+
+        <!-- 
+      ========================================================
+      =               Rewards Loyalty Program Starts Here    =
+      ========================================================
+    -->
+        <section id="rewards&LoyaltyProgram" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // rewards & loyalty program dito naman yung analytics view ng mga
+            registered customer na may rewarding card or app
+          </p>
+        </section>
+        <!-- 
+      ==================================================
+      =           Rewards Loyalty Program Ends Here    =
+      ==================================================
+    -->
+
+        <!-- 
+      ========================================================
+      =                    Discount Dashboard Starts Here    =
+      ========================================================
+    -->
+        <section id="discountDashboard" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Discount Dashboard</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // discount dashboard dito naman lalabas yung mga senoirs and PWD
+            transactions
+          </p>
+        </section>
+        <!-- 
+      ==================================================
+      =                Discount Dashboard Ends Here    =
+      ==================================================
+    -->
+        <!-- 
+      =======================================================================================================
+      =                                  Customer Management  Ends Here                                     =
+      =======================================================================================================
+    -->
+      </section>
     </main>
+    <!-- 
+      ============================
+      =   Main Content Ends Here =
+      ============================
+    -->
 
     <!-- 
       ========================
@@ -572,8 +1156,17 @@
       ========================
     -->
 
+    <footer>
+      <!-- 
+      =======================================================================================================
+      =                                As of now wala rin akong maisip pang footer                          =
+      =                                if may suggestions ka G check naten                                  =
+      =======================================================================================================
+    --></footer>
+
     <!-- linked JS file below for theme toggle interaction -->
     <script src="../JS/theme-toggle.js"></script>
+    <!-- linked JS file below for changing module content -->
     <script src="../JS/managerModules.js"></script>
 
     <!-- 
@@ -581,26 +1174,5 @@
       = JS Links Ends Here =
       ======================
     -->
-
-    <!-- <script>
-      // Navigation functionality
-      document.addEventListener("DOMContentLoaded", function () {
-        const navItems = document.querySelectorAll(".);
-
-        navItems.forEach((item) => {
-          item.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            // Remove active class from all items
-            navItems.forEach((navItem) => {
-              navItem.classList.remove("active");
-            });
-
-            // Add active class to clicked item
-            this.classList.add("active");
-          });
-        });
-      });
-    </script> -->
   </body>
 </html>

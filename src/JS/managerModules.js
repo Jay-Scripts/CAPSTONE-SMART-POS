@@ -47,7 +47,7 @@ function showModule(moduleId) {
     // rewards & loyalty program dito naman yung analytics view ng mga registered customer na may rewarding card or app
     "rewards&LoyaltyProgram",
     // discount dashboard dito naman lalabas yung mga senoirs and PWD transactions
-    "discountDasboard",
+    "discountDashboard",
   ];
 
   modules.forEach((module) => {
