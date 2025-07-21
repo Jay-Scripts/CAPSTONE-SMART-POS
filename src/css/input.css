@@ -165,9 +165,9 @@
 }
 
 .optionChoice {
-  -webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1)
+  -webkit-animation: fade-in-bottom 0.4s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
-  animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in-bottom 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 .optionChoice:nth-child(1) {
@@ -276,7 +276,7 @@
   animation: scale-in-ver-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 #menuContainer {
-  -webkit-animation: scale-in-ver-center 0.5s
+  -webkit-animation: scale-in-ver-center 0.8s
     cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: scale-in-ver-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
