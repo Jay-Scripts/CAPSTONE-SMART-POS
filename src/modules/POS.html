@@ -328,11 +328,27 @@
                   class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
                 >
                   <span>PROMOS</span>
-                </label>  
+                </label>
+              </div>
+
+              <div class="categoryButtons">
+                <input
+                  type="radio"
+                  id="brosty_module"
+                  name="module"
+                  class="hidden peer"
+                  onclick="showModule('brosty')"
+                />
+                <label
+                  for="brosty_module"
+                  class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                >
+                  <span>BROSTY</span>
+                </label>
               </div>
             </div>
 
-            <div id="milktea-content" class="hidden">
+            <div id="milktea" class="hidden">
               <div class="titleContainer">
                 <hr class="border-2 border-[var(--border-color)] my-5" />
 
@@ -504,7 +520,7 @@
                 </div>
               </div>
             </div>
-            <div id="fruittea-content" class="hidden">
+            <div id="fruittea" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
@@ -604,7 +620,7 @@
                 </div>
               </div>
             </div>
-            <div id="hotbrew-content" class="hidden">
+            <div id="hotbrew" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
@@ -619,7 +635,7 @@
                 id="milkteaMenu"
               ></div>
             </div>
-            <div id="praf-content" class="hidden">
+            <div id="praf" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
@@ -789,7 +805,7 @@
                 </div>
               </div>
             </div>
-            <div id="icedcoffee-content" class="hidden">
+            <div id="icedcoffee" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
@@ -861,7 +877,7 @@
                 </div>
               </div>
             </div>
-            <div id="promos-content" class="hidden">
+            <div id="promos" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
@@ -975,7 +991,165 @@
                 </div>
               </div>
             </div>
-            <div id="addOns-content" class="hidden">
+
+            <div id="brosty" class="hidden">
+              <hr class="border-2 border-[var(--border-color)] my-5" />
+
+              <h1
+                id="menuTitle"
+                class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+              >
+                Brosty Menu
+              </h1>
+              <hr class="border-2 border-[var(--border-color)] my-5" />
+              <div
+                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                id="brostyMenu"
+              >
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/BLUE BERRY.png"
+                    alt="BLUEBERRY IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    BLUEBERRY
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/GREEN APPLE.png"
+                    alt="GREEN APPLE IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    GREEN APPLE
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/HONEY PEACH.png"
+                    alt="HONEY PEACH IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    HONEY PEACH
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/KIWI.png"
+                    alt="KIWI IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    KIWI
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/LEMON.png"
+                    alt="LEMON IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    LEMON
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/LYCHEE.png"
+                    alt="LYCHEE IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    LYCHEE
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/MANGO.png"
+                    alt="MANGO IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    MANGO
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/PASSION FRUIT.png"
+                    alt="PASSION FRUIT IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    PASSION FRUIT
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/STRAWBERRY.png"
+                    alt="STRAWBERRY IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    STRAWBERRY
+                  </p>
+                </div>
+                <div
+                  class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+                >
+                  <img
+                    src="../assets/IMAGES/MENU IMAGES/BROSTY/WATERMELON.png"
+                    alt="WATERMELON IMAGE"
+                    class="w-full h-auto object-cover rounded-t-lg"
+                  />
+                  <p
+                    class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]"
+                  >
+                    WATERMELON
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div id="addOns" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1
@@ -987,7 +1161,7 @@
               <hr class="border-2 border-[var(--border-color)] my-5" />
               Add-ons Content
             </div>
-            <div id="modify-content" class="hidden">
+            <div id="modify" class="hidden">
               <hr class="border-2 border-[var(--border-color)] my-5" />
 
               <h1

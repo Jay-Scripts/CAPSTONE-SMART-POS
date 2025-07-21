@@ -7,13 +7,13 @@ function showModule(moduleId) {
     "icedcoffee",
     "promos",
     "addOns",
-    "modify",
+    "brosty",
   ];
 
   modules.forEach((module) => {
-    document.getElementById(`${module}-content`).classList.add("hidden");
+    document.getElementById(module).classList.add("hidden");
   });
-  document.getElementById(`${moduleId}-content`).classList.remove("hidden");
+  document.getElementById(moduleId).classList.remove("hidden");
   const selectedLabel = document.querySelector(
     `label[for="${moduleId}_module"]`
   );
