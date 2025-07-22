@@ -9,8 +9,8 @@
     <!--  linked css below for tailwind dependencies to work ofline -->
     <!-- <link href="../css/output.css" rel="stylesheet" /> -->
     <!--  linked script below cdn of tailwind for online use -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
   </head>
 
   <body class="bg-[var(--background-color)] min-h-screen">
@@ -1230,23 +1230,30 @@
             Modify Content
           </div>
         </section>
-
-        <!-- Hidden on Portrait ver  -->
-        <div
+        <!-- 
+      ================================================
+      =     Cart on Desktop View - Starts Here       =
+      ================================================
+    -->
+        <!-- CART SECTRION HIDDEN ON PORTRAIT/TABLET MODE -->
+        <aside
           id="col3"
           class="portrait:hidden portrait:col-span-0 landscape:block landscape:col-span-1 p-4 rounded-lg col-span-2 md:col-span-1 relative"
+          aria-label="Order Summary"
         >
-          <div
+          <section
             id="cartContainer"
             class="h-[70vh] w-full bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-md shadow-2xl relative"
           >
             <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
               Orders
             </h2>
+
             <div id="productList"></div>
 
             <button
               class="portrait:hidden absolute bottom-[0px] left-0 right-0 w-full h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-md shadow transition-all duration-200 group"
+              aria-label="Proceed to Checkout"
             >
               <span
                 class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
@@ -1258,14 +1265,19 @@
               >
                 <img
                   src="../assets/SVG/ACTION BTN/CART.svg"
-                  alt="CART ICON"
+                  alt="Cart Icon"
                   class="color-white"
                   id="checkoutBtn"
                 />
               </span>
             </button>
-          </div>
-        </div>
+          </section>
+        </aside>
+        <!-- 
+      ================================================
+      =       Cart on Desktop View - Ends Here       =
+      ================================================
+    -->
       </section>
       <!-- 
       ==========================================================================================================================================
@@ -1275,7 +1287,12 @@
       ==========================================================================================================================================
     --></main>
 
-    <!-- CART WHEN PORTRAIT VER START -->
+    <!-- 
+      =======================================================
+      =      Cart Button on Tablet View - Starts Here       =
+      =======================================================
+    -->
+    <!-- CART BUTTON WILL ONLY APPEAR IN PORTRAIT OR TABLET VER -->
     <section
       class="landscape:hidden mt-4 flex justify-center gap-4 fixed bottom-5 right-5"
     >
@@ -1299,8 +1316,19 @@
         </span>
       </button>
     </section>
+    <!-- 
+      =======================================================
+      =        Cart Button on Tablet View - Ends Here       =
+      =======================================================
+    -->
 
-    <!-- Modal for Cart -->
+    <!-- 
+      ================================================
+      =       Cart on Tablet View - Starts Here      =
+      ================================================
+    -->
+    <!-- CART MODAL VERSION WILL ONLY APPEAR IN PORTRAIT OR TABLET VER -->
+
     <modal
       id="cart"
       class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50"
@@ -1345,10 +1373,29 @@
         </div>
       </div>
     </modal>
+    <!-- 
+      ================================================
+      =         Cart on Tablet View - Ends Here      =
+      ================================================
+    -->
 
+    <!-- 
+      ========================
+      = JS Links Starts Here =
+      ========================
+    -->
+    <!-- linked JS file below for changing category module content -->
     <script src="../JS/modules.js"></script>
+    <!-- linked JS file below for cart button in tablet version -->
     <script src="../JS/toggleModal.js"></script>
+    <!-- linked JS file below for theme toggle interaction -->
     <script src="../JS/theme-toggle.js"></script>
+    <!-- linked JS file below for clock near the action Buttons -->
     <script src="../JS/time.js"></script>
+    <!-- 
+      ========================
+      =   JS Links Ends Here =
+      ========================
+    -->
   </body>
 </html>
