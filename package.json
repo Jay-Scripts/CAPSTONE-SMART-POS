@@ -1,5 +1,23 @@
 {
-  "devDependencies": {
-    "tailwindcss": "^3.4.17"
+  "name": "smartpos1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jay-Scripts/CAPSTONE-SMART-POS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jay-Scripts/CAPSTONE-SMART-POS/issues"
+  },
+  "homepage": "https://github.com/Jay-Scripts/CAPSTONE-SMART-POS#readme",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
   }
 }
