@@ -1,56 +1,51 @@
 const storageKey = "theme-preference";
 
-const onClick = () => {
-  // Flip current theme value
-  theme.value = theme.value === "light" ? "dark" : "light";
-  setPreference();
-};
-
-const getColorPreference = () => {
-  if (localStorage.getItem(storageKey)) {
-    return localStorage.getItem(storageKey);
-  } else {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
+// Get initial theme preference
+const theme = {
+  value:
+    localStorage.getItem(storageKey) ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
-      : "light";
-  }
+      : "light"),
 };
 
-const setPreference = () => {
-  localStorage.setItem(storageKey, theme.value);
-  reflectPreference();
-};
-
-const reflectPreference = () => {
+// Apply theme to the <html> tag and update toggle button
+function applyTheme() {
   document.documentElement.setAttribute("data-theme", theme.value);
 
   const toggleBtn = document.querySelector("#theme-toggle");
   if (toggleBtn) {
     toggleBtn.setAttribute("aria-label", theme.value);
   }
-};
+}
 
-const theme = {
-  value: getColorPreference(),
-};
+// Save theme to localStorage and apply it
+function saveTheme() {
+  localStorage.setItem(storageKey, theme.value);
+  applyTheme();
+}
 
-// Reflect theme preference early to avoid FOUC (Flash of Unstyled Content)
-reflectPreference();
+// Switch between light and dark mode
+function toggleTheme() {
+  theme.value = theme.value === "light" ? "dark" : "light";
+  saveTheme();
+}
 
-// Use addEventListener instead of window.onload
+// Apply theme immediately on load to avoid flicker
+applyTheme();
+
+// Set up toggle button click after page is fully loaded
 window.addEventListener("load", () => {
-  reflectPreference();
-
   const toggle = document.querySelector("#theme-toggle");
   if (toggle) {
-    toggle.addEventListener("click", onClick);
+    toggle.addEventListener("click", toggleTheme);
   }
 });
 
-// Sync with system theme changes
+// Listen to system theme changes and sync it
 window
   .matchMedia("(prefers-color-scheme: dark)")
-  .addEventListener("change", ({ matches: isDark }) => {
-    theme.value = isDark ? "dark" : "light";
-    setPreference();
+  .addEventListener("change", (e) => {
+    theme.value = e.matches ? "dark" : "light";
+    saveTheme();
   });
