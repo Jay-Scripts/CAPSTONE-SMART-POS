@@ -1,0 +1,415 @@
+	create database SMART_POS;
+
+	USE SMART_POS;
+    drop database smart_pos;
+    
+--           <!-- 
+--       ==========================================================================================================================================
+--       =                                                                                                                                        =
+--       =                                                	     STAFFS TABLE - STARTS HERE                                                       =
+--       =                                                                                                                                        =
+--       ==========================================================================================================================================
+--     -->
+    	CREATE TABLE STAFFS_INFO(
+	STAFF_ID INT auto_increment PRIMARY KEY,
+	FIRST_NAME VARCHAR(50) NOT NULL,
+	LAST_NAME VARCHAR(50) NOT NULL,
+	GENDER ENUM('MALE', 'FEMALE') DEFAULT 'MALE',
+	status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
+	DATE_ADDED DATETIME DEFAULT CURRENT_TIMESTAMP
+	);
+
+	CREATE TABLE STAFF_ACCOUNT (
+    ACCOUNT_ID INT AUTO_INCREMENT PRIMARY KEY,
+    STAFF_ID INT NOT NULL,
+    USER_NAME VARCHAR(50) NOT NULL UNIQUE,
+    PIN VARCHAR(255) NOT NULL,  -- Hashed PIN preferred
+    DATE_ADDED DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (STAFF_ID) REFERENCES STAFFS_INFO(STAFF_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE ROLES (
+    ROLE_ID INT AUTO_INCREMENT PRIMARY KEY,
+    ROLE_NAME VARCHAR(30) NOT NULL UNIQUE  -- Examples: 'BARISTA', 'CASHIER', 'MANAGER'
+);
+
+CREATE TABLE ACCOUNT_ROLES (
+    ACCOUNT_ID INT NOT NULL,
+    ROLE_ID INT NOT NULL,
+    PRIMARY KEY (ACCOUNT_ID, ROLE_ID),
+    FOREIGN KEY (ACCOUNT_ID) REFERENCES STAFF_ACCOUNT(ACCOUNT_ID) ON DELETE CASCADE,
+    FOREIGN KEY (ROLE_ID) REFERENCES ROLES(ROLE_ID) ON DELETE CASCADE
+);
+
+    --           <!-- 
+--       ==========================================================================================================================================
+--       =                                                                                                                                        =
+--       =                                                 	     STAFFS TABLE - ENDS HERE                                                         =
+--       =                                                                                                                                        =
+--       ==========================================================================================================================================
+--     -->
+
+    --           <!-- 
+--       ==========================================================================================================================================
+--       =                                                                                                                                        =
+--       =                                                 	     CATEGORY TABLE - STARTS HERE                                                     =
+--       =                                                                                                                                        =
+--       ==========================================================================================================================================
+--     -->
+
+CREATE TABLE category (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(50) NOT NULL UNIQUE,
+    status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
+    date_added DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+	INSERT INTO category (category_name) 
+	VALUES 
+	('MILK TEA'),  -- DONE
+	('FRUIT TEA'), -- DONE
+	('HOT BREW'),  
+	('PRAF'), -- DONE
+	('BROSTY'),
+	('ICED COFFEE'), -- DONE
+	('PROMOS');
+    
+    --           <!-- 
+--       ==========================================================================================================================================
+--       =                                                                                                                                        =
+--       =                                                 	     CATEGORY TABLE - ENDS HERE                                                       =
+--       =                                                                                                                                        =
+--       ==========================================================================================================================================
+--     -->
+
+    --           <!-- 
+--       ==========================================================================================================================================
+--       =                                                                                                                                        =
+--       =                                               PRODUCT DETAILS TABLE - STARS HERE                                                       =
+--       =                                                                                                                                        =
+--       ==========================================================================================================================================
+--     -->
+		
+	CREATE TABLE product_details (
+		product_id INT AUTO_INCREMENT PRIMARY KEY,
+		product_name VARCHAR(50) NOT NULL,
+		category_id INT NOT NULL,
+		thumbnail_path VARCHAR(150) NOT NULL,
+		date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+		status ENUM('active', 'inactive') DEFAULT 'active',
+		FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
+	);
+
+	CREATE TABLE product_sizes (
+		size_id INT AUTO_INCREMENT PRIMARY KEY,
+		product_id INT NOT NULL,
+		size ENUM('medio', 'grande') NOT NULL,
+		regular_price DECIMAL(6,2) DEFAULT 0.00,
+		promo_price DECIMAL(6,2) DEFAULT 0.00,
+		FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
+	);
+
+
+	--     <!-- 
+	--       =======================
+	--       = MILKTEA STARTS HERE =
+	--       =======================
+	--     -->
+	INSERT INTO product_details (product_name, category_id, thumbnail_path)
+	VALUES
+	  ('Winter Melon', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/winter melon.png'),
+	  ('Taro', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/taro.png'),
+	  ('Strawberry', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/strawberry.png'),
+	  ('Salted Caramel', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/salted caramel.png'),
+	  ('Red Velvet', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/red velvet.png'),
+	  ('Matcha', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/matcha.png'),
+	  ('Double Dutch', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/double dutch.png'),
+	  ('Dark Choco', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/dark choco.png'),
+	  ('Choco Hazelnut', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/choco hazelnut.png'),
+	  ('Cookies & Cream', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/cookies & cream.png'),
+	  ('Choco Kisses', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/choco kisses.png'),
+	  ('Brown Sugar', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/brown sugar.png');
+
+
+	-- For medio (₱39.00)
+	INSERT INTO product_sizes (product_id, size, regular_price)
+	VALUES
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Winter Melon'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Taro'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Strawberry'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Salted Caramel'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Red Velvet'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Matcha'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Double Dutch'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Dark Choco'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Choco Hazelnut'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Cookies & Cream'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Choco Kisses'), 'medio', 39.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Brown Sugar'), 'medio', 39.00);
+	  
+	  INSERT INTO product_sizes (product_id, size, regular_price)
+	VALUES
+	  (1, 'medio', 39.00),
+	  (2, 'medio', 39.00),
+	  (3, 'medio', 39.00),
+	  (4, 'medio', 39.00),
+	  (5, 'medio', 39.00),
+	  (6, 'medio', 39.00),
+	  (7, 'medio', 39.00),
+	  (8, 'medio', 39.00),
+	  (9, 'medio', 39.00),
+	  (10, 'medio', 39.00),
+	  (11, 'medio', 39.00),
+	  (12, 'medio', 39.00);
+
+
+	-- For grande (₱49.00)
+	INSERT INTO product_sizes (product_id, size, regular_price)
+	VALUES
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Winter Melon'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Taro'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Strawberry'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Salted Caramel'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Red Velvet'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Matcha'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Double Dutch'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Dark Choco'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Choco Hazelnut'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Cookies & Cream'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Choco Kisses'), 'grande', 49.00),
+	  ((SELECT product_id FROM product_details WHERE product_name = 'Brown Sugar'), 'grande', 49.00);
+	  
+	  INSERT INTO product_sizes (product_id, size, regular_price)
+	VALUES
+	  (1, 'grande', 49.00),
+	  (2, 'grande', 49.00),
+	  (3, 'grande', 49.00),
+	  (4, 'grande', 49.00),
+	  (5, 'grande', 49.00),
+	  (6, 'grande', 49.00),
+	  (7, 'grande', 49.00),
+	  (8, 'grande', 49.00),
+	  (9, 'grande', 49.00),
+	  (10, 'grande', 49.00),
+	  (11, 'grande', 49.00),
+	  (12, 'grande', 49.00);
+
+
+
+--     <!-- 
+--       =======================
+--       =  MILKTEA ENDS HERE  =
+--       =======================
+--     -->
+
+--     <!-- 
+--       =========================
+--       = FRUIT TEA STARTS HERE =
+--       =========================
+--     -->
+INSERT INTO product_details (product_name, category_id, thumbnail_path)
+VALUES
+  ('Green Apple', 2, '../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/GREEN APPLE.png'),
+  ('Kiwi', 2, '../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/KIWI.png'),
+  ('Lemon', 2, '../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/LEMON.png'),
+  ('Passion Fruit', 2, '../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/PASSION FRUIT.png'),
+  ('Strawberry', 2, '../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/STRAWBERRY.png'),
+  ('Watermelon', 2, '../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/WATERMELON.png');
+
+
+-- For medio (₱39.00)
+INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  ((SELECT product_id FROM product_details WHERE product_name = 'Green Apple'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Kiwi'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Lemon'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Passion Fruit'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Strawberry'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Watermelon'), 'medio', 39.00);
+  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (13, 'medio', 39.00),
+  (14, 'medio', 39.00),
+  (15, 'medio', 39.00),
+  (16, 'medio', 39.00),
+  (17, 'medio', 39.00),
+  (18, 'medio', 39.00);
+
+
+-- For grande (₱49.00)
+INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  ((SELECT product_id FROM product_details WHERE product_name = 'Green Apple'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Kiwi'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Lemon'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Passion Fruit'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Strawberry'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'Watermelon'), 'grande', 49.00);
+  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (13, 'grande', 49.00),
+  (14, 'grande', 49.00),
+  (15, 'grande', 49.00),
+  (16, 'grande', 49.00),
+  (17, 'grande', 49.00),
+  (18, 'grande', 49.00);
+
+--     <!-- 
+--       =======================
+--       = FRUIT TEA ENDS HERE =
+--       =======================
+--     -->
+
+--     <!-- 
+--       =============================
+--       = ICED	COFEE TEA START HERE =
+--       =============================
+--     -->
+INSERT INTO product_details (product_name, category_id, thumbnail_path)
+VALUES
+  ('KAPE BRUSKO', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE BRUSKO.png'),
+  ('KAPE KARAMEL', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE KARAMEL.png'),
+  ('KAPE MACCH', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE MACCH.png'),
+  ('KAPE VANILLA', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE VANILLA.png');
+  
+-- For medio (₱39.00)
+INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE BRUSKO'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE KARAMEL'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE MACCH'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE VANILLA'), 'medio', 39.00);
+  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (19, 'medio', 49.00),
+  (20, 'medio', 49.00),
+  (21, 'medio', 49.00),
+  (22, 'medio', 49.00);
+
+
+-- For grande (₱49.00)
+INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE BRUSKO'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE KARAMEL'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE MACCH'), 'grande', 49.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'KAPE VANILLA'), 'grande', 49.00);
+  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (19, 'grande', 39.00),
+  (20, 'grande', 39.00),
+  (21, 'grande', 39.00),
+  (22, 'grande', 39.00);
+
+--     <!-- 
+--       ============================
+--       = ICED	COFEE TEA ENDS HERE =
+--       ============================
+--     -->
+
+--     <!-- 
+--       ====================
+--       = PRAF STARTS HERE =
+--       ====================
+--     -->
+
+INSERT INTO product_details (product_name, category_id, thumbnail_path)
+VALUES
+  ('CARAMEL MATCCH', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/CARAMEL MATCCH.png'),
+  ('CHEESE CAKE', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/CHEESECAKE.png'),
+  ('CHOCO CREAM', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/CHOCO CREAM.png'),
+  ('COFFEE JELLY', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/COFFEE JELLY.png'),
+  ('COOKIES & CREAM', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/COOKIES & CREAM.png'),
+  ('CREAMY AVOCADO', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/CREAMY AVOCADO.png'),
+  ('MATCHA', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/MATCHA.png'),
+  ('MELON', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/MELON.png'),
+  ('MOCHA', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/MOCHA.png'),
+  ('STRAWBERRY', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/STRAWBERRY.png'),
+  ('VANILLA COFFEE', 4, '../assets/IMAGES/MENU IMAGES/PRAF_MENU/VANILLA COFFEE.png');
+
+-- For medio (₱39.00)
+INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  ((SELECT product_id FROM product_details WHERE product_name = 'CARAMEL MATCCH'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'CHEESE CAKE'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'CHOCO CREAM'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'COFFEE JELLY'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'COOKIES & CREAM'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'CREAMY AVOCADO'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'MATCHA'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'MELON'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'MOCHA'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'STRAWBERRY'), 'grande', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'VANILLA COFFEE'), 'grande', 39.00);
+  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (23, 'medio', 39.00),
+  (24, 'medio', 39.00),
+  (25, 'medio', 39.00),
+  (26, 'medio', 39.00),
+  (27, 'medio', 39.00),
+  (28, 'medio', 39.00),
+  (29, 'medio', 39.00),
+  (30, 'medio', 39.00),
+  (31, 'medio', 39.00),
+  (32, 'medio', 39.00),
+  (33, 'medio', 39.00),
+  (34, 'medio', 39.00);
+
+
+-- For grande (₱49.00)
+INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  ((SELECT product_id FROM product_details WHERE product_name = 'CARAMEL MATCCH'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'CHEESE CAKE'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'CHOCO CREAM'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'COFFEE JELLY'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'COOKIES & CREAM'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'CREAMY AVOCADO'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'MATCHA'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'MELON'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'MOCHA'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'STRAWBERRY'), 'medio', 39.00),
+  ((SELECT product_id FROM product_details WHERE product_name = 'VANILLA COFFEE'), 'medio', 39.00);
+  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (23, 'grande', 49.00),
+  (24, 'grande', 49.00),
+  (25, 'grande', 49.00),
+  (26, 'grande', 49.00),
+  (27, 'grande', 49.00),
+  (28, 'grande', 49.00),
+  (29, 'grande', 49.00),
+  (30, 'grande', 49.00),
+  (31, 'grande', 49.00),
+  (32, 'grande', 49.00),
+  (33, 'grande', 49.00),
+  (34, 'grande', 49.00);
+--   
+--       ==================
+--       = PRAF ENDS HERE =
+--       ==================
+--     -->
+
+
+    --           <!-- 
+--       ==========================================================================================================================================
+--       =                                                                                                                                        =
+--       =                                                PRODUCT DETAILS TABLE - ENDS HERE                                                       =
+--       =                                                                                                                                        =
+--       ==========================================================================================================================================
+--     -->
+
+SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
+            FROM product_details pd
+            JOIN product_sizes ps ON pd.product_id = ps.product_id
+            WHERE pd.category_id = 1
+              AND ps.size = 'medio'
+            ORDER BY pd.product_name ASC;

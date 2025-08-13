@@ -1,17 +1,30 @@
 <?php
-$servername = "localhost:3307";
-$username = "root";
-$password = "";
-$dbname = "smartpos";
-try {
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        throw new Exception("Connection failed: " . $conn->connect_error);
+
+// ===== DATABASE CONNECTION (PDO only) =====
+class Dbh
+{
+    private $host = "localhost";
+    private $port = 3307;
+    private $dbName = "smart_pos";
+    private $username = "root";
+    private $password = "";
+    private $conn;
+
+    public function __construct()
+    {
+        try {
+            $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->dbName};charset=utf8mb4";
+            $this->conn = new PDO($dsn, $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            error_log("Database Connection Error: " . $e->getMessage());
+            header("Location: connectionLost.php");
+            die();
+        }
     }
-} catch (Exception $e) {
-    // Log the error message or handle it as needed
-    error_log($e->getMessage());
-    // Jump to connectionLost.php
-    header('Location: connectionLost.php');
-    exit(); // Ensure no further code is executed
+
+    protected function getConnection()
+    {
+        return $this->conn;
+    }
 }

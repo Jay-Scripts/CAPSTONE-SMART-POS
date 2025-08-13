@@ -397,6 +397,7 @@ body {
   --tool-tip-text-color: white;
   --managers-nav-bg: #111827;
   --managers-nav-text: white;
+  --headerBgColor : red;
 }
 [data-theme="dark"] {
   --background-color: #111827;
@@ -413,6 +414,8 @@ body {
   --tool-tip-text-color: black;
   --managers-nav-bg: white;
   --managers-nav-text: #111827;
+  --headerBgColor : green;
+
 }
 
 .theme-toggle {
