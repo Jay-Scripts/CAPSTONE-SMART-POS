@@ -354,83 +354,23 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
         </div>
         <div id="fruittea" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+          <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
 
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Fruit Tea Menu
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Milk Tea Menu
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
+          </div>
           <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="milkteaMenu">
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/GREEN APPLE.png"
-                alt="GREEN APPLE IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                GREEN APPLE
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/KIWI.png"
-                alt="KIWI IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                KIWI
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/LEMON.png"
-                alt="LEMON IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                LEMON
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/PASSION FRUIT.png"
-                alt="PASSION FRUIT IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                PASSION FRUIT
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/STRAWBERRY.png"
-                alt="STRAWBERRY IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                STRAWBERRY
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/FRUITTEA_MENU/WATERMELON.png"
-                alt="WATERMELON IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                WATERMELON
-              </p>
-            </div>
+            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            id="fruitTeaMenu">
+            <?php
+            include_once "../controllers/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
+
+            ?>
           </div>
         </div>
         <div id="hotbrew" class="hidden">
@@ -456,129 +396,12 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </h1>
           <hr class="border-2 border-[var(--border-color)] my-5" />
           <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="milkteaMenu">
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CARAMEL MATCCH.png"
-                alt="CARAMEL MATCCH IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                CARAMEL MATCCH
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CHEESECAKE.png"
-                alt="CHEESECAKE IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                CHEESECAKE
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CHOCO CREAM.png"
-                alt="CHOCO CREAM IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                CHOCO CREAM
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/COFFEE JELLY.png"
-                alt="COFFEE JELLY IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                COFFEE JELLY
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/COOKIES & CREAM.png"
-                alt="COOKIES & CREAM IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                COOKIES & CREAM
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/CREAMY AVOCADO.png"
-                alt="CREAMY AVOCADO IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                CREAMY AVOCADO
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/MATCHA.png"
-                alt="MATCHA IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                MATCHA
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/MELON.png"
-                alt="MELON IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                MELON
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/MOCHA.png"
-                alt="MOCHA IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                MOCHA
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/STRAWBERRY.png"
-                alt="STRAWBERRY"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                STRAWBERRY
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PRAF_MENU/VANILLA COFFEE.png"
-                alt="VANILLA COFFEE IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                VANILLA COFFEE
-              </p>
-            </div>
+            <?php
+            include_once "../controllers/prafProducts.php"; // Including the praf fetching logic  
+
+            ?>
           </div>
         </div>
         <!-- 

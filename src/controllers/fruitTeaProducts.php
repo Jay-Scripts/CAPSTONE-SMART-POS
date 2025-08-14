@@ -1,16 +1,16 @@
 <?php
 
 // =======================================================
-// =     Fetching of Milktea Products - Starts Here      =
+// =     Fetching of FruitTea Products - Starts Here      =
 // =======================================================
 
-// Class MilkTeaMenu extends Dbh to access database connection methods
-class MilkTeaMenu extends Dbh
+// Class FruitTeaMenu extends Dbh to access database connection methods
+class FruitTeaMenu extends Dbh
 {
     // -------------------------------------------------------
     // -   Retrieves milk tea products from the database     -
     // -------------------------------------------------------
-    public function getMilkTeaProducts()
+    public function getFruitTeaProducts()
     {
         // --------------------------------------------------------------------------
         // - SQL query selects product details for 'medio' size milk tea products   -
@@ -19,7 +19,7 @@ class MilkTeaMenu extends Dbh
        SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
             FROM product_details pd
             JOIN product_sizes ps ON pd.product_id = ps.product_id
-            WHERE pd.category_id = 1
+            WHERE pd.category_id = 2
             AND pd.status = 'active'
 			AND ps.size = 'medio' -- SET THIS TO GRANDE FOR GRANDE SIZE 
             ORDER BY pd.product_name ASC;
@@ -65,12 +65,12 @@ class MilkTeaMenu extends Dbh
     }
 }
 
-// Instantiate the MilkTeaMenu class and fetch products
-$menu = new MilkTeaMenu();
-$products = $menu->getMilkTeaProducts();
+// Instantiate the FruitTeaMenu class and fetch products
+$menu = new FruitTeaMenu();
+$products = $menu->getFruitTeaProducts();
 
 // =======================================================
-// =      Fetching of Milktea Products - Ends Here       =
+// =      Fetching of FruitTea Products - Ends Here       =
 // =======================================================
 
 ?>

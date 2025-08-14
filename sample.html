@@ -1,32 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <div id="count">0</div>
-    <div>
-      <button id="add" onclick="add()">+</button
-      ><button id="minus" onclick="minus()">-</button>
-    </div>
+    <h1
+      class="text-3xl font-bold underline landscape:bg-green-500 portrait:bg-red-500 portrait:text-center portrait:p-10 portrait:hidden"
+    >
+      Hello world!
+    </h1>
   </body>
-  <script>
-    let countDiv = document.getElementById("count");
-    let addBtn = document.getElementById("add");
-    let minusBtn = document.getElementById("minus");
-    let count = 0;
-
-    function add() {
-      count++;
-      countDiv.innerText = count;
-    }
-    function minus() {
-      count--;
-      countDiv.innerText = count;
-    }
-
-    countDiv.innerText = count;
-  </script>
 </html>
