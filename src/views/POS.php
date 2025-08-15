@@ -374,17 +374,24 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
         </section>
         <section id="hotbrew" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+                   <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
 
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Hot Brew Menu
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Hot Brew Menu
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
+          </div>
           <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="milkteaMenu"></div>
+            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            id="hotBrewMenu">
+            <?php
+            include_once "../controllers/hotBrewProducts.php"; // Including the fruit tea fetching logic  
+
+            ?>
+          </div>
         </section>
         <section id="praf" class="hidden">
           <hr class="border-2 border-[var(--border-color)] my-5" />
