@@ -374,7 +374,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
         </section>
         <section id="hotbrew" class="hidden">
-                   <div class="titleContainer">
+          <div class="titleContainer">
             <hr class="border-2 border-[var(--border-color)] my-5" />
 
             <h1
@@ -420,7 +420,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           id="icedcoffee"
           class="hidden"
           aria-labelledby="icedcoffeeTitle">
-                   <div class="titleContainer">
+          <div class="titleContainer">
             <hr class="border-2 border-[var(--border-color)] my-5" />
 
             <h1
@@ -537,130 +537,26 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
         </div>
 
-        <div id="brosty" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+        <section id="brosty" class="hidden">
+          <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
 
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Brosty Menu
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-          <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="brostyMenu">
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/BLUE BERRY.png"
-                alt="BLUEBERRY IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                BLUEBERRY
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/GREEN APPLE.png"
-                alt="GREEN APPLE IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                GREEN APPLE
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/HONEY PEACH.png"
-                alt="HONEY PEACH IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                HONEY PEACH
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/KIWI.png"
-                alt="KIWI IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                KIWI
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/LEMON.png"
-                alt="LEMON IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                LEMON
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/LYCHEE.png"
-                alt="LYCHEE IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                LYCHEE
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/MANGO.png"
-                alt="MANGO IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                MANGO
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/PASSION FRUIT.png"
-                alt="PASSION FRUIT IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                PASSION FRUIT
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/STRAWBERRY.png"
-                alt="STRAWBERRY IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                STRAWBERRY
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/BROSTY/WATERMELON.png"
-                alt="WATERMELON IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                WATERMELON
-              </p>
-            </div>
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Brosty Menu
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
-        </div>
+          <div
+            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            id="hotBrewMenu">
+            <?php
+            include_once "../controllers/brostyProducts.php"; // Including the fruit tea fetching logic  
+
+            ?>
+          </div>
+        </section>
 
         <div id="addOns" class="hidden">
           <hr class="border-2 border-[var(--border-color)] my-5" />
