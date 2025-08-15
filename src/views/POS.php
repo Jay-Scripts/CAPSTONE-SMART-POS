@@ -16,8 +16,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
 <body class="bg-[var(--background-color)] min-h-screen">
   <header
-    class="fixed w-full flex justify-between items-center gap-4 px-4 py-2 bg-[var(--headerBgColor)] border-b shadow-sm shadow-black dark:shadow-white duration-200">
-    <p class="text-xl font-semibold text-[var(--text-color)]">Smart POS</p>
+    class="fixed w-full flex justify-between items-center gap-4 px-4 py-2 bg-[var(--managers-nav-bg)] border-b shadow-sm shadow-black dark:shadow-white duration-200">
+    <p class="text-xl font-semibold text-[var(--managers-nav-text)]">Smart POS</p>
 
     <div>
 
@@ -48,7 +48,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             cy="12"
             r="6"
             mask="url(#moon-mask)"
-            fill="currentColor" />
+            fill="white" />
           <g class="sun-beams" stroke="currentColor">
             <line x1="12" y1="1" x2="12" y2="3" />
             <line x1="12" y1="21" x2="12" y2="23" />
@@ -75,8 +75,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 text-gray-600 dark:text-gray-200"
-            fill="var(--text-color)"
+            class="w-6 h-6 "
+            fill="var(--managers-nav-text)"
             viewBox="0 0 24 24"
             stroke="currentColor">
             <path
@@ -85,7 +85,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               stroke-width="2"
               d="M12 14c-3.866 0-7 1.343-7 3v2h14v-2c0-1.657-3.134-3-7-3zM12 12a4 4 0 100-8 4 4 0 000 8z" />
           </svg>
-          <span class="font-medium text-[var(--text-color)]" ]>Arwyn T.</span>
+          <span class="font-medium text-[var(--managers-nav-text)]" ]>Arwyn T.</span>
           <svg
             class="w-4 h-4 text-[var(--text-color)]"
             fill="none"
@@ -333,7 +333,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
         </fieldset>
 
-        <div id="milktea" class="hidden">
+        <section id="milktea" class="hidden">
           <div class="titleContainer">
             <hr class="border-2 border-[var(--border-color)] my-5" />
 
@@ -352,8 +352,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
             ?>
           </div>
-        </div>
-        <div id="fruittea" class="hidden">
+        </section>
+        <section id="fruittea" class="hidden">
           <div class="titleContainer">
             <hr class="border-2 border-[var(--border-color)] my-5" />
 
@@ -372,8 +372,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
             ?>
           </div>
-        </div>
-        <div id="hotbrew" class="hidden">
+        </section>
+        <section id="hotbrew" class="hidden">
           <hr class="border-2 border-[var(--border-color)] my-5" />
 
           <h1
@@ -385,8 +385,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           <div
             class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="milkteaMenu"></div>
-        </div>
-        <div id="praf" class="hidden">
+        </section>
+        <section id="praf" class="hidden">
           <hr class="border-2 border-[var(--border-color)] my-5" />
 
           <h1
@@ -403,7 +403,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
             ?>
           </div>
-        </div>
+        </section>
         <!-- 
       ================================================
       =      Iced Coffee Section - Starts Here       =
@@ -413,79 +413,23 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           id="icedcoffee"
           class="hidden"
           aria-labelledby="icedcoffeeTitle">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+                   <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
 
-          <h2
-            id="icedcoffeeTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            ICED COFFEE Menu
-          </h2>
-
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Iced Coffee Menu
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
+          </div>
           <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="milkteaMenu"
-            role="list">
-            <article
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
-              role="listitem">
-              <figure>
-                <img
-                  src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE BRUSKO.png"
-                  alt="KAPE BRUSKO"
-                  class="w-full h-auto object-cover rounded-t-lg" />
-                <figcaption
-                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                  KAPE BRUSKO
-                </figcaption>
-              </figure>
-            </article>
+            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            id="icedCoffeeMenu">
+            <?php
+            include_once "../controllers/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
 
-            <article
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
-              role="listitem">
-              <figure>
-                <img
-                  src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE MACCH.png"
-                  alt="KAPE MACCH"
-                  class="w-full h-auto object-cover rounded-t-lg" />
-                <figcaption
-                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                  KAPE MACCH
-                </figcaption>
-              </figure>
-            </article>
-
-            <article
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
-              role="listitem">
-              <figure>
-                <img
-                  src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE KARAMEL.png"
-                  alt="KAPE KARAMEL"
-                  class="w-full h-auto object-cover rounded-t-lg" />
-                <figcaption
-                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                  KAPE KARAMEL
-                </figcaption>
-              </figure>
-            </article>
-
-            <article
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
-              role="listitem">
-              <figure>
-                <img
-                  src="../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE VANILLA.png"
-                  alt="KAPE VANILLA"
-                  class="w-full h-auto object-cover rounded-t-lg" />
-                <figcaption
-                  class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                  KAPE VANILLA
-                </figcaption>
-              </figure>
-            </article>
+            ?>
           </div>
         </section>
         <!-- 

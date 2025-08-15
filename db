@@ -225,6 +225,40 @@ VALUES
 --     -->
 
 --     <!-- 
+--       =============================
+--       = ICED	COFEE TEA START HERE =
+--       =============================
+--     -->
+INSERT INTO product_details (product_name, category_id, thumbnail_path)
+VALUES
+  ('KAPE BRUSKO', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE BRUSKO.png'),
+  ('KAPE KARAMEL', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE KARAMEL.png'),
+  ('KAPE MACCH', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE MACCH.png'),
+  ('KAPE VANILLA', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE VANILLA.png');
+  
+-- For medio (₱39.00)
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (19, 'medio', 49.00),
+  (20, 'medio', 49.00),
+  (21, 'medio', 49.00),
+  (22, 'medio', 49.00);
+
+-- For grande (₱49.00)
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (19, 'grande', 39.00),
+  (20, 'grande', 39.00),
+  (21, 'grande', 39.00),
+  (22, 'grande', 39.00);
+
+--     <!-- 
+--       ============================
+--       = ICED	COFEE TEA ENDS HERE =
+--       ============================
+--     -->
+
+--     <!-- 
 --       ====================
 --       = PRAF STARTS HERE =
 --       ====================
@@ -279,40 +313,61 @@ VALUES
 --       ==================
 --     -->
 
+
+
 --     <!-- 
---       =============================
---       = ICED	COFEE TEA START HERE =
---       =============================
+--       ======================
+--       = BROSTY STARTS HERE =
+--       ======================
 --     -->
+
 INSERT INTO product_details (product_name, category_id, thumbnail_path)
 VALUES
-  ('KAPE BRUSKO', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE BRUSKO.png'),
-  ('KAPE KARAMEL', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE KARAMEL.png'),
-  ('KAPE MACCH', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE MACCH.png'),
-  ('KAPE VANILLA', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE VANILLA.png');
-  
--- For medio (₱39.00)
+  ('BLUE BERRY', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/BLUE BERRY.png'),
+  ('GREEN APPLE', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/GREEN APPLE.png'),
+  ('HONEY PEACH', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/HONEY PEACH.png'),
+  ('KIWI', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/KIWI.png'),
+  ('LEMON', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/LEMON.png'),
+  ('LYCHEE', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/LYCHEE.png'),
+  ('MANGO', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/MANGO.png'),
+  ('PASSION FRUIT', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/PASSION FRUIT.png'),
+  ('STRAWBERRY', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/STRAWBERRY.png'),
+  ('WATERMELON', 5, '../assets/IMAGES/MENU IMAGES/BROSTY/WATERMELON.png');
+
+-- For medio (₱39.00)  
   INSERT INTO product_sizes (product_id, size, regular_price)
 VALUES
-  (19, 'medio', 49.00),
-  (20, 'medio', 49.00),
-  (21, 'medio', 49.00),
-  (22, 'medio', 49.00);
+  (33, 'medio', 39.00),
+  (34, 'medio', 39.00),
+  (35, 'medio', 39.00),
+  (36, 'medio', 39.00),
+  (37, 'medio', 39.00),
+  (38, 'medio', 39.00),
+  (39, 'medio', 39.00),
+  (40, 'medio', 39.00),
+  (41, 'medio', 39.00),
+  (42, 'medio', 39.00),
+  (43, 'medio', 39.00);
 
 -- For grande (₱49.00)
   INSERT INTO product_sizes (product_id, size, regular_price)
 VALUES
-  (19, 'grande', 39.00),
-  (20, 'grande', 39.00),
-  (21, 'grande', 39.00),
-  (22, 'grande', 39.00);
-
---     <!-- 
---       ============================
---       = ICED	COFEE TEA ENDS HERE =
---       ============================
+  (33, 'grande', 49.00),
+  (34, 'grande', 49.00),
+  (35, 'grande', 49.00),
+  (36, 'grande', 49.00),
+  (37, 'grande', 49.00),
+  (38, 'grande', 49.00),
+  (39, 'grande', 49.00),
+  (40, 'grande', 49.00),
+  (41, 'grande', 49.00),
+  (42, 'grande', 49.00),
+  (43, 'grande', 49.00);
+--   
+--       ====================
+--       = BROSTY ENDS HERE =
+--       ====================
 --     -->
-
 
 
     --           <!-- 

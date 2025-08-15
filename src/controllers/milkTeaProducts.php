@@ -35,7 +35,7 @@ class MilkTeaMenu extends Dbh
         //         JOIN product_sizes ps ON pd.product_id = ps.product_id
         //         WHERE pd.category_id = 1
         //         AND pd.status = 'active'
-        // 		   AND ps.size = 'grande' -- SET THIS TO GRANDE FOR GRANDE SIZE 
+        // 		   AND ps.size = 'grande'
         //         ORDER BY pd.product_name ASC;
         //     ";
 

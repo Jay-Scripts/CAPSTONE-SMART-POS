@@ -1,25 +1,25 @@
 <?php
 
 // =======================================================
-// =     Fetching of FruitTea Products - Starts Here      =
+// =     Fetching of Brosty Products - Starts Here      =
 // =======================================================
 
-// Class FruitTeaMenu extends Dbh to access database connection methods
-class FruitTeaMenu extends Dbh
+// Class BrostyMenu extends Dbh to access database connection methods
+class BrostyMenu extends Dbh
 {
     // -------------------------------------------------------
     // -   Retrieves milk tea products from the database     -
     // -------------------------------------------------------
-    public function getFruitTeaProducts()
+    public function getBrostyProducts()
     {
         // --------------------------------------------------------------------------
-        // - SQL query selects product details for 'medio' size fruit tea products   -
+        // - SQL query selects product details for 'medio' size brosty products   -
         // --------------------------------------------------------------------------
         $sql = "
        SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
             FROM product_details pd
             JOIN product_sizes ps ON pd.product_id = ps.product_id
-            WHERE pd.category_id = 2
+            WHERE pd.category_id = 5
             AND pd.status = 'active'
 			AND ps.size = 'medio' -- SET THIS TO GRANDE FOR GRANDE SIZE 
             ORDER BY pd.product_name ASC;
@@ -33,9 +33,9 @@ class FruitTeaMenu extends Dbh
         //    SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
         //         FROM product_details pd
         //         JOIN product_sizes ps ON pd.product_id = ps.product_id
-        //         WHERE pd.category_id = 2
+        //         WHERE pd.category_id = 5
         //         AND pd.status = 'active'
-        // 		   AND ps.size = 'grande'
+        // 		   AND ps.size = 'grande' 
         //         ORDER BY pd.product_name ASC;
         //     ";
 
@@ -65,12 +65,12 @@ class FruitTeaMenu extends Dbh
     }
 }
 
-// Instantiate the FruitTeaMenu class and fetch products
-$menu = new FruitTeaMenu();
-$products = $menu->getFruitTeaProducts();
+// Instantiate the BrostyMenu class and fetch products
+$menu = new BrostyMenu();
+$products = $menu->getBrostyProducts();
 
 // =======================================================
-// =      Fetching of FruitTea Products - Ends Here       =
+// =      Fetching of Brosty Products - Ends Here       =
 // =======================================================
 
 ?>

@@ -13,7 +13,7 @@ class PrafMenu extends Dbh
     public function getPrafProducts()
     {
         // --------------------------------------------------------------------------
-        // - SQL query selects product details for 'medio' size milk tea products   -
+        // - SQL query selects product details for 'medio' size praf products   -
         // --------------------------------------------------------------------------
         $sql = "
        SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
@@ -33,9 +33,9 @@ class PrafMenu extends Dbh
         //    SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
         //         FROM product_details pd
         //         JOIN product_sizes ps ON pd.product_id = ps.product_id
-        //         WHERE pd.category_id = 1
+        //         WHERE pd.category_id = 4
         //         AND pd.status = 'active'
-        // 		   AND ps.size = 'grande' -- SET THIS TO GRANDE FOR GRANDE SIZE 
+        // 		   AND ps.size = 'grande' 
         //         ORDER BY pd.product_name ASC;
         //     ";
 
