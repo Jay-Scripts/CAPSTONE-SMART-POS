@@ -104,7 +104,7 @@ CREATE TABLE category (
 	CREATE TABLE product_sizes (
 		size_id INT AUTO_INCREMENT PRIMARY KEY,
 		product_id INT NOT NULL,
-		size ENUM('medio', 'grande') NOT NULL,
+		size ENUM('medio', 'grande', 'promo') DEFAULT 'medio',
 		regular_price DECIMAL(6,2) DEFAULT 0.00,
 		promo_price DECIMAL(6,2) DEFAULT 0.00,
 		FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
@@ -392,7 +392,7 @@ VALUES
   (45, 'medio', 39.00),
   (46, 'medio', 39.00),
   (47, 'medio', 39.00),
-  (48, 'medio', 39.00),
+  (48, 'medio', 39.00);
 
 -- For grande (₱49.00)
   INSERT INTO product_sizes (product_id, size, regular_price)
@@ -401,10 +401,43 @@ VALUES
   (45, 'grande', 39.00),
   (46, 'grande', 39.00),
   (47, 'grande', 39.00),
-  (48, 'grande', 39.00),
+  (48, 'grande', 39.00);
 --   
 --       ======================
 --       = HOT BREW ENDS HERE =
+--       ======================
+--     -->
+
+--     <!-- 
+--       ========================
+--       = PROMO STARTS HERE    =
+--       ========================
+--     -->
+
+ INSERT INTO product_details (product_name, category_id, thumbnail_path)
+VALUES
+
+  ('BLACKPINK', 7, '../assets/IMAGES/MENU IMAGES/PROMOS_MENU/BLACKPINK.png'),
+  ('BOSS BREW', 7, '../assets/IMAGES/MENU IMAGES/PROMOS_MENU/BOSS BREW.png'),
+  ('DARK CHOCO', 7, '../assets/IMAGES/MENU IMAGES/PROMOS_MENU/DARK CHOCO.png'),
+  ('KAPE KMJS', 7, '../assets/IMAGES/MENU IMAGES/PROMOS_MENU/KAPE KMJS.png'),
+  ('KARA VAN', 7, '../assets/IMAGES/MENU IMAGES/PROMOS_MENU/KARA VAN.png'),
+  ('SUPREME MOCA', 7, '../assets/IMAGES/MENU IMAGES/PROMOS_MENU/SUPREME MOCA.png');
+
+-- For PROMO (₱39.00)  
+  INSERT INTO product_sizes (product_id, size, regular_price)
+VALUES
+  (49, 'promo', 66.00),
+  (50, 'promo', 70.00),
+  (51, 'promo', 49.00),
+  (52, 'promo', 60.00),
+  (53, 'promo', 70.00),
+  (54, 'promo', 52.00);
+
+
+--   
+--       ======================
+--       = PROMO ENDS HERE    =
 --       ======================
 --     -->
 

@@ -445,97 +445,26 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       ==============================================
     -->
 
-        <div id="promos" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+        <section id="promos" class="hidden">
+          <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
 
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Promos Menu
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-          <div
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="milkteaMenu">
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/5 + 1.png"
-                alt="5 + 1 IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                5 + 1
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/BLACKPINK.png"
-                alt="BLACKPINK IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                BLACKPINK
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/BOSS BREW.png"
-                alt="BOSS BREWIMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                BOSS BREW
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/DARK CHOCO.png"
-                alt="DARK CHOCO IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                DARK CHOCO
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/KAPE KMJS.png"
-                alt="KAPE KMJS IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                KAPE KMJS
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/KARA VAN.png"
-                alt="KARA VAN IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                KARA VAN
-              </p>
-            </div>
-            <div
-              class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md">
-              <img
-                src="../assets/IMAGES/MENU IMAGES/PROMOS_MENU/SUPREME MOCA.png"
-                alt="SUPREME MOCA IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
-              <p
-                class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                SUPREME MOCA
-              </p>
-            </div>
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Promo Menu
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
-        </div>
+          <div
+            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            id="icedCoffeeMenu">
+            <?php
+            include_once "../controllers/promoProducts.php"; // Including the promo fetching logic  
+
+            ?>
+          </div>
+        </section>
 
         <section id="brosty" class="hidden">
           <div class="titleContainer">
