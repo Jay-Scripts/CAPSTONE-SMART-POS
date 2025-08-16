@@ -1,6 +1,4 @@
 <?php
-
-// ===== DATABASE CONNECTION (PDO only) =====
 class Dbh
 {
     private $host = "localhost";
@@ -17,9 +15,15 @@ class Dbh
             $this->conn = new PDO($dsn, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            error_log("Database Connection Error: " . $e->getMessage());
-            header("Location: connectionLost.php");
-            die();
+            // Make sure headers not sent yet
+            if (!headers_sent()) {
+                header("Location: connectionLost.php");
+                exit;  // ✅ stop execution right after redirect
+            } else {
+                // Fallback if headers already sent
+                echo "<script>window.location.href='connectionLost.php';</script>";
+                exit;
+            }
         }
     }
 

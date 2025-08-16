@@ -348,7 +348,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="milkteaMenu">
             <?php
-            include_once "../controllers/milkTeaProducts.php"; // Including the milktea fetching logic  
+            include_once "../controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
 
             ?>
           </div>
@@ -368,7 +368,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="fruitTeaMenu">
             <?php
-            include_once "../controllers/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../controllers/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -388,7 +388,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="hotBrewMenu">
             <?php
-            include_once "../controllers/hotBrewProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../controllers/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -406,7 +406,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="milkteaMenu">
             <?php
-            include_once "../controllers/prafProducts.php"; // Including the praf fetching logic  
+            include_once "../controllers/POS/prafProducts.php"; // Including the praf fetching logic  
 
             ?>
           </div>
@@ -434,7 +434,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="icedCoffeeMenu">
             <?php
-            include_once "../controllers/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
+            include_once "../controllers/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
 
             ?>
           </div>
@@ -460,7 +460,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="icedCoffeeMenu">
             <?php
-            include_once "../controllers/promoProducts.php"; // Including the promo fetching logic  
+            include_once "../controllers/POS/promoProducts.php"; // Including the promo fetching logic  
 
             ?>
           </div>
@@ -481,7 +481,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="hotBrewMenu">
             <?php
-            include_once "../controllers/brostyProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../controllers/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
