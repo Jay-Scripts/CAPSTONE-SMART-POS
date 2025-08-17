@@ -85,16 +85,16 @@ $products = $menu->getHotBrewProducts();
 
         <div
             class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
-            data-id="<?php echo $id; ?>"
-            data-name="<?php echo strtoupper($product['name']); ?>"
-            data-sizes='<?php echo json_encode($product['sizes']); ?>'>
+            data-id="<?php echo htmlspecialchars($id); ?>"
+            data-name="<?php echo htmlspecialchars(strtoupper($product['name'])); ?>"
+            data-sizes='<?php echo htmlspecialchars(json_encode($product['sizes'])); ?>'>
             <!--
             ---------------------------- 
             - Product thumbnail image  -
             ---------------------------- -->
             <img
                 src="<?php echo htmlspecialchars($product['thumbnail']); ?>"
-                alt="<?php echo strtoupper($product['name']); ?> IMAGE"
+                alt="<?php echo htmlspecialchars(strtoupper($product['name'])); ?> IMAGE"
                 class="w-full h-auto object-cover rounded-t-lg" />
             <!--
                 ---------------------------------- 
@@ -103,8 +103,8 @@ $products = $menu->getHotBrewProducts();
                  -->
             <p
                 class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
-                <?php echo strtoupper($product['name']); ?> <?php foreach ($product['sizes'] as $size => $price): ?>
-                    <span class="text-red-500"> <?php echo strtoupper(substr($size, 0, 1)); ?>: ₱<?php echo number_format($price, 2); ?>
+                <?php echo htmlspecialchars(strtoupper($product['name'])); ?> <?php foreach ($product['sizes'] as $size => $price): ?>
+                    <span class="text-red-500"> <?php echo htmlspecialchars(strtoupper(substr($size, 0, 1))); ?>: ₱<?php echo htmlspecialchars(number_format($price, 2)); ?>
                     </span>
                 <?php endforeach; ?>
             </p>
