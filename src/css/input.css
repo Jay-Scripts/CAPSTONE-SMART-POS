@@ -62,6 +62,12 @@
 .categoryButtons:nth-child(7) {
   animation-delay: 1.2s;
 }
+.categoryButtons:nth-child(8) {
+  animation-delay: 1.4s;
+}
+.categoryButtons:nth-child(9) {
+  animation-delay: 1.6s;
+}
 /*--------------------------------------------------------------
  |         Category Btns Animations - Ends Here                |
  ---------------------------------------------------------------*/

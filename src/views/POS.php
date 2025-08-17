@@ -1,6 +1,6 @@
-<?php
-include_once "../config/dbConnection.php"; // including the Database Handler
-?>
+<span class="hidden"><?php
+                      include_once "../config/dbConnection.php"; // including the Database Handler
+                      ?></span>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -705,6 +705,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
   <script src="../JS/theme-toggle.js"></script>
   <!-- linked JS file below for clock near the action Buttons -->
   <script src="../JS/time.js"></script>
+  <!-- linked JS file below for checking DB status -->
+  <script src="../JS/checkDBCon.js"></script>
   <!-- 
       ========================
       =   JS Links Ends Here =

@@ -61,23 +61,23 @@ $products = $menu->getPromoProducts();
 
 ?>
 
-<!--
-    Displays the fetched milk tea products in a responsive grid.
-    Each product is shown with its image, name, and price for the 'medio' size.
-    Product data is embedded as data attributes for potential JavaScript use.
--->
 <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
     <?php foreach ($products as $id => $product): ?>
-
+        <!--
+                ----------------------- 
+                - Product Container   -
+                -----------------------
+            -->
         <div
             class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
             data-id="<?php echo htmlspecialchars($id); ?>"
             data-name="<?php echo htmlspecialchars(strtoupper($product['name'])); ?>"
             data-sizes='<?php echo htmlspecialchars(json_encode($product['sizes'])); ?>'>
             <!--
-            ---------------------------- 
-            - Product thumbnail image  -
-            ---------------------------- -->
+                ---------------------------- 
+                - Product thumbnail image  -
+                ---------------------------- 
+            -->
             <img
                 src="<?php echo htmlspecialchars($product['thumbnail']); ?>"
                 alt="<?php echo htmlspecialchars(strtoupper($product['name'])); ?> IMAGE"
@@ -86,7 +86,7 @@ $products = $menu->getPromoProducts();
                 ---------------------------------- 
                 - Product name and price display -
                 ----------------------------------
-                 -->
+            -->
             <p
                 class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
                 <?php echo htmlspecialchars(strtoupper($product['name'])); ?> <?php foreach ($product['sizes'] as $size => $price): ?>

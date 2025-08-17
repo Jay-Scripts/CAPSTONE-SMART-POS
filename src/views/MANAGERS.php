@@ -1,9 +1,12 @@
+<span class="hidden"><?php
+                      include_once "../config/dbConnection.php"; // including the Database Handler
+                      ?></span>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>POS Manager Analytics</title>
+    <title>Manager </title>
     <link
       rel="shortcut icon"
       href="../assets/favcon/logo.ico"
@@ -1516,6 +1519,8 @@
     <!-- linked JS file below for changing module content -->
     <script src="../JS/managerModules.js"></script>
     <script src="../JS/footerManager.js"></script>
+      <!-- linked JS file below for checking DB status -->
+  <script src="../JS/checkDBCon.js"></script>
 
     <!-- 
       ======================
