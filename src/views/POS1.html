@@ -18,7 +18,7 @@
         =      Login Modal - Starts Here       =
         ========================================
       -->
-      <!-- <div id="loginModal" 
+      <div id="loginModal" 
          class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div class="bg-orange-500 border-4 border-black rounded-2xl p-8 w-full max-w-sm">
         
@@ -45,7 +45,7 @@
           </form>
         </div>
       </div>
-    </div> -->
+    </div>
         <!-- 
         ========================================
         =      Login Modal - Ends Here         =
@@ -1418,66 +1418,44 @@
 
 
     <!-- Overlay when offline -->
-   <div class="flex items-center gap-4">
-  <!-- ONLINE STATUS -->
-  <span
-    class="onlineContainer flex items-center gap-1 text-base font-medium text-[var(--text-color)]">
-    <span class="text-[14px] text-green-600">●</span> Online
-  </span>
-  <span
-    class="offlineContainer hidden items-center gap-1 text-base font-medium text-[var(--text-color)]">
-    <span class="text-[14px] text-red-600">●</span> Offline
-  </span>
-</div>
+    <div id="offlineMsg" class="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white text-center hidden">
+      <h2 class="text-2xl font-bold mb-2">🔌 No Internet Connection</h2>
+      <p class="mb-4">Please check your connection...</p>
+      <p class="mb-4">To reconect to server</p>
+      <button onclick="retryIframe()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg shadow">Retry</button>
+    </div>
+  </div>
 
-<!-- IFRAME -->
-<iframe id="myIframe" src="yourPage.php" class="w-full h-screen border-0"></iframe>
+  <script>
+    const iframe = document.getElementById("myIframe");
+    const offlineMsg = document.getElementById("offlineMsg");
 
-<!-- OFFLINE OVERLAY -->
-<div id="offlineMsg" class="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white text-center hidden">
-  <h2 class="text-2xl font-bold mb-2">🔌 No Internet Connection</h2>
-  <p class="mb-4">Please check your connection...</p>
-  <p class="mb-4">To reconnect to server</p>
-  <button onclick="retryIframe()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg shadow">Retry</button>
-</div>
-
-<script>
-  const iframe = document.getElementById("myIframe");
-  const offlineMsg = document.getElementById("offlineMsg");
-  const onlineContainer = document.querySelector(".onlineContainer");
-  const offlineContainer = document.querySelector(".offlineContainer");
-
-  // Check connection
-  function checkConnection() {
-    if (navigator.onLine) {
-      offlineMsg.classList.add("hidden");
-      onlineContainer.classList.remove("hidden");
-      offlineContainer.classList.add("hidden");
-
-      // reload iframe once connection is back
-      iframe.src = iframe.src;
-    } else {
-      offlineMsg.classList.remove("hidden");
-      onlineContainer.classList.add("hidden");
-      offlineContainer.classList.remove("hidden");
+    // Check connection
+    function checkConnection() {
+      if (navigator.onLine) {
+        offlineMsg.classList.add("hidden");
+        // reload iframe once connection is back
+        iframe.src = iframe.src;
+      } else {
+        offlineMsg.classList.remove("hidden");
+      }
     }
-  }
 
-  // Retry button
-  function retryIframe() {
+    // Retry button
+    function retryIframe() {
+      checkConnection();
+    }
+
+    // Listen for browser events
+    window.addEventListener("online", checkConnection);
+    window.addEventListener("offline", checkConnection);
+
+    // Initial check
     checkConnection();
-  }
 
-  // Listen for browser events
-  window.addEventListener("online", checkConnection);
-  window.addEventListener("offline", checkConnection);
-
-  // Initial check
-  checkConnection();
-
-  // 🔁 Run every 0.5s
-  setInterval(checkConnection, 500);
-</script>
+    // 🔁 Run every 0.5s
+    setInterval(checkConnection, 500);
+  </script>
 
     <!-- 
       ========================

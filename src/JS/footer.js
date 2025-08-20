@@ -1,3 +1,6 @@
+//=========================================
+// NETWORK CONFIG STARTS HERE
+//==========================================
 const onlineStatus = document.querySelector(".onlineContainer");
 const offlineStatus = document.querySelector(".offlineContainer");
 const date = document.getElementById("footerDate");
@@ -18,7 +21,17 @@ function updateNetworkStatus() {
     offlineStatus.classList.add("flex", "opacity-100");
   }
 }
-//Date and time
+// Set up event listeners for Onllne and Offline functions
+window.addEventListener("online", updateNetworkStatus);
+window.addEventListener("offline", updateNetworkStatus);
+
+//=========================================
+// NETWORK CONFIG ENDS HERE
+//==========================================
+
+//=========================================
+// DATE AND TIME / CALENDAR STARTS HERE
+//=========================================
 function updateDateTime() {
   const now = new Date();
 
@@ -36,36 +49,10 @@ function updateDateTime() {
   time.textContent = now.toLocaleTimeString(undefined, timeOptions);
 }
 
-// ===============================================
-// =     Network Checker Scripts - Stars Here    =
-// ===============================================
- const onlineEl = document.getElementById('statusOnline');
-const offlineEl = document.getElementById('statusOffline');
-
-    function updateStatus() {
-      if (navigator.onLine) {
-        onlineEl.classList.remove('hidden');
-        offlineEl.classList.add('hidden');
-      } else {
-        onlineEl.classList.add('hidden');
-        offlineEl.classList.remove('hidden');
-      }
-    }
-
-    window.addEventListener('online', updateStatus);
-    window.addEventListener('offline', updateStatus);
-    updateStatus();
-
-    
-// ===============================================
-// =      Network Checker Scripts - Ends Here    =
-// ===============================================
-
-// Set up event listeners for Onllne and Offline functions
-window.addEventListener("online", updateNetworkStatus);
-window.addEventListener("offline", updateNetworkStatus);
-
 // Run on load
 updateNetworkStatus();
 updateDateTime();
 setInterval(updateDateTime, 1000);
+//=========================================
+// DATE AND TIME / CALLENDAR ENDS HERE
+//=========================================

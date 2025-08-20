@@ -1,814 +1,1073 @@
+<?php
+include_once "../config/dbConnection.php"; // including the Database Handler
+?>
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS Manager Analytics</title>
+    <link
+      rel="shortcut icon"
+      href="../assets/favcon/logo.ico"
+      type="image/x-icon"
+    />
+    <!-- cdn for chartJs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--  linked css below for animations purpose -->
+    <link href="../css/input.css" rel="stylesheet" />
+    <!--  linked css below for tailwind dependencies to work ofline -->
+    <link href="../css/output.css" rel="stylesheet" />
+    <link href="../css/data.css" rel="stylesheet" />
+    <!--  linked script below cdn of tailwind for online use -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  </head>
+  <body class="font-sans bg-[var(--background-color)] text-[var(--text-color)]">
+    <header
+      class="flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50"
+    >
+      <button
+        id="mobileMenuToggle"
+        class="/* Show on mobile/tablet, hide on desktop */ block md:hidden p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors duration-200 text-[var(--text-color)]"
+        aria-label="Toggle navigation menu"
+      >
+        <!-- Hamburger icon -->
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+      <h1
+        class="text-2xl flex-1 md:text-left md:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]"
+      >
+        POS Dashboard
+      </h1>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>POS Manager Analytics</title>
-  <link
-    rel="shortcut icon"
-    href="../assets/favcon/logo.ico"
-    type="image/x-icon" />
-  <!-- cdn for chartJs -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!--  linked css below for animations purpose -->
-  <link href="../css/input.css" rel="stylesheet" />
-  <!--  linked css below for tailwind dependencies to work ofline -->
-  <link href="../css/output.css" rel="stylesheet" />
-  <link href="../css/data.css" rel="stylesheet" />
-  <!--  linked script below cdn of tailwind for online use -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-</head>
-
-<body class="font-sans bg-[var(--background-color)] text-[var(--text-color)]">
-  <header
-    class="flex justify-end items-center gap-4 px-4 py-2 bg-[var(--background-color)] border-b shadow-md">
-    <span class="text-xl font-semibold text-[var(---text-color)]">POS Dashboard</span>
-
-    <!-- 
+      <!-- 
       ==================================
       =   Theme toggle Btn Starts Here =
       ==================================
     -->
-    <button
-      class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-      id="theme-toggle"
-      title="Toggle theme"
-      aria-label="auto"
-      aria-live="polite">
-      <svg
-        class="sun-and-moon text-gray-600 dark:text-gray-200"
-        aria-hidden="true"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24">
-        <mask class="moon" id="moon-mask">
-          <rect x="0" y="0" width="100%" height="100%" fill="white" />
-          <circle cx="24" cy="10" r="6" fill="black" />
-        </mask>
-        <circle
-          class="sun"
-          cx="12"
-          cy="12"
-          r="6"
-          mask="url(#moon-mask)"
-          fill="currentColor" />
-        <g class="sun-beams" stroke="currentColor">
-          <line x1="12" y1="1" x2="12" y2="3" />
-          <line x1="12" y1="21" x2="12" y2="23" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-          <line x1="1" y1="12" x2="3" y2="12" />
-          <line x1="21" y1="12" x2="23" y2="12" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-        </g>
-      </svg>
-    </button>
+      <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
+        <button
+          class="p-2 sm:p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200"
+          id="theme-toggle"
+          title="Toggle theme"
+          aria-label="auto"
+          aria-live="polite"
+        >
+          <svg
+            class="sun-and-moon text-gray-600 dark:text-gray-200"
+            aria-hidden="true"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <mask class="moon" id="moon-mask">
+              <rect x="0" y="0" width="100%" height="100%" fill="white" />
+              <circle cx="24" cy="10" r="6" fill="black" />
+            </mask>
+            <circle
+              class="sun"
+              cx="12"
+              cy="12"
+              r="6"
+              mask="url(#moon-mask)"
+              fill="currentColor"
+            />
+            <g class="sun-beams" stroke="currentColor">
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </g>
+          </svg>
+        </button>
 
-    <!-- 
+        <!-- 
       ================================
       =   Theme toggle Btn Ends Here =
       ================================
     -->
 
-    <!-- 
+        <!-- 
     =======================
     Profile Dropdown
     ======================= -->
-    <select
-      id="userMenu"
-      class="appearance-none bg-transparent border-none outline-none text-sm font-medium cursor-pointer">
-      <option selected disabled>Arwyn T.</option>
-      <option value="logout">Logout</option>
-    </select>
-  </header>
+        <select
+          id="userMenu"
+          class="appearance-none bg-transparent border-none outline-none text-xs font-medium cursor-pointer sm:text-sm lg:text-base max-w-20 sm:max-w-none truncate sm:text-clip"
+        >
+          <option selected disabled>Arwyn T.</option>
+          <option value="logout">Logout</option>
+        </select>
+      </div>
+    </header>
 
-  <!-- 
+    <!-- 
     =======================
     Profile Dropdown Ends Here
     ======================= -->
 
-  <!-- 
+    <!-- 
       ==============================
       =   aSIDE Header Start Here =
       ==============================
     -->
 
-  <aside
-    class="fixed top-0 left-0 w-64 bg-[var(--managers-nav-bg)] text-[var(--managers-nav-text)] transform -translate-x-full md:translate-x-0 duration-200 ease-in-out shadow-lg overflow-y-auto h-screen z-40"
-    id="sideBar">
-    <header class="p-6 shadow-[var(--managers-nav-text)]">
-      <h1 class="text-xl font-bold">Manager Analytics</h1>
-      <p class="text-sm mt-1">Dashboard & Reports</p>
-    </header>
-    <!-- 
+    <aside
+      class="fixed top-0 left-0 h-screen w-80 sm:w-72 md:w-64 bg-[var(--managers-nav-bg)] text-[var(--managers-nav-text)] transform -translate-x-full md:translate-x-0 duration-200 ease-out shadow-2xl overflow-y-auto z-40"
+      id="sideBar"
+    >
+      <header class="section-header p-6 shadow-lg relative overflow-hidden">
+        <!-- content wrapper -->
+        <div class="relative z-10 flex items-center justify-between mb-2">
+          <div>
+            <h1 class="text-xl font-bold">Manager Analytics</h1>
+            <p class="text-sm opacity-90">Dashboard & Reports</p>
+          </div>
+        </div>
+
+        <!-- right side (close button mobile only) -->
+        <button
+          id="closeMobileMenu"
+          class="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <!-- gradient background overlay -->
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-[#895129]/20 to-[#895129]/60"
+        ></div>
+      </header>
+
+      <!-- 
       ==============================
       =   Navbar Header Start Here =
       ==============================
     -->
 
-    <!-- 
+      <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                      Navigation Menu Starts Here                                    =
       =                                                                                                     =
       =======================================================================================================
     -->
-    <nav class="mt-6">
-      <!-- 
+      <nav class="mt-6 px-3 mb-3">
+        <!-- 
       ==============================
       =     Overview Start Here    =
       ==============================
     -->
-      <div class="px-6 py-2">
-        <h3
-          class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Dashboard
-        </h3>
-      </div>
-      <section class="space-y-1 px-3 group">
-        <a
-          href=""
-          data-module="overview"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-          </svg>
-          Overview
-        </a>
-        <a
-          href="#overview"
-          data-module="realTimeMetrics"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-          </svg>
-          Real-time Metrics
-        </a>
-      </section>
-      <!-- 
+        <div class="px-4 py-3 mt-6">
+          <h3
+            class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider flex items-center"
+          >
+            <div class="w-4 h-0.5 bg-slate-400 mr-2"></div>
+            Dashboard
+          </h3>
+        </div>
+        <section class="space-y-1 px-3 group">
+          <a
+            href=""
+            data-module="overview"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+              ></path>
+            </svg>
+            Overview
+          </a>
+          <a
+            href="#overview"
+            data-module="realTimeMetrics"
+            class="navItem flex items-center font-medium px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              ></path>
+            </svg>
+            Real-time Metrics
+          </a>
+        </section>
+        <!-- 
       ==============================
       =     Overview Ends Here     =
       ==============================
     -->
-      <!-- 
+        <!-- 
       ======================================
       =     Sales Management Start Here    =
       ======================================
     -->
-      <div class="px-6 py-2 mt-6">
-        <h3
-          class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Sales Management
-        </h3>
-      </div>
-      <section class="space-y-1 px-3 group">
-        <a
-          data-module="salesReports"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-          Sales Reports
-        </a>
-        <a
-          data-module="performanceTrend"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-          </svg>
-          Performance Trends
-        </a>
-        <a
-          data-module="refund"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
-          </svg>
-          Refund
-        </a>
-      </section>
+        <div class="px-4 py-3 mt-6">
+          <h3
+            class="text-xs font-semibold text-[var(managers-nav-text)] uppercase tracking-wider"
+          >
+            Sales Management
+          </h3>
+        </div>
+        <section class="space-y-1 group">
+          <a
+            data-module="salesReports"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-purple-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+            Sales Reports
+          </a>
+          <a
+            data-module="performanceTrend"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-orange-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-orange-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                ></path>
+              </svg>
+            </div>
+            Performance Trends
+          </a>
+          <a
+            data-module="refund"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+            ><div
+              class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-red-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+                ></path>
+              </svg>
+            </div>
+            Refund
+          </a>
+        </section>
 
-      <!-- 
+        <!-- 
       ======================================
       =     Sales Management Ends Here     =
       ======================================
     -->
-      <!-- 
+        <!-- 
       ======================================
       =     Staff Management Start Here    =
       ======================================
     -->
-      <!-- Staff Management -->
-      <div class="px-6 py-2 mt-6">
-        <h3
-          class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Staff Management
-        </h3>
-      </div>
-      <section class="space-y-1 px-3 group">
-        <a
-          data-module="registerStaff"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a3 3 0 11-6 0 3 3 0 016 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-          </svg>
-          Register Staff
-        </a>
-        <a
-          data-module="modifyPosition"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          Modify Position
-        </a>
-      </section>
-      <!-- 
+        <!-- Staff Management -->
+        <div class="px-6 py-2 mt-6">
+          <h3
+            class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
+          >
+            Staff Management
+          </h3>
+        </div>
+        <section class="space-y-1 group">
+          <a
+            data-module="registerStaff"
+            href="#"
+            class="navItem flex font-medium items-center px-4 py-3 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-cyan-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-cyan-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a3 3 0 11-6 0 3 3 0 016 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                ></path>
+              </svg>
+            </div>
+            Register Staff
+          </a>
+          <a
+            data-module="modifyPosition"
+            href="#"
+            class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+            ><div
+              class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-indigo-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-indigo-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            Modify Position
+          </a>
+        </section>
+        <!-- 
       ======================================
       =     Staff Management Ends Her e    =
       ======================================
     -->
-      <!-- 
+        <!-- 
       ==========================================
       =     Inventory Management Starts Here   =
       ==========================================
     -->
-      <div class="px-6 py-2 mt-6">
-        <h3
-          class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Inventory Management
-        </h3>
-      </div>
-      <section class="space-y-1 px-3 group">
-        <a
-          data-module="stockEntry"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"></path>
-          </svg>
-          Stock Entry
-        </a>
-        <a
-          data-module="stockLevel"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-          </svg>
-          Stock Levels
-        </a>
-        <a
-          data-module="lowStockAlerts"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-          </svg>
-          Low Stock Alerts
-        </a>
-        <a
-          data-module="stocksMovementHistory"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2" />
-          </svg>
+        <div class="px-6 py-2 mt-6">
+          <h3
+            class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
+          >
+            Inventory Management
+          </h3>
+        </div>
+        <section class="space-y-1 group">
+          <a
+            data-module="stockEntry"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+            ><div
+              class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-emerald-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"
+                ></path>
+              </svg>
+            </div>
+            Stock Entry
+          </a>
+          <a
+            data-module="stockLevel"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-teal-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-teal-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                ></path>
+              </svg>
+            </div>
+            Stock Levels
+          </a>
+          <a
+            data-module="lowStockAlerts"
+            href="#"
+            class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-yellow-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-yellow-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                ></path>
+              </svg>
+            </div>
+            Low Stock Alerts
+          </a>
+          <a
+            data-module="stocksMovementHistory"
+            href="#"
+            class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+            ><div
+              class="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-pink-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-pink-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
+                />
+              </svg>
+            </div>
 
-          Movement History
-        </a>
-      </section>
-      <!-- 
+            Movement History
+          </a>
+        </section>
+        <!-- 
       ==========================================
       =     Inventory Management Ends Here     =
       ==========================================
     -->
-      <!-- 
+        <!-- 
       ==========================================
       =     Product Management Ends Here       =
       ==========================================
     -->
-      <div class="px-6 py-2 mt-6">
-        <h3
-          class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Product Management
-        </h3>
-      </div>
-      <section class="space-y-1 px-3 group">
-        <a
-          data-module="logWaste"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-          </svg>
-          Log Waste
-        </a>
-        <a
-          data-module="disableItem"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M18.364 5.636l-12.728 12.728m0-12.728l12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          Disable Item
-        </a>
-        <a
-          data-module="productMovementHistory"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2" />
-          </svg>
+        <div class="px-6 py-2 mt-6">
+          <h3
+            class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
+          >
+            Product Management
+          </h3>
+        </div>
+        <section class="space-y-1 group">
+          <a
+            data-module="logWaste"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+            ><div
+              class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-red-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                ></path>
+              </svg>
+            </div>
+            Log Waste
+          </a>
+          <a
+            data-module="disableItem"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-gray-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-gray-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18.364 5.636l-12.728 12.728m0-12.728l12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            Disable Item
+          </a>
+          <a
+            data-module="productMovementHistory"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-blue-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
+                />
+              </svg>
+            </div>
 
-          Movement History
-        </a>
-      </section>
-      <!-- 
+            Movement History
+          </a>
+        </section>
+        <!-- 
       ==========================================
       =     Product Management Ends Here       =
       ==========================================
     -->
 
-      <!-- 
+        <!-- 
       ============================================
       =     Customer Management Starts Here      =
       ============================================
     -->
-      <div class="px-6 py-2 mt-6">
-        <h3
-          class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Customer Management
-        </h3>
-      </div>
-      <section class="space-y-1 px-3 group">
-        <a
-          data-module="satisfactionDashboard"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-          </svg>
-          Satisfaction Dashboard
-        </a>
-        <a
-          data-module="complaintsManagement"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-          </svg>
-          Complaint Management
-        </a>
-        <a
-          data-module="rewards&LoyaltyProgram"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-          </svg>
-          Rewards & Loyalty Program
-        </a>
-        <a
-          data-module="discountDashboard"
-          href="#"
-          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200 group-hover:opacity-10 hover:!opacity-150 hover:bg-yellow-800 hover:text-white">
-          <svg
-            class="w-5 h-5 mr-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-          </svg>
-          Discount Dashboard
-        </a>
-      </section>
-      <!-- 
+        <div class="px-6 py-2 mt-6">
+          <h3
+            class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
+          >
+            Customer Management
+          </h3>
+        </div>
+        <section class="space-y-1 group">
+          <a
+            data-module="satisfactionDashboard"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-green-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                ></path>
+              </svg>
+            </div>
+            Satisfaction Dashboard
+          </a>
+          <a
+            data-module="complaintsManagement"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+            ><div
+              class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-amber-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-amber-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                ></path>
+              </svg>
+            </div>
+            Complaint Management
+          </a>
+          <a
+            data-module="rewards&LoyaltyProgram"
+            href="#"
+            class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
+          >
+            <div
+              class="w-10 h-10 bg-violet-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-violet-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-violet-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                ></path>
+              </svg>
+            </div>
+            Rewards & Loyalty Program
+          </a>
+          <a
+            data-module="discountDashboard"
+            href="#"
+            class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200 group-hover:opacity-10 hover:!opacity-150 hover:bg-yellow-800 hover:text-white"
+          >
+            <div
+              class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-rose-500/30 transition-colors"
+            >
+              <svg
+                class="w-5 h-5 text-rose-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                ></path>
+              </svg>
+            </div>
+            Discount Dashboard
+          </a>
+        </section>
+        <!-- 
       ==========================================
       =     Customer Management Ends Here      =
       ==========================================
     -->
-    </nav>
-  </aside>
+      </nav>
+    </aside>
 
-  <!-- 
+    <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                        Navigation Menu Ends Here                                    =
       =                                                                                                     =
       =======================================================================================================
     -->
-  <!-- 
+    <!-- 
       ======================
       =   NavBar Ends Here =
       ======================
     -->
 
-  <!-- 
+    <!-- 
       ======================
       =   Main Starts Here =
       ======================
     -->
-  <main
-    class="flex min-h-screen ml-64 md:ml-64 p-6 bg-[var(--background-color)]">
-    <!-- 
+    <main
+      class="min-h-screen w-full md:ml-64 bg-[var(--background-color)] transition-all duration-200 ease-out"
+    >
+      <!-- 
       ==============================
       =   Main Content Starts Here =
       ==============================
     -->
-    <section class="flex-1 flex flex-col bg-[var(--background-color)]">
-      <!-- 
+      <section class="w-full mx-auto bg-[var(--background-color)]">
+        <!-- 
       ================================
       =   Overview module Stars Here =
       ================================
       ================================ 
     -->
-      <section
-        id="overview"
-        class="bg-[var(--background-color)] rounded-lg shadow portrait:px2 portrait:py-2">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div
-            class="bg-[var(--background-color)] flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold text-[var(--text-color)]">
-                Analytics Dashboard
-              </h2>
-              <p class="text-sm text-[var(--text-color)]">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section
+          id="overview"
+          class="bg-[var(--background-color)] rounded-lg shadow portrait:px2 portrait:py-2"
+        >
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div
+              class="bg-[var(--background-color)] flex items-center justify-between"
+            >
+              <div>
+                <h2 class="text-2xl font-bold text-[var(--text-color)]">
+                  Analytics Dashboard
+                </h2>
+                <p class="text-sm text-[var(--text-color)]">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2 text-[var(--text-color)]">
-          📊 Overview
-        </h3>
-        <div class="p-6 space-y-8 bg-[#f8fafc] min-h-screen">
-          <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2 text-[var(--text-color)]">
+            📊 Overview
+          </h3>
+          <div class="p-6 space-y-8 bg-[#f8fafc] min-h-screen">
+            <!-- 
           ====================================
             Store Performance Summary Starts Here
           ====================================  
         -->
-          <section
-            aria-label="Store Performance Summary"
-            class="grid portrait:grid-cols-1 sm:grid-cols-3 md:grid-cols-1 landscape:grid-cols-3 gap-6">
-            <article
-              class="glass-card bg-[var(--background-color)] p-4 rounded-lg shadow flex items-center space-x-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-10 w-10 text-green-500"
-                viewBox="0 0 24 24"
-                fill="currentColor">
-                <path
-                  d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25v.75h-19.5v-.75zM2.25 9h19.5v1.5H2.25V9zm0 3h19.5v1.5H2.25V12zm0 3h19.5v1.5H2.25V15zM2.25 18h19.5v.75a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V18z" />
-              </svg>
-              <div>
-                <p class="text-sm text-[var(--text-color)]">Total Sales</p>
-                <h3
-                  class="text-3xl font-bold text-[var(--text-color)] mt-1"
-                  id="salesAmount">
-                  ₱45,600
-                </h3>
-              </div>
-            </article>
+            <section
+              aria-label="Store Performance Summary"
+              class="grid portrait:grid-cols-1 sm:grid-cols-3 md:grid-cols-1 landscape:grid-cols-3 gap-6"
+            >
+              <article
+                class="glass-card bg-[var(--background-color)] p-4 rounded-lg shadow flex items-center space-x-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-green-500"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25v.75h-19.5v-.75zM2.25 9h19.5v1.5H2.25V9zm0 3h19.5v1.5H2.25V12zm0 3h19.5v1.5H2.25V15zM2.25 18h19.5v.75a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V18z"
+                  />
+                </svg>
+                <div>
+                  <p class="text-sm text-[var(--text-color)]">Total Sales</p>
+                  <h3
+                    class="text-3xl font-bold text-[var(--text-color)] mt-1"
+                    id="salesAmount"
+                  >
+                    ₱45,600
+                  </h3>
+                </div>
+              </article>
 
-            <article
-              class="glass-card bg-[var(--background-color)] rounded-lg shadow flex items-center space-x-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-10 w-10 text-blue-500"
-                viewBox="0 0 20 20"
-                fill="currentColor">
-                <path
-                  fill-rule="evenodd"
-                  d="M3 3a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 001 1h1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1h1a1 1 0 001-1V3zM4 6v10h12V6H4z"
-                  clip-rule="evenodd" />
-              </svg>
-              <div>
-                <p class="text-sm text-[var(--text-color)]">Total Profit</p>
-                <h3
-                  class="text-3xl font-bold text-[var(--text-color)] mt-1"
-                  id="profitAmount">
-                  ₱8,320
-                </h3>
-              </div>
-            </article>
+              <article
+                class="glass-card bg-[var(--background-color)] rounded-lg shadow flex items-center space-x-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-blue-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 001 1h1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1h1a1 1 0 001-1V3zM4 6v10h12V6H4z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <div>
+                  <p class="text-sm text-[var(--text-color)]">Total Profit</p>
+                  <h3
+                    class="text-3xl font-bold text-[var(--text-color)] mt-1"
+                    id="profitAmount"
+                  >
+                    ₱8,320
+                  </h3>
+                </div>
+              </article>
 
-            <article
-              class="glass-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-10 w-10 text-yellow-500"
-                viewBox="0 0 24 24"
-                fill="currentColor">
-                <path
-                  d="M2.25 3a.75.75 0 000 1.5h1.386l1.65 7.43a2.25 2.25 0 002.2 1.77h8.804a2.25 2.25 0 002.2-1.77l1.716-7.72A.75.75 0 0019.5 3H4.045l-.33-1.5H2.25zM6.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-              </svg>
-              <div>
-                <p class="text-sm text-gray-500">Items Sold</p>
-                <h3
-                  class="text-3xl font-bold text-gray-800 mt-1"
-                  id="itemsSold">
-                  379
-                </h3>
-              </div>
-            </article>
-          </section>
+              <article
+                class="glass-card bg-white p-4 rounded-lg shadow flex items-center space-x-4"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-yellow-500"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M2.25 3a.75.75 0 000 1.5h1.386l1.65 7.43a2.25 2.25 0 002.2 1.77h8.804a2.25 2.25 0 002.2-1.77l1.716-7.72A.75.75 0 0019.5 3H4.045l-.33-1.5H2.25zM6.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                  />
+                </svg>
+                <div>
+                  <p class="text-sm text-gray-500">Items Sold</p>
+                  <h3
+                    class="text-3xl font-bold text-gray-800 mt-1"
+                    id="itemsSold"
+                  >
+                    379
+                  </h3>
+                </div>
+              </article>
+            </section>
 
-          <!-- 
+            <!-- 
           ====================================
             Store Performance Summary ends Here
           ====================================  
         -->
-          <!-- 
+            <!-- 
           ====================================
             Charts Starts Here
           ====================================  
         -->
 
-          <section
-            class="bg-[var(--background-color)] grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
-            <!--
+            <section
+              class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-4 mb-8"
+            >
+              <!--
               ===============================
                Sales Overview Starts here 
                ===============================-->
-            <section
-              class="bg-[var(--background-color)] space-y-6"
-              aria-label="Charts and Graphs">
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6">
-                <div
-                  class="bg-[var(--background-color)] flex justify-between items-center mb-4">
-                  <h3 class="text-lg font-semibold text-gray-700">
-                    📈 Sales Overview
-                  </h3>
-                  <select
-                    id="salesFilter"
-                    class="glass-light border border-gray-300 rounded px-2 py-1 text-sm">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <canvas id="salesChart" height="100"></canvas>
-              </article>
+              <section
+                class="bg-[var(--background-color)] space-y-6"
+                aria-label="Charts and Graphs"
+              >
+                <article
+                  class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6"
+                >
+                  <div
+                    class="bg-[var(--background-color)] flex justify-between items-center mb-4"
+                  >
+                    <h3 class="text-lg font-semibold text-gray-700">
+                      📈 Sales Overview
+                    </h3>
+                    <select
+                      id="salesFilter"
+                      class="glass-light border border-black rounded px-2 py-1 text-sm"
+                    >
+                      <option value="day">Today</option>
+                      <option value="week" selected>This Week</option>
+                      <option value="month">This Month</option>
+                    </select>
+                  </div>
+                  <canvas id="salesChart" height="100"></canvas>
+                </article>
 
-              <!--
+                <!--
               ===============================
                SALES OVERVIIEW ENDS HERE 
                ===============================-->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6">
-                <div class="flex justify-between items-center mb-4">
-                  <h3 class="text-lg font-semibold text-gray-700">
-                    🛍️ Top-Selling Products
-                  </h3>
-                  <select
-                    id="productFilter"
-                    class="glass-light border border-gray-300 rounded px-2 py-1 text-sm">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <canvas id="productChart" height="100"></canvas>
-              </article>
-            </section>
-            <!--
+                <article
+                  class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6"
+                >
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">
+                      🛍️ Top-Selling Products
+                    </h3>
+                    <select
+                      id="productFilter"
+                      class="glass-light border border-gray-300 rounded px-2 py-1 text-sm"
+                    >
+                      <option value="day">Today</option>
+                      <option value="week" selected>This Week</option>
+                      <option value="month">This Month</option>
+                    </select>
+                  </div>
+                  <canvas id="productChart" height="100"></canvas>
+                </article>
+              </section>
+              <!--
               ===============================
                Top-Seling ends Here 
                ===============================-->
-            <!--
+              <!--
               ===============================
                Payment Method Starts here 
                ===============================-->
-            <div class="space-y-6">
-              <article class="glass-card rounded-xl shadow p-6 bg-white">
-                <h3 class="text-base font-semibold text-gray-700 mb-4">
-                  💳 Payment Method Breakdown
-                </h3>
-                <canvas
-                  id="paymentMethodChart"
-                  width="50"
-                  height="50"></canvas>
-              </article>
-              <!--
+              <div class="space-y-6">
+                <article class="glass-card rounded-xl shadow p-6 bg-white">
+                  <h3 class="text-base font-semibold text-gray-700 mb-4">
+                    💳 Payment Method Breakdown
+                  </h3>
+                  <canvas
+                    id="paymentMethodChart"
+                    width="50"
+                    height="50"
+                  ></canvas>
+                </article>
+                <!--
               ===============================
                Payment method ends here 
                ===============================-->
-              <section class="glass-card bg-white rounded-xl shadow p-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">
-                  📦 Stock History
-                </h3>
-                <ul class="text-sm text-gray-600 space-y-1">
-                  <li>• 10pcs Matcha added (July 23)</li>
-                  <li>• 5pcs Dark Choco removed (July 22)</li>
-                  <li>• 7pcs Taro added (July 20)</li>
-                  <li>• Inventory audit completed (July 19)</li>
-                </ul>
-              </section>
-            </div>
+                <section class="glass-card bg-white rounded-xl shadow p-6">
+                  <h3 class="text-lg font-semibold text-gray-700 mb-4">
+                    📦 Stock History
+                  </h3>
 
-            <!--
+                  <ul class="text-sm text-gray-600 space-y-1">
+                    <li>• 10pcs Matcha added (July 23)</li>
+                    <li>• 5pcs Dark Choco removed (July 22)</li>
+                    <li>• 7pcs Taro added (July 20)</li>
+                    <li>• Inventory audit completed (July 19)</li>
+                  </ul>
+                </section>
+              </div>
+
+              <!--
               ===============================
                stock alerts 
                ===============================-->
-            <section
-              class="glass-card bg-[var(--chart-bg)] rounded-xl shadow p-6">
-              <h3 class="text-lg font-semibold text-red-600 mb-4">
-                ⚠️ Stock Alerts
-              </h3>
-              <ul class="text-sm text-gray-700 space-y-1">
-                <li>• Low Stock: Iced Latte (only 4 left)</li>
-                <li>• Low Stock: Choco Frappe (only 3 left)</li>
-              </ul>
+              <section
+                class="glass-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-xl"
+                aria-labelledby="stock-alerts-title"
+              >
+                <header>
+                  <h4
+                    id="stock-alerts-title"
+                    class="flex items-center gap-2 font-semibold text-[var(--text-color)] mb-4"
+                  >
+                    <!-- Warning / Alert Icon -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-7 h-7 text-red-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-7-4a1 1 0 
+               10-2 0v4a1 1 0 102 0V6zm0 8a1 1 0 
+               11-2 0 1 1 0 012 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+
+                    Stock Alerts
+                  </h4>
+                </header>
+
+                <ul class="space-y-3">
+                  <li
+                    class="flex items-center space-x-2 bg-white/60 backdrop-blur-sm p-3 rounded-lg border border-white/20 shadow-sm"
+                  >
+                    <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span class="text-sm text-slate-600"
+                      >Iced Latte (4 left)</span
+                    >
+                  </li>
+
+                  <li
+                    class="flex items-center space-x-2 bg-white/60 backdrop-blur-sm p-3 rounded-lg border border-white/20 shadow-sm"
+                  >
+                    <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    <span class="text-sm text-slate-600"
+                      >Choco Frappe (8 left)</span
+                    >
+                  </li>
+
+                  <li
+                    class="flex items-center space-x-2 bg-white/60 backdrop-blur-sm p-3 rounded-lg border border-white/20 shadow-sm"
+                  >
+                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                    <span class="text-sm text-slate-600"
+                      >All others in stock</span
+                    >
+                  </li>
+                </ul>
+              </section>
             </section>
-          </section>
-        </div>
-      </section>
-      <!-- 
+          </div>
+        </section>
+        <!-- 
       ===============================
       =   Overview module Ends Here =
       ===============================
     -->
-      <!-- 
+        <!-- 
       ==================================
       =   Realtime Metrics Starts Here =
       ==================================
     -->
-      <section id="realTimeMetrics" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold text-gray-600">
-                Realtime Metrics
-              </h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="realTimeMetrics" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-600">
+                  Realtime Metrics
+                </h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2 text-gray-600">
-          Realtime Metrics
-        </h3>
-        <p>// real time metrics more on graph</p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2 text-gray-600">
+            Realtime Metrics
+          </h3>
+          <p>// real time metrics more on graph</p>
+        </section>
+        <!-- 
       ================================
       =   Realtime Metrics Ends Here =
       ================================
     -->
 
-      <!-- 
+        <!-- 
       ======================================================================================================
       =                                                                                                    =
       =                                     Sales Management Ends Here                                     =
@@ -816,93 +1075,96 @@
       ======================================================================================================
     -->
 
-      <!-- 
+        <!-- 
       ==============================
       =   Sales Report Start Here =
       =============================
     -->
-      <section id="salesReports" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold text-gray-600">Sales Report</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="salesReports" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold text-gray-600">Sales Report</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Sales Reports</h3>
-        <p>
-          // sales report dito naman more on average ng data na napasok sa
-          database dito naten ifefetch
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Sales Reports</h3>
+          <p>
+            // sales report dito naman more on average ng data na napasok sa
+            database dito naten ifefetch
+          </p>
+        </section>
+        <!-- 
       ============================
       =   Sales Report Ends Here =
       ============================
     -->
 
-      <!-- 
+        <!-- 
       ==================================
       =   Performance Trend Start Here =
       ==================================
     -->
-      <section id="performanceTrend" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Performance Trends</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="performanceTrend" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Performance Trends</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Performace Trends</h3>
-        <p>
-          // performance trend dito naman yung graph or charts ng sales per
-          day, week, month, and year
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Performace Trends</h3>
+          <p>
+            // performance trend dito naman yung graph or charts ng sales per
+            day, week, month, and year
+          </p>
+        </section>
+        <!-- 
       ==================================
       =   Performance Trends Ends Here =
       ==================================
     -->
-      <!-- 
+        <!-- 
       =======================
       =   Refund Start Here =
       =======================
     -->
-      <section id="refund" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Refund</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="refund" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Refund</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // refunds dito naten rerefund yung mga transactions may form to
-          preformat ka ng design as of now kase sa form mang gagaling yung
-          data na ipupull naten sa database para marefund yung transactions
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // refunds dito naten rerefund yung mga transactions may form to
+            preformat ka ng design as of now kase sa form mang gagaling yung
+            data na ipupull naten sa database para marefund yung transactions
+          </p>
+        </section>
+        <!-- 
       ======================
       =   Refund Ends Here =
       ======================
     -->
-      <!-- 
+        <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                    Sales Management Starts Here                                     =
@@ -910,7 +1172,7 @@
       =======================================================================================================
     -->
 
-      <!-- 
+        <!-- 
       =====================================================================================================
       =                                                                                                   =
       =                                    Staff Management Ends Here                                     =
@@ -918,60 +1180,62 @@
       =====================================================================================================
     -->
 
-      <!-- 
+        <!-- 
       ===============================
       =   Register Staff Start Here =
       ===============================
     -->
-      <section id="registerStaff" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Register Staff</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="registerStaff" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Register Staff</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>// adding staffs dito naman form rin for account creation</p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>// adding staffs dito naman form rin for account creation</p>
+        </section>
+        <!-- 
       ==============================
       =   Register Staff Ends Here =
       ==============================
     -->
 
-      <!-- 
+        <!-- 
       ================================
       =   Modify Position Start Here =
       ================================
     -->
-      <section id="modifyPosition" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Modify Staff</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="modifyPosition" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Modify Staff</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // modify position same rin pre designded form para pasukan ng data
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // modify position same rin pre designded form para pasukan ng data
+          </p>
+        </section>
+        <!-- 
       ===============================
       =   Modify Position Ends Here =
       ===============================
     -->
-      <!-- 
+        <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                      Staff Management Ends Here                                     =
@@ -979,133 +1243,137 @@
       =======================================================================================================
     -->
 
-      <!-- 
+        <!-- 
       ======================================================================================================
       =                                                                                                    =
       =                                   Stock Management Starts Here                                     =
       =                                                                                                    =
       ======================================================================================================
     -->
-      <!-- 
+        <!-- 
       ============================
       =   Stock Entry Start Here =
       ============================
     -->
-      <section id="stockEntry" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Stock Entry</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="stockEntry" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Entry</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>// stock entry predesign form ng insertion of stock</p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>// stock entry predesign form ng insertion of stock</p>
+        </section>
+        <!-- 
       ===========================
       =   Stock Entry Ends Here =
       ===========================
     -->
 
-      <!-- 
+        <!-- 
       ============================
       =   Stock Level Start Here =
       ============================
     -->
-      <section id="stockLevel" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Stock Level</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="stockLevel" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Level</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // dito naman sa stock levels more on graphs to and reports like
-          line chart bat chart or pie charts analytics
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // dito naman sa stock levels more on graphs to and reports like
+            line chart bat chart or pie charts analytics
+          </p>
+        </section>
+        <!-- 
       ===========================
       =   Stock Level Ends Here =
       ===========================
     -->
 
-      <!-- 
+        <!-- 
       ================================
       =   Low Stock Alert Start Here =
       ================================
     -->
-      <section id="lowStockAlerts" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Low Stock Alert</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="lowStockAlerts" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Low Stock Alert</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // low stocks history lalabas lang rito charts for analytics views
-          ng mga critical stocks
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // low stocks history lalabas lang rito charts for analytics views
+            ng mga critical stocks
+          </p>
+        </section>
+        <!-- 
       ===============================
       =   Low Stock Alert Ends Here =
       ===============================
     -->
 
-      <!-- 
+        <!-- 
       =======================================
       =   Stock Movement History Start Here =
       =======================================
     -->
-      <section id="stocksMovementHistory" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Stock Movement History</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="stocksMovementHistory" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Movement History</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // movement hist. dito naman analytics view lang ng galaw ng stocks
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // movement hist. dito naman analytics view lang ng galaw ng stocks
+          </p>
+        </section>
+        <!-- 
       ======================================
       =   Stock Movement History Ends Here =
       ======================================
     -->
 
-      <!-- 
+        <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                      Stock Management Ends Here                                     =
       =                                                                                                     =
       =======================================================================================================
     -->
-      <!-- 
+        <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                  Product Management Starts Here                                     =
@@ -1113,94 +1381,97 @@
       =======================================================================================================
     -->
 
-      <!-- 
+        <!-- 
       =================================
       =       Log Waste Starts Here    =
       =================================
     -->
-      <section id="logWaste" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Log Waste</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="logWaste" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Log Waste</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // log waste pre design form para pag pasukan ng data ng product na
-          iwawaste
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // log waste pre design form para pag pasukan ng data ng product na
+            iwawaste
+          </p>
+        </section>
+        <!-- 
       =================================
       =        Log Waste Ends Here    =
       =================================
     -->
 
-      <!-- 
+        <!-- 
       =================================
       =        Disable Starts Here    =
       =================================
     -->
-      <section id="disableItem" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Disable Item</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="disableItem" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Disable Item</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // disable waste same lang rin dito predesign form na paglalagyan ng
-          data ng item na ididisable much better if kaya mo drop down or
-          choice mo basta best sa UX
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // disable waste same lang rin dito predesign form na paglalagyan ng
+            data ng item na ididisable much better if kaya mo drop down or
+            choice mo basta best sa UX
+          </p>
+        </section>
+        <!-- 
       =================================
       =          Disable Ends Here    =
       =================================
     -->
 
-      <!-- 
+        <!-- 
       ==================================================
       =        Product Movement History Starts Here    =
       ==================================================
     -->
-      <section id="productMovementHistory" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Product Movement History</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="productMovementHistory" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Product Movement History</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // movement hist. dito naman analytics view lang ng galaw ng product
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // movement hist. dito naman analytics view lang ng galaw ng product
+          </p>
+        </section>
+        <!-- 
       ==================================================
       =          Product Movement History Ends Here    =
       ==================================================
     -->
 
-      <!-- 
+        <!-- 
       ==========================================================================================================
       =                                                                                                        =
       =                                  Product Management Ends Here                                          =
@@ -1208,208 +1479,221 @@
       ==========================================================================================================
     -->
 
-      <!-- 
+        <!-- 
       =========================================================================================================
       =                                                                                                       =
       =                                  Customers Management Starts Here                                     =
       =                                                                                                       =
       =========================================================================================================
     -->
-      <!-- 
+        <!-- 
       ========================================================
       =        Satisfaction Dashboard History Starts Here    =
       ========================================================
     -->
-      <section id="satisfactionDashboard" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Satisfaction Dashboard</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="satisfactionDashboard" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Satisfaction Dashboard</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // satisfaction dashboard dito naman more on overview ng feedbacks
-          like chat box graphs pie charts etc.
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // satisfaction dashboard dito naman more on overview ng feedbacks
+            like chat box graphs pie charts etc.
+          </p>
+        </section>
+        <!-- 
       ==================================================
       =            Satisfaction Dashboard Ends Here    =
       ==================================================
     -->
 
-      <!-- 
+        <!-- 
       ========================================================
       =         Complaints Management History Starts Here    =
       ========================================================
     -->
-      <section id="complaintsManagement" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Complaints Management</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="complaintsManagement" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Complaints Management</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // rewards & loyalty program dito naman yung analytics view ng mga
-          registered customer na may rewarding card or app
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // rewards & loyalty program dito naman yung analytics view ng mga
+            registered customer na may rewarding card or app
+          </p>
+        </section>
+        <!-- 
       ==================================================
       =             Complaints Management Ends Here    =
       ==================================================
     -->
 
-      <!-- 
+        <!-- 
       ========================================================
       =               Rewards Loyalty Program Starts Here    =
       ========================================================
     -->
-      <section id="rewards&LoyaltyProgram" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="rewards&LoyaltyProgram" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // rewards & loyalty program dito naman yung analytics view ng mga
-          registered customer na may rewarding card or app
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // rewards & loyalty program dito naman yung analytics view ng mga
+            registered customer na may rewarding card or app
+          </p>
+        </section>
+        <!-- 
       ==================================================
       =           Rewards Loyalty Program Ends Here    =
       ==================================================
     -->
 
-      <!-- 
+        <!-- 
       ========================================================
       =                    Discount Dashboard Starts Here    =
       ========================================================
     -->
-      <section id="discountDashboard" class="bg-white rounded-lg shadow">
-        <header
-          class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-2xl font-bold">Discount Dashboard</h2>
-              <p class="text-sm text-gray-600">
-                Welcome back, here's what's happening with your store today.
-              </p>
+        <section id="discountDashboard" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Discount Dashboard</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
             </div>
-          </div>
-        </header>
-        <h3 class="text-xl font-semibold mb-2">Refund</h3>
-        <p>
-          // discount dashboard dito naman lalabas yung mga senoirs and PWD
-          transactions
-        </p>
-      </section>
-      <!-- 
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // discount dashboard dito naman lalabas yung mga senoirs and PWD
+            transactions
+          </p>
+        </section>
+        <!-- 
       ==================================================
       =                Discount Dashboard Ends Here    =
       ==================================================
     -->
-    </section>
-    <!-- 
+      </section>
+      <!-- 
       =======================================================================================================
       =                                                                                                     =
       =                                  Customer Management  Ends Here                                     =
       =                                                                                                     =
       =======================================================================================================
-    -->
-  </main>
+    --></main>
 
-  <!-- 
+    <!-- 
       ============================
       =   Main Content Ends Here =
       ============================
     -->
 
-  <!-- 
+    <!-- 
+      =======================================================================================================
+      =                                                         =
+      =                                FOOTER STARTS HERE                                  =
+      =======================================================================================================
+    -->
+
+    <footer
+      class="fixed bottom-0 left-0 right-0 md:left-64 bg-[transparent] p-5 text-xs z-50"
+    >
+      <div class="flex items-center gap-1">
+        <!-- Centered Info -->
+        <div
+          class="absolute left-1/2 -translate-x-1/2 flex flex-wrap justify-center items-center gap-3 text-[11px]"
+        >
+          <!-- Online/Offline -->
+          <span
+            class="onlineContainer flex items-center gap-1 text-base font-medium text-[var(--text-color)]"
+          >
+            <span class="text-[14px] text-green-600">●</span> Online
+          </span>
+          <span
+            class="offlineContainer hidden items-center gap-1 text-base font-medium text-[var(--text-color)]"
+          >
+            <span class="text-[14px] text-red-600">●</span> Offline
+          </span>
+
+          <!-- Date -->
+          <span class="flex items-center gap-1 text-[var(--text-color)]">
+            📅
+            <span
+              id="footerDate"
+              class="font-medium text-base text-[var(--text-color)]"
+              >Loading...</span
+            >
+          </span>
+
+          <!-- Time -->
+          <span
+            class="flex items-center text-base gap-1 text-[var(--text-color)]"
+          >
+            ⏰
+            <span
+              id="footerTime"
+              class="text-base font-medium text-[var(--text-color)]"
+              >Loading...</span
+            >
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 
+      =======================================================================================================
+      =                                                         =
+      =                                FOOTER ENDS HERE                                  =
+      =======================================================================================================
+    -->
+
+    <!-- 
       ========================
       = JS Links Starts Here =
       ========================
     -->
+    <!-- linked JS file below for theme toggle interaction -->
+    <script src="../JS/theme-toggle.js"></script>
+    <!-- linked JS file below for changing module content -->
+    <script src="../JS/managerModules.js"></script>
+    <script src="../JS/footer.js"></script>
 
-  <!-- 
-      =======================================================================================================
-      =                                As of now wala rin akong maisip pang footer                          =
-      =                                if may suggestions ka G check naten                                  =
-      =======================================================================================================
-    -->
-
-  <footer
-    class="fixed bottom-0 md:left-64 w-full md:w-[calc(100%-16rem)] p-6 bg-[transparent] shadow-sm text-xs text-gray-600 z-50">
-    <div class="relative flex items-center justify-between w-full">
-      <!-- Centered Info -->
-      <div
-        class="absolute left-1/2 -translate-x-1/2 flex flex-wrap justify-center items-center gap-3 text-[11px]">
-        <!-- Online/Offline -->
-      <div class="flex items-center gap-4 text-white" aria-live="polite">
-    <span id="statusOnline" class="flex items-center gap-1 text-base font-medium">
-      <span class="text-[14px] text-green-600">●</span> Online
-    </span>
-    <span id="statusOffline" class="hidden items-center gap-1 text-base font-medium">
-      <span class="text-[14px] text-red-600">●</span> Offline
-    </span>
-  </div>
-
-        <!-- Date -->
-        <span class="flex items-center gap-1 text-[var(--text-color)]">
-             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class=" h-[1vw] " fill="var(--text-color)">
-            <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
-          </svg>
-          <span
-            id="footerDate"
-            class="font-medium text-base text-[var(--text-color)]">Loading...</span>
-        </span>
-
-        <!-- Time -->
-        <span
-          class="flex items-center text-base gap-1 text-[var(--text-color)]">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class=" h-[1vw] " fill="var(--text-color)">
-            <path d="M582-298 440-440v-200h80v167l118 118-56 57ZM440-720v-80h80v80h-80Zm280 280v-80h80v80h-80ZM440-160v-80h80v80h-80ZM160-440v-80h80v80h-80ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-          </svg>
-          <span
-            id="footerTime"
-            class="text-base font-medium text-[var(--text-color)]">Loading...</span>
-        </span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- linked JS file below for theme toggle interaction -->
-  <script src="../JS/theme-toggle.js"></script>
-  <!-- linked JS file below for changing module content -->
-  <script src="../JS/managerModules.js"></script>
-  <script src="../JS/footer.js"></script>
-
-  <!-- 
+    <!-- 
       ======================
       = JS Links Ends Here =
       ======================
     -->
-</body>
-
+  </body>
 </html>
