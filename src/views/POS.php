@@ -473,28 +473,33 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
         </section>
 
-        <div id="addOns" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+        <section id="modify" class="hidden">
+          <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
 
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Add-ons
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-          Add-ons Content
-        </div>
-        <div id="modify" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Modify
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
+          </div>
+        </section>
 
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Modify
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-          Modify Content
-        </div>
+        <section id="addOns" class="hidden">
+          <div class="titleContainer">
+            <hr class="border-2 border-[var(--border-color)] my-5" />
+
+            <h1
+              id="menuTitle"
+              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
+              Add-ons
+            </h1>
+            <hr class="border-2 border-[var(--border-color)] my-5" />
+          </div>
+        </section>
+
+
       </section>
       <!-- 
       ================================================
@@ -592,7 +597,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
 
       <!-- Cart content here (previous cartContainer content) -->
-      <div
+      <section
         id="cartContainer"
         class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl border relative">
         <!-- Close button for the modal -->
@@ -605,7 +610,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           Orders
         </h2>
         <!-- You can add other content above the checkout button as needed -->
-        <div id="productList"></div>
+        <div id="CART"></div>
         <button
           class="absolute bottom-4 left-4 right-4 w-[100%] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group">
           <span
@@ -620,7 +625,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               class="color-white" />
           </span>
         </button>
-      </div>
+      </section>
     </div>
   </modal>
   <!-- 
@@ -676,7 +681,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
     -->
   <!-- linked JS file below for changing category module content -->
   <script src="../JS/POSmodules.js"></script>
-  <!-- linked JS file below for cart button in tablet version -->
+  <!-- linked JS file below for cart button in tablet ve  rsion -->
   <script src="../JS/POScartResponsiveScript.js"></script>
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/theme-toggle.js"></script>
@@ -684,6 +689,8 @@ include_once "../config/dbConnection.php"; // including the Database Handler
   <script src="../JS/footer.js"></script>
   <!-- linked JS file below for checking DB status -->
   <script src="../JS/checkDBCon.js"></script>
+  <!-- linked JS file below for Portrait & Mobile ver. of animation effects -->
+  <script src="../JS/POSxKioskMobileResponseAnimation.js"></script>
   <!-- linked JS file below for ordering POS -->
   <script src="../JS/POScartScript.js"></script>
   <!-- 

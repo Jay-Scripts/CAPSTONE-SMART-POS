@@ -35,9 +35,9 @@ function renderCart() {
   cartDiv.innerHTML = cart
     .map(
       (item, index) => `
-    <div class="flex justify-between items-center p-2">
+    <div class="flex justify-between items-center p-4 w-full m-1">
       <span>${item.qty}x ${item.name} (${item.size})</span>
-     <div> <span>₱${(item.price * item.qty).toFixed(2)}</span>
+        <div> <span>₱${(item.price * item.qty).toFixed(2)}</span>
       <button type="button" onclick="removeFromCart(${index})" class="text-red-500">X</button></div>
     </div>
   `

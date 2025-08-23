@@ -7,6 +7,7 @@ function showModule(moduleId) {
     "icedcoffee",
     "promos",
     "addOns",
+    "modify",
     "brosty",
   ];
 
