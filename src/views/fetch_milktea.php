@@ -17,7 +17,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
   <!-- MENU -->
   <?php
-  include_once "../controllers/milkTeaProducts.php"; // Including the milktea fetching logic  
+  include_once "../controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
 
   ?>
   <!-- CART -->

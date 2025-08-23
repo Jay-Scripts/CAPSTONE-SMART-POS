@@ -203,21 +203,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               class="w-[70%] h-[70%]" />
           </span>
         </button>
-        <button
-          onclick="history.back()"
-          class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group">
-          <span
-            class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            BACK
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/RETURN.svg"
-              alt="RETURN ICON"
-              class="w-[70%] h-[70%]" />
-          </span>
-        </button>
+
       </aside>
       <!-- 
       ========================================
@@ -527,7 +513,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             Orders
           </h2>
 
-          <div id="productList"></div>
+          <div id="CART"></div>
 
           <button
             class="portrait:hidden absolute bottom-[0px] left-0 right-0 w-full h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-md shadow transition-all duration-200 group"
@@ -602,25 +588,26 @@ include_once "../config/dbConnection.php"; // including the Database Handler
   <modal
     id="cart"
     class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-    <div class="bg-white text-black p-6 rounded w-[50vh] h-[70vh] relative">
-      <!-- Close button for the modal -->
-      <button
-        onclick="toggleModal('cart')"
-        class="absolute top-2 right-2 text-red-600 font-bold">
-        &times;
-      </button>
+    <div class="rounded w-[50vh] h-[70vh] relative">
+
 
       <!-- Cart content here (previous cartContainer content) -->
       <div
         id="cartContainer"
-        class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl relative">
+        class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl border relative">
+        <!-- Close button for the modal -->
+        <button
+          onclick="toggleModal('cart')"
+          class="absolute top-2 right-2 text-red-600 font-bold">
+          &times;
+        </button>
         <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
           Orders
         </h2>
         <!-- You can add other content above the checkout button as needed -->
         <div id="productList"></div>
         <button
-          class="absolute bottom-4 left-4 right-4 w-[calc(100%-2rem)] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group">
+          class="absolute bottom-4 left-4 right-4 w-[100%] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group">
           <span
             class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
             Checkout
@@ -660,7 +647,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
         <!-- Date -->
         <span class="flex items-center gap-1 text-[var(--text-color)]">
-          📅
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class=" h-[1vw] " fill="var(--text-color)">
+            <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
+          </svg>
           <span
             id="footerDate"
             class="font-medium text-base text-[var(--text-color)]">Loading...</span>
@@ -669,7 +658,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
         <!-- Time -->
         <span
           class="flex items-center text-base gap-1 text-[var(--text-color)]">
-          ⏰
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class=" h-[1vw] " fill="var(--text-color)">
+            <path d="M582-298 440-440v-200h80v167l118 118-56 57ZM440-720v-80h80v80h-80Zm280 280v-80h80v80h-80ZM440-160v-80h80v80h-80ZM160-440v-80h80v80h-80ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+          </svg>
           <span
             id="footerTime"
             class="text-base font-medium text-[var(--text-color)]">Loading...</span>
@@ -684,15 +675,17 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       ========================
     -->
   <!-- linked JS file below for changing category module content -->
-  <script src="../JS/modules.js"></script>
+  <script src="../JS/POSmodules.js"></script>
   <!-- linked JS file below for cart button in tablet version -->
-  <script src="../JS/toggleModal.js"></script>
+  <script src="../JS/POScartResponsiveScript.js"></script>
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/theme-toggle.js"></script>
   <!-- linked JS file below for footer scrpts -->
   <script src="../JS/footer.js"></script>
   <!-- linked JS file below for checking DB status -->
   <script src="../JS/checkDBCon.js"></script>
+  <!-- linked JS file below for ordering POS -->
+  <script src="../JS/POScartScript.js"></script>
   <!-- 
       ========================
       =   JS Links Ends Here =

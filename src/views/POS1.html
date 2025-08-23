@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,20 +13,33 @@
   <body
     class="bg-[var(--background-color)] min-h-screen flex justify-center items-center"
   >
-       <!-- 
+    <!-- 
         ========================================
         =      Login Modal - Starts Here       =
         ========================================
       -->
-      <div id="loginModal" 
-         class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div class="bg-orange-500 border-4 border-black rounded-2xl p-8 w-full max-w-sm">
-        
-        <div class="flex flex-col items-center space-y-4 font-semibold text-gray-800">
-          <img src="../assets/SVG/LOGO/WLOGO.svg" alt="LOGO" class="w-32 h-32" />
+    <!-- <div
+      id="loginModal"
+      class=" fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-orange-500 border-4 border-black rounded-2xl p-8 w-full max-w-sm"
+      >
+        <div
+          class="flex flex-col items-center space-y-4 font-semibold text-gray-800"
+        >
+          <img
+            src="../assets/SVG/LOGO/WLOGO.svg"
+            alt="LOGO"
+            class="w-32 h-32"
+          />
           <h1 class="text-2xl">Scan your ID</h1>
 
-          <form action="../controllers/login/logInModal.php" method="POST" class="w-full space-y-4">
+          <form
+            action="../controllers/login/logInModal.php"
+            method="POST"
+            class="w-full space-y-4"
+          >
             <input
               class="w-full p-2 bg-white rounded-md border border-gray-700 focus:border-blue-700 transition"
               placeholder="ID Number"
@@ -45,8 +58,8 @@
           </form>
         </div>
       </div>
-    </div>
-        <!-- 
+    </div> -->
+    <!-- 
         ========================================
         =      Login Modal - Ends Here         =
         ========================================
@@ -1282,42 +1295,70 @@
     -->
       <!-- CART SECTRION HIDDEN ON PORTRAIT/TABLET MODE -->
       <aside
-        id="col3"
-        class="portrait:hidden portrait:col-span-0 landscape:block landscape:col-span-1 p-4 rounded-lg col-span-2 md:col-span-1 relative"
+        id="cart"
+        class="hidden portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-2 md:col-span-1 p-4 rounded-lg transition-all duration-300"
         aria-label="Order Summary"
       >
-        <section
-          id="cartContainer"
-          class="h-[70vh] w-full bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-md shadow-2xl relative"
+        <!-- Cart Box -->
+        <div
+          id="cartBox"
+          class="portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col transition-transform duration-300 ease-out opacity-0 portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center"
         >
-          <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
-            Orders
+          <!-- Close button (only visible on portrait) -->
+          <button
+            onclick="toggleCart()"
+            class="portrait:block landscape:hidden absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition"
+          >
+            &times;
+          </button>
+
+          <!-- Cart content -->
+          <h2
+            class="text-center font-bold text-lg text-[var(--cart-text)] mb-4"
+          >
+            🧾 Orders
           </h2>
 
-          <div id="productList"></div>
+          <!-- Scrollable list -->
+          <div id="productList" class="flex-1 overflow-y-auto px-2 space-y-3">
+            <!-- Example items -->
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm"
+            >
+              <span>Milk Tea - Large</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm"
+            >
+              <span>Cheesecake Add-on</span>
+              <span class="font-semibold">₱25</span>
+            </div>
+          </div>
 
+          <!-- Checkout button (sticky at bottom) -->
           <button
-            class="portrait:hidden absolute bottom-[0px] left-0 right-0 w-full h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-md shadow transition-all duration-200 group"
-            aria-label="Proceed to Checkout"
+            class="mt-4 sticky bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200"
           >
-            <span
-              class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
-            >
-              Checkout
-            </span>
-            <span
-              class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
-            >
-              <img
-                src="../assets/SVG/ACTION BTN/CART.svg"
-                alt="Cart Icon"
-                class="color-white"
-                id="checkoutBtn"
-              />
-            </span>
+            <img
+              src="../assets/SVG/ACTION BTN/CART.svg"
+              alt="CART ICON"
+              class="w-5 h-5 mr-2"
+            />
+            Checkout
           </button>
-        </section>
+        </div>
       </aside>
+
+      <!-- CART BUTTON (Only on Portrait) -->
+      <section class="landscape:hidden fixed bottom-5 right-5">
+        <button
+          onclick="toggleCart()"
+          class="actionBtn relative w-[150px] h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-xl transition-all duration-200 overflow-hidden group"
+        >
+          <span class="mr-2">🛒</span> CART
+        </button>
+      </section>
       <!-- 
       ================================================
       =       Cart on Desktop View - Ends Here       =
@@ -1330,132 +1371,6 @@
       =======================================================
     -->
     <!-- CART BUTTON WILL ONLY APPEAR IN PORTRAIT OR TABLET VER -->
-    <section
-      class="landscape:hidden mt-4 flex justify-center gap-4 fixed bottom-5 right-5"
-    >
-      <button
-        onclick="toggleModal('cart')"
-        class="actionBtn border-2 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
-      >
-        <span
-          class="text transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
-        >
-          CART
-        </span>
-        <span
-          class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
-        >
-          <img
-            src="../assets/SVG/ACTION BTN/CART.svg"
-            alt="VOID ICON"
-            class="color-white"
-          />
-        </span>
-      </button>
-    </section>
-    <!-- 
-      =======================================================
-      =        Cart Button on Tablet View - Ends Here       =
-      =======================================================
-    -->
-
-    <!-- 
-      ================================================
-      =       Cart on Tablet View - Starts Here      =
-      ================================================
-    -->
-    <!-- CART MODAL VERSION WILL ONLY APPEAR IN PORTRAIT OR TABLET VER -->
-
-    <modal
-      id="cart"
-      class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50"
-    >
-      <div class="bg-white text-black p-6 rounded w-[50vh] h-[70vh] relative">
-        <!-- Close button for the modal -->
-        <button
-          onclick="toggleModal('cart')"
-          class="absolute top-2 right-2 text-red-600 font-bold"
-        >
-          &times;
-        </button>
-
-        <!-- Cart content here (previous cartContainer content) -->
-        <div
-          id="cartContainer"
-          class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl relative"
-        >
-          <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
-            Orders
-          </h2>
-          <!-- You can add other content above the checkout button as needed -->
-          <div id="productList"></div>
-          <button
-            class="absolute bottom-4 left-4 right-4 w-[calc(100%-2rem)] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group"
-          >
-            <span
-              class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
-            >
-              Checkout
-            </span>
-            <span
-              class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
-            >
-              <img
-                src="../assets/SVG/ACTION BTN/CART.svg"
-                alt="CART ICON"
-                class="color-white"
-              />
-            </span>
-          </button>
-        </div>
-      </div>
-    </modal>
-    <!-- 
-      ================================================
-      =         Cart on Tablet View - Ends Here      =
-      ================================================
-    -->
-
-
-    <!-- Overlay when offline -->
-    <div id="offlineMsg" class="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center text-white text-center hidden">
-      <h2 class="text-2xl font-bold mb-2">🔌 No Internet Connection</h2>
-      <p class="mb-4">Please check your connection...</p>
-      <p class="mb-4">To reconect to server</p>
-      <button onclick="retryIframe()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg shadow">Retry</button>
-    </div>
-  </div>
-
-  <script>
-    const iframe = document.getElementById("myIframe");
-    const offlineMsg = document.getElementById("offlineMsg");
-
-    // Check connection
-    function checkConnection() {
-      if (navigator.onLine) {
-        offlineMsg.classList.add("hidden");
-        // reload iframe once connection is back
-        iframe.src = iframe.src;
-      } else {
-        offlineMsg.classList.remove("hidden");
-      }
-    }
-
-    // Retry button
-    function retryIframe() {
-      checkConnection();
-    }
-
-    // Listen for browser events
-    window.addEventListener("online", checkConnection);
-    window.addEventListener("offline", checkConnection);
-
-    // Initial check
-    checkConnection();
-
-    // 🔁 Run every 0.5s
-    setInterval(checkConnection, 500);
-  </script>
 
     <!-- 
       ========================
@@ -1475,5 +1390,33 @@
       =   JS Links Ends Here =
       ========================
     -->
+    <script>
+      function toggleCart() {
+        const cart = document.getElementById("cart");
+        const cartBox = document.getElementById("cartBox");
+
+        if (window.matchMedia("(orientation: portrait)").matches) {
+          if (cart.classList.contains("hidden")) {
+            // Show modal with animation
+            cart.classList.remove("hidden");
+            cart.classList.add("flex");
+
+            setTimeout(() => {
+              cartBox.classList.remove("translate-y-10", "opacity-0");
+              cartBox.classList.add("translate-y-0", "opacity-100");
+            }, 10);
+          } else {
+            // Hide modal with animation
+            cartBox.classList.add("translate-y-10", "opacity-0");
+            cartBox.classList.remove("translate-y-0", "opacity-100");
+
+            setTimeout(() => {
+              cart.classList.add("hidden");
+              cart.classList.remove("flex");
+            }, 300);
+          }
+        }
+      }
+    </script>
   </body>
 </html>

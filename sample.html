@@ -1,39 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>Net Status</title>
-</head>
-<body class="bg-gray-900 flex items-center justify-center h-screen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Net Status</title>
+  </head>
+  <body class="bg-white flex items-center justify-center h-screen">
+    <!-- CART CONTAINER (Works as Aside in Landscape / Modal in Portrait) -->
+    <aside
+      id="cart"
+      class="hidden portrait:fixed portrait:inset-0 portrait:bg-black portrait:bg-opacity-60 portrait:items-center portrait:justify-center z-50 landscape:block landscape:relative landscape:col-span-2 md:col-span-1 p-4 rounded-lg"
+      aria-label="Order Summary"
+    >
+      <div
+        class="portrait:bg-white portrait:p-6 portrait:rounded portrait:w-[90%] portrait:max-w-[400px] portrait:h-[80vh] portrait:relative landscape:h-[70vh] landscape:w-full landscape:bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-md shadow-2xl relative"
+      >
+        <!-- Close button (only visible on portrait) -->
+        <button
+          onclick="toggleCart()"
+          class="portrait:block landscape:hidden absolute top-2 right-2 text-red-600 font-bold text-2xl"
+        >
+          &times;
+        </button>
 
-  <div class="flex items-center gap-4 text-white" aria-live="polite">
-    <span id="statusOnline" class="flex items-center gap-1 text-base font-medium">
-      <span class="text-[14px] text-green-600">●</span> Online
-    </span>
-    <span id="statusOffline" class="hidden items-center gap-1 text-base font-medium">
-      <span class="text-[14px] text-red-600">●</span> Offline
-    </span>
-  </div>
+        <!-- Cart content -->
+        <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
+          Orders
+        </h2>
+        <div id="productList"></div>
 
-  <script>
-    const onlineEl = document.getElementById('statusOnline');
-    const offlineEl = document.getElementById('statusOffline');
+        <button
+          class="absolute bottom-4 left-4 right-4 w-[calc(100%-2rem)] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group"
+        >
+          <span
+            class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+          >
+            Checkout
+          </span>
+          <span
+            class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
+          >
+            <img
+              src="../assets/SVG/ACTION BTN/CART.svg"
+              alt="CART ICON"
+              class="color-white"
+            />
+          </span>
+        </button>
+      </div>
+    </aside>
 
-    function updateStatus() {
-      if (navigator.onLine) {
-        onlineEl.classList.remove('hidden');
-        offlineEl.classList.add('hidden');
-      } else {
-        onlineEl.classList.add('hidden');
-        offlineEl.classList.remove('hidden');
+    <!-- CART BUTTON (Only on Portrait) -->
+    <section class="landscape:hidden fixed bottom-5 right-5">
+      <button
+        onclick="toggleCart()"
+        class="actionBtn border-2 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
+      >
+        <span
+          class="text transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
+        >
+          CART
+        </span>
+        <span
+          class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
+        >
+          <img
+            src="../assets/SVG/ACTION BTN/CART.svg"
+            alt="CART ICON"
+            class="color-white"
+          />
+        </span>
+      </button>
+    </section>
+
+    <script>
+      function toggleCart() {
+        const cart = document.getElementById("cart");
+
+        // Only toggle modal behavior in portrait
+        if (window.matchMedia("(orientation: portrait)").matches) {
+          cart.classList.toggle("hidden");
+          cart.classList.toggle("flex");
+        }
       }
-    }
-
-    window.addEventListener('online', updateStatus);
-    window.addEventListener('offline', updateStatus);
-    updateStatus(); // initial state
-  </script>
-</body>
+    </script>
+  </body>
 </html>
