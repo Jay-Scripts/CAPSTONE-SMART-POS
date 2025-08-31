@@ -1,7 +1,4 @@
-<?php
-include_once "../config/dbConnection.php"; // including the Database Handler
-?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -14,6 +11,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
     />
     <!-- cdn for chartJs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!--  linked css below for animations purpose -->
     <link href="../css/input.css" rel="stylesheet" />
     <!--  linked css below for tailwind dependencies to work ofline -->
@@ -28,7 +26,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
     >
       <button
         id="mobileMenuToggle"
-        class="/* Show on mobile/tablet, hide on desktop */ block md:hidden p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors duration-200 text-[var(--text-color)]"
+        class="block lg:hidden p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors duration-200 text-[var(--text-color)]"
         aria-label="Toggle navigation menu"
       >
         <!-- Hamburger icon -->
@@ -47,7 +45,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
         </svg>
       </button>
       <h1
-        class="text-2xl flex-1 md:text-left md:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]"
+        class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]"
       >
         POS Dashboard
       </h1>
@@ -129,7 +127,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
     -->
 
     <aside
-      class="fixed top-0 left-0 h-screen w-80 sm:w-72 md:w-64 bg-[var(--managers-nav-bg)] text-[var(--managers-nav-text)] transform -translate-x-full md:translate-x-0 duration-200 ease-out shadow-2xl overflow-y-auto z-40"
+      class="fixed top-0 left-0 h-screen w-80 sm:w-72 md:w-64 bg-[var(--managers-nav-bg)] text-[var(--managers-nav-text)] transform -translate-x-full lg:translate-x-0 duration-200 ease-out shadow-2xl overflow-y-auto z-40"
       id="sideBar"
     >
       <header class="section-header p-6 shadow-lg relative overflow-hidden">
@@ -190,7 +188,6 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           <h3
             class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider flex items-center"
           >
-            <div class="w-4 h-0.5 bg-slate-400 mr-2"></div>
             Dashboard
           </h3>
         </div>
@@ -215,26 +212,6 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             </svg>
             Overview
           </a>
-          <a
-            href="#overview"
-            data-module="realTimeMetrics"
-            class="navItem flex items-center font-medium px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-          >
-            <svg
-              class="w-5 h-5 mr-3 text-green-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-              ></path>
-            </svg>
-            Real-time Metrics
-          </a>
         </section>
         <!-- 
       ==============================
@@ -246,36 +223,33 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =     Sales Management Start Here    =
       ======================================
     -->
-        <div class="px-4 py-3 mt-6">
+        <div class="px-4 py-3 mt-2">
           <h3
             class="text-xs font-semibold text-[var(managers-nav-text)] uppercase tracking-wider"
           >
             Sales Management
           </h3>
         </div>
-        <section class="space-y-1 group">
+        <section class="space-y-1 px-3 group">
           <a
             data-module="salesReports"
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-purple-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-purple-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              ></path>
+            </svg>
+
             Sales Reports
           </a>
           <a
@@ -283,46 +257,40 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-orange-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-orange-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-orange-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              ></path>
+            </svg>
+
             Performance Trends
           </a>
           <a
             data-module="refund"
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-            ><div
-              class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-red-500/30 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-red-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+              ></path>
+            </svg>
             Refund
           </a>
         </section>
@@ -338,59 +306,53 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       ======================================
     -->
         <!-- Staff Management -->
-        <div class="px-6 py-2 mt-6">
+        <div class="px-4 py-3 mt-2">
           <h3
             class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
           >
             Staff Management
           </h3>
         </div>
-        <section class="space-y-1 group">
+        <section class="space-y-1 px-3 group">
           <a
             data-module="registerStaff"
             href="#"
             class="navItem flex font-medium items-center px-4 py-3 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-cyan-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-cyan-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-cyan-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a3 3 0 11-6 0 3 3 0 016 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a3 3 0 11-6 0 3 3 0 016 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              ></path>
+            </svg>
+
             Register Staff
           </a>
           <a
             data-module="modifyPosition"
             href="#"
             class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-            ><div
-              class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-indigo-500/30 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-indigo-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-indigo-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
             Modify Position
           </a>
         </section>
@@ -404,35 +366,32 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =     Inventory Management Starts Here   =
       ==========================================
     -->
-        <div class="px-6 py-2 mt-6">
+        <div class="px-6 py-2 mt-2">
           <h3
             class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
           >
             Inventory Management
           </h3>
         </div>
-        <section class="space-y-1 group">
+        <section class="space-y-1 px-3 group">
           <a
             data-module="stockEntry"
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-            ><div
-              class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-500/30 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-emerald-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-emerald-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"
+              ></path>
+            </svg>
             Stock Entry
           </a>
           <a
@@ -440,23 +399,19 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-teal-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-teal-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-teal-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-teal-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+              ></path>
+            </svg>
             Stock Levels
           </a>
           <a
@@ -464,46 +419,39 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-yellow-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-yellow-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-yellow-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              ></path>
+            </svg>
             Low Stock Alerts
           </a>
           <a
             data-module="stocksMovementHistory"
             href="#"
             class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-            ><div
-              class="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-pink-500/30 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-pink-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-pink-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
-                />
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
+              />
+            </svg>
 
             Movement History
           </a>
@@ -518,35 +466,32 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =     Product Management Ends Here       =
       ==========================================
     -->
-        <div class="px-6 py-2 mt-6">
+        <div class="px-6 py-2 mt-2">
           <h3
             class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
           >
             Product Management
           </h3>
         </div>
-        <section class="space-y-1 group">
+        <section class="space-y-1 px-3 group">
           <a
             data-module="logWaste"
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-            ><div
-              class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-red-500/30 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-red-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              ></path>
+            </svg>
             Log Waste
           </a>
           <a
@@ -554,23 +499,19 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-gray-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-gray-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M18.364 5.636l-12.728 12.728m0-12.728l12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18.364 5.636l-12.728 12.728m0-12.728l12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
             Disable Item
           </a>
           <a
@@ -578,23 +519,19 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
-                />
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2"
+              />
+            </svg>
 
             Movement History
           </a>
@@ -610,59 +547,52 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =     Customer Management Starts Here      =
       ============================================
     -->
-        <div class="px-6 py-2 mt-6">
+        <div class="px-6 py-2 mt-2">
           <h3
             class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider"
           >
             Customer Management
           </h3>
         </div>
-        <section class="space-y-1 group">
+        <section class="space-y-1 px-3 group">
           <a
             data-module="satisfactionDashboard"
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-green-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+              ></path>
+            </svg>
             Satisfaction Dashboard
           </a>
           <a
             data-module="complaintsManagement"
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
-            ><div
-              class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-amber-500/30 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-amber-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-amber-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              ></path>
+            </svg>
             Complaint Management
           </a>
           <a
@@ -670,23 +600,19 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100"
           >
-            <div
-              class="w-10 h-10 bg-violet-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-violet-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-violet-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-violet-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+              ></path>
+            </svg>
             Rewards & Loyalty Program
           </a>
           <a
@@ -694,23 +620,20 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             href="#"
             class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200 group-hover:opacity-10 hover:!opacity-150 hover:bg-yellow-800 hover:text-white"
           >
-            <div
-              class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center mr-3 group-hover:bg-rose-500/30 transition-colors"
+            <svg
+              class="w-5 h-5 mr-3 text-rose-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                class="w-5 h-5 text-rose-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                ></path>
-              </svg>
-            </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+              ></path>
+            </svg>
+
             Discount Dashboard
           </a>
         </section>
@@ -741,7 +664,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       ======================
     -->
     <main
-      class="min-h-screen w-fit md:ml-64 bg-[var(--background-color)] transition-all duration-200 ease-out"
+      class="min-h-screen w-fit lg:ml-64 bg-[var(--background-color)] transition-all duration-200 ease-out"
     >
       <!-- 
       ==============================
@@ -778,7 +701,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           <h3 class="text-xl font-semibold mb-2 text-[var(--text-color)]">
             📊 Overview
           </h3>
-          <div class="p-6 space-y-8 bg-[#f8fafc] min-h-screen">
+          <div class="p-6 space-y-8 bg-[var(--background-color)] min-h-screen">
             <!-- 
           ====================================
             Store Performance Summary Starts Here
@@ -895,7 +818,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                       📈 Sales Overview
                     </h3>
                     <select
-                      id="salesFilter"
+                      id="ovSalesFilter"
                       class="glass-light border border-black rounded px-2 py-1 text-sm"
                     >
                       <option value="day">Today</option>
@@ -903,12 +826,17 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                       <option value="month">This Month</option>
                     </select>
                   </div>
-                  <canvas id="salesChart" height="100"></canvas>
+                  <canvas id="ovSalesChart" height="100"></canvas>
                 </article>
 
                 <!--
               ===============================
-               SALES OVERVIIEW ENDS HERE 
+               SALES OVERVIIEW charts ENDS HERE 
+               ===============================-->
+
+                <!--
+              ===============================
+               Top selling Products charts Starts HERE 
                ===============================-->
                 <article
                   class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6"
@@ -918,7 +846,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                       🛍️ Top-Selling Products
                     </h3>
                     <select
-                      id="productFilter"
+                      id="ovTsFilter"
                       class="glass-light border border-gray-300 rounded px-2 py-1 text-sm"
                     >
                       <option value="day">Today</option>
@@ -926,7 +854,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                       <option value="month">This Month</option>
                     </select>
                   </div>
-                  <canvas id="productChart" height="100"></canvas>
+                  <canvas id="ovTsChart" height="100"></canvas>
                 </article>
               </section>
               <!--
@@ -943,7 +871,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     💳 Payment Method Breakdown
                   </h3>
                   <canvas
-                    id="paymentMethodChart"
+                    id="ovPaymentMethodChart"
                     width="50"
                     height="50"
                   ></canvas>
@@ -1036,36 +964,6 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =   Overview module Ends Here =
       ===============================
     -->
-        <!-- 
-      ==================================
-      =   Realtime Metrics Starts Here =
-      ==================================
-    -->
-        <section id="realTimeMetrics" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold text-gray-600">
-                  Realtime Metrics
-                </h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-          <h3 class="text-xl font-semibold mb-2 text-gray-600">
-            Realtime Metrics
-          </h3>
-          <p>// real time metrics more on graph</p>
-        </section>
-        <!-- 
-      ================================
-      =   Realtime Metrics Ends Here =
-      ================================
-    -->
 
         <!-- 
       ======================================================================================================
@@ -1080,24 +978,362 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =   Sales Report Start Here =
       =============================
     -->
-        <section id="salesReports" class="bg-white rounded-lg shadow">
+
+        <section
+          id="salesReports"
+          class="hidden bg-[var(--background-color)] rounded-lg shadow"
+        >
           <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
+            class="shadow-sm border-b border-[var(--border-color)] sm:px-6 py-4 rounded-t-lg"
           >
-            <div class="flex items-center justify-between">
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
               <div>
-                <h2 class="text-2xl font-bold text-gray-600">Sales Report</h2>
-                <p class="text-sm text-gray-600">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-600">
+                  Sales Reports
+                </h2>
+                <p class="text-sm sm:text-base text-gray-600 mt-1">
                   Welcome back, here's what's happening with your store today.
                 </p>
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Sales Reports</h3>
-          <p>
-            // sales report dito naman more on average ng data na napasok sa
-            database dito naten ifefetch
-          </p>
+
+          <!-- =============================================
+                 DASHBOARD CONTENT CONTAINER STARTS HERE
+                 ================================================= -->
+          <div class="p-4 sm:p-6 sm:space-y-8 bg-[var(--background-color)]">
+            <!-- ====================
+           Cards starts Here
+           ======================= -->
+            <section
+              class="bg-[var(--background-color)] grid grid-cols-1 xl:grid-cols-2 sm:gap-6"
+              aria-label="overview charts"
+            >
+              <!-- =============================================
+               Category's Percentage per sales charts Starts here
+               ================================================= -->
+              <article
+                class="glass-card rounded-xl shadow-lg p-4 sm:p-6 bg-white ease-in-out"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
+                    Sales Distribution by Category
+                  </h2>
+                  <div class="flex items-center gap-2 text-sm text-gray-500">
+                    <svg
+                      class="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <span>Updated 2 min ago</span>
+                  </div>
+                </div>
+                <div class="relative h-64 sm:h-80">
+                  <canvas id="srSalesCategoryChart" class="max-h-full"></canvas>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Category's Percentage per sales charts Ends here
+               ================================================= -->
+              <!-- =============================================
+               Promos charts Starts here
+               ================================================= -->
+
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
+                    Active Promos Performance
+                  </h2>
+                </div>
+                <div class="relative h-64 sm:h-80">
+                  <canvas id="srPromosChart" class="max-h-full"></canvas>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Promos charts Ends here
+               ================================================= -->
+            </section>
+            <!-- =============================================
+               Category charts Starts here
+               ================================================= -->
+            <section
+              class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 sm:gap-6"
+              aria-label="Category charts"
+            >
+              <!-- =============================================
+               Iced Coffee charts Starts here
+               ================================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800"
+                    >
+                      Iced Coffee
+                    </h3>
+                  </div>
+                  <select
+                    id="srIcedCoffeeFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  >
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srIcedCoffeeChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Iced Coffee charts Ends here
+               ================================================= -->
+
+              <!-- =================================
+                      Fruit Tea charts Starts here
+               ======================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg sm:p-6 ease-in-out"
+              >
+                <div
+                  class="bg-[var(--background-color)] flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800"
+                    >
+                      Fruit Tea
+                    </h3>
+                  </div>
+                  <select
+                    id="srFruitteaFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srFruitteaChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-green-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-green-600"
+                      >₱18,420</span
+                    >
+                  </div>
+                </div>
+              </article>
+              <!-- =============================================
+               Fruit Tea charts ends here
+               ================================================= -->
+
+              <!-- =================================
+               Hot Brew charts Starts here
+               ======================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800"
+                    >
+                      Hot Brew
+                    </h3>
+                  </div>
+                  <select
+                    id="srHotbrewFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  >
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srHotbrewChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-yellow-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-yellow-600"
+                      >₱15,230</span
+                    >
+                  </div>
+                </div>
+              </article>
+              <!-- =============================================
+               Hot Brew charts ends here
+               ================================================= -->
+
+              <!-- =============================================
+               Category charts Starts here
+               ================================================= -->
+
+              <!-- =================================
+               Praf charts Starts here
+               ======================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-amber-600 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800"
+                    >
+                      Praf
+                    </h3>
+                  </div>
+                  <select
+                    id="srPrafFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[250px] sm:h-64">
+                  <canvas id="srPrafChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-amber-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-amber-600"
+                      >₱12,890</span
+                    >
+                  </div>
+                </div>
+              </article>
+              <!-- =============================================
+               Praf charts ends here
+               ================================================= -->
+
+              <!-- =========================================
+             Milktea charts Starts Here
+             ============================================== -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 fade-in"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800"
+                    >
+                      Milk Tea
+                    </h3>
+                  </div>
+                  <select
+                    id="srMilkteaFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srMilkteaChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-blue-600">₱24,580</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================
+                       Milktea charts ends here
+               ======================================= -->
+
+              <!-- =============================================
+               Brosty charts Starts here
+               ================================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out"
+              >
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2"
+                >
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800"
+                    >
+                      Iced Coffee
+                    </h3>
+                  </div>
+                  <select
+                    id="srBrostyFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  >
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srBrostyChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-indigo-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Brosty charts Ends here
+               ================================================= -->
+            </section>
+
+            <!-- =============================================
+               Praf/Iced Coffee charts Ends here
+               ================================================= -->
+          </div>
         </section>
         <!-- 
       ============================
@@ -1628,7 +1864,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
     -->
 
     <footer
-      class="fixed bottom-0 left-0 right-0 md:left-64 bg-[transparent] p-5 text-xs z-50"
+      class="fixed bottom-0 left-0 right-0 md:left-64 bg-transparent shadow-sm px-3 py-2 sm:px-4 sm:py-2.5 text-xs z-50"
     >
       <div class="flex items-center gap-1">
         <!-- Centered Info -->

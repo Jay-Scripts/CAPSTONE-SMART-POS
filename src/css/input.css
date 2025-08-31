@@ -2,6 +2,9 @@
 *::-webkit-scrollbar{
   display: none;
 }
+body{
+  user-select: none; /* Prevent text selection */
+}
 /*--------------------------------------------------------------
  |                      Animations - Starts Here               |
  ---------------------------------------------------------------*/
@@ -21,18 +24,7 @@
     opacity: 1;
   }
 }
-@keyframes scale-in-center {
-  0% {
-    transform: scale(0);
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+
 .categoryButtons {
   animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
     both;
@@ -93,22 +85,7 @@
     opacity: 1;
   }
 }
-@keyframes slide-in-elliptic-top-fwd {
-  0% {
-    transform: translateY(-600px) rotateX(-30deg) scale(0);
-    transform: translateY(-600px) rotateX(-30deg) scale(0);
-    transform-origin: 50% 100%;
-    transform-origin: 50% 100%;
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0) rotateX(0) scale(1);
-    transform: translateY(0) rotateX(0) scale(1);
-    transform-origin: 50% 1400px;
-    transform-origin: 50% 1400px;
-    opacity: 1;
-  }
-}
+
 .actionBtn {
   animation: slide-in-elliptic-top-fwd 0.7s
     cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -241,18 +218,7 @@
     opacity: 1;
   }
 }
-@keyframes scale-in-ver-center {
-  0% {
-    transform: scaleY(0);
-    transform: scaleY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleY(1);
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
+
 #cartContainer {
   animation: scale-in-ver-center 0.5s
     cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -302,18 +268,7 @@
     opacity: 1;
   }
 }
-@keyframes tracking-in-expand {
-  0% {
-    letter-spacing: -0.5em;
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+
 #menuTitle {
   animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1)
     both;
@@ -347,22 +302,7 @@
     opacity: 1;
   }
 }
-@keyframes scale-in-bottom {
-  0% {
-    transform: scale(0);
-    transform: scale(0);
-    transform-origin: 50% 100%;
-    transform-origin: 50% 100%;
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    transform: scale(1);
-    transform-origin: 50% 100%;
-    transform-origin: 50% 100%;
-    opacity: 1;
-  }
-}
+
 #theme-toggle {
   animation: scale-in-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
     both;
@@ -393,8 +333,19 @@ body {
   --container-border: rgba(0, 0, 0, 0.4);
   --tool-tip-background-color: #111827;
   --tool-tip-text-color: white;
-  --managers-nav-bg: white;
-  --managers-nav-text: #111827;
+  --managers-nav-bg: #111827;
+  --managers-nav-text: white;
+  --chart-bg: rgba(255, 255, 255, 0.8);
+
+  /* Glassmorphism variables for light mode */
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(0, 0, 0.4);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --glass-backdrop-filter: blur(8px);
+  --glass-card-bg: rgba(255, 255, 255, 0.25);
+  --glass-card-border: rgba(255, 255, 255, 0.18);
+  --chart-glass-bg: rgba(255, 255, 255, 0.4);
+  --chart-glass-border: rgba(255, 255, 255, 0.25);
 }
 [data-theme="dark"] {
   --background-color: #111827;
@@ -409,9 +360,68 @@ body {
   --container-border: rgba(255, 255, 255, 0.4);
   --tool-tip-background-color: white;
   --tool-tip-text-color: black;
-  --managers-nav-bg: #111827;
-  --managers-nav-text: white; 
+  --managers-nav-bg: white;
+  --managers-nav-text: #111827;
+  --chart-bg: rgba(31, 41, 55, 0.8);
 
+  /* Glassmorphism variables for dark mode */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-backdrop-filter: blur(8px);
+  --glass-card-bg: rgba(255, 255, 255, 0.08);
+  --glass-card-border: rgba(255, 255, 255, 0.1);
+  --chart-glass-bg: rgba(255, 255, 255, 0.08);
+  --chart-glass-border: rgba(255, 255, 255, 0.15);
+}
+/* Glassmorphism chart card styles */
+.glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  -webkit-backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-card-border);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+}
+
+[data-theme="dark"] .glass-card:hover {
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Enhanced glassmorphism for chart areas specifically */
+.chart-glass {
+  background: var(--chart-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--chart-glass-border);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.chart-glass:hover {
+  background: var(--glass-card-bg);
+  border-color: var(--glass-card-border);
+  transform: translateY(-1px);
+}
+
+/* Light glass effect for select elements */
+.glass-light {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid var(--glass-border);
+  .theme-toggle {
+    color: var(--text-color);
+    border: none;
+    top: 3%;
+    right: 2%;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
 }
 
 .theme-toggle {
@@ -501,3 +511,4 @@ body {
   }
 }
 /* THEME TOGGLE ANIMATION END */
+
