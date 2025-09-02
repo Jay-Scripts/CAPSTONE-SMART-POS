@@ -16,13 +16,12 @@
     <link href="../css/input.css" rel="stylesheet" />
     <!--  linked css below for tailwind dependencies to work ofline -->
     <link href="../css/output.css" rel="stylesheet" />
-    <link href="../css/data.css" rel="stylesheet" />
     <!--  linked script below cdn of tailwind for online use -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
   <body class="font-sans bg-[var(--background-color)] text-[var(--text-color)]">
     <header
-      class="flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50"
+      class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50"
     >
       <button
         id="mobileMenuToggle"
@@ -1421,21 +1420,96 @@
       =   Register Staff Start Here =
       ===============================
     -->
-        <section id="registerStaff" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
-          >
-            <div class="flex items-center justify-between">
+        <section id="registerStaff" class="bg-[var(--background-color)]">
+          <header class="shadow-sm p-3">
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
               <div>
-                <h2 class="text-2xl font-bold">Register Staff</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
+                <h2
+                  class="text-2xl sm:text-3xl font-bold text-[var(--text-color)]"
+                >
+                  Staff Registration
+                </h2>
+                <p class="text-sm sm:text-base text-gray-600 mt-1">
+                  Please fill out the form below to register a new staff member.
                 </p>
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>// adding staffs dito naman form rin for account creation</p>
+          <div class="flex items-center justify-center h-screen">
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+              <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+                Register Staff
+              </h2>
+
+              <form
+                class="space-y-4"
+                action="managersRegisterStaff.php"
+                method="POST"
+              >
+                <!-- 
+      ==============
+      = Staff Name =
+      ==============
+    -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Staff Name :</label
+                  >
+                  <input
+                    type="text"
+                    name="staffName"
+                    id="staffName"
+                    placeholder="Enter Staff"
+                    class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    required
+                  />
+                </div>
+
+                <!-- 
+      ============================
+      = Dropdown Roles Selection =
+      ============================
+    -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Role</label
+                  >
+                  <select
+                    name="role"
+                    required
+                    class="w-full mt-1 px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Select Role</option>
+                    <option value="cashier">Cashier</option>
+                    <option value="manager">Manager</option>
+                  </select>
+                </div>
+
+                <!-- 
+      ===================================
+      = Manager's ID Stored in $Session =
+      ===================================
+    -->
+                <?php // Example: assume manager is logged in and session has
+                their ID session_start(); $managerAccount =
+                $_SESSION['manager_account'] ?? ''; ?>
+                <input
+                  type="hidden"
+                  name="manager_account"
+                  value="<?php echo htmlspecialchars($managerAccount); ?>"
+                />
+
+                <button
+                  name="submit"
+                  class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                >
+                  Register
+                </button>
+              </form>
+            </div>
+          </div>
         </section>
         <!-- 
       ==============================
@@ -1448,23 +1522,114 @@
       =   Modify Position Start Here =
       ================================
     -->
-        <section id="modifyPosition" class="bg-white rounded-lg shadow">
+        <section id="modifyPosition" class="bg-[var(--background-color)]">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h2 class="text-2xl font-bold">Modify Staff</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
+                <h2 class="text-2xl font-bold text[var(--text-color)]">
+                  Modify Staff
+                </h2>
+                <p class="text-sm text[var(--text-color)]">
+                  Update a staff member's position or promote them to a new
+                  role.
                 </p>
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // modify position same rin pre designded form para pasukan ng data
-          </p>
+          <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
+              <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+                Reassign Staff Role
+              </h2>
+
+              <form class="space-y-4" action="#" method="POST">
+                <!-- Staff Selection -->
+                <div>
+                  <label
+                    for="staffSelect"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Select Staff Member
+                  </label>
+                  <select
+                    id="staffSelect"
+                    name="staff_id"
+                    required
+                    class="w-full mt-1 px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Choose Staff</option>
+                    <!-- Example: populate with staff_info  iintegrate kopa to sa db -->
+                    <option value="1">Zenatnom HsoJ</option>
+                    <option value="2">JDM Bakery</option>
+                  </select>
+                </div>
+
+                <!-- Current Role (readonly, from staff_roles) -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Current Role</label
+                  >
+                  <input
+                    type="text"
+                    id="currentRole"
+                    name="current_role"
+                    class="w-full mt-1 px-4 py-2 border rounded-lg bg-gray-100 text-gray-600"
+                    readonly
+                    placeholder="Auto-filled"
+                  />
+                </div>
+
+                <!-- New Role Selection -->
+                <div>
+                  <label
+                    for="newRole"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    New Role
+                  </label>
+                  <select
+                    id="newRole"
+                    name="new_role"
+                    required
+                    class="w-full mt-1 px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  >
+                    <option value="">Select New Role</option>
+                    <option value="BARISTA">Barista</option>
+                    <option value="CASHIER">Cashier</option>
+                    <option value="MANAGER">Manager</option>
+                  </select>
+                </div>
+
+                <!-- Reason -->
+                <div>
+                  <label
+                    for="reason"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Reason for Change
+                    <span class="text-gray-400">(optional)</span>
+                  </label>
+                  <textarea
+                    id="reason"
+                    name="reason"
+                    rows="2"
+                    class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Add a note or reason for reassignment"
+                  ></textarea>
+                </div>
+
+                <!-- Button -->
+                <button
+                  name="submit"
+                  class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                >
+                  Update Role
+                </button>
+              </form>
+            </div>
+          </div>
         </section>
         <!-- 
       ===============================

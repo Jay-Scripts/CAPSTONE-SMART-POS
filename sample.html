@@ -4,86 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Net Status</title>
+    <title>Register Staff</title>
   </head>
-  <body class="bg-white flex items-center justify-center h-screen">
-    <!-- CART CONTAINER (Works as Aside in Landscape / Modal in Portrait) -->
-    <aside
-      id="cart"
-      class="hidden portrait:fixed portrait:inset-0 portrait:bg-black portrait:bg-opacity-60 portrait:items-center portrait:justify-center z-50 landscape:block landscape:relative landscape:col-span-2 md:col-span-1 p-4 rounded-lg"
-      aria-label="Order Summary"
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div
+      class="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl"
     >
-      <div
-        class="portrait:bg-white portrait:p-6 portrait:rounded portrait:w-[90%] portrait:max-w-[400px] portrait:h-[80vh] portrait:relative landscape:h-[70vh] landscape:w-full landscape:bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-md shadow-2xl relative"
-      >
-        <!-- Close button (only visible on portrait) -->
-        <button
-          onclick="toggleCart()"
-          class="portrait:block landscape:hidden absolute top-2 right-2 text-red-600 font-bold text-2xl"
-        >
-          &times;
-        </button>
-
-        <!-- Cart content -->
-        <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
-          Orders
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+          Register Staff
         </h2>
-        <div id="productList"></div>
 
-        <button
-          class="absolute bottom-4 left-4 right-4 w-[calc(100%-2rem)] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group"
+        <form
+          class="space-y-4"
+          action="managersRegisterStaff.php"
+          method="POST"
         >
-          <span
-            class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
-          >
-            Checkout
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
-          >
-            <img
-              src="../assets/SVG/ACTION BTN/CART.svg"
-              alt="CART ICON"
-              class="color-white"
+          <!-- 
+      ==============
+      = Staff Name =
+      ==============
+    -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Staff Name :</label
+            >
+            <input
+              type="text"
+              name="staffName"
+              id="staffName"
+              placeholder="Enter Staff"
+              class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              required
             />
-          </span>
-        </button>
-      </div>
-    </aside>
+          </div>
 
-    <!-- CART BUTTON (Only on Portrait) -->
-    <section class="landscape:hidden fixed bottom-5 right-5">
-      <button
-        onclick="toggleCart()"
-        class="actionBtn border-2 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
-      >
-        <span
-          class="text transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0"
-        >
-          CART
-        </span>
-        <span
-          class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200"
-        >
-          <img
-            src="../assets/SVG/ACTION BTN/CART.svg"
-            alt="CART ICON"
-            class="color-white"
+          <!-- 
+      ============================
+      = Dropdown Roles Selection =
+      ============================
+    -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Role</label>
+            <select
+              name="role"
+              required
+              class="w-full mt-1 px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            >
+              <option value="">Select Role</option>
+              <option value="cashier">Cashier</option>
+              <option value="manager">Manager</option>
+            </select>
+          </div>
+
+          <!-- 
+      ===================================
+      = Manager's ID Stored in $Session =
+      ===================================
+    -->
+          <?php // Example: assume manager is logged in and session has their ID
+          session_start(); $managerAccount = $_SESSION['manager_account'] ?? '';
+          ?>
+          <input
+            type="hidden"
+            name="manager_account"
+            value="<?php echo htmlspecialchars($managerAccount); ?>"
           />
-        </span>
-      </button>
-    </section>
 
-    <script>
-      function toggleCart() {
-        const cart = document.getElementById("cart");
-
-        // Only toggle modal behavior in portrait
-        if (window.matchMedia("(orientation: portrait)").matches) {
-          cart.classList.toggle("hidden");
-          cart.classList.toggle("flex");
-        }
-      }
-    </script>
+          <button
+            name="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Register
+          </button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
