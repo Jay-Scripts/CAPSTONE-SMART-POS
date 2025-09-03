@@ -1376,7 +1376,7 @@
       =   Refund Start Here =
       =======================
     -->
-        <section id="refund" class="bg-white rounded-lg shadow">
+        <section id="refund" class=" rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4"
           >
@@ -1389,13 +1389,129 @@
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // refunds dito naten rerefund yung mga transactions may form to
-            preformat ka ng design as of now kase sa form mang gagaling yung
-            data na ipupull naten sa database para marefund yung transactions
-          </p>
-        </section>
+        <section class="mx-auto max-w-4xl px-4 py-6">
+  <form
+    action="#"
+    method="POST"
+    class="rounded-2xl bg-[var(--background-color)] border p-6 shadow-sm space-y-6"
+  >
+    <!-- 
+    =================================
+    =   Transaction Reference        =
+    =================================
+    -->
+    <fieldset class="space-y-2">
+      <legend class="text-lg text-[var(--text-color)] font-semibold">
+        Transaction Reference
+      </legend>
+      <p class="text-sm text-gray-500">
+        Link this refund record to an existing transaction (from
+        REG_TRANSACTION table).
+      </p>
+      <label class="block mt-2">
+        <span class="block text-sm font-medium"
+          >Transaction ID <span class="text-red-500">*</span></span
+        >
+        <input
+          type="number"
+          name="REG_TRANSACTION_ID"
+          required
+          placeholder="Enter Transaction ID"
+          class="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+      </label>
+    </fieldset>
+
+    <!-- 
+    =================================
+    =       Refund Reason            =
+    =================================
+    -->
+    <fieldset class="space-y-2">
+      <legend class="text-lg font-semibold">Reason for Refund</legend>
+      <p class="text-sm text-gray-500">
+        Select the primary reason for this refund transaction.
+      </p>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Customer Cancelled" required />
+          <span>Customer Cancelled</span>
+        </label>
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Wrong Order" />
+          <span>Wrong Order</span>
+        </label>
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Product Defect" />
+          <span>Product Defect</span>
+        </label>
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Overcharge" />
+          <span>Overcharge</span>
+        </label>
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Staff Error" />
+          <span>Staff Error</span>
+        </label>
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Expired Item" />
+          <span>Expired Item</span>
+        </label>
+        <label
+          class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
+        >
+          <input type="radio" name="reason" value="Others" />
+          <span>Others</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- 
+    =================================
+    =       Additional Notes         =
+    =================================
+    -->
+    <fieldset class="space-y-2">
+      <legend class="text-lg font-semibold">Additional Notes</legend>
+      <p class="text-sm text-gray-500">
+        Optional: clarify the refund transaction.
+      </p>
+      <textarea
+        name="notes"
+        rows="3"
+        placeholder="e.g., Wrong item delivered, customer requested refund..."
+        class="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500"
+      ></textarea>
+    </fieldset>
+
+    <!-- 
+    =================================
+    =       Submit Button            =
+    =================================
+    -->
+    <div class="flex items-center justify-end gap-3 pt-2">
+      <button
+        type="submit"
+        class="rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500"
+      >
+        Log as Refund
+      </button>
+    </div>
+  </form>
+</section>
+
         <!-- 
       ======================
       =   Refund Ends Here =
