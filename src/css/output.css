@@ -825,6 +825,9 @@
   .bg-\[transparent\] {
     background-color: transparent;
   }
+  .bg-\[var\(--background\)\] {
+    background-color: var(--background);
+  }
   .bg-\[var\(--background-color\)\] {
     background-color: var(--background-color);
   }
