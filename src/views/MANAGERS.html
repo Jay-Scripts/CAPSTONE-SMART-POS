@@ -1,3 +1,6 @@
+<?php
+include_once "../config/dbConnection.php"; // including the Database Handler
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -19,6 +22,7 @@
     <!--  linked script below cdn of tailwind for online use -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
+
   <body class="font-sans bg-[var(--background-color)] text-[var(--text-color)]">
     <header
       class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50"
@@ -707,7 +711,7 @@
       ======================
     -->
     <main
-      class="min-h-screen w-fit lg:ml-64 bg-[var(--background-color)] transition-all duration-200 ease-out"
+      class="min-h-screen min-w-fit lg:ml-64 bg-[var(--background-color)] transition-all duration-200 ease-out"
     >
       <!-- 
       ==============================
@@ -2235,12 +2239,320 @@
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // disable waste same lang rin dito predesign form na paglalagyan ng
-            data ng item na ididisable much better if kaya mo drop down or
-            choice mo basta best sa UX
-          </p>
+          <section class="flex justify-center items-center h-screen">
+            <div class="w-full h-[70vh] p-4">
+              <div
+                id="menuContainer"
+                class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing"
+              >
+                <fieldset
+                  id="orderCategory"
+                  class="flex flex-wrap gap-3 portrait:grid portrait:grid-cols-2"
+                  aria-label="Order Categories"
+                >
+                  <legend class="sr-only">Choose a Category</legend>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="milktea_module"
+                      name="module"
+                      class="hidden peer"
+                      checked
+                      onclick="showModuleDisableProduct('milktea')"
+                    />
+                    <label
+                      for="milktea_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>MILK TEA</span>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="fruittea_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('fruittea')"
+                    />
+                    <label
+                      for="fruittea_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>FRUIT TEA</span>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="hotbrew_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('hotbrew')"
+                    />
+                    <label
+                      for="hotbrew_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>HOT BREW</span>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="praf_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('praf')"
+                    />
+                    <label
+                      for="praf_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>PRAF</span>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="icedcoffee_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('icedcoffee')"
+                    />
+                    <label
+                      for="icedcoffee_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>ICED COFFEE</span>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="promos_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('promos')"
+                    />
+                    <label
+                      for="promos_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>PROMOS</span>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="brosty_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('brosty')"
+                    />
+                    <label
+                      for="brosty_module"
+                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                    >
+                      <span>BROSTY</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <section id="milktea" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Milk Tea Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="milkteaMenu"
+                  >
+                    <?php include_once "../controllers/POS/milkTeaProducts.php";
+                    // Including the milktea fetching logic ?>
+                  </div>
+                </section>
+                <section id="fruittea" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Milk Tea Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="fruitTeaMenu"
+                  >
+                    <?php include_once
+                    "../controllers/POS/fruitTeaProducts.php"; // Including the
+                    fruit tea fetching logic ?>
+                  </div>
+                </section>
+                <section id="hotbrew" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Hot Brew Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="hotBrewMenu"
+                  >
+                    <?php include_once "../controllers/POS/hotBrewProducts.php";
+                    // Including the fruit tea fetching logic ?>
+                  </div>
+                </section>
+                <section id="praf" class="hidden">
+                  <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                  <h1
+                    id="menuTitle"
+                    class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                  >
+                    Praf Menu
+                  </h1>
+                  <hr class="border-2 border-[var(--border-color)] my-5" />
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="prafMenu"
+                  >
+                    <?php include_once "../controllers/POS/prafProducts.php";
+                    //Including the praf fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =      Iced Coffee Section - Starts Here       =
+      ================================================
+    -->
+                <section
+                  id="icedcoffee"
+                  class="hidden"
+                  aria-labelledby="icedcoffeeTitle"
+                >
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Iced Coffee Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="icedCoffeeMenu"
+                  >
+                    <?php include_once
+                    "../controllers/POS/icedCoffeeProducts.php"; // Including
+                    the iced coffee fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ==============================================
+      =      Iced Coffee Section - Ends Here       =
+      ==============================================
+    -->
+
+                <section id="promos" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Promo Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="icedCoffeeMenu"
+                  >
+                    <?php include_once "../controllers/POS/promoProducts.php";
+                    // Including the promo fetching logic ?>
+                  </div>
+                </section>
+
+                <section id="brosty" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Brosty Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="brostyMenu"
+                  >
+                    <?php include_once "../controllers/POS/brostyProducts.php";
+                    // Including the fruit tea fetching logic ?>
+                  </div>
+                </section>
+
+                <section id="modify" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Modify
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                </section>
+
+                <section id="addOns" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Add-ons
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
         </section>
         <!-- 
       =================================
@@ -2265,12 +2577,6 @@
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // disable waste same lang rin dito predesign form na paglalagyan ng
-            data ng item na ididisable much better if kaya mo drop down or
-            choice mo basta best sa UX
-          </p>
         </section>
         <!-- 
       =================================
@@ -2538,6 +2844,8 @@
       = JS Links Starts Here =
       ========================
     -->
+    <!-- linked JS file below for changing category module content -->
+    <script src="../JS/managerDisableProduct.js"></script>
     <!-- linked JS file below for theme toggle interaction -->
     <script src="../JS/theme-toggle.js"></script>
     <!-- linked JS file below for changing module content -->

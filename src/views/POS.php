@@ -390,7 +390,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           <hr class="border-2 border-[var(--border-color)] my-5" />
           <div
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="milkteaMenu">
+            id="prafMenu">
             <?php
             include_once "../controllers/POS/prafProducts.php"; // Including the praf fetching logic  
 
@@ -465,7 +465,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
           <div
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-            id="hotBrewMenu">
+            id="brostyMenu">
             <?php
             include_once "../controllers/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
 
