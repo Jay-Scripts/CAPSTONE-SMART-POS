@@ -18,6 +18,7 @@ function showModule(moduleId) {
     "registerStaff",
     // modify position same rin pre designded form para pasukan ng data
     "modifyPosition",
+    "modifyStatus",
 
     // inventory management
     // stock entry predesign form ng insertion of stock
@@ -33,7 +34,8 @@ function showModule(moduleId) {
     // log waste pre design form para pag pasukan ng data ng product na iwawaste
     "logWaste",
     // disable waste same lang rin dito predesign form na paglalagyan ng data ng item na ididisable much better if kaya mo drop down or choice mo basta best sa UX
-    "disableItem",
+    "disableProduct",
+    "enableProduct",
     // movement hist. dito naman analytics view lang ng galaw ng product
     "productMovementHistory",
 
