@@ -16,24 +16,43 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
 <body class="bg-[var(--background-color)] min-h-screen">
   <header
-    class="fixed w-full flex justify-between items-center gap-4 px-4 py-2 bg-[var(--managers-nav-bg)] border-b shadow-sm shadow-black dark:shadow-white duration-200">
-    <p class="text-xl font-semibold text-[var(--managers-nav-text)]">Smart POS</p>
+    class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50">
+    <button
+      id="mobileMenuToggle"
+      class="block lg:hidden p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors duration-200 text-[var(--text-color)]"
+      aria-label="Toggle navigation menu">
+      <!-- Hamburger icon -->
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <h1
+      class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]">
+      POS
+    </h1>
 
-    <div>
-
-      <!-- 
+    <!-- 
       ==================================
       =   Theme toggle Btn Starts Here =
       ==================================
     -->
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
       <button
-        class="p-2 rounded-full cursor-pointer"
+        class="p-2 sm:p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200"
         id="theme-toggle"
         title="Toggle theme"
         aria-label="auto"
         aria-live="polite">
         <svg
-          class="sun-and-moon text-gray-600 dark:text-gray-200 transform transition-transform duration-300 "
+          class="sun-and-moon text-gray-600 dark:text-gray-200"
           aria-hidden="true"
           width="24"
           height="24"
@@ -48,7 +67,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             cy="12"
             r="6"
             mask="url(#moon-mask)"
-            fill="white" />
+            fill="currentColor" />
           <g class="sun-beams" stroke="currentColor">
             <line x1="12" y1="1" x2="12" y2="3" />
             <line x1="12" y1="21" x2="12" y2="23" />
@@ -68,50 +87,23 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       ================================
     -->
 
-      <!-- Profile Dropdown -->
-      <div class="relative inline-block text-left">
-        <button
-          id="userMenuButton"
-          class="flex items-center gap-2 px-3 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 "
-            fill="var(--managers-nav-text)"
-            viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 14c-3.866 0-7 1.343-7 3v2h14v-2c0-1.657-3.134-3-7-3zM12 12a4 4 0 100-8 4 4 0 000 8z" />
-          </svg>
-          <span class="font-medium text-[var(--managers-nav-text)]" ]>Arwyn T.</span>
-          <svg
-            class="w-4 h-4 text-[var(--text-color)]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        <div
-          id="userDropdown"
-          class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border rounded shadow-md hidden z-50">
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
-          <a
-            href="#"
-            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</a>
-        </div>
-      </div>
+      <!-- 
+    =======================
+    Profile Dropdown
+    ======================= -->
+      <select
+        id="userMenu"
+        class="appearance-none bg-transparent border-none outline-none text-xs font-medium cursor-pointer sm:text-sm lg:text-base max-w-20 sm:max-w-none truncate sm:text-clip">
+        <option selected disabled>Arwyn T.</option>
+        <option value="logout">Logout</option>
+      </select>
     </div>
   </header>
+
+  <!-- 
+    =======================
+    Profile Dropdown Ends Here
+    ======================= -->
   <main class="flex justify-center items-center h-screen">
     <!-- 
       ==========================================================================================================================================
@@ -215,106 +207,223 @@ include_once "../config/dbConnection.php"; // including the Database Handler
         class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing">
         <fieldset
           id="orderCategory"
-          class="flex flex-wrap gap-3 portrait:grid portrait:grid-cols-2"
+          class="flex flex-wrap justify-around items-center"
           aria-label="Order Categories">
           <legend class="sr-only">Choose a Category</legend>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="milktea_module"
-              name="module"
-              class="hidden peer"
-              checked
-              onclick="showModule('milktea')" />
-            <label
-              for="milktea_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>MILK TEA</span>
+          <div class="categoryButtons ">
+            <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
+            <label for="milktea_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+
+              <!-- Icon -->
+              <svg class="w-8 h-8 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2l-4 2" />
+                <path d="M12 2v3" />
+                <path d="M5 7h14" />
+                <path d="M6 7l1.2 11.2A2 2 0 0 0 9.19 20h5.62a2 2 0 0 0 1.99-1.8L18 7" />
+                <path d="M7 12h10" />
+                <circle cx="9" cy="16.5" r="1" fill="currentColor" stroke="none" />
+                <circle cx="12" cy="17.5" r="1" fill="currentColor" stroke="none" />
+                <circle cx="15" cy="16.5" r="1" fill="currentColor" stroke="none" />
+              </svg>
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">MILK TEA</p>
             </label>
           </div>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="fruittea_module"
-              name="module"
-              class="hidden peer"
-              onclick="showModule('fruittea')" />
-            <label
-              for="fruittea_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>FRUIT TEA</span>
+          <div class="categoryButtons ">
+            <input type="radio" id="fruittea_module" name="module" class="hidden peer" checked onclick="showModule('fruittea')" />
+            <label for="fruittea_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+
+              <!-- Icon -->
+              <!-- Fruit Tea SVG -->
+              <svg
+                class="w-8 h-8 mb-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <!-- Cup -->
+                <path d="M6 7h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7z" />
+                <!-- Lid -->
+                <path d="M5 7h14" />
+                <!-- Straw -->
+                <path d="M12 2v5" />
+                <!-- Liquid line -->
+                <path d="M7 12h10" />
+                <!-- Fruit slice (circle + wedge) -->
+                <circle cx="16.5" cy="15.5" r="2" />
+                <path d="M16.5 13.5v4" />
+                <path d="M14.5 15.5h4" />
+              </svg>
+
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">FRUIT TEA</p>
             </label>
           </div>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="hotbrew_module"
-              name="module"
-              class="hidden peer"
-              onclick="showModule('hotbrew')" />
-            <label
-              for="hotbrew_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>HOT BREW</span>
+          <div class="categoryButtons ">
+            <input type="radio" id="hotbrew_module" name="module" class="hidden peer" checked onclick="showModule('hotbrew')" />
+            <label for="hotbrew_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+
+              <!-- Hot Brew SVG -->
+              <svg
+                class="w-8 h-8 mb-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <!-- Mug -->
+                <path d="M4 8h12v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z" />
+                <!-- Handle -->
+                <path d="M16 10h1a3 3 0 0 1 0 6h-1" />
+                <!-- Steam lines -->
+                <path d="M9 2v3" />
+                <path d="M13 2v3" />
+              </svg>
+
+
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">HOT BREW</p>
             </label>
           </div>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="praf_module"
-              name="module"
-              class="hidden peer"
-              onclick="showModule('praf')" />
-            <label
-              for="praf_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>PRAF</span>
+
+          <div class="categoryButtons ">
+            <input type="radio" id="icedcoffee_module" name="module" class="hidden peer" checked onclick="showModule('icedcoffee')" />
+            <label for="icedcoffee_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              <!-- Iced Coffee SVG -->
+              <svg
+                class="w-8 h-8 mb-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <!-- Glass -->
+                <path d="M7 7h10l-1.2 11.2A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z" />
+                <!-- Lid -->
+                <path d="M6 7h12" />
+                <!-- Straw -->
+                <path d="M12 2v5" />
+                <!-- Ice cubes -->
+                <rect x="9" y="11" width="2.5" height="2.5" />
+                <rect x="12.5" y="14" width="2.5" height="2.5" />
+              </svg>
+
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">ICED COFFEE</p>
             </label>
           </div>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="icedcoffee_module"
-              name="module"
-              class="hidden peer"
-              onclick="showModule('icedcoffee')" />
-            <label
-              for="icedcoffee_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>ICED COFFEE</span>
+          <div class="categoryButtons ">
+            <input type="radio" id="praf_module" name="module" class="hidden peer" checked onclick="showModule('praf')" />
+            <label for="praf_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+
+              <!-- Praf SVG -->
+              <svg
+                class="w-8 h-8 mb-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <!-- Cup -->
+                <path d="M6 9h12l-1.2 9.2A2 2 0 0 1 14.8 20H9.2a2 2 0 0 1-2-1.8L6 9z" />
+                <!-- Dome lid -->
+                <path d="M6 9c0-3 3-5 6-5s6 2 6 5" />
+                <!-- Straw -->
+                <path d="M12 4V2" />
+                <!-- Topping detail (whipped cream swirl) -->
+                <path d="M9 9c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5" />
+              </svg>
+
+
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">PRAF</p>
             </label>
           </div>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="promos_module"
-              name="module"
-              class="hidden peer"
-              onclick="showModule('promos')" />
-            <label
-              for="promos_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>PROMOS</span>
+
+          <div class="categoryButtons ">
+            <input type="radio" id="promos_module" name="module" class="hidden peer" checked onclick="showModule('promos')" />
+            <label for="promos_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              <!-- Promos (Drink Special) SVG -->
+              <svg
+                class="w-8 h-8 mb-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <!-- Cup -->
+                <path d="M7 7h10l-1.2 10.5A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z" />
+                <!-- Lid -->
+                <path d="M6 7h12" />
+                <!-- Straw -->
+                <path d="M12 2v5" />
+                <!-- Star badge (promo highlight) -->
+                <polygon points="16 10 17 12 19 12 17.5 13.5 18 15.5 16 14.5 14 15.5 14.5 13.5 13 12 15 12 16 10" />
+              </svg>
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">PROMOS</p>
             </label>
           </div>
 
-          <div class="categoryButtons">
-            <input
-              type="radio"
-              id="brosty_module"
-              name="module"
-              class="hidden peer"
-              onclick="showModule('brosty')" />
-            <label
-              for="brosty_module"
-              class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all">
-              <span>BROSTY</span>
+          <div class="categoryButtons ">
+            <input type="radio" id="brosty_module" name="module" class="hidden peer" checked onclick="showModule('brosty')" />
+            <label for="brosty_module"
+              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+
+              <svg xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 mb-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <!-- Cup/Bowl -->
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 10h10l-1.5 8.5a2 2 0 01-2 1.5h-3a2 2 0 01-2-1.5L7 10z" />
+                <!-- Shaved Ice (cloudy top) -->
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7.5 10a3.5 3.5 0 013-2 3.5 3.5 0 013 2 3.5 3.5 0 013-2 3.5 3.5 0 013 2" />
+                <!-- Straw/Stick -->
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 5l2 4" />
+              </svg>
+
+
+              <!-- Label -->
+              <p class="font-semibold text-xs sm:text-sm">BROSTY</p>
             </label>
           </div>
         </fieldset>
