@@ -2247,7 +2247,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               >
                 <fieldset
                   id="orderCategory"
-                  class="flex flex-wrap gap-3 portrait:grid portrait:grid-cols-2"
+                  class="flex flex-wrap justify-around items-center"
                   aria-label="Order Categories"
                 >
                   <legend class="sr-only">Choose a Category</legend>
@@ -2263,9 +2263,50 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     />
                     <label
                       for="milktea_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
                     >
-                      <span>MILK TEA</span>
+                      <!-- Icon -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M14 2l-4 2" />
+                        <path d="M12 2v3" />
+                        <path d="M5 7h14" />
+                        <path
+                          d="M6 7l1.2 11.2A2 2 0 0 0 9.19 20h5.62a2 2 0 0 0 1.99-1.8L18 7"
+                        />
+                        <path d="M7 12h10" />
+                        <circle
+                          cx="9"
+                          cy="16.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                        <circle
+                          cx="12"
+                          cy="17.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                        <circle
+                          cx="15"
+                          cy="16.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">MILK TEA</p>
                     </label>
                   </div>
 
@@ -2279,9 +2320,37 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     />
                     <label
                       for="fruittea_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
                     >
-                      <span>FRUIT TEA</span>
+                      <!-- Icon -->
+                      <!-- Fruit Tea SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup -->
+                        <path
+                          d="M6 7h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7z"
+                        />
+                        <!-- Lid -->
+                        <path d="M5 7h14" />
+                        <!-- Straw -->
+                        <path d="M12 2v5" />
+                        <!-- Liquid line -->
+                        <path d="M7 12h10" />
+                        <!-- Fruit slice (circle + wedge) -->
+                        <circle cx="16.5" cy="15.5" r="2" />
+                        <path d="M16.5 13.5v4" />
+                        <path d="M14.5 15.5h4" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">FRUIT TEA</p>
                     </label>
                   </div>
 
@@ -2295,25 +2364,29 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     />
                     <label
                       for="hotbrew_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
                     >
-                      <span>HOT BREW</span>
-                    </label>
-                  </div>
+                      <!-- Hot Brew SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Mug -->
+                        <path d="M4 8h12v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z" />
+                        <!-- Handle -->
+                        <path d="M16 10h1a3 3 0 0 1 0 6h-1" />
+                        <!-- Steam lines -->
+                        <path d="M9 2v3" />
+                        <path d="M13 2v3" />
+                      </svg>
 
-                  <div class="categoryButtons">
-                    <input
-                      type="radio"
-                      id="praf_module"
-                      name="module"
-                      class="hidden peer"
-                      onclick="showModuleDisableProduct('praf')"
-                    />
-                    <label
-                      for="praf_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
-                    >
-                      <span>PRAF</span>
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">HOT BREW</p>
                     </label>
                   </div>
 
@@ -2327,9 +2400,74 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     />
                     <label
                       for="icedcoffee_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
                     >
-                      <span>ICED COFFEE</span>
+                      <!-- Iced Coffee SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Glass -->
+                        <path
+                          d="M7 7h10l-1.2 11.2A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z"
+                        />
+                        <!-- Lid -->
+                        <path d="M6 7h12" />
+                        <!-- Straw -->
+                        <path d="M12 2v5" />
+                        <!-- Ice cubes -->
+                        <rect x="9" y="11" width="2.5" height="2.5" />
+                        <rect x="12.5" y="14" width="2.5" height="2.5" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">
+                        ICED COFFEE
+                      </p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="praf_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleDisableProduct('praf')"
+                    />
+                    <label
+                      for="praf_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Praf SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup -->
+                        <path
+                          d="M6 9h12l-1.2 9.2A2 2 0 0 1 14.8 20H9.2a2 2 0 0 1-2-1.8L6 9z"
+                        />
+                        <!-- Dome lid -->
+                        <path d="M6 9c0-3 3-5 6-5s6 2 6 5" />
+                        <!-- Straw -->
+                        <path d="M12 4V2" />
+                        <!-- Topping detail (whipped cream swirl) -->
+                        <path d="M9 9c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">PRAF</p>
                     </label>
                   </div>
 
@@ -2343,9 +2481,34 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     />
                     <label
                       for="promos_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
                     >
-                      <span>PROMOS</span>
+                      <!-- Promos (Drink Special) SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup -->
+                        <path
+                          d="M7 7h10l-1.2 10.5A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z"
+                        />
+                        <!-- Lid -->
+                        <path d="M6 7h12" />
+                        <!-- Straw -->
+                        <path d="M12 2v5" />
+                        <!-- Star badge (promo highlight) -->
+                        <polygon
+                          points="16 10 17 12 19 12 17.5 13.5 18 15.5 16 14.5 14 15.5 14.5 13.5 13 12 15 12 16 10"
+                        />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">PROMOS</p>
                     </label>
                   </div>
 
@@ -2359,13 +2522,51 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     />
                     <label
                       for="brosty_module"
-                      class="border-[var(--border-color)] border-2 text-[.6rem] flex items-center justify-center cursor-pointer px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg peer-checked:bg-black peer-checked:text-white transition-all"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
                     >
-                      <span>BROSTY</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup/Bowl -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7 10h10l-1.5 8.5a2 2 0 01-2 1.5h-3a2 2 0 01-2-1.5L7 10z"
+                        />
+                        <!-- Shaved Ice (cloudy top) -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7.5 10a3.5 3.5 0 013-2 3.5 3.5 0 013 2 3.5 3.5 0 013-2 3.5 3.5 0 013 2"
+                        />
+                        <!-- Straw/Stick -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 5l2 4"
+                        />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">BROSTY</p>
                     </label>
                   </div>
                 </fieldset>
-
+                <!-- 
+      ================================================
+      =      MilkTea Section - Starts Here           =
+      ================================================
+    -->
                 <section id="milktea" class="hidden">
                   <div class="titleContainer">
                     <hr class="border-2 border-[var(--border-color)] my-5" />
@@ -2386,6 +2587,16 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     // Including the milktea fetching logic ?>
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =      MilkTea Section - Ends Here             =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Fruit Tea Section - Starts Here         =
+      ================================================
+    -->
                 <section id="fruittea" class="hidden">
                   <div class="titleContainer">
                     <hr class="border-2 border-[var(--border-color)] my-5" />
@@ -2394,7 +2605,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
                     >
-                      Milk Tea Menu
+                      Fruit Tea Menu
                     </h1>
                     <hr class="border-2 border-[var(--border-color)] my-5" />
                   </div>
@@ -2407,6 +2618,16 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     fruit tea fetching logic ?>
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =      Fruit Tea Section - Starts Here         =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =     Hot Brew Section - Starts Here       =
+      ================================================
+    -->
                 <section id="hotbrew" class="hidden">
                   <div class="titleContainer">
                     <hr class="border-2 border-[var(--border-color)] my-5" />
@@ -2427,6 +2648,16 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     // Including the fruit tea fetching logic ?>
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =     Hot Brew Section - Ends Here             =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =     Praf Section - Starts Here               =
+      ================================================
+    -->
                 <section id="praf" class="hidden">
                   <hr class="border-2 border-[var(--border-color)] my-5" />
 
@@ -2445,6 +2676,11 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     //Including the praf fetching logic ?>
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =     Praf Section - Ends Here                 =
+      ================================================
+    -->
                 <!-- 
       ================================================
       =      Iced Coffee Section - Starts Here       =
@@ -2480,7 +2716,11 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       =      Iced Coffee Section - Ends Here       =
       ==============================================
     -->
-
+                <!-- 
+      ================================================
+      =     Promos Section - Starts Here             =
+      ================================================
+    -->
                 <section id="promos" class="hidden">
                   <div class="titleContainer">
                     <hr class="border-2 border-[var(--border-color)] my-5" />
@@ -2495,12 +2735,22 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                   </div>
                   <div
                     class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
-                    id="icedCoffeeMenu"
+                    id="promosMenu"
                   >
                     <?php include_once "../controllers/POS/promoProducts.php";
                     // Including the promo fetching logic ?>
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =     Promos Section - Ends Here               =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Brosty Section - Starts Here            =
+      ================================================
+    -->
 
                 <section id="brosty" class="hidden">
                   <div class="titleContainer">
@@ -2522,6 +2772,16 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     // Including the fruit tea fetching logic ?>
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =      Brosty Section - Ends Here              =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Modify Section - Starts Here            =
+      ================================================
+    -->
 
                 <section id="modify" class="hidden">
                   <div class="titleContainer">
@@ -2536,6 +2796,16 @@ include_once "../config/dbConnection.php"; // including the Database Handler
                     <hr class="border-2 border-[var(--border-color)] my-5" />
                   </div>
                 </section>
+                <!-- 
+      ================================================
+      =      Modify Section - Ends Here              =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =     Add-Ons Section - Starts Here            =
+      ================================================
+    -->
 
                 <section id="addOns" class="hidden">
                   <div class="titleContainer">
@@ -2553,6 +2823,11 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               </div>
             </div>
           </section>
+          <!-- 
+      ================================================
+      =     Add-Ons Section - Ends Here              =
+      ================================================
+    -->
         </section>
         <!-- 
       =================================
@@ -2577,6 +2852,601 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               </div>
             </div>
           </header>
+          <section class="flex justify-center items-center h-screen">
+            <div class="w-full h-[70vh] p-4">
+              <div
+                id="menuContainer"
+                class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing"
+              >
+                <fieldset
+                  id="orderCategory"
+                  class="flex flex-wrap justify-around items-center"
+                  aria-label="Order Categories"
+                >
+                  <legend class="sr-only">Choose a Category</legend>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enableMilktea_module"
+                      name="module"
+                      class="hidden peer"
+                      checked
+                      onclick="showModuleEnableProduct('enableMilktea')"
+                    />
+                    <label
+                      for="enableMilktea_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Icon -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M14 2l-4 2" />
+                        <path d="M12 2v3" />
+                        <path d="M5 7h14" />
+                        <path
+                          d="M6 7l1.2 11.2A2 2 0 0 0 9.19 20h5.62a2 2 0 0 0 1.99-1.8L18 7"
+                        />
+                        <path d="M7 12h10" />
+                        <circle
+                          cx="9"
+                          cy="16.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                        <circle
+                          cx="12"
+                          cy="17.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                        <circle
+                          cx="15"
+                          cy="16.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">MILK TEA</p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enableFruittea_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleEnableProduct('enableFruittea')"
+                    />
+                    <label
+                      for="enableFruittea_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Icon -->
+                      <!-- Fruit Tea SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup -->
+                        <path
+                          d="M6 7h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7z"
+                        />
+                        <!-- Lid -->
+                        <path d="M5 7h14" />
+                        <!-- Straw -->
+                        <path d="M12 2v5" />
+                        <!-- Liquid line -->
+                        <path d="M7 12h10" />
+                        <!-- Fruit slice (circle + wedge) -->
+                        <circle cx="16.5" cy="15.5" r="2" />
+                        <path d="M16.5 13.5v4" />
+                        <path d="M14.5 15.5h4" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">FRUIT TEA</p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enableHotbrew_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleEnableProduct('enableHotbrew')"
+                    />
+                    <label
+                      for="enableHotbrew_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Hot Brew SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Mug -->
+                        <path d="M4 8h12v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z" />
+                        <!-- Handle -->
+                        <path d="M16 10h1a3 3 0 0 1 0 6h-1" />
+                        <!-- Steam lines -->
+                        <path d="M9 2v3" />
+                        <path d="M13 2v3" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">HOT BREW</p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enableIcedCoffee_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleEnableProduct('enableIcedCoffee')"
+                    />
+                    <label
+                      for="enableIcedCoffee_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Iced Coffee SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Glass -->
+                        <path
+                          d="M7 7h10l-1.2 11.2A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z"
+                        />
+                        <!-- Lid -->
+                        <path d="M6 7h12" />
+                        <!-- Straw -->
+                        <path d="M12 2v5" />
+                        <!-- Ice cubes -->
+                        <rect x="9" y="11" width="2.5" height="2.5" />
+                        <rect x="12.5" y="14" width="2.5" height="2.5" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">
+                        ICED COFFEE
+                      </p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enablePraf_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleEnableProduct('enablePraf')"
+                    />
+                    <label
+                      for="enablePraf_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Praf SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup -->
+                        <path
+                          d="M6 9h12l-1.2 9.2A2 2 0 0 1 14.8 20H9.2a2 2 0 0 1-2-1.8L6 9z"
+                        />
+                        <!-- Dome lid -->
+                        <path d="M6 9c0-3 3-5 6-5s6 2 6 5" />
+                        <!-- Straw -->
+                        <path d="M12 4V2" />
+                        <!-- Topping detail (whipped cream swirl) -->
+                        <path d="M9 9c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5" />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">PRAF</p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enablePromos_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleEnableProduct('enablePromos')"
+                    />
+                    <label
+                      for="enablePromos_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <!-- Promos (Drink Special) SVG -->
+                      <svg
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup -->
+                        <path
+                          d="M7 7h10l-1.2 10.5A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z"
+                        />
+                        <!-- Lid -->
+                        <path d="M6 7h12" />
+                        <!-- Straw -->
+                        <path d="M12 2v5" />
+                        <!-- Star badge (promo highlight) -->
+                        <polygon
+                          points="16 10 17 12 19 12 17.5 13.5 18 15.5 16 14.5 14 15.5 14.5 13.5 13 12 15 12 16 10"
+                        />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">PROMOS</p>
+                    </label>
+                  </div>
+
+                  <div class="categoryButtons">
+                    <input
+                      type="radio"
+                      id="enableBrosty_module"
+                      name="module"
+                      class="hidden peer"
+                      onclick="showModuleEnableProduct('enableBrosty')"
+                    />
+                    <label
+                      for="enableBrosty_module"
+                      class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-8 h-8 mb-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <!-- Cup/Bowl -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7 10h10l-1.5 8.5a2 2 0 01-2 1.5h-3a2 2 0 01-2-1.5L7 10z"
+                        />
+                        <!-- Shaved Ice (cloudy top) -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7.5 10a3.5 3.5 0 013-2 3.5 3.5 0 013 2 3.5 3.5 0 013-2 3.5 3.5 0 013 2"
+                        />
+                        <!-- Straw/Stick -->
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 5l2 4"
+                        />
+                      </svg>
+
+                      <!-- Label -->
+                      <p class="font-semibold text-xs sm:text-sm">BROSTY</p>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <!-- 
+      ================================================
+      =      MilkTea Section - Starts Here           =
+      ================================================
+    -->
+                <section id="enableMilktea" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Milk Tea Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enableMilkteaMenu"
+                  >
+                    <?php include_once "../controllers/POS/milkTeaProducts.php";
+                    // Including the milktea fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =      MilkTea Section - Ends Here             =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Fruit Tea Section - Starts Here         =
+      ================================================
+    -->
+                <section id="enableFruittea" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Fruit Tea Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enableFruitTeaMenu"
+                  >
+                    <?php include_once
+                    "../controllers/POS/fruitTeaProducts.php"; // Including the
+                    fruit tea fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =      Fruit Tea Section - Starts Here         =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =     Hot Brew Section - Starts Here       =
+      ================================================
+    -->
+                <section id="enableHotbrew" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Hot Brew Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enableHotBrewMenu"
+                  >
+                    <?php include_once "../controllers/POS/hotBrewProducts.php";
+                    // Including the fruit tea fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =     Hot Brew Section - Ends Here             =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =     Praf Section - Starts Here               =
+      ================================================
+    -->
+                <section id="enablePraf" class="hidden">
+                  <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                  <h1
+                    id="menuTitle"
+                    class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                  >
+                    Praf Menu
+                  </h1>
+                  <hr class="border-2 border-[var(--border-color)] my-5" />
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enablePrafMenu"
+                  >
+                    <?php include_once "../controllers/POS/prafProducts.php";
+                    //Including the praf fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =     Praf Section - Ends Here                 =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Iced Coffee Section - Starts Here       =
+      ================================================
+    -->
+                <section
+                  id="enableIcedCoffee"
+                  class="hidden"
+                  aria-labelledby="icedcoffeeTitle"
+                >
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Iced Coffee Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enableIcedCoffeeMenu"
+                  >
+                    <?php include_once
+                    "../controllers/POS/icedCoffeeProducts.php"; // Including
+                    the iced coffee fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ==============================================
+      =      Iced Coffee Section - Ends Here       =
+      ==============================================
+    -->
+                <!-- 
+      ================================================
+      =     Promos Section - Starts Here             =
+      ================================================
+    -->
+                <section
+                  id="enablePromos"
+                  class="hidden"
+                  aria-labelledby="PromosTitle"
+                >
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Promos Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enablePromosMenu"
+                  >
+                    <?php include_once
+                    "../controllers/POS/icedCoffeeProducts.php"; // Including
+                    the iced coffee fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =     Promos Section - Ends Here               =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Brosty Section - Starts Here            =
+      ================================================
+    -->
+
+                <section id="enableBrosty" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Brosty Menu
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                  <div
+                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    id="enableBrostyMenu"
+                  >
+                    <?php include_once "../controllers/POS/brostyProducts.php";
+                    // Including the fruit tea fetching logic ?>
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =      Brosty Section - Ends Here              =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =      Modify Section - Starts Here            =
+      ================================================
+    -->
+
+                <section id="enableModify" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Modify
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                </section>
+                <!-- 
+      ================================================
+      =      Modify Section - Ends Here              =
+      ================================================
+    -->
+                <!-- 
+      ================================================
+      =     Add-Ons Section - Starts Here            =
+      ================================================
+    -->
+
+                <section id="enableAddOns" class="hidden">
+                  <div class="titleContainer">
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+
+                    <h1
+                      id="menuTitle"
+                      class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]"
+                    >
+                      Add-ons
+                    </h1>
+                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+          <!-- 
+      ================================================
+      =     Add-Ons Section - Ends Here              =
+      ================================================
+    -->
         </section>
         <!-- 
       =================================
@@ -2844,7 +3714,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       = JS Links Starts Here =
       ========================
     -->
-    <!-- linked JS file below for changing category module content -->
+    <!-- linked JS file below for Enable Product Module  -->
+    <script src="../JS/managerEnableProduct.js"></script>
+    <!-- linked JS file below for Disable Product Module  -->
     <script src="../JS/managerDisableProduct.js"></script>
     <!-- linked JS file below for theme toggle interaction -->
     <script src="../JS/theme-toggle.js"></script>

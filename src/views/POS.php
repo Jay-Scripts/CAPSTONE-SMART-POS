@@ -199,7 +199,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       </aside>
       <!-- 
       ========================================
-      =      Action Btns - Starts Here       =
+      =      Action Btns - Starts  Here       =
       ========================================
     -->
       <section
@@ -214,7 +214,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           <div class="categoryButtons ">
             <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
             <label for="milktea_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
 
               <!-- Icon -->
@@ -236,9 +236,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
 
           <div class="categoryButtons ">
-            <input type="radio" id="fruittea_module" name="module" class="hidden peer" checked onclick="showModule('fruittea')" />
+            <input type="radio" id="fruittea_module" name="module" class="hidden peer" onclick="showModule('fruittea')" />
             <label for="fruittea_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
 
               <!-- Icon -->
@@ -272,9 +272,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
 
           <div class="categoryButtons ">
-            <input type="radio" id="hotbrew_module" name="module" class="hidden peer" checked onclick="showModule('hotbrew')" />
+            <input type="radio" id="hotbrew_module" name="module" class="hidden peer" onclick="showModule('hotbrew')" />
             <label for="hotbrew_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
 
               <!-- Hot Brew SVG -->
@@ -304,9 +304,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
 
           <div class="categoryButtons ">
-            <input type="radio" id="icedcoffee_module" name="module" class="hidden peer" checked onclick="showModule('icedcoffee')" />
+            <input type="radio" id="icedcoffee_module" name="module" class="hidden peer" onclick="showModule('icedcoffee')" />
             <label for="icedcoffee_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
               <!-- Iced Coffee SVG -->
               <svg
@@ -335,9 +335,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
 
           <div class="categoryButtons ">
-            <input type="radio" id="praf_module" name="module" class="hidden peer" checked onclick="showModule('praf')" />
+            <input type="radio" id="praf_module" name="module" class="hidden peer" onclick="showModule('praf')" />
             <label for="praf_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
 
               <!-- Praf SVG -->
@@ -368,9 +368,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
 
           <div class="categoryButtons ">
-            <input type="radio" id="promos_module" name="module" class="hidden peer" checked onclick="showModule('promos')" />
+            <input type="radio" id="promos_module" name="module" class="hidden peer" onclick="showModule('promos')" />
             <label for="promos_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
               <!-- Promos (Drink Special) SVG -->
               <svg
@@ -397,9 +397,9 @@ include_once "../config/dbConnection.php"; // including the Database Handler
           </div>
 
           <div class="categoryButtons ">
-            <input type="radio" id="brosty_module" name="module" class="hidden peer" checked onclick="showModule('brosty')" />
+            <input type="radio" id="brosty_module" name="module" class="hidden peer" onclick="showModule('brosty')" />
             <label for="brosty_module"
-              class="border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-white text-black shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
 
               <svg xmlns="http://www.w3.org/2000/svg"
