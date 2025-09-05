@@ -195,11 +195,11 @@
     -->
 
   <!-- linked JS file below for theme toggle interaction -->
-  <script src="../JS/theme-toggle.js"></script>
+  <script src="../JS/shared/theme-toggle.js"></script>
   <!-- linked JS file below for checking DB status -->
-  <script src="../JS/checkDBCon.js"></script>
+  <script src="../JS/shared/checkDBCon.js"></script>
   <!-- linked JS file below for footer scrpts -->
-  <script src="../JS/footer.js"></script>
+  <script src="../JS/shared/footer.js"></script>
 
   <!-- 
       ======================

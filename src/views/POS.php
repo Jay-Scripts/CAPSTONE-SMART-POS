@@ -789,19 +789,20 @@ include_once "../config/dbConnection.php"; // including the Database Handler
       ========================
     -->
   <!-- linked JS file below for changing category module content -->
-  <script src="../JS/POSmodules.js"></script>
-  <!-- linked JS file below for cart button in tablet ve  rsion -->
-  <script src="../JS/POScartResponsiveScript.js"></script>
-  <!-- linked JS file below for theme toggle interaction -->
-  <script src="../JS/theme-toggle.js"></script>
-  <!-- linked JS file below for footer scrpts -->
-  <script src="../JS/footer.js"></script>
-  <!-- linked JS file below for checking DB status -->
-  <script src="../JS/checkDBCon.js"></script>
+  <script src="../JS/pos/POSmodules.js"></script>
+  <!-- linked JS file below for cart button in tablet version -->
+  <script src="../JS/pos/POScartScript.js"></script>
   <!-- linked JS file below for Portrait & Mobile ver. of animation effects -->
-  <script src="../JS/POSxKioskMobileResponseAnimation.js"></script>
-  <!-- linked JS file below for ordering POS -->
-  <script src="../JS/POScartScript.js"></script>
+  <script src="../JS/pos/POScartResponsiveScript.js"></script>
+
+
+  <!-- linked JS file below for theme toggle interaction -->
+  <script src="../JS/shared/theme-toggle.js"></script>
+  <!-- linked JS file below for footer scrpts -->
+  <script src="../JS/shared/footer.js"></script>
+  <!-- linked JS file below for checking DB status -->
+  <script src="../JS/shared/checkDBCon.js"></script>
+
   <!-- 
       ========================
       =   JS Links Ends Here =
