@@ -2484,8 +2484,137 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>// stock entry predesign form ng insertion of stock</p>
+          <section
+            class="flex justify-center items-center min-h-screen bg-gray-100 p-6"
+          >
+            <div
+              class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border"
+            >
+              <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                Stock Entry
+              </h2>
+
+              <form action="stock_process.php" method="POST" class="space-y-4">
+                <!-- Category -->
+                <div>
+                  <label
+                    for="category"
+                    class="block text-sm font-medium text-gray-700"
+                    >Select Category
+                  </label>
+                  <select
+                    id="category"
+                    name="item_id"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  >
+                    <option value="">-- Choose Category --</option>
+                    <option value="#">Milk Tea</option>
+                    <option value="#">Fruit Tea</option>
+                    <option value="#">Praf</option>
+                    <option value="#">Iced Coffee</option>
+                    <option value="#">Hot Brew</option>
+                    <option value="#">Brosty</option>
+                  </select>
+                </div>
+                <!-- Item -->
+                <div>
+                  <label
+                    for="item"
+                    class="block text-sm font-medium text-gray-700"
+                    >Select Product Type</label
+                  >
+                  <select
+                    id="item"
+                    name="item_id"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  >
+                    <option value="">-- Choose Item --</option>
+                    <option value="#">Winter Melon</option>
+                    <option value="#">Taro</option>
+                    <option value="#">Okinawa</option>
+                    <option value="#">Strawberry</option>
+                    <option value="#">Salted Caramel</option>
+                    <option value="#">Brown Sugar</option>
+                  </select>
+                </div>
+                <!-- Quantity with Unit -->
+                <div>
+                  <label
+                    for="quantity"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Quantity
+                  </label>
+                  <div class="flex gap-2">
+                    <input
+                      type="number"
+                      step="0.01"
+                      id="quantity"
+                      name="quantity"
+                      class="mt-1 block w-2/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      placeholder="Enter quantity"
+                      required
+                    />
+                    <select
+                      id="unit"
+                      name="unit"
+                      class="mt-1 block w-1/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      required
+                    >
+                      <option value="">Unit</option>
+                      <option value="g">Grams (g)</option>
+                      <option value="kg">Kilograms (kg)</option>
+                      <option value="ml">Milliliters (ml)</option>
+                      <option value="l">Liters (L)</option>
+                      <option value="pcs">Pieces (pcs)</option>
+                      <option value="pack">Pack</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Date of Expiry -->
+                <div>
+                  <label
+                    for="expiry_date"
+                    class="block text-sm font-medium text-gray-700"
+                    >Date of Expiry</label
+                  >
+                  <input
+                    type="date"
+                    id="expiry_date"
+                    name="expiry_date"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  />
+                </div>
+
+                <!-- Remarks -->
+                <div>
+                  <label
+                    for="remarks"
+                    class="block text-sm font-medium text-gray-700"
+                    >Remarks</label
+                  >
+                  <textarea
+                    id="remarks"
+                    name="remarks"
+                    rows="2"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    placeholder="Optional notes..."
+                  ></textarea>
+                </div>
+
+                <!-- Submit -->
+                <div class="flex justify-center">
+                  <button
+                    type="submit"
+                    class="w-full py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500"
+                  >
+                    Save Stock Movement
+                  </button>
+                </div>
+              </form>
+            </div>
+          </section>
         </section>
         <!-- 
       ==========================================================================================================================================

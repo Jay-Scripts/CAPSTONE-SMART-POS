@@ -19,7 +19,7 @@
 --     -->
 CREATE TABLE staff_info (
     staff_id INT AUTO_INCREMENT PRIMARY KEY,     
-    staff_name VARCHAR(100) NOT NULL,    
+    staff_name VARCHAR(30) NOT NULL,    
     status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -140,7 +140,6 @@ CREATE TABLE category (
     
     CREATE TABLE PRODUCT_ADD_ONS(
     ADD_ONS_ID INT AUTO_INCREMENT PRIMARY KEY,
-    PRODUCT_ID INT NOT NULL, -- TO BE SET IN TRANSACTIONS
     ADD_ONS_NAME VARCHAR(50) NOT NULL,
 	thumbnail_path VARCHAR(150) NOT NULL,
     PRICE  DECIMAL(6,2) DEFAULT 0.00,
@@ -150,7 +149,6 @@ CREATE TABLE category (
     
     CREATE TABLE PRODUCT_MODIFICATIONS(
     MODIFICATION_ID INT AUTO_INCREMENT PRIMARY KEY,
-	PRODUCT_ID INT NOT NULL, -- TO BE SET IN TRANSACTIONS
     MODIFICATION_NAME VARCHAR(50) NOT NULL,
 	thumbnail_path VARCHAR(150) NOT NULL,
 	date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -209,10 +207,10 @@ CREATE TABLE TRANSACTION_ITEM(
 CREATE TABLE item_add_ons (
     item_add_on_id INT AUTO_INCREMENT PRIMARY KEY,
     item_id INT NOT NULL,
-    add_on_id INT NOT NULL,
+    ADD_ONS_ID INT NOT NULL,
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(item_id) REFERENCES transaction_item(item_id) ON DELETE CASCADE,
-    FOREIGN KEY(add_on_id) REFERENCES product_add_ons(add_on_id) ON DELETE CASCADE
+    FOREIGN KEY(ADD_ONS_ID) REFERENCES PRODUCT_ADD_ONS(ADD_ONS_ID) ON DELETE CASCADE
 );
  -- FOR PRODUCT THAT HAS BEEN MODIFIED LIKE MILKTEA WITH LESS ICE
 CREATE TABLE item_modification (
@@ -265,6 +263,7 @@ CREATE TABLE refund_transactions (
 --       ====================================
 --     -->
 
+
 --           <!-- 
 --       ==========================================================================================================================================
 --       =                                                                                                                                        =
@@ -286,9 +285,24 @@ CREATE TABLE refund_transactions (
 --       =  STAFF TABLE - STARTS HERE   =
 --       ================================
 --     -->
-insert INTO STAFF_INFO(STAFF_NAME, ROLE) 
+insert INTO STAFF_INFO(STAFF_NAME) 
 VALUES
-('JDM', 'BARISTA');
+('JDM')
+;
+
+insert into staff_roles(staff_id, role)
+values
+(1, 'BARISTA'),
+(1, 'CASHIER')
+;
+
+SELECT si.staff_name, sr.role
+FROM staff_info si
+INNER JOIN staff_roles sr
+  ON si.staff_id = sr.staff_id
+WHERE si.staff_id = 1;
+
+
 
 --           <!-- 
 --       ==============================
@@ -797,6 +811,13 @@ SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_pr
 --       =  FOR PROMO MENU ORDER FETCHING ENDS HERE      =
 --       =================================================
 --     -->
+-- for staff viewing of roles
+SELECT si.staff_name, sr.role
+FROM staff_info si
+INNER JOIN staff_roles sr
+  ON si.staff_id = sr.staff_id
+WHERE si.staff_id = 1;
+
 
     --           <!-- 
 --       ==========================================================================================================================================

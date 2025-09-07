@@ -4,81 +4,133 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Register Staff</title>
+    <title>Stock Movement</title>
   </head>
   <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
-    <div
-      class="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl"
+    <section
+      class="flex justify-center items-center min-h-screen bg-gray-100 p-6"
     >
-      <div class="bg-white rounded-2xl shadow-lg p-8">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
-          Register Staff
+      <div class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">
+          Stock Entry
         </h2>
 
-        <form
-          class="space-y-4"
-          action="managersRegisterStaff.php"
-          method="POST"
-        >
-          <!-- 
-      ==============
-      = Staff Name =
-      ==============
-    -->
+        <form action="stock_process.php" method="POST" class="space-y-4">
+          <!-- Category -->
           <div>
-            <label class="block text-sm font-medium text-gray-700"
-              >Staff Name :</label
+            <label
+              for="category"
+              class="block text-sm font-medium text-gray-700"
+              >Select Category
+            </label>
+            <select
+              id="category"
+              name="item_id"
+              class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+            >
+              <option value="">-- Choose Category --</option>
+              <option value="#">Milk Tea</option>
+              <option value="#">Fruit Tea</option>
+              <option value="#">Praf</option>
+              <option value="#">Iced Coffee</option>
+              <option value="#">Hot Brew</option>
+              <option value="#">Brosty</option>
+            </select>
+          </div>
+          <!-- Item -->
+          <div>
+            <label for="item" class="block text-sm font-medium text-gray-700"
+              >Select Product Type</label
+            >
+            <select
+              id="item"
+              name="item_id"
+              class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+            >
+              <option value="">-- Choose Item --</option>
+              <option value="#">Winter Melon</option>
+              <option value="#">Taro</option>
+              <option value="#">Okinawa</option>
+              <option value="#">Strawberry</option>
+              <option value="#">Salted Caramel</option>
+              <option value="#">Brown Sugar</option>
+            </select>
+          </div>
+          <!-- Quantity with Unit -->
+          <div>
+            <label
+              for="quantity"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Quantity
+            </label>
+            <div class="flex gap-2">
+              <input
+                type="number"
+                step="0.01"
+                id="quantity"
+                name="quantity"
+                class="mt-1 block w-2/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                placeholder="Enter quantity"
+                required
+              />
+              <select
+                id="unit"
+                name="unit"
+                class="mt-1 block w-1/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                required
+              >
+                <option value="">Unit</option>
+                <option value="g">Grams (g)</option>
+                <option value="kg">Kilograms (kg)</option>
+                <option value="ml">Milliliters (ml)</option>
+                <option value="l">Liters (L)</option>
+                <option value="pcs">Pieces (pcs)</option>
+                <option value="pack">Pack</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Date of Expiry -->
+          <div>
+            <label
+              for="expiry_date"
+              class="block text-sm font-medium text-gray-700"
+              >Date of Expiry</label
             >
             <input
-              type="text"
-              name="staffName"
-              id="staffName"
-              placeholder="Enter Staff"
-              class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
+              type="date"
+              id="expiry_date"
+              name="expiry_date"
+              class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             />
           </div>
 
-          <!-- 
-      ============================
-      = Dropdown Roles Selection =
-      ============================
-    -->
+          <!-- Remarks -->
           <div>
-            <label class="block text-sm font-medium text-gray-700">Role</label>
-            <select
-              name="role"
-              required
-              class="w-full mt-1 px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            <label for="remarks" class="block text-sm font-medium text-gray-700"
+              >Remarks</label
             >
-              <option value="">Select Role</option>
-              <option value="cashier">Cashier</option>
-              <option value="manager">Manager</option>
-            </select>
+            <textarea
+              id="remarks"
+              name="remarks"
+              rows="2"
+              class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+              placeholder="Optional notes..."
+            ></textarea>
           </div>
 
-          <!-- 
-      ===================================
-      = Manager's ID Stored in $Session =
-      ===================================
-    -->
-          <?php // Example: assume manager is logged in and session has their ID
-          session_start(); $managerAccount = $_SESSION['manager_account'] ?? '';
-          ?>
-          <input
-            type="hidden"
-            name="manager_account"
-            value="<?php echo htmlspecialchars($managerAccount); ?>"
-          />
-
-          <button
-            name="submit"
-            class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-          >
-            Register
-          </button>
+          <!-- Submit -->
+          <div class="flex justify-center">
+            <button
+              type="submit"
+              class="w-full py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500"
+            >
+              Save Stock Movement
+            </button>
+          </div>
         </form>
       </div>
-    </div>
+    </section>
   </body>
 </html>

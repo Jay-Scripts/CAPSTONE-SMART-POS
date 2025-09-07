@@ -41,7 +41,7 @@
 
     <script>
         const checker = setInterval(() => {
-            fetch("../config/dbConnection.php")
+            fetch("../../app/config/dbConnection.php")
                 .then(res => res.text())
                 .then(data => {
                     if (data.includes("Connected")) {
@@ -52,7 +52,7 @@
                 .catch(() => {
                     // Still down, do nothing
                 });
-        }, 500);
+        }, 1000);
     </script>
 
 

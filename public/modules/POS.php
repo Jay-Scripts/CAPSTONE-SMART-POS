@@ -1,5 +1,5 @@
 <?php
-include_once "../config/dbConnection.php"; // including the Database Handler
+include_once "../../app/config/dbConnection.php"; // including the Database Handler
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,20 +151,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
               class="w-[70%] h-[70%]" />
           </span>
         </button>
-        <button
-          class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-[#e62222] hover:bg-[#ff3636] text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group">
-          <span
-            class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            VOID
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/VOID.svg"
-              alt="VOID ICON"
-              class="w-[70%] h-[70%]" />
-          </span>
-        </button>
+
         <button
           class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
           onclick="showModule('addOns')">
@@ -443,7 +430,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="milkteaMenu">
             <?php
-            include_once "../controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
+            include_once "../../app/controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
 
             ?>
           </div>
@@ -463,7 +450,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="fruitTeaMenu">
             <?php
-            include_once "../controllers/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../../app/controllers/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -483,7 +470,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="hotBrewMenu">
             <?php
-            include_once "../controllers/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../../app/controllers/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -501,7 +488,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="prafMenu">
             <?php
-            include_once "../controllers/POS/prafProducts.php"; // Including the praf fetching logic  
+            include_once "../../app/controllers/POS/prafProducts.php"; // Including the praf fetching logic  
 
             ?>
           </div>
@@ -529,7 +516,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="icedCoffeeMenu">
             <?php
-            include_once "../controllers/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
+            include_once "../../app/controllers/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
 
             ?>
           </div>
@@ -555,7 +542,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="icedCoffeeMenu">
             <?php
-            include_once "../controllers/POS/promoProducts.php"; // Including the promo fetching logic  
+            include_once "../../app/controllers/POS/promoProducts.php"; // Including the promo fetching logic  
 
             ?>
           </div>
@@ -576,7 +563,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
             class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
             id="brostyMenu">
             <?php
-            include_once "../controllers/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../../app/controllers/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>

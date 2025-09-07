@@ -1,5 +1,5 @@
 <?php
-include_once "../config/dbConnection.php"; // including the Database Handler
+include_once "../../app/config/dbConnection.php"; // including the Database Handler
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +17,7 @@ include_once "../config/dbConnection.php"; // including the Database Handler
 
   <!-- MENU -->
   <?php
-  include_once "../controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
+  include_once "../../app/controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
 
   ?>
   <!-- CART -->
