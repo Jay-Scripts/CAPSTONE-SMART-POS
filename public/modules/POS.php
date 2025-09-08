@@ -12,11 +12,72 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
   <link href="../css/input.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
   <link href="../css/output.css" rel="stylesheet" />
+  <link
+    rel="shortcut icon"
+    href="../assets/favcon/logo.ico"
+    type="image/x-icon" />
 </head>
 
 <body class="bg-[var(--background-color)] min-h-screen">
+
+  <!-- 
+        ========================================
+        =      Login Modal - Starts Here       =
+        ========================================
+      -->
+  <!-- <div
+    id="POSloginModal"
+    class=" fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div
+      class="bg-orange-500 border-4 border-black rounded-2xl p-8 w-full max-w-sm">
+      <div
+        class="flex flex-col items-center space-y-4 font-semibold text-gray-800">
+        <img
+          src="../assets/SVG/LOGO/WLOGO.svg"
+          alt="LOGO"
+          class="w-32 h-32" />
+        <h1 class="text-2xl">Scan your ID</h1>
+
+        <form
+          action="../../app/controllers/POS/POSloginModalContrl.php"
+          method="POST"
+          class="w-full space-y-4">
+          <input
+            class="w-full p-2 bg-white rounded-md border border-gray-700 focus:border-blue-700 transition"
+            placeholder="Cashier ID Number "
+            name="cashierID"
+            maxlength="6"
+            pattern="\d{6}"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            required
+            autofocus />
+          <input
+            class="w-full p-2 bg-white rounded-md border border-gray-700 focus:border-blue-700 transition"
+            type="password"
+            placeholder="Manager ID Number "
+            name="managerID"
+            maxlength="6"
+            pattern="\d{6}"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            required
+            autofocus />
+
+          <input
+            type="submit"
+            value="Login"
+            name="POSModalLogin"
+            class="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border-[4px] border-gray-700 hover:border-blue-500 transition-all duration-200" />
+        </form>
+      </div>
+    </div>
+  </div> -->
+  <!-- 
+        ========================================
+        =      Login Modal - Ends Here         =
+        ========================================
+      -->
   <header
-    class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50">
+    class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
     <button
       id="mobileMenuToggle"
       class="block lg:hidden p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors duration-200 text-[var(--text-color)]"
@@ -91,12 +152,29 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
     =======================
     Profile Dropdown
     ======================= -->
-      <select
-        id="userMenu"
-        class="appearance-none bg-transparent border-none outline-none text-xs font-medium cursor-pointer sm:text-sm lg:text-base max-w-20 sm:max-w-none truncate sm:text-clip">
-        <option selected disabled>Arwyn T.</option>
-        <option value="logout">Logout</option>
-      </select>
+      <div class="flex justify-end p-4">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+            role="img" aria-label="Cashier" class="inline-block">
+            <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="6" r="2.5" />
+              <path d="M9.5 11h5c1.5 0 2.5 1 2.5 2.5V15H7v-1.5c0-1.5 1-2.5 2.5-2.5z" />
+              <rect x="3" y="15" width="18" height="5" rx="1" />
+              <rect x="16" y="12" width="4" height="2" rx="0.5" />
+            </g>
+          </svg>
+        </span><select
+          id="userMenu"
+          class="bg-transparent border-0 border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm lg:text-base font-medium cursor-pointer max-w-32 sm:max-w-none truncate focus:outline-none focus:ring-2 focus:ring-blue-400"
+          onchange="if(this.value === 'logout'){ window.location.href='logout.php'; }">
+          <option selected disabled class="text-gray-700">
+            None
+          </option>
+          <option value="logout" class="text-red-600">
+            Logout
+          </option>
+        </select>
+      </div>
     </div>
   </header>
 
@@ -603,43 +681,211 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       ================================================
     -->
       <!-- CART SECTRION HIDDEN ON PORTRAIT/TABLET MODE -->
-      <aside
-        id="col3"
-        class="portrait:hidden portrait:col-span-0 landscape:block landscape:col-span-1 p-4 rounded-lg col-span-2 md:col-span-1 relative"
+      <section
+        id="cart"
+        class="hidden portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 p-4 rounded-lg transition-all duration-300 portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
         aria-label="Order Summary">
-        <section
-          id="cartContainer"
-          class="h-[70vh] w-full bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-md shadow-2xl relative">
-          <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
-            Orders
+        <!-- Cart Box -->
+        <modal
+          id="cartBox"
+          class="bg-white portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col transition-transform duration-300 ease-out portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
+          <!-- Close button (only visible on portrait) -->
+          <button
+            onclick="toggleCart()"
+            class="portrait:block landscape:hidden absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition">
+            &times;
+          </button>
+
+          <!-- Cart content -->
+          <h2 class="text-center font-bold text-lg text-[var(--cart-text)] mb-4">
+            🧾 Orders
           </h2>
 
-          <div id="CART"></div>
+          <!-- Scrollable list -->
+          <div id="productList" class="flex-1 overflow-y-auto px-2 space-y-3 w-full">
+            <!-- Example items -->
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm">
+              <span>Cheesecake Add-on</span>
+              <span class="font-semibold">₱25</span>
+            </div>
+          </div>
 
+          <!-- Checkout button (sticky at bottom) -->
           <button
-            class="portrait:hidden absolute bottom-[0px] left-0 right-0 w-full h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-md shadow transition-all duration-200 group"
-            aria-label="Proceed to Checkout">
-            <span
-              class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-              Checkout
-            </span>
-            <span
-              class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200">
-              <img
-                src="../assets/SVG/ACTION BTN/CART.svg"
-                alt="Cart Icon"
-                class="color-white"
-                id="checkoutBtn" />
-            </span>
+            class="mt-4 sticky bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200">
+            <img
+              src="../assets/SVG/ACTION BTN/CART.svg"
+              alt="CART ICON"
+              class="w-5 h-5 mr-2" />
+            Checkout
           </button>
-        </section>
-      </aside>
+        </modal>
+      </section>
+
+      <!-- CART BUTTON (Only on Portrait) -->
+      <section class="landscape:hidden fixed bottom-5 right-5">
+        <button
+          onclick="toggleCart()"
+          class="actionBtn relative w-[150px] h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-xl transition-all duration-200 overflow-hidden group">
+          <span class="mr-2">🛒</span> CART
+        </button>
+      </section>
       <!-- 
       ================================================
       =       Cart on Desktop View - Ends Here       =
       ================================================
     -->
-    </section>
 
   </main>
 
@@ -649,87 +895,6 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       =                                                  Main Menu Container - Ends Here                                                       =
       =                                                                                                                                        =
       ==========================================================================================================================================
-    -->
-
-  <!-- 
-      =======================================================
-      =      Cart Button on Tablet View - Starts Here       =
-      =======================================================
-    -->
-  <!-- CART BUTTON WILL ONLY APPEAR IN PORTRAIT OR TABLET VER -->
-  <section
-    class="landscape:hidden mt-4 flex justify-center gap-4 fixed bottom-5 right-5">
-    <button
-      onclick="toggleModal('cart')"
-      class="actionBtn border-2 relative w-[150px] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group">
-      <span
-        class="text transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-        CART
-      </span>
-      <span
-        class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200">
-        <img
-          src="../assets/SVG/ACTION BTN/CART.svg"
-          alt="VOID ICON"
-          class="color-white" />
-      </span>
-    </button>
-  </section>
-  <!-- 
-      =======================================================
-      =        Cart Button on Tablet View - Ends Here       =
-      =======================================================
-    -->
-
-  <!-- 
-      ================================================
-      =       Cart on Tablet View - Starts Here      =
-      ================================================
-    -->
-  <!-- CART MODAL VERSION WILL ONLY APPEAR IN PORTRAIT OR TABLET VER -->
-
-  <modal
-    id="cart"
-    class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-    <div class="rounded w-[50vh] h-[70vh] relative">
-
-
-      <!-- Cart content here (previous cartContainer content) -->
-      <section
-        id="cartContainer"
-        class="h-full w-full bg-[var(--cart-color)] rounded-lg overflow-y-auto shadow-2xl border relative">
-        <!-- Close button for the modal -->
-        <button
-          onclick="toggleModal('cart')"
-          class="absolute top-2 right-2 text-red-600 font-bold">
-          &times;
-        </button>
-        <h2 class="text-center font-bold mt-[5%] text-[var(--cart-text)]">
-          Orders
-        </h2>
-        <!-- You can add other content above the checkout button as needed -->
-        <div id="CART"></div>
-        <button
-          class="absolute bottom-4 left-4 right-4 w-[100%] h-[50px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded shadow transition-all duration-200 overflow-hidden group">
-          <span
-            class="transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            Checkout
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[40px] group-hover:w-full flex items-center justify-center border-l border-green-600 transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/CART.svg"
-              alt="CART ICON"
-              class="color-white" />
-          </span>
-        </button>
-      </section>
-    </div>
-  </modal>
-  <!-- 
-      ================================================
-      =         Cart on Tablet View - Ends Here      =
-      ================================================
     -->
 
   <!-- 
@@ -797,9 +962,9 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
   <!-- linked JS file below for changing category module content -->
   <script src="../JS/pos/POSmodules.js"></script>
   <!-- linked JS file below for cart button in tablet version -->
-  <script src="../JS/pos/POScartScript.js"></script>
-  <!-- linked JS file below for Portrait & Mobile ver. of animation effects -->
-  <script src="../JS/pos/POScartResponsiveScript.js"></script>
+  <script src="../JS/pos/POSCartResponsiveScripts.js"></script>
+  <!-- linked JS file below for ordering -->
+  <script src="../JS/pos/POSCartResponsiveScripts"></script>
 
 
   <!-- linked JS file below for theme toggle interaction -->
@@ -807,7 +972,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
   <!-- linked JS file below for footer scrpts -->
   <script src="../JS/shared/footer.js"></script>
   <!-- linked JS file below for checking DB status -->
-  <script src="../JS/shared/checkDBCon.js"></script>
+  <!-- <script src="../JS/shared/checkDBCon.js"></script> -->
 
   <!-- 
       ========================

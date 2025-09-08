@@ -12,6 +12,10 @@
   <link href="../css/output.css" rel="stylesheet" />
   <!--  linked script below cdn of tailwind for online use -->
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <link
+    rel="shortcut icon"
+    href="../assets/favcon/logo.ico"
+    type="image/x-icon" />
 </head>
 
 <body
@@ -160,6 +164,7 @@
       =                                                                                                                                        =
       ==========================================================================================================================================
     -->
+
   <footer
     class="fixed bottom-0 w-full bg-[transparent] px-3 p-5 z-50">
     <div class="flex items-center gap-1">
@@ -199,7 +204,6 @@
       </div>
     </div>
   </footer>
-
 
   <!-- 
       ==========================================================================================================================================

@@ -18,9 +18,9 @@
   "description": "",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
+    "flowbite": "^3.1.2",
     "tailwindcss": "^4.1.11"
-  }
-  ,
+  },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
     "prettier": "^3.6.2"

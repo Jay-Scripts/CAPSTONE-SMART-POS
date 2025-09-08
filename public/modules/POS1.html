@@ -1286,6 +1286,7 @@
       =                                                  Main Menu Container - Ends Here                                                       =
       =                                                                                                                                        =
       ==========================================================================================================================================
+      
     -->
 
       <!-- 
@@ -1296,13 +1297,13 @@
       <!-- CART SECTRION HIDDEN ON PORTRAIT/TABLET MODE -->
       <section
         id="cart"
-        class="hidden portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-2 md:col-span-1 p-4 rounded-lg transition-all duration-300"
+        class="hidden portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 p-4 rounded-lg transition-all duration-300 portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0 portrait:-z-[z-index-100]"
         aria-label="Order Summary"
       >
         <!-- Cart Box -->
-        <div
+        <modal
           id="cartBox"
-          class="portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full bg-[var(--cart-color)] border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col transition-transform duration-300 ease-out opacity-0 portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center"
+          class="bg-white portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col transition-transform duration-300 ease-out portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center"
         >
           <!-- Close button (only visible on portrait) -->
           <button
@@ -1320,12 +1321,21 @@
           </h2>
 
           <!-- Scrollable list -->
-          <div id="productList" class="flex-1 overflow-y-auto px-2 space-y-3">
+          <div
+            id="productList"
+            class="flex-1 overflow-y-auto px-2 space-y-3 w-full"
+          >
             <!-- Example items -->
             <div
               class="flex justify-between items-center p-2 bg-white rounded shadow-sm"
             >
-              <span>Milk Tea - Large</span>
+              <span>Milk Tea - asdasdasdasd</span>
+              <span class="font-semibold">₱120</span>
+            </div>
+            <div
+              class="flex justify-between items-center p-2 bg-white rounded shadow-sm"
+            >
+              <span>Milk Tea - asdasdasdasd</span>
               <span class="font-semibold">₱120</span>
             </div>
             <div
@@ -1347,7 +1357,7 @@
             />
             Checkout
           </button>
-        </div>
+        </modal>
       </section>
 
       <!-- CART BUTTON (Only on Portrait) -->
@@ -1404,11 +1414,19 @@
             setTimeout(() => {
               cartBox.classList.remove("translate-y-10", "opacity-0");
               cartBox.classList.add("translate-y-0", "opacity-100");
+              cart.classList.add(
+                "portrait:bg-black/70",
+                "portrait:backdrop-blur-sm"
+              );
             }, 10);
           } else {
             // Hide modal with animation
             cartBox.classList.add("translate-y-10", "opacity-0");
             cartBox.classList.remove("translate-y-0", "opacity-100");
+            cart.classList.remove(
+              "portrait:bg-black/70",
+              "portrait:backdrop-blur-sm"
+            );
 
             setTimeout(() => {
               cart.classList.add("hidden");
@@ -1417,6 +1435,34 @@
           }
         }
       }
+
+      // ✅ Reset cart whenever orientation or screen size changes
+      function handleOrientation() {
+        const cart = document.getElementById("cart");
+        const cartBox = document.getElementById("cartBox");
+
+        if (window.matchMedia("(orientation: landscape)").matches) {
+          // Always show in landscape
+          cart.classList.remove("hidden");
+          cart.classList.add("block");
+          cart.classList.remove("flex"); // remove portrait modal flex
+          cartBox.classList.remove("translate-y-10", "opacity-0");
+          cartBox.classList.add("translate-y-0", "opacity-100");
+        } else {
+          // Go back to portrait default (hidden until triggered)
+          if (!cart.classList.contains("flex")) {
+            cart.classList.add("hidden");
+            cart.classList.remove("block");
+          }
+        }
+      }
+
+      // Listen for orientation/resize
+      window.addEventListener("resize", handleOrientation);
+      window.addEventListener("orientationchange", handleOrientation);
+
+      // Run once on page load
+      handleOrientation();
     </script>
   </body>
 </html>
