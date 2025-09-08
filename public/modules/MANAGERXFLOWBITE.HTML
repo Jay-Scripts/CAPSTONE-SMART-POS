@@ -17,14 +17,8 @@
     <link href="../css/output.css" rel="stylesheet" />
     <!--  linked script below cdn of tailwind for online use -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Flowbite CSS -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.css"
-      rel="stylesheet"
-    />
   </head>
-  <body class="bg-white">
+  <body class="bg-[var(--background-color)]">
     <!-- Sidebar Toggle Button -->
     <button
       data-drawer-target="default-sidebar"
@@ -78,25 +72,6 @@
               <p class="text-sm opacity-90">Dashboard & Reports</p>
             </div>
           </div>
-
-          <button
-            id="closeMobileMenu"
-            class="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
 
           <div
             class="absolute inset-0 bg-gradient-to-r from-[#895129]/20 to-[#895129]/60"
@@ -714,7 +689,7 @@
       <main
         class="bg-[var(--background-color)] transition-all duration-200 ease-out"
       >
-        <section class="w-screen mx-auto bg-[var(--background-color)]">
+        <section class="w-[calc(100%-64px)] bg-[var(--background-color)]">
           <!-- 
       ==========================================================================================================================================
       =                                                                                                                                        =
@@ -4366,6 +4341,6 @@
       ======================
     -->
     <!-- Flowbite JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.2/flowbite.min.js"></script>
+    <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
   </body>
 </html>
