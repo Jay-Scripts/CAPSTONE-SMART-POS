@@ -60,7 +60,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
             pattern="\d{6}"
             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
             required
-            autofocus />
+             />
 
           <input
             type="submit"
@@ -78,26 +78,16 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       -->
   <header
     class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
-    <button
-      id="mobileMenuToggle"
-      class="block lg:hidden p-2 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors duration-200 text-[var(--text-color)]"
-      aria-label="Toggle navigation menu">
-      <!-- Hamburger icon -->
-      <svg
-        class="w-5 h-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
     <h1
-      class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]">
-      POS
+      class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(--text-color)]">
+      <span class="flex items-center">
+        <img
+          src="../assets/SVG/LOGO/BLOGO.svg"
+          class="h-[3rem] theme-logo m-1"
+          alt="Module Logo" />
+        POS
+      </span>
+
     </h1>
 
     <!-- 
@@ -152,7 +142,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
     =======================
     Profile Dropdown
     ======================= -->
-      <div class="flex justify-end p-4">
+      <div class="flex justify-end p-4 text-[var(--text-color)]">
         <span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
             role="img" aria-label="Cashier" class="inline-block">
@@ -166,8 +156,8 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
         </span><select
           id="userMenu"
           class="bg-transparent border-0 border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm lg:text-base font-medium cursor-pointer max-w-32 sm:max-w-none truncate focus:outline-none focus:ring-2 focus:ring-blue-400"
-          onchange="if(this.value === 'logout'){ window.location.href='logout.php'; }">
-          <option selected disabled class="text-gray-700">
+          onchange="">
+          <option selected disabled class="text">
             None
           </option>
           <option value="logout" class="text-red-600">
@@ -182,7 +172,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
     =======================
     Profile Dropdown Ends Here
     ======================= -->
-  <main class="flex justify-center items-center h-screen">
+  <main class="flex justify-center items-center h-full portrait:items-start">
     <!-- 
       ==========================================================================================================================================
       =                                                                                                                                        =
@@ -191,7 +181,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       ==========================================================================================================================================
     -->
     <section
-      class="grid grid-cols-4 landscape:grid-cols-5 gap-1 w-full h-[70vh] p-4">
+      class="grid grid-cols-4 landscape:grid-cols-5 gap-1 w-full h-[70vh]  p-4">
       <!-- 
       ========================================
       =      Action Btns - Starts Here       =
@@ -264,12 +254,12 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       </aside>
       <!-- 
       ========================================
-      =      Action Btns - Starts  Here       =
+      =      Action Btns - Ends  Here        =
       ========================================
     -->
       <section
         id="menuContainer"
-        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing">
+        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3">
         <fieldset
           id="orderCategory"
           class="flex flex-wrap justify-around items-center"
@@ -279,7 +269,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
           <div class="categoryButtons ">
             <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
             <label for="milktea_module"
-              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
+              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-[var(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
            peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
 
               <!-- Icon -->
@@ -520,7 +510,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
             <h1
               id="menuTitle"
               class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Milk Tea Menu
+              Fruit Tea Menu
             </h1>
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
@@ -672,7 +662,6 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
         </section>
-
 
       </section>
       <!-- 
@@ -886,6 +875,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       =       Cart on Desktop View - Ends Here       =
       ================================================
     -->
+
 
   </main>
 

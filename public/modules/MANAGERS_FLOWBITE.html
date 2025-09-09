@@ -13,6 +13,7 @@
 
     <!--  linked css below for animations purpose -->
     <link href="../css/input.css" rel="stylesheet" />
+    <link href="../css/managers.css" rel="stylesheet" />
     <!--  linked css below for tailwind dependencies to work ofline -->
     <link href="../css/output.css" rel="stylesheet" />
     <!--  linked script below cdn of tailwind for online use -->
@@ -57,7 +58,7 @@
           <p
             class="self-center text-xl font-semibold whitespace-nowrap text-[var(--managers-nav-text)]"
           >
-            JDM Bakery
+            SMART POS
           </p>
         </div>
         <!-- 
@@ -1593,7 +1594,7 @@
                 </div>
               </div>
             </header>
-            <div class="flex items-center justify-center p-4 lg:p-8">
+            <div class="flex items-center justify-center p-4 lg:p-8 scaleIn">
               <div class="glass-card rounded-2xl shadow-lg p-8 lg:p-10">
                 <!-- ===================
                svg icon starts here
@@ -1604,7 +1605,7 @@
                   <img
                     src="../assets/SVG/LOGO/BLOGO.svg"
                     alt="Logo Icon"
-                    class="h-20 w-35 lg:w-25 lg:h-30 rounded-full theme-logo"
+                    class="h-20 w-35 theme-logo"
                   />
                 </div>
                 <!-- ===================
@@ -2036,7 +2037,7 @@
                 </div>
               </div>
             </header>
-            <div class="flex items-center justify-center p-3">
+            <div class="flex items-center justify-center p-3 scaleIn">
               <div class="glass-card rounded-3xl shadow-2xl p-5">
                 <div
                   class="w-16 h-16 mx-auto mb-4 flex items-center justify-center"
@@ -2044,7 +2045,7 @@
                   <img
                     src="../assets/SVG/LOGO/BLOGO.svg"
                     alt="Logo Icon"
-                    class="h-20 w-35 lg:w-25 lg:h-30 rounded-full theme-logo"
+                    class="h-20 w-35 theme-logo"
                   />
                 </div>
                 <h2
@@ -2456,7 +2457,7 @@
                 </div>
               </div>
             </header>
-            <div class="flex items-center justify-center p-4 lg:p-8">
+            <div class="flex items-center justify-center p-4 lg:p-8 scaleIn">
               <div class="glass-card rounded-2xl shadow-lg p-8 lg:p-10">
                 <div
                   class="w-16 h-16 mx-auto mb-4 flex items-center justify-center"
@@ -2464,7 +2465,7 @@
                   <img
                     src="../assets/SVG/LOGO/BLOGO.svg"
                     alt="Logo Icon"
-                    class="h-20 w-35 lg:w-25 lg:h-30 rounded-full theme-logo"
+                    class="h-20 w-35 theme-logo"
                   />
                 </div>
 
@@ -2724,30 +2725,7 @@
                     id="submitBtn"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none active:translate-y-0 relative overflow-hidden group animate-fade-in delay-300 animation-fill-both text-sm sm:text-base lg:text-lg"
                   >
-                    <div
-                      class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    ></div>
-                    Register Staff
-                    <svg
-                      id="loadingSpinner"
-                      class="hidden absolute right-4 top-1/2 -translate-y-1/2 animate-spin size-5 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
+                    Update Status
                   </button>
                 </form>
               </div>
