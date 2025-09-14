@@ -45,7 +45,7 @@
 
     <aside
       id="logo-sidebar"
-      class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[var(--managers-nav-bg)]"
+      class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[var(--managers-nav-bg)] overflow-y-auto"
       aria-label="Sidebar"
     >
       <section class="h-full overflow-y">
@@ -4554,11 +4554,9 @@
     -->
 
       <footer class="fixed bottom-0 w-full bg-[transparent] px-3 p-5 z-50">
-        <div class="flex items-center gap-1">
+        <div class="flex items-center justify-center">
           <!-- Centered Info -->
-          <div
-            class="absolute left-1/2 -translate-x-1/2 flex flex-wrap justify-center items-center gap-3 text-[11px]"
-          >
+          <div class="flex justify-center items-center gap-3 text-[11px]">
             <!-- Online/Offline -->
             <span
               class="onlineContainer flex items-center gap-1 text-base font-medium text-[var(--text-color)]"

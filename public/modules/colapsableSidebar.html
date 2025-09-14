@@ -9,19 +9,12 @@
   <body class="bg-gray-100 dark:bg-gray-900">
     <!-- Sidebar Toggle Button (Mobile) -->
     <button
-      data-drawer-target="logo-sidebar"
-      data-drawer-toggle="logo-sidebar"
-      aria-controls="logo-sidebar"
+      id="sidebarToggle"
       type="button"
       class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
     >
       <span class="sr-only">Open sidebar</span>
-      <svg
-        class="w-6 h-6"
-        aria-hidden="true"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-      >
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
         <path
           clip-rule="evenodd"
           fill-rule="evenodd"
@@ -52,8 +45,9 @@
           />
           <span
             class="hidden group-hover:inline-block text-xl font-semibold whitespace-nowrap dark:text-white"
-            >Flowbite</span
           >
+            SMART POS
+          </span>
         </a>
 
         <!-- Sidebar Items -->
@@ -62,62 +56,67 @@
           <li>
             <a
               href="#"
-              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center justify-center group-hover:justify-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
             >
               <svg
-                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400"
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 flex-shrink-0"
                 fill="currentColor"
                 viewBox="0 0 22 21"
               >
                 <path d="M16.975 11H10V4.025a1 1 0..." />
               </svg>
-              <span class="hidden group-hover:inline-block ms-3"
-                >Dashboard</span
-              >
+              <span class="hidden group-hover:inline-block ms-3">
+                Dashboard
+              </span>
             </a>
           </li>
 
-          <!-- Kanban -->
+          <!-- Staff Management -->
           <li>
             <a
               href="#"
-              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center justify-center group-hover:justify-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
             >
               <svg
-                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400"
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 2a4 4 0 100 8 4 4 0 000-8z..." />
+              </svg>
+              <span class="hidden group-hover:inline-block ms-3">
+                Staff Management
+              </span>
+            </a>
+          </li>
+
+          <!-- Product Management -->
+          <li>
+            <a
+              href="#"
+              class="flex items-center justify-center group-hover:justify-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 flex-shrink-0"
                 fill="currentColor"
                 viewBox="0 0 18 18"
               >
                 <path d="M6.143 0H1.857A1.857..." />
               </svg>
-              <span class="hidden group-hover:inline-block ms-3">Kanban</span>
+              <span class="hidden group-hover:inline-block ms-3">
+                Product Management
+              </span>
             </a>
           </li>
-
-          <!-- Inbox -->
-          <li>
-            <a
-              href="#"
-              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              <svg
-                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="m17.418 3.623-.018-.008..." />
-              </svg>
-              <span class="hidden group-hover:inline-block ms-3">Inbox</span>
-            </a>
-          </li>
-
-          <!-- Add more modules here -->
         </ul>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <div class="p-4 sm:ml-16 group-hover:sm:ml-64 transition-all duration-300">
+    <div
+      id="main-content"
+      class="p-4 sm:ml-16 group-hover:sm:ml-64 transition-all duration-300"
+    >
       <div
         class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
       >
@@ -127,5 +126,15 @@
         </p>
       </div>
     </div>
+
+    <!-- Simple JS for mobile toggle -->
+    <script>
+      const sidebarToggle = document.getElementById("sidebarToggle");
+      const sidebar = document.getElementById("logo-sidebar");
+
+      sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("-translate-x-full");
+      });
+    </script>
   </body>
 </html>

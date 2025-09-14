@@ -60,34 +60,34 @@ CREATE TABLE CUSTOMER_INFO (
 
 CREATE TABLE customer_account (
     cust_account_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL UNIQUE,
+    CUSTOMER_ID INT NOT NULL,
     password VARCHAR(255) NOT NULL,
     points DECIMAL(10,2) DEFAULT 0.00 CHECK (points >= 0),
     status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
     created_by INT NOT NULL,  -- MANAGER WHO CREATED THE ACCOUNT
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES staff_info(staff_id) 
-        ON UPDATE CASCADE 
-        ON DELETE RESTRICT,
-    FOREIGN KEY (customer_id) REFERENCES customer_info(customer_id) 
-        ON DELETE CASCADE
+        FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID) 
+        ON DELETE CASCADE,
+FOREIGN KEY (created_by) REFERENCES staff_info(staff_id) 
+    ON DELETE RESTRICT
 );
 
 -- -- History / audit log of point changes
--- CREATE TABLE customer_points_history (
---     history_id INT AUTO_INCREMENT PRIMARY KEY,
---     account_id INT NOT NULL,
---     change_type ENUM('EARN', 'REDEEM') NOT NULL,
---     points_changed DECIMAL(10,2) NOT NULL,
---     balance_after DECIMAL(10,2) NOT NULL,
---     remarks VARCHAR(255),
---     changed_by INT,  -- staff_id who made the change (nullable if auto system)
---     change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (account_id) REFERENCES customer_account(account_id)
---         ON DELETE CASCADE,
---     FOREIGN KEY (changed_by) REFERENCES staff_info(staff_id)
---         ON DELETE SET NULL
--- );
+CREATE TABLE customer_points_history (
+    history_id INT AUTO_INCREMENT PRIMARY KEY,
+    cust_account_id INT NOT NULL,
+    change_type ENUM('EARN', 'REDEEM') NOT NULL,
+    points_changed DECIMAL(10,2) NOT NULL,
+    balance_after DECIMAL(10,2) NOT NULL,
+    remarks VARCHAR(255),
+    transact_by INT not null,  -- staff_id who made the change (nullable if auto system)
+    change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (transact_by) REFERENCES staff_info(staff_id)
+            ON UPDATE CASCADE 
+    ON DELETE RESTRICT
+); 
 
 --         <!-- 
 --       ================================
@@ -165,18 +165,20 @@ CREATE TABLE category (
 --       ======================================
 --     -->
  -- THIS WILL HOLD THE TRANSACTION SUMARY PER CUSTOMER 
-  CREATE TABLE REG_TRANSACTION (
-  REG_TRANSACTION_ID INT AUTO_INCREMENT PRIMARY KEY,
-  cust_account_id INT NULL, -- CAN BE NULL FOR WAILK IN CUST AND WE THE CASHHIER WILL SCAN THE BREW REWARDS CARD QR TO STORE THE CUST ACCOUNT ID HERE, IF THEY HAVE ONE 
-  STAFF_ID INT NOT NULL,
-  PAYMENT_TYPE ENUM('CASH', 'CASHLESS') NOT NULL,
-  ORDERED_BY ENUM('KIOSK', 'POS', 'REWARDS APP') NOT NULL,
-  TOTAL_AMOUNT DECIMAL(6,2) DEFAULT 0.00,
-  STATUS ENUM('PENDING', 'PAID', 'PREPARING', 'NOW SERVING', 'COMPLETED', 'REFUNDED', 'WASTE') NOT NULL,
-  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (cust_account_id) REFERENCES CUSTOMER_ACCOUNT(cust_account_id) ON DELETE SET NULL,
-  FOREIGN KEY (STAFF_ID) REFERENCES STAFF_INFO(STAFF_ID) ON DELETE CASCADE
-);
+      CREATE TABLE REG_TRANSACTION (
+      REG_TRANSACTION_ID INT AUTO_INCREMENT PRIMARY KEY,
+      cust_account_id INT NULL, -- CAN BE NULL FOR WAILK IN CUST AND WE THE CASHHIER WILL SCAN THE BREW REWARDS CARD QR TO STORE THE CUST ACCOUNT ID HERE, IF THEY HAVE ONE 
+      STAFF_ID INT NOT NULL,
+      product_id int null,
+      PAYMENT_TYPE ENUM('CASH', 'CASHLESS') NOT NULL,
+      ORDERED_BY ENUM('KIOSK', 'POS', 'REWARDS APP') NOT NULL,
+      TOTAL_AMOUNT DECIMAL(6,2) DEFAULT 0.00,
+      STATUS ENUM('PENDING', 'PAID', 'PREPARING', 'NOW SERVING', 'COMPLETED', 'REFUNDED', 'WASTE') NOT NULL,
+      date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (cust_account_id) REFERENCES CUSTOMER_ACCOUNT(cust_account_id) ON DELETE SET NULL,
+      FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE SET NULL,
+      FOREIGN KEY (STAFF_ID) REFERENCES STAFF_INFO(STAFF_ID) ON DELETE CASCADE
+    );
 
  -- THIS WILL HOLD THE TRANSACTION SUMARY PER CUSTOMER 
   CREATE TABLE DISC_TRANSACTION (
@@ -206,9 +208,10 @@ CREATE TABLE TRANSACTION_ITEM(
  -- FOR PRODUCT THAT HAS BEEN MODIFIED LIKE MILKTEA ADD PEARL ON MILKTEA
 CREATE TABLE item_add_ons (
     item_add_on_id INT AUTO_INCREMENT PRIMARY KEY,
+    add_ons_id INT NOT NULL,
     item_id INT NOT NULL,
-    ADD_ONS_ID INT NOT NULL,
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(add_ons_id) REFERENCES product_add_ons(add_ons_id) ON DELETE CASCADE,
     FOREIGN KEY(item_id) REFERENCES transaction_item(item_id) ON DELETE CASCADE,
     FOREIGN KEY(ADD_ONS_ID) REFERENCES PRODUCT_ADD_ONS(ADD_ONS_ID) ON DELETE CASCADE
 );

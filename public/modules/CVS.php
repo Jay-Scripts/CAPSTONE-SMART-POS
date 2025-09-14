@@ -19,94 +19,108 @@
 </head>
 
 <body
-  class="bg-[var(--background-color)] text-white font-sans min-h-screen p-4">
-  <header>
-    <!-- as of now wala pako maisip na header if may suggestions ka update moko pre -->
-  </header>
-  <!-- 
-      ===========================
-      =    Back Btn Starts Here =
-      ===========================
-    -->
+  class="bg-[var(--background-color)] text-white font-sans min-h-screen">
+  <header
+    class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
+    <h1
+      class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(--text-color)]">
+      <span class="flex items-center">
+        <img
+          src="../assets/SVG/LOGO/BLOGO.svg"
+          class="h-[3rem] theme-logo m-1"
+          alt="Module Logo" />
+        Customer View System
+      </span>
 
-  <button
-    id="backBtn"
-    onclick="history.back()"
-    class="border-2 border-[var(--border-color)] m-5 w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-[var(--order-container)] text-[var(--text-color)] font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group hover:bg-red-600 absolute">
-    <span
-      class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-      BACK
-    </span>
-    <span
-      class="icon absolute right-0 h-full w-[30%] group-hover:w-full flex items-center justify-center border-l border-[var(--border-color)] transition-all duration-200">
-      <img
-        src="../assets/SVG/ACTION BTN/RETURN.svg"
-        alt="RETURN ICON"
-        class="w-[70%] h-[70%]" />
-    </span>
-  </button>
+    </h1>
 
-  <!-- 
-      ===========================
-      =    Back Btn Starts Here =
-      ===========================
-    -->
-
-  <!-- 
+    <!-- 
       ==================================
       =   Theme toggle Btn Starts Here =
       ==================================
     -->
-  <button
-    class="toggle theme-toggle absolute top-4 right-4 p-2 rounded-full bg-transparent cursor-pointer"
-    id="theme-toggle"
-    title="Toggles light & dark"
-    aria-label="auto"
-    aria-live="polite">
-    <svg
-      class="sun-and-moon"
-      aria-hidden="true"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24">
-      <mask class="moon" id="moon-mask">
-        <rect x="0" y="0" width="100%" height="100%" fill="white" />
-        <circle cx="24" cy="10" r="6" fill="black" />
-      </mask>
-      <circle
-        class="sun"
-        cx="12"
-        cy="12"
-        r="6"
-        mask="url(#moon-mask)"
-        fill="currentColor" />
-      <g class="sun-beams" stroke="currentColor">
-        <line x1="12" y1="1" x2="12" y2="3" />
-        <line x1="12" y1="21" x2="12" y2="23" />
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-        <line x1="1" y1="12" x2="3" y2="12" />
-        <line x1="21" y1="12" x2="23" y2="12" />
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-      </g>
-    </svg>
-  </button>
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
+      <button
+        class="p-2 sm:p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200"
+        id="theme-toggle"
+        title="Toggle theme"
+        aria-label="auto"
+        aria-live="polite">
+        <svg
+          class="sun-and-moon text-gray-600 dark:text-gray-200"
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24">
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="24" cy="10" r="6" fill="black" />
+          </mask>
+          <circle
+            class="sun"
+            cx="12"
+            cy="12"
+            r="6"
+            mask="url(#moon-mask)"
+            fill="currentColor" />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+        </svg>
+      </button>
 
-  <!-- 
+      <!-- 
       ================================
       =   Theme toggle Btn Ends Here =
       ================================
     -->
 
+      <!-- 
+    =======================
+    Profile Dropdown
+    ======================= -->
+      <div class="flex justify-end p-4 text-[var(--text-color)]">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+            role="img" aria-label="Cashier" class="inline-block">
+            <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="6" r="2.5" />
+              <path d="M9.5 11h5c1.5 0 2.5 1 2.5 2.5V15H7v-1.5c0-1.5 1-2.5 2.5-2.5z" />
+              <rect x="3" y="15" width="18" height="5" rx="1" />
+              <rect x="16" y="12" width="4" height="2" rx="0.5" />
+            </g>
+          </svg>
+        </span><select
+          id="userMenu"
+          class="bg-transparent border-0 border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm lg:text-base font-medium cursor-pointer max-w-32 sm:max-w-none truncate focus:outline-none focus:ring-2 focus:ring-blue-400"
+          onchange="">
+          <option selected disabled class="text">
+            None
+          </option>
+          <option value="logout" class="text-red-600">
+            Logout
+          </option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- 
+    =======================
+    Profile Dropdown Ends Here
+    ======================= -->
   <!-- 
       =============================
       = Main Contents Starts Here =
       =============================
     -->
-  <h1 class="text-3xl font-bold mb-10 text-center text-[var(--text-color)]">
-    Customer View System
-  </h1>
 
   <section
     id="ordersContainer"
