@@ -13,36 +13,12 @@
 
     <!--  linked css below for animations purpose -->
     <link href="../css/input.css" rel="stylesheet" />
-    <link href="../css/managers.css" rel="stylesheet" />
     <!--  linked css below for tailwind dependencies to work ofline -->
     <link href="../css/output.css" rel="stylesheet" />
     <!--  linked script below cdn of tailwind for online use -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   </head>
   <body class="bg-[var(--background-color)]">
-    <button
-      data-drawer-target="logo-sidebar"
-      data-drawer-toggle="logo-sidebar"
-      aria-controls="logo-sidebar"
-      type="button"
-      class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-    >
-      <span class="sr-only">Open sidebar</span>
-      <svg
-        class="w-6 h-6"
-        aria-hidden="true"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          clip-rule="evenodd"
-          fill-rule="evenodd"
-          d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-        ></path>
-      </svg>
-    </button>
-
     <aside
       id="logo-sidebar"
       class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[var(--managers-nav-bg)] overflow-y-auto"
@@ -601,6 +577,31 @@
       <header
         class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50 text-[var(--text-color)]"
       >
+        <button
+          data-drawer-target="logo-sidebar"
+          data-drawer-toggle="logo-sidebar"
+          aria-controls="logo-sidebar"
+          type="button"
+          class="text-smrounded-lg sm:hidden"
+        >
+          <span class="sr-only">Open sidebar</span>
+          <svg
+            class="nav-burger"
+            aria-hidden="true"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
         <h1
           class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]"
         >
@@ -1596,9 +1597,6 @@
             </header>
             <div class="flex items-center justify-center p-4 lg:p-8 scaleIn">
               <div class="glass-card rounded-2xl shadow-lg p-8 lg:p-10">
-                <!-- ===================
-               svg icon starts here
-               ======================== -->
                 <div
                   class="w-16 h-16 mx-auto mb-4 flex items-center justify-center"
                 >
@@ -1608,9 +1606,6 @@
                     class="h-20 w-35 theme-logo"
                   />
                 </div>
-                <!-- ===================
-               svg icon ends here
-               ======================== -->
                 <h2
                   class="text-2xl lg:text-3xl font-bold text-center text-[var(--text-color)] mb-2"
                 >
@@ -1621,22 +1616,12 @@
                 >
                   Create a new staff member account
                 </p>
-
-                <!-- =============
-               form Section
-               ================= -->
-
                 <form
                   id="staffRegistrationForm"
                   class="space-y-6 lg:space-x-8"
                   action="managersRegisterStaff.php"
                   method="POST"
                 >
-                  <!-- 
-      ==============
-      = Staff Name =
-      ==============
-    -->
                   <div
                     class="space-y-3 animate-fade-in delay-100 animation-fill-both"
                   >
@@ -1664,7 +1649,7 @@
                         type="text"
                         name="staffName"
                         id="staffName"
-                        placeholder="Enter full name"
+                        placeholder="Enter name"
                         class="w-full px-4 py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 hover:border-gray-300 placeholder:text-gray-400 font-medium outline-none focus:-translate-y-0.5"
                         required
                         maxlength="30"
@@ -1691,12 +1676,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <!-- 
-      ============================
-      =Role Selection STARTS HERE
-      ============================
-    -->
                   <div class="space-y-4">
                     <label
                       for="roleBarista"
@@ -1729,15 +1708,9 @@
 
                       Assign Role
                     </label>
-                    <!-- ==================
-    Role Position Cards Starts Here
-      ========================== -->
                     <section
                       class="grid grid-cols-1 sm:grid-cols-3 lg:gap-4 gap-3"
                     >
-                      <!-- ==================
-    Barista Starts Here
-      ========================== -->
                       <div class="rolePositionBarista">
                         <input
                           type="radio"
@@ -1751,7 +1724,7 @@
                           class="block p-4 glass-card border-gray-200 rounded-2xl cursor-pointer hover:border-orange-400 hover:shadow-lg peer-checked:!border-orange-500 peer-checked:!bg-orange-500/20 peer-checked:!shadow-xl transition-all duration-200 transform hover:-translate-y-1"
                         >
                           <div
-                            class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md"
+                            class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md"
                           >
                             <svg
                               class="w-6 h-6 text-[var(--text-color)]"
@@ -1790,15 +1763,6 @@
                           </p></label
                         >
                       </div>
-
-                      <!-- ==================
-    Barista ENDS Here
-      ========================== -->
-
-                      <!-- ==================
-    Cashier Starts Here
-      ========================== -->
-
                       <div class="rolePositionCashier">
                         <input
                           type="radio"
@@ -1812,7 +1776,7 @@
                           class="block p-4 glass-card border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-green-400 hover:shadow-lg peer-checked:!border-green-500 peer-checked:!bg-green-500/20 peer-checked:!shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                         >
                           <div
-                            class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md"
+                            class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md"
                           >
                             <svg
                               class="w-6 h-6 text-[var(--text-color)]"
@@ -1866,13 +1830,6 @@
                           </p>
                         </label>
                       </div>
-                      <!-- ==================
-    Cashier ENDS Here
-      ========================== -->
-
-                      <!-- ==================
-    MANAGER Starts Here
-      ========================== -->
                       <div class="rolePositionManager">
                         <input
                           type="radio"

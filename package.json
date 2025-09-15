@@ -17,9 +17,9 @@
   "homepage": "https://github.com/Jay-Scripts/CAPSTONE-SMART-POS#readme",
   "description": "",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.11",
+    "@tailwindcss/cli": "^4.1.13",
     "flowbite": "^3.1.2",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.24.0",
