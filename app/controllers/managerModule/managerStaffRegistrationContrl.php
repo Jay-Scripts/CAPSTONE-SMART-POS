@@ -23,7 +23,7 @@ if (isset($_POST['registerStaff'])) {
     } elseif (!preg_match("/^[a-zA-Z\s]+$/", $sanitizedStaffName)) {
         $staffRegistrationMessage['staffName'] = "<p class='text-red-500 text-sm bg-red-300 w-full rounded-xl p-3'>Staff name can only contain letters and spaces.</p>";
     } else {
-        // 2.1 Check for duplicate staff name (case-insensitive)
+        // 2.1 Check for duplicate staff name 
         $stmt = $conn->prepare("SELECT COUNT(*) FROM staff_info WHERE LOWER(staff_name) = LOWER(:staff_name)");
         $stmt->execute([':staff_name' => $sanitizedStaffName]);
         $count = $stmt->fetchColumn();

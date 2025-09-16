@@ -47,6 +47,10 @@
                                   name="staffName"
                                   id="staffName"
                                   placeholder="Enter name"
+                                  oninput="this.value = this.value
+    .replace(/[^A-Za-z ]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/^\s+/g, '')"
                                   class="w-full px-4 py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 hover:border-gray-300 placeholder:text-gray-400 font-medium outline-none focus:-translate-y-0.5"
                                   required
                                   maxlength="30"
