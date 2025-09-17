@@ -19,10 +19,13 @@
 --     -->
 CREATE TABLE staff_info (
     staff_id INT AUTO_INCREMENT PRIMARY KEY,     
-    staff_name VARCHAR(30) NOT NULL,    
+    staff_name VARCHAR(30) NOT NULL unique,
+    added_by INT, 
     status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
-    date_added DATETIME DEFAULT CURRENT_TIMESTAMP
+    date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_added_by FOREIGN KEY (added_by) REFERENCES staff_info(staff_id)
 );
+
 create table staff_roles(
 role_id int auto_increment primary key,
 staff_id int not null,
