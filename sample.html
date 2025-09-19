@@ -6,58 +6,126 @@
     <title>Collapsible Sidebar</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-[var(--background-color)]">
-    <div
-      id="successAlert"
-      class="fixed top-4 left-1/2 -translate-x-1/2 bg-green-100 border border-green-300 text-green-700 px-6 py-4 rounded-xl shadow-lg flex items-center gap-3 transform transition-all duration-500 opacity-0 -translate-y-10"
+  <body class="bg-gray-100 dark:bg-gray-900">
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <button
+      data-drawer-target="logo-sidebar"
+      data-drawer-toggle="logo-sidebar"
+      aria-controls="logo-sidebar"
+      type="button"
+      class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
     >
-      <!-- Icon -->
+      <span class="sr-only">Open sidebar</span>
       <svg
-        class="w-6 h-6 flex-shrink-0"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        viewBox="0 0 24 24"
+        class="w-6 h-6"
+        aria-hidden="true"
+        fill="currentColor"
+        viewBox="0 0 20 20"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M5 13l4 4L19 7"
+          clip-rule="evenodd"
+          fill-rule="evenodd"
+          d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 
+         0 010 1.5H2.75A.75.75 0 012 4.75zm0 
+         10.5a.75.75 0 01.75-.75h7.5a.75.75 
+         0 010 1.5h-7.5a.75.75 
+         0 01-.75-.75zM2 10a.75.75 0 
+         01.75-.75h14.5a.75.75 0 
+         010 1.5H2.75A.75.75 0 012 10z"
         />
       </svg>
+    </button>
 
-      <!-- Message -->
-      <p class="text-sm font-medium">Staff registered successfully!</p>
+    <!-- Collapsible Sidebar -->
+    <aside
+      id="logo-sidebar"
+      class="group fixed top-0 left-0 z-40 h-screen bg-gray-50 dark:bg-gray-800 w-16 hover:w-64 transition-all duration-300 overflow-hidden sm:translate-x-0 -translate-x-full"
+      aria-label="Sidebar"
+    >
+      <div class="h-full px-3 py-4 overflow-y-auto">
+        <!-- Logo -->
+        <a href="#" class="flex items-center ps-2.5 mb-5">
+          <img
+            src="https://flowbite.com/docs/images/logo.svg"
+            class="h-6 me-3 sm:h-7"
+            alt="Logo"
+          />
+          <span
+            class="hidden group-hover:inline-block text-xl font-semibold whitespace-nowrap dark:text-white"
+            >Flowbite</span
+          >
+        </a>
 
-      <!-- Close button -->
-      <button
-        onclick="closeAlert()"
-        class="ml-auto text-green-700 hover:text-green-900"
+        <!-- Sidebar Items -->
+        <ul class="space-y-2 font-medium">
+          <!-- Dashboard -->
+          <li>
+            <a
+              href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 22 21"
+              >
+                <path d="M16.975 11H10V4.025a1 1 0..." />
+              </svg>
+              <span class="hidden group-hover:inline-block ms-3"
+                >Dashboard</span
+              >
+            </a>
+          </li>
+
+          <!-- Kanban -->
+          <li>
+            <a
+              href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 18 18"
+              >
+                <path d="M6.143 0H1.857A1.857..." />
+              </svg>
+              <span class="hidden group-hover:inline-block ms-3">Kanban</span>
+            </a>
+          </li>
+
+          <!-- Inbox -->
+          <li>
+            <a
+              href="#"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="m17.418 3.623-.018-.008..." />
+              </svg>
+              <span class="hidden group-hover:inline-block ms-3">Inbox</span>
+            </a>
+          </li>
+
+          <!-- Add more modules here -->
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="p-4 sm:ml-16 group-hover:sm:ml-64 transition-all duration-300">
+      <div
+        class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
       >
-        ✕
-      </button>
+        <h1 class="text-xl font-bold">Main Content</h1>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">
+          Hover the sidebar to expand & reveal module names.
+        </p>
+      </div>
     </div>
-
-    <script>
-      const alertEl = document.getElementById("successAlert");
-
-      // Show alert with animation
-      window.addEventListener("DOMContentLoaded", () => {
-        alertEl.classList.remove("opacity-0", "-translate-y-10");
-        alertEl.classList.add("opacity-100", "translate-y-0");
-
-        // Auto hide after 3 seconds
-        setTimeout(() => {
-          closeAlert();
-        }, 3000);
-      });
-
-      function closeAlert() {
-        alertEl.classList.remove("opacity-100", "translate-y-0");
-        alertEl.classList.add("opacity-0", "-translate-y-10");
-        // Remove from DOM after animation
-        setTimeout(() => alertEl.remove(), 500);
-      }
-    </script>
   </body>
 </html>

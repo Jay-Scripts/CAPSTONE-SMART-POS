@@ -40,24 +40,11 @@ staffNameInput.addEventListener("input", () => {
 // ======================
 // Submit with spinner
 // ======================
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
+form.addEventListener("submit", () => {
   if (!validateStaffName()) {
     return; // mag stop if invalid
   }
 
-  // ================
-  // show spinner tas disable button
-  //=================
-  spinner.classList.remove("hidden");
-  submitBtn.disabled = true;
-
-  // ==================
-  // showing loading spinner
-  //========================
-  setTimeout(() => {
-    spinner.classList.add("hidden");
-    submitBtn.disabled = false;
-  }, 2000);
+  
+  
 });

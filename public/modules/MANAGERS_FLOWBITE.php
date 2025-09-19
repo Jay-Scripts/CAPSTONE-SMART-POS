@@ -3795,7 +3795,7 @@ include "../../app/config/dbConnection.php";
   <!-- linked JS file below for Staff Register Module -->
   <script src="../JS/manager/managerStaffRegisterSuccessNotif.js"></script>
   <!-- linked JS file below for Staff Register Module -->
-  <!-- <script src="../JS/manager/managerStaffRegister.js"></script>   HAS AN CONFLICT AS OF NOW  -->
+  <script src="../JS/manager/managerStaffRegister.js"></script>
   <!-- linked JS file below for Staff Modify Module -->
   <script src="../JS/manager/managerStaffModify.js"></script>
 
