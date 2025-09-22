@@ -429,9 +429,13 @@ include "../../app/config/dbConnection.php";
     <header
       class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
       <h1
-        class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(--text-color)]">
+        class="text-xs flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(--text-color)]">
         <span class="flex items-center">
           <img
+            data-drawer-target="logo-sidebar"
+            data-drawer-toggle="logo-sidebar"
+            aria-controls="logo-sidebar"
+            type="button"
             src="../assets/SVG/LOGO/BLOGO.svg"
             class="h-[3rem] theme-logo m-1"
             alt="Module Logo" />
@@ -522,7 +526,6 @@ include "../../app/config/dbConnection.php";
     =======================
     Profile Dropdown Ends Here
     ======================= -->
-    <!-- 
 
     <!-- 
       ==========================================================================================================================================
