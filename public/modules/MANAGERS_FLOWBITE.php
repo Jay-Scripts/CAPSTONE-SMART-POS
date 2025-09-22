@@ -10,7 +10,7 @@ include "../../app/config/dbConnection.php";
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link
     rel="shortcut icon"
-    href="../assets/favcon/logo.ico"
+    href="../assets/favcon/manager.ico"
     type="image/x-icon" />
   <!-- cdn for chartJs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -323,93 +323,6 @@ include "../../app/config/dbConnection.php";
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
 
-          <!-- 
-      -----------------------------------------------------------------------------------------------------------------------------------------
-      -                                                  Inventory Management Starts Here                                                     -
-      -----------------------------------------------------------------------------------------------------------------------------------------
-    -->
-          <div class="px-6 py-2 mt-2">
-            <h3
-              class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider">
-              Inventory Management
-            </h3>
-          </div>
-          <section class="space-y-1 px-3 group">
-            <a
-              data-module="stockEntry"
-              href="#"
-              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-              <svg
-                class="w-5 h-5 mr-3 text-emerald-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"></path>
-              </svg>
-              Stock Entry
-            </a>
-            <a
-              data-module="stockLevel"
-              href="#"
-              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-              <svg
-                class="w-5 h-5 mr-3 text-teal-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-              </svg>
-              Stock Levels
-            </a>
-            <a
-              data-module="lowStockAlerts"
-              href="#"
-              class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-              <svg
-                class="w-5 h-5 mr-3 text-yellow-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-              </svg>
-              Low Stock Alerts
-            </a>
-            <a
-              data-module="stocksMovementHistory"
-              href="#"
-              class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-              <svg
-                class="w-5 h-5 mr-3 text-pink-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2" />
-              </svg>
-
-              Movement History
-            </a>
-          </section>
-          <!-- 
-      -----------------------------------------------------------------------------------------------------------------------------------------
-      -                                                  Inventory Management Ends Here                                                       -
-      -----------------------------------------------------------------------------------------------------------------------------------------
-    -->
 
           <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
@@ -514,39 +427,23 @@ include "../../app/config/dbConnection.php";
   <!-- Page Content -->
   <div class="sm:ml-64">
     <header
-      class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-gradient-to-r from-[color:var(--bigbrew-brown-dark)]/70 to-[color:var(--bigbrew-brown-light)]/30 border-b shadow-md z-50 text-[var(--text-color)]">
-      <button
-        data-drawer-target="logo-sidebar"
-        data-drawer-toggle="logo-sidebar"
-        aria-controls="logo-sidebar"
-        type="button"
-        class="text-smrounded-lg sm:hidden">
-        <span class="sr-only">Open sidebar</span>
-        <svg
-          class="nav-burger"
-          aria-hidden="true"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
+      class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
       <h1
-        class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(---text-color)]">
-        Manager's Module
+        class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(--text-color)]">
+        <span class="flex items-center">
+          <img
+            src="../assets/SVG/LOGO/BLOGO.svg"
+            class="h-[3rem] theme-logo m-1"
+            alt="Module Logo" />
+          Manager's Module
+        </span>
+
       </h1>
 
       <!-- 
-      ==========================================================================================================================================
-      =                                                  Theme Toggle - Starts Here                                                            =
-      ==========================================================================================================================================
+      ==================================
+      =   Theme toggle Btn Starts Here =
+      ==================================
     -->
       <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
         <button
@@ -586,24 +483,47 @@ include "../../app/config/dbConnection.php";
         </button>
 
         <!-- 
-      ==========================================================================================================================================
-      =                                                  Theme Toggle - Ends Here                                                              =
-      ==========================================================================================================================================
+      ================================
+      =   Theme toggle Btn Ends Here =
+      ================================
     -->
 
         <!-- 
-      ==========================================================================================================================================
-      =                                                  Profile                                                                               =
-      ==========================================================================================================================================
-    -->
-        <select
-          id="userMenu"
-          class="appearance-none bg-transparent border-none outline-none text-xs font-medium cursor-pointer sm:text-sm lg:text-base max-w-20 sm:max-w-none truncate sm:text-clip">
-          <option selected disabled>Arwyn T.</option>
-          <option value="logout">Logout</option>
-        </select>
+    =======================
+    Profile Dropdown
+    ======================= -->
+        <div class="flex justify-end p-4 text-[var(--text-color)]">
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+              role="img" aria-label="Cashier" class="inline-block">
+              <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="6" r="2.5" />
+                <path d="M9.5 11h5c1.5 0 2.5 1 2.5 2.5V15H7v-1.5c0-1.5 1-2.5 2.5-2.5z" />
+                <rect x="3" y="15" width="18" height="5" rx="1" />
+                <rect x="16" y="12" width="4" height="2" rx="0.5" />
+              </g>
+            </svg>
+          </span><select
+            id="userMenu"
+            class="bg-transparent border-0 border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm lg:text-base font-medium cursor-pointer max-w-32 sm:max-w-none truncate focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onchange="">
+            <option selected disabled class="text">
+              None
+            </option>
+            <option value="logout" class="text-red-600">
+              Logout
+            </option>
+          </select>
+        </div>
       </div>
     </header>
+
+    <!-- 
+    =======================
+    Profile Dropdown Ends Here
+    ======================= -->
+    <!-- 
+
     <!-- 
       ==========================================================================================================================================
       =                                                                                                                                        =
@@ -1575,7 +1495,7 @@ include "../../app/config/dbConnection.php";
                         for="addRoleBarista"
                         class="block p-4 glass-card border-gray-200 rounded-2xl cursor-pointer hover:border-orange-400 hover:shadow-lg peer-checked:!border-orange-500 peer-checked:!bg-orange-500/20 peer-checked:!shadow-xl transition-all duration-200 transform hover:-translate-y-1">
                         <div
-                          class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
+                          class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
                           <svg
                             class="w-6 h-6 text-[var(--text-color)]"
                             fill="none"
@@ -1630,7 +1550,7 @@ include "../../app/config/dbConnection.php";
                         for="addRoleCashier"
                         class="block p-4 glass-card border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-green-400 hover:shadow-lg peer-checked:!border-green-500 peer-checked:!bg-green-500/20 peer-checked:!shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <div
-                          class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
+                          class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
                           <svg
                             class="w-6 h-6 text-[var(--text-color)]"
                             fill="none"
@@ -2061,252 +1981,7 @@ include "../../app/config/dbConnection.php";
       ==========================================================================================================================================
     -->
 
-        <!-- 
-      ==========================================================================================================================================
-      =                                                                                                                                        =
-      =                                                      Stock Management Starts Here                                                      =
-      =                                                                                                                                        =
-      ==========================================================================================================================================
-    -->
 
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Stock Entry Starts Here                                                            =
-      ==========================================================================================================================================
-    -->
-        <section id="stockEntry" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold">Stock Entry</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-          <section
-            class="flex justify-center items-center min-h-screen bg-gray-100 p-6">
-            <div
-              class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border">
-              <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">
-                Stock Entry
-              </h2>
-
-              <form
-                action="stock_process.php"
-                method="POST"
-                class="space-y-4">
-                <!-- Category -->
-                <div>
-                  <label
-                    for="category"
-                    class="block text-sm font-medium text-gray-700">Select Category
-                  </label>
-                  <select
-                    id="category"
-                    name="item_id"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-                    <option value="">-- Choose Category --</option>
-                    <option value="#">Milk Tea</option>
-                    <option value="#">Fruit Tea</option>
-                    <option value="#">Praf</option>
-                    <option value="#">Iced Coffee</option>
-                    <option value="#">Hot Brew</option>
-                    <option value="#">Brosty</option>
-                  </select>
-                </div>
-                <!-- Item -->
-                <div>
-                  <label
-                    for="item"
-                    class="block text-sm font-medium text-gray-700">Select Product Type</label>
-                  <select
-                    id="item"
-                    name="item_id"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-                    <option value="">-- Choose Item --</option>
-                    <option value="#">Winter Melon</option>
-                    <option value="#">Taro</option>
-                    <option value="#">Okinawa</option>
-                    <option value="#">Strawberry</option>
-                    <option value="#">Salted Caramel</option>
-                    <option value="#">Brown Sugar</option>
-                  </select>
-                </div>
-                <!-- Quantity with Unit -->
-                <div>
-                  <label
-                    for="quantity"
-                    class="block text-sm font-medium text-gray-700">
-                    Quantity
-                  </label>
-                  <div class="flex gap-2">
-                    <input
-                      type="number"
-                      step="0.01"
-                      id="quantity"
-                      name="quantity"
-                      class="mt-1 block w-2/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      placeholder="Enter quantity"
-                      required />
-                    <select
-                      id="unit"
-                      name="unit"
-                      class="mt-1 block w-1/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      required>
-                      <option value="">Unit</option>
-                      <option value="g">Grams (g)</option>
-                      <option value="kg">Kilograms (kg)</option>
-                      <option value="ml">Milliliters (ml)</option>
-                      <option value="l">Liters (L)</option>
-                      <option value="pcs">Pieces (pcs)</option>
-                      <option value="pack">Pack</option>
-                    </select>
-                  </div>
-                </div>
-
-                <!-- Date of Expiry -->
-                <div>
-                  <label
-                    for="expiry_date"
-                    class="block text-sm font-medium text-gray-700">Date of Expiry</label>
-                  <input
-                    type="date"
-                    id="expiry_date"
-                    name="expiry_date"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
-                </div>
-
-                <!-- Remarks -->
-                <div>
-                  <label
-                    for="remarks"
-                    class="block text-sm font-medium text-gray-700">Remarks</label>
-                  <textarea
-                    id="remarks"
-                    name="remarks"
-                    rows="2"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    placeholder="Optional notes..."></textarea>
-                </div>
-
-                <!-- Submit -->
-                <div class="flex justify-center">
-                  <button
-                    type="submit"
-                    class="w-full py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
-                    Save Stock Movement
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Stock Entry Ends Here                                                              =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Stock Level Starts Here                                                            =
-      ==========================================================================================================================================
-    -->
-        <section id="stockLevel" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold">Stock Level</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // dito naman sa stock levels more on graphs to and reports like
-            line chart bat chart or pie charts analytics
-          </p>
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Stock Level Ends Here                                                              =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Low Stock Alert Starts Here                                                        =
-      ==========================================================================================================================================
-    -->
-        <section id="lowStockAlerts" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold">Low Stock Alert</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // low stocks history lalabas lang rito charts for analytics views
-            ng mga critical stocks
-          </p>
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Low Stock Alert Ends Here                                                          =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                    Stock Movement History Starts Here                                                  =
-      ==========================================================================================================================================
-    -->
-        <section
-          id="stocksMovementHistory"
-          class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold">Stock Movement History</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // movement hist. dito naman analytics view lang ng galaw ng
-            stocks
-          </p>
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                    Stock Movement History Ends Here                                                    =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                                                                                                        =
-      =                                                   Stock Management Ends Here                                                           =
-      =                                                                                                                                        =
-      ==========================================================================================================================================
-
-    -->
 
         <!-- 
       ==========================================================================================================================================
@@ -3795,7 +3470,7 @@ include "../../app/config/dbConnection.php";
   <!-- linked JS file below for Staff Register Module -->
   <script src="../JS/manager/managerStaffRegisterSuccessNotif.js"></script>
   <!-- linked JS file below for Staff Register Module -->
-  <!-- <script src="../JS/manager/managerStaffRegister.js"></script>   HAS AN CONFLICT AS OF NOW  -->
+  <script src="../JS/manager/managerStaffRegister.js"></script>
   <!-- linked JS file below for Staff Modify Module -->
   <script src="../JS/manager/managerStaffModify.js"></script>
 

@@ -14,7 +14,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
   <link href="../css/output.css" rel="stylesheet" />
   <link
     rel="shortcut icon"
-    href="../assets/favcon/logo.ico"
+    href="../assets/favcon/pos.ico"
     type="image/x-icon" />
 </head>
 
