@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$port = 3307;
+$port = 3306;
 $dbName = "smart_pos";
 $username = "root";
 $password = "";
