@@ -260,20 +260,18 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       <section
         id="menuContainer"
         class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3">
+        <!-- Categories Section -->
         <fieldset
           id="orderCategory"
-          class="flex flex-wrap justify-around items-center"
+          class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 p-2"
           aria-label="Order Categories">
-          <legend class="sr-only">Choose a Category</legend>
-
           <div class="categoryButtons ">
             <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
             <label for="milktea_module"
-              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl  bg-[var(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
 
               <!-- Icon -->
-              <svg class="w-8 h-8 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 2l-4 2" />
                 <path d="M12 2v3" />
@@ -286,20 +284,19 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
               </svg>
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">MILK TEA</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">MILK TEA</p>
             </label>
           </div>
 
           <div class="categoryButtons ">
             <input type="radio" id="fruittea_module" name="module" class="hidden peer" onclick="showModule('fruittea')" />
             <label for="fruittea_module"
-              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
 
               <!-- Icon -->
               <!-- Fruit Tea SVG -->
               <svg
-                class="w-8 h-8 mb-2"
+                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -322,19 +319,18 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
 
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">FRUIT TEA</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">FRUIT TEA</p>
             </label>
           </div>
 
           <div class="categoryButtons ">
             <input type="radio" id="hotbrew_module" name="module" class="hidden peer" onclick="showModule('hotbrew')" />
             <label for="hotbrew_module"
-              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
 
               <!-- Hot Brew SVG -->
               <svg
-                class="w-8 h-8 mb-2"
+                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -353,7 +349,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
 
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">HOT BREW</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">HOT BREW</p>
             </label>
           </div>
 
@@ -361,11 +357,11 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
           <div class="categoryButtons ">
             <input type="radio" id="icedcoffee_module" name="module" class="hidden peer" onclick="showModule('icedcoffee')" />
             <label for="icedcoffee_module"
-              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
+
               <!-- Iced Coffee SVG -->
               <svg
-                class="w-8 h-8 mb-2"
+                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -385,19 +381,19 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
 
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">ICED COFFEE</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">ICED COFFEE</p>
             </label>
           </div>
 
           <div class="categoryButtons ">
             <input type="radio" id="praf_module" name="module" class="hidden peer" onclick="showModule('praf')" />
             <label for="praf_module"
-              class="w-[120px] h-[90px] m-1  border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
+
 
               <!-- Praf SVG -->
               <svg
-                class="w-8 h-8 mb-2"
+                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -417,7 +413,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
 
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">PRAF</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">PRAF</p>
             </label>
           </div>
 
@@ -425,11 +421,11 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
           <div class="categoryButtons ">
             <input type="radio" id="promos_module" name="module" class="hidden peer" onclick="showModule('promos')" />
             <label for="promos_module"
-              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
+
               <!-- Promos (Drink Special) SVG -->
               <svg
-                class="w-8 h-8 mb-2"
+                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -447,18 +443,18 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
               </svg>
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">PROMOS</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">PROMOS</p>
             </label>
           </div>
 
           <div class="categoryButtons ">
             <input type="radio" id="brosty_module" name="module" class="hidden peer" onclick="showModule('brosty')" />
             <label for="brosty_module"
-              class="w-[120px] h-[90px] m-1 border-2 border-[var(--container-border)] flex flex-col items-center justify-center cursor-pointer p-4 rounded-2xl bg-[vavr(--background-color)] text-[var(--text-color)] shadow-sm transition-all 
-           peer-checked:bg-black peer-checked:text-white peer-checked:border-white  peer-checked:shadow-md">
+              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
+
 
               <svg xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 mb-2"
+                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -478,7 +474,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
 
 
               <!-- Label -->
-              <p class="font-semibold text-xs sm:text-sm">BROSTY</p>
+              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">BROSTY</p>
             </label>
           </div>
         </fieldset>

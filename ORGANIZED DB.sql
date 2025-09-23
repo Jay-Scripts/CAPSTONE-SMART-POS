@@ -124,11 +124,7 @@ CREATE TABLE category (
 --     -->
 	CREATE TABLE product_details (
 		product_id INT AUTO_INCREMENT PRIMARY KEY,
-<<<<<<< HEAD
-		product_name VARCHAR(50) not null,
-=======
-		product_name VARCHAR(50),
->>>>>>> 9579e6990e44b70c0c0ced7bc11b33e99a50c5cd
+		product_name VARCHAR(50) UNIQUE,
 		category_id INT NOT NULL,
 		thumbnail_path VARCHAR(150) NOT NULL,
 		date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
