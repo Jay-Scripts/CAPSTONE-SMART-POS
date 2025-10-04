@@ -3,45 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simplified POS Buttons</title>
+    <title>POS Checkout</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      :root {
-        --border-color: #d1d5db; /* Tailwind gray-300 */
-        --text-color: #374151; /* Tailwind gray-700 */
-        --hover-color: #3b82f6; /* Tailwind blue-500 */
-      }
-    </style>
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="grid grid-cols-2 gap-4">
-      <!-- SCAN -->
-      <button
-        class="px-6 py-3 bg-transparent border-2 border-[var(--border-color)] rounded-lg shadow-md text-[var(--text-color)] font-semibold hover:border-[var(--hover-color)] hover:text-[var(--hover-color)] hover:scale-105 transition"
-      >
-        SCAN
-      </button>
+    <!-- Checkout Button -->
+    <button
+      onclick="openCalculator()"
+      class="fixed bottom-0 left-0 right-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-t-xl shadow-lg transition-all duration-200 sm:static sm:rounded-xl sm:w-auto sm:px-6"
+    >
+      <img
+        src="../assets/SVG/ACTION BTN/CART.svg"
+        alt="CART ICON"
+        class="w-5 h-5 mr-2"
+      />
+      Checkout
+    </button>
 
-      <!-- SIZE -->
-      <button
-        class="px-6 py-3 bg-transparent border-2 border-[var(--border-color)] rounded-lg shadow-md text-[var(--text-color)] font-semibold hover:border-[var(--hover-color)] hover:text-[var(--hover-color)] hover:scale-105 transition"
-      >
-        SIZE
-      </button>
+    <script>
+      let originalTotal = 350;
+      let total = originalTotal;
+      let tendered = 0;
+      let buffer = "";
+      let transType = null;
 
-      <!-- ADD-ONS -->
-      <button
-        class="px-6 py-3 bg-transparent border-2 border-[var(--border-color)] rounded-lg shadow-md text-[var(--text-color)] font-semibold hover:border-[var(--hover-color)] hover:text-[var(--hover-color)] hover:scale-105 transition"
-      >
-        ADD-ONS
-      </button>
-
-      <!-- MODIFY -->
-      <button
-        class="px-6 py-3 bg-transparent border-2 border-[var(--border-color)] rounded-lg shadow-md text-[var(--text-color)] font-semibold hover:border-[var(--hover-color)] hover:text-[var(--hover-color)] hover:scale-105 transition"
-      >
-        MODIFY
-      </button>
-    </div>
+      function openCalculator() {
+        document.getElementById("calculatorModal").classList.remove("hidden");
+        updateDisplay();
+      }
+      function closeCalculator() {
+        document.getElementById("calculatorModal").classList.add("hidden");
+        tendered = 0;
+        buffer = "";
+        transType = null;
+        total = originalTotal;
+        updateDisplay();
+      }
+      function addCash(amount) {
+        tendered += amount;
+        updateDisplay();
+      }
+      function manualKey(num) {
+        buffer += num;
+        tendered = parseFloat(buffer);
+        updateDisplay();
+      }
+      function clearCash() {
+        tendered = 0;
+        buffer = "";
+        updateDisplay();
+      }
+      function finalizePayment() {
+        alert(
+          "Payment Accepted!\nType: " +
+            (transType ?? "Regular") +
+            "\nChange: ₱" +
+            (tendered - total).toFixed(2)
+        );
+        closeCalculator();
+      }
+      function updateDisplay() {
+        document.getElementById("totalAmount").innerText =
+          "₱" + total.toFixed(2);
+        document.getElementById("tenderedAmount").innerText =
+          "₱" + tendered.toFixed(2);
+        document.getElementById("changeAmount").innerText =
+          "₱" + (tendered - total).toFixed(2);
+      }
+      function openQrPopup() {
+        document.getElementById("qrPopup").classList.remove("hidden");
+      }
+      function closeQrPopup() {
+        document.getElementById("qrPopup").classList.add("hidden");
+      }
+      function applyDiscount(type) {
+        if (transType) {
+          alert("Discount already applied: " + transType);
+          return;
+        }
+        total = originalTotal * 0.8;
+        transType = type;
+        updateDisplay();
+      }
+    </script>
   </body>
 </html>

@@ -124,7 +124,7 @@ CREATE TABLE category (
 --     -->
 	CREATE TABLE product_details (
 		product_id INT AUTO_INCREMENT PRIMARY KEY,
-		product_name VARCHAR(50) UNIQUE,
+		product_name VARCHAR(50)  ,
 		category_id INT NOT NULL,
 		thumbnail_path VARCHAR(150) NOT NULL,
 		date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -350,7 +350,7 @@ WHERE si.staff_id = 1;
 	--     -->
 	INSERT INTO product_details (product_name, category_id, thumbnail_path)
 	VALUES
-	  ('Winter Melon', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/winter melon.png'),
+	  ('Winter  ', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/winter melon.png'),
 	  ('Taro', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/taro.png'),
 	  ('Strawberry', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/strawberry.png'),
 	  ('Salted Caramel', 1, '../assets/IMAGES/MENU IMAGES/MILKTEA_MENU/salted caramel.png'),

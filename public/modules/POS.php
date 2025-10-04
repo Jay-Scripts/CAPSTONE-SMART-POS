@@ -9,9 +9,11 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>POS</title>
   <!--  linked css below for animations purpose -->
-  <link href="../css/input.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
-  <link href="../css/output.css" rel="stylesheet" />
+  <!-- <link href="../css/output.css" rel="stylesheet" /> -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <link
     rel="shortcut icon"
     href="../assets/favcon/pos.ico"
@@ -20,62 +22,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
 
 <body class="bg-[var(--background-color)] min-h-screen">
 
-  <!-- 
-        ========================================
-        =      Login Modal - Starts Here       =
-        ========================================
-      -->
-  <!-- <div
-    id="POSloginModal"
-    class=" fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div
-      class="bg-orange-500 border-4 border-black rounded-2xl p-8 w-full max-w-sm">
-      <div
-        class="flex flex-col items-center space-y-4 font-semibold text-gray-800">
-        <img
-          src="../assets/SVG/LOGO/WLOGO.svg"
-          alt="LOGO"
-          class="w-32 h-32" />
-        <h1 class="text-2xl">Scan your ID</h1>
 
-        <form
-          action="../../app/controllers/POS/POSloginModalContrl.php"
-          method="POST"
-          class="w-full space-y-4">
-          <input
-            class="w-full p-2 bg-white rounded-md border border-gray-700 focus:border-blue-700 transition"
-            placeholder="Cashier ID Number "
-            name="cashierID"
-            maxlength="6"
-            pattern="\d{6}"
-            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-            required
-            autofocus />
-          <input
-            class="w-full p-2 bg-white rounded-md border border-gray-700 focus:border-blue-700 transition"
-            type="password"
-            placeholder="Manager ID Number "
-            name="managerID"
-            maxlength="6"
-            pattern="\d{6}"
-            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-            required
-             />
-
-          <input
-            type="submit"
-            value="Login"
-            name="POSModalLogin"
-            class="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border-[4px] border-gray-700 hover:border-blue-500 transition-all duration-200" />
-        </form>
-      </div>
-    </div>
-  </div> -->
-  <!-- 
-        ========================================
-        =      Login Modal - Ends Here         =
-        ========================================
-      -->
   <header
     class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
     <h1
@@ -665,15 +612,14 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       =     Cart on Desktop View - Starts Here       =
       ================================================
     -->
-      <!-- CART SECTRION HIDDEN ON PORTRAIT/TABLET MODE -->
       <section
         id="cart"
-        class="hidden portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 p-4 rounded-lg transition-all duration-300 portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
+        class="hidden portrait:mt-[-10%] portrait:ml-[-3%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 p-4 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
         aria-label="Order Summary">
         <!-- Cart Box -->
         <modal
           id="cartBox"
-          class="bg-white portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col transition-transform duration-300 ease-out portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
+          class="bg-white portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
           <!-- Close button (only visible on portrait) -->
           <button
             onclick="toggleCart()"
@@ -687,7 +633,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
           </h2>
 
           <!-- Scrollable list -->
-          <div id="productList" class="flex-1 overflow-y-auto px-2 space-y-3 w-full">
+          <div id="productList" class="flex-1 overflow-y-auto  px-2 space-y-3 w-full">
             <!-- Example items -->
             <div
               class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
@@ -699,162 +645,18 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
               <span>Milk Tea - asdasdasdasd</span>
               <span class="font-semibold">₱120</span>
             </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm">
-              <span>Cheesecake Add-on</span>
-              <span class="font-semibold">₱25</span>
-            </div>
-          </div>
 
-          <!-- Checkout button (sticky at bottom) -->
-          <button
-            class="mt-4 sticky bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/CART.svg"
-              alt="CART ICON"
-              class="w-5 h-5 mr-2" />
-            Checkout
-          </button>
+
+            <!-- Checkout button (fixed at bottom) -->
+            <button
+              class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200"
+              onclick="openCalculator()">
+              <img
+                src="../assets/SVG/ACTION BTN/CART.svg"
+                alt="CART ICON"
+                class="w-5 h-5" />
+              Checkout
+            </button>
         </modal>
       </section>
 
@@ -871,6 +673,174 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       =       Cart on Desktop View - Ends Here       =
       ================================================
     -->
+      <!-- ================================================
+      =           Cart Calculator - Starts Here           =
+      ================================================ -->
+
+      <!-- Calculator Modal -->
+      <div
+        id="calculatorModal"
+        class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50">
+        <div
+          id="calculator"
+          class="bg-[var(--background-color)] border rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-sm p-4 sm:p-6 mx-2">
+
+          <!-- Header -->
+          <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <h2 class="text-lg sm:text-xl font-bold text-[var(--text-color)]">
+              Payment
+            </h2>
+            <button onclick="closeCalculator()"
+              class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+          </div>
+
+          <!-- Summary -->
+          <div class="space-y-2 mb-5 text-base sm:text-lg text-[var(--text-color)]">
+            <div class="flex justify-between">
+              <span>Total:</span><span id="totalAmount" class="font-bold">₱350</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Tendered:</span><span id="tenderedAmount" class="font-bold">₱0</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Change:</span><span id="changeAmount" class="font-bold text-green-600">₱0</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="grid grid-cols-4 gap-2 mb-5 text-xs sm:text-xs text-[var(--text-color)]">
+
+            <!-- Brew Rewards -->
+            <button onclick="openQrPopup()"
+              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)]  hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg ">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
+                <path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm10-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+              </svg>
+              <p class="text-[10px]">Brew Rewards</p>
+            </button>
+
+            <!-- PWD -->
+            <button onclick="applyDiscount('PWD')"
+              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)]  hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg ">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+                <path fill="currentColor" d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
+              </svg>
+              <p class="text-[10px]">PWD</p>
+            </button>
+
+            <!-- SC -->
+            <button onclick="applyDiscount('SC')"
+              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg  hover:bg-gray-300 dark:hover:bg-gray-700  relative">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+                <path fill="currentColor" d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
+              </svg>
+              <p class="text-[10px]">SC</p>
+            </button>
+
+            <!-- E Payment -->
+            <button onclick="openEPaymentPopup()"
+              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg  hover:bg-gray-300 dark:hover:bg-gray-700  relative">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
+                <rect x="2" y="6" width="20" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2" />
+                <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2" />
+                <rect x="4" y="12" width="3" height="3" rx="0.5" ry="0.5" fill="currentColor" />
+              </svg>
+
+              <p class="text-[10px]">E-Payment</p>
+            </button>
+
+          </div>
+
+
+
+          <!-- Quick Bills -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5 text-[var(--text-color)]">
+            <button onclick="addCash(500)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱500</button>
+            <button onclick="addCash(200)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱200</button>
+            <button onclick="addCash(100)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱100</button>
+            <button onclick="addCash(50)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱50</button>
+            <button onclick="addCash(20)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱20</button>
+            <button onclick="addCash(10)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱10</button>
+            <button onclick="addCash(5)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱5</button>
+            <button onclick="addCash(0)"
+              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">.00</button>
+          </div>
+
+          <!-- Numeric Keypad -->
+          <div class="grid grid-cols-3 gap-2 text-base sm:text-lg text-[var(--text-color)]">
+            <button onclick="manualKey(1)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">1</button>
+            <button onclick="manualKey(2)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">2</button>
+            <button onclick="manualKey(3)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">3</button>
+            <button onclick="manualKey(4)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">4</button>
+            <button onclick="manualKey(5)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">5</button>
+            <button onclick="manualKey(6)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">6</button>
+            <button onclick="manualKey(7)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">7</button>
+            <button onclick="manualKey(8)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">8</button>
+            <button onclick="manualKey(9)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">9</button>
+            <button onclick="clearCash()" class="p-3 bg-red-500 hover:bg-red-600 text-white rounded-lg">Clear</button>
+            <button onclick="manualKey(0)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">0</button>
+            <button onclick="finalizePayment()" class="p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">Cashout</button>
+          </div>
+
+
+          <!-- QR Popup -->
+          <div
+            id="qrPopup"
+            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)]">
+            <div
+              class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
+              id="rewardingQR">
+              <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h2 class="text-lg font-bold">Scan QR</h2>
+
+                <button onclick="closeQrPopup()" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+              </div>
+              <div class="flex flex-col items-center">
+                <form action="POST">
+                  <input type="text" name="rewardingCustQR" placeholder="Scan QR" class="border-0 bg-transparent">
+                </form>
+                <button onclick="closeQrPopup()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- E-payment Popup -->
+          <div
+            id="EPaymentPopup"
+            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)]">
+            <div
+              class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
+              id="EPayment">
+              <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h2 class="text-lg font-bold">Insert reference number</h2>
+
+                <button onclick="closeEPaymentPopup()" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+              </div>
+              <div class="flex flex-col items-center">
+                <form action="POST">
+                  <input type="text" name="refNumber" placeholder="Enter reference number" class="border-0 bg-transparent">
+                </form>
+                <button onclick="closeEPaymentPopup()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================================================
+          =           Cart Calculator - Ends Here             =
+            ================================================ -->
+
+
 
 
   </main>
@@ -951,6 +921,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
   <script src="../JS/pos/POSCartResponsiveScripts.js"></script>
   <!-- linked JS file below for ordering -->
   <script src="../JS/pos/POSCartResponsiveScripts"></script>
+  <script src="../JS/pos/POSCalculatorScript.js"></script>
 
 
   <!-- linked JS file below for theme toggle interaction -->

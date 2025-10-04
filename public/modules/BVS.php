@@ -14,7 +14,7 @@
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <link
     rel="shortcut icon"
-    href="../assets/favcon/bvs.ico"
+    href="../assets/favcon/logo.ico"
     type="image/x-icon" />
 </head>
 
