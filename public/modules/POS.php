@@ -619,7 +619,7 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
         <!-- Cart Box -->
         <modal
           id="cartBox"
-          class="bg-white portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
+          class="bg-[var(--background-color)] portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
           <!-- Close button (only visible on portrait) -->
           <button
             onclick="toggleCart()"
@@ -628,20 +628,20 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
           </button>
 
           <!-- Cart content -->
-          <h2 class="text-center font-bold text-lg text-[var(--cart-text)] mb-4">
-            🧾 Orders
+          <h2 class="text-center font-bold text-lg text-[var(--text-color)] m-4">
+            Orders
           </h2>
 
           <!-- Scrollable list -->
-          <div id="productList" class="flex-1 overflow-y-auto  px-2 space-y-3 w-full">
+          <div id="productList" class="flex-1 overflow-y-auto  px-2 space-y-3 w-full text-[var(--text-color)]">
             <!-- Example items -->
             <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              class="flex justify-between items-center p-2 over">
               <span>Milk Tea - asdasdasdasd</span>
               <span class="font-semibold">₱120</span>
             </div>
             <div
-              class="flex justify-between items-center p-2 bg-white rounded shadow-sm over">
+              class="flex justify-between items-center p-2 over">
               <span>Milk Tea - asdasdasdasd</span>
               <span class="font-semibold">₱120</span>
             </div>
@@ -665,7 +665,10 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
         <button
           onclick="toggleCart()"
           class="actionBtn relative w-[150px] h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-xl transition-all duration-200 overflow-hidden group">
-          <span class="mr-2">🛒</span> CART
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+            <path fill="currentColor" d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
+          </svg>
+          CART
         </button>
       </section>
       <!-- 
@@ -680,10 +683,10 @@ include_once "../../app/config/dbConnection.php"; // including the Database Hand
       <!-- Calculator Modal -->
       <div
         id="calculatorModal"
-        class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50">
+        class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50">
         <div
           id="calculator"
-          class="bg-[var(--background-color)] border rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-sm p-4 sm:p-6 mx-2">
+          class="bg-[var(--background-color)] border rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-xl sm:max-h-xs p-4 sm:p-6 mx-2">
 
           <!-- Header -->
           <div class="flex justify-between items-center mb-4 border-b pb-2">

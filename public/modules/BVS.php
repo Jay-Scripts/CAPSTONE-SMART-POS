@@ -1,3 +1,16 @@
+<?php
+include "../../app/config/dbConnection.php";
+
+session_start();
+$userId = $_SESSION['staff_id'] ?? null;
+
+
+if (!isset($_SESSION['staff_name'])) {
+  header("Location: ../auth/barista/baristaLogin.php");
+  exit;
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -5,27 +18,150 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BVS</title>
-  <script src="app.js" defer></script>
+  <link
+    rel="shortcut icon"
+    href="../assets/favcon/bvs.ico"
+    type="image/x-icon" />
+
   <!--  linked css below for animations purpose -->
   <link href="../css/input.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
   <link href="../css/output.css" rel="stylesheet" />
   <!--  linked script below cdn of tailwind for online use -->
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <link
-    rel="shortcut icon"
-    href="../assets/favcon/logo.ico"
-    type="image/x-icon" />
+
+
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+
+
 </head>
 
 <body class="bg-[var(--background-color)] text-white font-sans min-h-screen">
 
-  <?php
-  include "../../app/views/BVS/BVSLoginView.php"
-  ?>
+  <header
+    class="w-full flex justify-between items-center gap-4 px-3 py-2 lg:px-6 lg:py-3 md:static sm:px-4 sm:py-2 bg-[var(--nav-bg)] text-[var(--nav-text)] border-b shadow-md z-50">
+    <h1
+      class="text-2xl flex-1 lg:text-left lg:flex-none sm:text-lg md:text-xl font-semibold text-[var(--text-color)]">
+      <span class="flex items-center">
+        <img
+          src="../assets/SVG/LOGO/BLOGO.svg"
+          class="h-[3rem] theme-logo m-1"
+          alt="Module Logo" />
+        Barista View System
+      </span>
+    </h1>
+
+    <!-- 
+      ==================================
+      =   Theme toggle Btn Starts Here =
+      ==================================
+    -->
+    <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
+      <button
+        class="p-2 sm:p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200"
+        id="theme-toggle"
+        title="Toggle theme"
+        aria-label="auto"
+        aria-live="polite">
+        <svg
+          class="sun-and-moon text-gray-600 dark:text-gray-200"
+          aria-hidden="true"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24">
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="24" cy="10" r="6" fill="black" />
+          </mask>
+          <circle
+            class="sun"
+            cx="12"
+            cy="12"
+            r="6"
+            mask="url(#moon-mask)"
+            fill="currentColor" />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </g>
+        </svg>
+      </button>
+
+      <!-- 
+      ================================
+      =   Theme toggle Btn Ends Here =
+      ================================
+    -->
+      <!-- Profile Dropdown Example -->
+      <div class="flex justify-end p-4 text-[var(--text-color)]">
+        <span>
+          <!-- Example SVG Button -->
+          <button class="flex flex-col items-center justify-center gap-2 bg-[var(--calc-bg-btn)] rounded-lg p-2">
+            <!-- SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+              <path fill="currentColor" d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17-62.5t47-43.5q60-30 124.5-46T480-440q67 0 131.5 16T736-378q30 15 47 43.5t17 62.5v112H160Zm320-400q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm160 228v92h80v-32q0-11-5-20t-15-14q-14-8-29.5-14.5T640-332Zm-240-21v53h160v-53q-20-4-40-5.5t-40-1.5q-20 0-40 1.5t-40 5.5ZM240-240h80v-92q-15 5-30.5 11.5T260-306q-10 5-15 14t-5 20v32Zm400 0H320h320ZM480-640Z" />
+            </svg>
+            <!-- Label -->
+          </button>
+
+        </span>
 
 
+        <div class="flex items-center space-x-2">
 
+          <div class="relative inline-block text-left">
+            <button
+              id="userMenuBtn"
+              class="flex items-center gap-2 px-3 py-2 text-sm font-medium  rounded-md">
+              <div class="text-left">
+                <p class="font-medium text-[var(--text-color)]">
+                  <?php
+                  echo isset($_SESSION['staff_name']) ? $_SESSION['staff_name'] . "   " : "No Staff";
+                  echo isset($_SESSION['role'])  ? $_SESSION['role'] . " " : "No Role"; ?>
+                </p>
+
+              </div>
+              <svg
+                class="w-4 h-4 text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <!--
+    ===================================================================================================================================================================================================================================================
+    =                                                                                                                    DROP DOWN                                                                                                                    =
+    =================================================================================================================================================================================================================================================== 
+    -->
+            <div
+              id="userDropdown"
+              class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+              <div class="border-t border-gray-200"></div>
+              <a
+                href="../auth/barista/baristaLogout.php"
+                class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+            </div>
+
+
+          </div>
+
+        </div>
+  </header>
   <!-- 
       =============================
       = Main Contents Starts Here =
@@ -182,19 +318,10 @@
       = JS Links Ends Here =
       ======================
     -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("login") === "success") {
-        document.getElementById("loginModal").style.display = "none"; // hide after login
-      }
-      if (params.get("showLogin") === "1") {
-        document.getElementById("loginModal").style.display = "flex"; // show after logout
-      }
-    });
-  </script>
-
-
+  <!-- Dropdown to logOut -->
+  <script src="../JS/shared/dropDownLogout.js"></script>
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>
