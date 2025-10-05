@@ -1,7 +1,16 @@
 <?php
 include "../../app/config/dbConnection.php";
 
+session_start();
+$userId = $_SESSION['staff_id'] ?? null;
+
+
+if (!isset($_SESSION['staff_name'])) {
+  header("Location: ../auth/manager/managerLogin.php");
+  exit;
+}
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -496,28 +505,46 @@ include "../../app/config/dbConnection.php";
     =======================
     Profile Dropdown
     ======================= -->
-        <div class="flex justify-end p-4 text-[var(--text-color)]">
-          <span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-              role="img" aria-label="Cashier" class="inline-block">
-              <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="6" r="2.5" />
-                <path d="M9.5 11h5c1.5 0 2.5 1 2.5 2.5V15H7v-1.5c0-1.5 1-2.5 2.5-2.5z" />
-                <rect x="3" y="15" width="18" height="5" rx="1" />
-                <rect x="16" y="12" width="4" height="2" rx="0.5" />
-              </g>
-            </svg>
-          </span><select
-            id="userMenu"
-            class="bg-transparent border-0 border-gray-300 rounded-lg px-3 py-2 text-xs sm:text-sm lg:text-base font-medium cursor-pointer max-w-32 sm:max-w-none truncate focus:outline-none focus:ring-2 focus:ring-blue-400"
-            onchange="">
-            <option selected disabled class="text">
-              None
-            </option>
-            <option value="logout" class="text-red-600">
-              Logout
-            </option>
-          </select>
+        <div class="flex items-center space-x-2">
+
+          <div class="relative inline-block text-left">
+            <button
+              id="userMenuBtn"
+              class="flex items-center gap-2 px-3 py-2 text-sm font-medium  rounded-md">
+              <div class="text-left">
+                <p class="font-medium text-[var(--text-color)]">
+                  <?php
+                  echo isset($_SESSION['staff_name']) ? $_SESSION['staff_name'] . "   " : "No Staff";
+                  echo isset($_SESSION['role'])  ? $_SESSION['role'] . " " : "No Role"; ?>
+                </p>
+
+              </div>
+              <svg
+                class="w-4 h-4 text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <div
+              id="userDropdown"
+              class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+              <div class="border-t border-gray-200"></div>
+              <a
+                href="../auth/manager/managerLogout.php"
+                class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+            </div>
+
+
+          </div>
+
         </div>
       </div>
     </header>
@@ -3476,6 +3503,8 @@ include "../../app/config/dbConnection.php";
   <script src="../JS/manager/managerStaffRegister.js"></script>
   <!-- linked JS file below for Staff Modify Module -->
   <script src="../JS/manager/managerStaffModify.js"></script>
+  <!-- linked JS file below for account Dropdown to logOut -->
+  <script src="../JS/shared/dropDownLogout.js"></script>
 
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/shared/theme-toggle.js"></script>

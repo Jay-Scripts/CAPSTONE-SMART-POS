@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SMART POS Loading</title>
+  <title>Barista Logging in</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Milk tea cup fill animation */
@@ -124,7 +124,7 @@
   <script>
     // Simulate loading and redirect to login after 3 seconds
     setTimeout(() => {
-      window.location.href = "../../modules/BVS.php"; // Replace with your login page
+      window.location.href = "../../modules/BVS.php";
     }, 2500);
   </script>
 </body>

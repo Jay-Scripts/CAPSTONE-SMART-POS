@@ -1,19 +1,10 @@
-<?php
-session_start();
-
-// clear all session variables
-session_unset();
-
-// destroy the session
-session_destroy();
-?>
 <!doctype html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Barista Logging Out</title>
+  <title>Manager Logging in</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Milk tea cup fill animation */
@@ -124,16 +115,17 @@ session_destroy();
       style="left: 28px; bottom: 10px; animation-delay: 0.5s"></div>
   </div>
 
+  <!-- SMART POS Text -->
   <h1
     class="absolute bottom-10 text-2xl sm:text-3xl font-bold text-[#d97d54]">
-    Logging out...
+    Logging In...
   </h1>
 
   <script>
     // Simulate loading and redirect to login after 3 seconds
     setTimeout(() => {
-      window.location.href = "./baristaLogin.php"; // Replace with your login page
-    }, 3000);
+      window.location.href = "../../modules/MANAGER'SMODULE.PHP";
+    }, 2500);
   </script>
 </body>
 

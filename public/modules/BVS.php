@@ -143,11 +143,7 @@ if (!isset($_SESSION['staff_name'])) {
                   d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <!--
-    ===================================================================================================================================================================================================================================================
-    =                                                                                                                    DROP DOWN                                                                                                                    =
-    =================================================================================================================================================================================================================================================== 
-    -->
+
             <div
               id="userDropdown"
               class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg hidden">
@@ -318,7 +314,7 @@ if (!isset($_SESSION['staff_name'])) {
       = JS Links Ends Here =
       ======================
     -->
-  <!-- Dropdown to logOut -->
+  <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
   <!-- SweetAlert2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

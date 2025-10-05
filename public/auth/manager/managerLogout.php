@@ -13,7 +13,7 @@ session_destroy();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Barista Logging Out</title>
+  <title>Manager Logging Out</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Milk tea cup fill animation */
@@ -132,7 +132,7 @@ session_destroy();
   <script>
     // Simulate loading and redirect to login after 3 seconds
     setTimeout(() => {
-      window.location.href = "./baristaLogin.php"; // Replace with your login page
+      window.location.href = "./managerLogin.php";
     }, 3000);
   </script>
 </body>
