@@ -24,7 +24,7 @@ if (!isset($_SESSION['staff_name'])) {
     type="image/x-icon" />
 
   <!--  linked css below for animations purpose -->
-  <link href="../css/input.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
   <link href="../css/output.css" rel="stylesheet" />
   <!--  linked script below cdn of tailwind for online use -->

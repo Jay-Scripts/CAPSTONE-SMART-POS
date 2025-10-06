@@ -1,22 +1,22 @@
 <?php
 session_start();
-$sanitizedManagerScannedID = $managerScannedID = $managerModuleLoginMessage = $managerModulePopupAlert = "";
+$sanitizedcashierScannedID = $cashierScannedID = $POSModuleLoginMessage = $POSModulePopupAlert = "";
 
-if (isset($_POST['managerModuleLogin'])) {
-    $managerScannedID = trim($_POST['IDNumber']);
-    $sanitizedManagerScannedID = htmlspecialchars($managerScannedID);
+if (isset($_POST['cashierModuleLogin'])) {
+    $cashierScannedID = trim($_POST['IDNumber']);
+    $sanitizedCashierScannedID = htmlspecialchars($cashierScannedID);
 
-    if (empty($sanitizedManagerScannedID)) {
-        $managerModuleLoginMessage = "<p class='text-red-500 text-sm'>Staff ID is required.</p>";
-    } elseif (!preg_match("/^[0-9]+$/", $sanitizedManagerScannedID)) {
-        $managerModuleLoginMessage = "<p class='text-red-500 text-sm'>Staff ID can only contain numbers.</p>";
+    if (empty($sanitizedCashierScannedID)) {
+        $cashierModuleLoginMessage = "<p class='text-red-500 text-sm'>Staff ID is required.</p>";
+    } elseif (!preg_match("/^[0-9]+$/", $sanitizedCashierScannedID)) {
+        $cashierModuleLoginMessage = "<p class='text-red-500 text-sm'>Staff ID can only contain numbers.</p>";
     } else {
-        $selectQueryToVerifyManager = "SELECT si.staff_id, si.staff_name, sr.role
+        $selectQueryToVerifyCashier = "SELECT si.staff_id, si.staff_name, sr.role
                 FROM staff_info si
                 JOIN staff_roles sr ON si.staff_id = sr.staff_id
-                WHERE si.staff_id = :staff_id AND sr.role = 'MANAGER'";
-        $stmt = $conn->prepare($selectQueryToVerifyManager);
-        $stmt->execute([':staff_id' => $sanitizedManagerScannedID]);
+                WHERE si.staff_id = :staff_id AND sr.role = 'cashier'";
+        $stmt = $conn->prepare($selectQueryToVerifyCashier);
+        $stmt->execute([':staff_id' => $sanitizedCashierScannedID]);
         $staff = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($staff) {
@@ -28,7 +28,7 @@ if (isset($_POST['managerModuleLogin'])) {
             $logStmt->execute([':staff_id' => $staff['staff_id']]);
 
             // Success alert with redirect
-            $managerModulePopupAlert = "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js'></script>
+            $POSModulePopupAlert = "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js'></script>
                                 <script>
                     setTimeout(function() {
                         Swal.fire({
@@ -37,13 +37,13 @@ if (isset($_POST['managerModuleLogin'])) {
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
-                            window.location.href = './managerLoginSuccess.php';
+                            window.location.href = './cashierLoginSuccess.php';
                         });
                     },);
                     </script>";
         } else {
-            $managerModuleLoginMessage = "<p class='text-red-500 text-sm'><b>Invalid ID</b></p>";
-            $managerModulePopupAlert = "
+            $POSModuleLoginMessage = "<p class='text-red-500 text-sm'><b>Invalid ID</b></p>";
+            $POSModulePopupAlert = "
             <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js'></script>
             <script>
                 Swal.fire({

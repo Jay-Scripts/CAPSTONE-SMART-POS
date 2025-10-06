@@ -1,6 +1,6 @@
   <?php
   include "../../../app/config/dbConnection.php";
-  include "../../../app/controllers/BVS/BVSLoginContrl.php";
+  include "../../../app/controllers/POS/POSLogin.php";
   ?>
   <!doctype html>
   <html lang="en">
@@ -8,7 +8,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BVS Login</title>
+    <title>POS Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
@@ -148,7 +148,7 @@
         <!-- Subtitle -->
         <p
           class="text-[var(--text-color)] text-sm lg:text-base font-medium text-center mb-6">
-          Barista View System
+          Point of Sale
         </p>
 
         <!-- Form -->
@@ -180,13 +180,11 @@
               </svg>
             </div>
           </div>
-          <p class="mt-2">
-            <?php echo $BVSModuleLoginMessage; ?>
-          </p>
+          <?php echo $POSModuleLoginMessage; ?>
           <!-- Button -->
           <button
             type="submit"
-            name="BVSModuleLogin"
+            name="cashierModuleLogin"
             class="w-full bg-gradient-to-r from-stone-700 via-zinc-800 to-stone-900 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-stone-800 hover:via-zinc-900 hover:to-black focus:ring-4 focus:ring-stone-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none active:translate-y-0 relative overflow-hidden group text-sm sm:text-base lg:text-lg">
             <div
               class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
@@ -194,7 +192,7 @@
           </button>
         </form>
         <?php
-        echo $BVSModulePopupAlert;
+        echo $POSModulePopupAlert
         ?>
       </div>
     </div>

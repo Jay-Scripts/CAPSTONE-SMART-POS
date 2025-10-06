@@ -1,15 +1,15 @@
 <?php
 session_start();
-$sanitizedBaristaScannedID = $baristaScannedID = $BVSLoginMessage = $BVSPopupAlert = "";
+$sanitizedBaristaScannedID = $baristaScannedID = $BVSModuleLoginMessage = $BVSModulePopupAlert = "";
 
-if (isset($_POST['BVSLogin'])) {
+if (isset($_POST['BVSModuleLogin'])) {
     $baristaScannedID = trim($_POST['IDNumber']);
     $sanitizedBaristaScannedID = htmlspecialchars($baristaScannedID);
 
     if (empty($sanitizedBaristaScannedID)) {
-        $BVSLoginMessage = "<p class='text-red-500 text-sm'>Staff ID is required.</p>";
+        $BVSModuleLoginMessage = "<p class='text-red-500 text-sm'>Staff ID is required.</p>";
     } elseif (!preg_match("/^[0-9]+$/", $sanitizedBaristaScannedID)) {
-        $BVSLoginMessage = "<p class='text-red-500 text-sm'>Staff ID can only contain numbers.</p>";
+        $BVSModuleLoginMessage = "<p class='text-red-500 text-sm'>Staff ID can only contain numbers.</p>";
     } else {
         $selectQueryToVerifyBarista = "SELECT si.staff_id, si.staff_name, sr.role
                 FROM staff_info si
@@ -28,29 +28,29 @@ if (isset($_POST['BVSLogin'])) {
             $logStmt->execute([':staff_id' => $staff['staff_id']]);
 
             // Success alert with redirect
-            $BVSPopupAlert = "
+            $BVSModulePopupAlert = "
             <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js'></script>
             <script>
-            setTimeout(function() {
-                Swal.fire({
-                    title: 'Login Success!',
-                    icon: 'success',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                }).then(() => {
-                    window.location.href = './baristaLoginSuccess.php';
-                });
-            }, 200);
+        setTimeout(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Login Succesful!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = './baristaLoginSuccess.php';
+                        });
+                    },);
             </script>";
         } else {
-            $BVSLoginMessage = "<p class='text-red-500 text-sm'><b>Invalid ID or not a Barista.</b></p>";
-            $BVSPopupAlert = "
+            $BVSModuleLoginMessage = "<p class='text-red-500 text-sm'><b>Invalid ID!</b></p>";
+            $BVSModulePopupAlert = "
             <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js'></script>
             <script>
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Failed!',
-                    text: 'Invalid ID or not a Barista!',
+                    text: 'Invalid ID!',
                 });
             </script>";
         }

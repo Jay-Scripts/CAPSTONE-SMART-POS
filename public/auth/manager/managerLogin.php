@@ -164,9 +164,7 @@
               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
               required
               autofocus />
-            <p class="mt-2">
-              <?php echo $managerModuleLoginMessage; ?>
-            </p>
+
             <div
               class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
               <svg
@@ -182,7 +180,9 @@
               </svg>
             </div>
           </div>
-
+          <p class="mt-2">
+            <?php echo $managerModuleLoginMessage; ?>
+          </p>
           <!-- Button -->
           <button
             type="submit"

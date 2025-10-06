@@ -25,7 +25,7 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <!--  linked css below for animations purpose -->
-  <link href="../css/input.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
   <link href="../css/output.css" rel="stylesheet" />
   <!--  linked script below cdn of tailwind for online use -->
@@ -1420,8 +1420,8 @@ if (!isset($_SESSION['staff_name'])) {
                 Select a Staff member and update their position
               </p>
 
-              <form class="space-y-6 lg:space-x-8" action="#" method="POST">
-                <div class="space-y-3">
+              <form class="space-y-6 sm:space-x-8" action="#" method="POST">
+                <div class="space-y-2">
                   <label
                     for="staffSelect"
                     class="flex items-center gap-2 text-sm lg:text-base font-semibold text-[var(--text-color)]">
@@ -1466,7 +1466,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
                 </div>
 
-                <div class="space-y-3">
+                <div class="space-y-2">
                   <label
                     class="flex items-center gap-2 text-sm lg:text-base font-medium text-[var(--text-color)]">
                     <svg
@@ -1489,7 +1489,7 @@ if (!isset($_SESSION['staff_name'])) {
                     placeholder="Auto-filled when staff selected" />
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-2">
                   <label
                     for="newRole"
                     class="flex items-center gap-2 text-sm lg:text-base font-semibold text-[var(--text-color)]">
@@ -1706,34 +1706,32 @@ if (!isset($_SESSION['staff_name'])) {
                     placeholder="Add a note or reason for adding new role"></textarea>
                 </div>
 
-                <div class="pt-4 lg:pt-6">
-                  <button
-                    id="modifySubmitBtn"
-                    name="submit"
-                    type="submit"
-                    class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none active:translate-y-0 relative overflow-hidden group animate-fade-in delay-300 animation-fill-both text-sm sm:text-base lg:text-lg">
-                    <div
-                      class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-                    Update Role
-                    <svg
-                      id="modifyLoadingSpinner"
-                      class="hidden absolute right-4 top-1/2 -translate-y-1/2 animate-spin size-5 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24">
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  </button>
-                </div>
+                <button
+                  id="modifySubmitBtn"
+                  name="submit"
+                  type="submit"
+                  class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none active:translate-y-0 relative overflow-hidden group animate-fade-in delay-300 animation-fill-both text-sm sm:text-base lg:text-lg">
+                  <div
+                    class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                  Update Role
+                  <svg
+                    id="modifyLoadingSpinner"
+                    class="hidden absolute right-4 top-1/2 -translate-y-1/2 animate-spin size-5 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24">
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </button>
               </form>
             </div>
           </div>
