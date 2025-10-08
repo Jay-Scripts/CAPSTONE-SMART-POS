@@ -70,7 +70,6 @@ CREATE TABLE customer_points_history (
     change_type ENUM('EARN', 'REDEEM') NOT NULL,
     points_changed DECIMAL(10,2) NOT NULL,
     balance_after DECIMAL(10,2) NOT NULL,
-    remarks VARCHAR(255),
     transact_by INT not null,  -- staff_id who made the change (nullable if auto system)
     change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id)
@@ -135,7 +134,7 @@ CREATE TABLE category (
 	  thumbnail_path VARCHAR(150) NOT NULL,
     PRICE  DECIMAL(6,2) DEFAULT 0.00,
 	  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-	  status ENUM('active', 'inactive') DEFAULT 'active',
+	  status ENUM('active', 'inactive') DEFAULT 'active'
     ); 
     
     CREATE TABLE PRODUCT_MODIFICATIONS(
@@ -143,7 +142,7 @@ CREATE TABLE category (
     MODIFICATION_NAME VARCHAR(50) NOT NULL,
 	  thumbnail_path VARCHAR(150) NOT NULL,
 	  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-	  status ENUM('active', 'inactive') DEFAULT 'active',
+	  status ENUM('active', 'inactive') DEFAULT 'active'
     );
 
 

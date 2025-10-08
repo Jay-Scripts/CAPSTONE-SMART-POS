@@ -7,14 +7,22 @@
 // - SQL query selects product details for 'medio' size IcedCoffee products  -
 // --------------------------------------------------------------------------
 $sql = "
-    SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
-    FROM product_details pd
-    JOIN product_sizes ps ON pd.product_id = ps.product_id
-    WHERE pd.category_id = 3
-    AND pd.status = 'active'
-    AND ps.size = 'medio' -- SET THIS TO GRANDE FOR GRANDE SIZE 
-    ORDER BY pd.product_name ASC;
+SELECT
+  pd.product_id,
+  pd.product_name,
+  pd.thumbnail_path,
+  COALESCE(ps_medio.regular_price, 0) AS medio_price,
+  COALESCE(ps_grande.regular_price, 0) AS grande_price
+FROM product_details pd
+LEFT JOIN product_sizes ps_medio
+  ON pd.product_id = ps_medio.product_id AND ps_medio.size = 'medio'
+LEFT JOIN product_sizes ps_grande
+  ON pd.product_id = ps_grande.product_id AND ps_grande.size = 'grande'
+WHERE pd.category_id = 1
+  AND pd.status = 'active'
+ORDER BY pd.product_name ASC;
 ";
+
 
 // ---------------------------------------------------------
 // -   Code below is for grande price version of fetching  -

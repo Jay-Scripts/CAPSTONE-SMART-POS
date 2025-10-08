@@ -7,84 +7,141 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <!-- Checkout Button -->
-    <button
-      onclick="openCalculator()"
-      class="fixed bottom-0 left-0 right-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-t-xl shadow-lg transition-all duration-200 sm:static sm:rounded-xl sm:w-auto sm:px-6"
+    <!-- ========== MODAL ========== -->
+    <div
+      id="productModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
     >
-      <img
-        src="../assets/SVG/ACTION BTN/CART.svg"
-        alt="CART ICON"
-        class="w-5 h-5 mr-2"
-      />
-      Checkout
-    </button>
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 w-80 relative">
+        <button
+          id="closeModal"
+          class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-lg font-bold"
+        >
+          ×
+        </button>
+
+        <h2
+          id="modalProductName"
+          class="text-lg font-bold mb-3 text-center text-[var(--text-color)]"
+        >
+          Product Name
+        </h2>
+
+        <div class="space-y-2 mb-4">
+          <p class="text-sm font-semibold">Select Size:</p>
+          <div class="flex gap-3 justify-center">
+            <button
+              class="size-btn bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
+              data-size="medio"
+            >
+              Medio
+            </button>
+            <button
+              class="size-btn bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
+              data-size="grande"
+            >
+              Grande
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2 mb-4">
+          <p class="text-sm font-semibold">Add-ons:</p>
+          <div class="flex flex-wrap gap-2 justify-center">
+            <button
+              class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded"
+              data-addon="Pearls"
+            >
+              Pearls
+            </button>
+            <button
+              class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded"
+              data-addon="Cream"
+            >
+              Cream
+            </button>
+            <button
+              class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded"
+              data-addon="Espresso Shot"
+            >
+              Espresso Shot
+            </button>
+          </div>
+        </div>
+
+        <button
+          id="confirmSelection"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
 
     <script>
-      let originalTotal = 350;
-      let total = originalTotal;
-      let tendered = 0;
-      let buffer = "";
-      let transType = null;
+      // Ensure JS runs after DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        // Open modal
+        document.querySelectorAll(".optionChoice").forEach((card) => {
+          card.addEventListener("click", () => {
+            const name = card.dataset.name;
+            const sizes = JSON.parse(card.dataset.sizes);
+            const modal = document.getElementById("productModal");
 
-      function openCalculator() {
-        document.getElementById("calculatorModal").classList.remove("hidden");
-        updateDisplay();
-      }
-      function closeCalculator() {
-        document.getElementById("calculatorModal").classList.add("hidden");
-        tendered = 0;
-        buffer = "";
-        transType = null;
-        total = originalTotal;
-        updateDisplay();
-      }
-      function addCash(amount) {
-        tendered += amount;
-        updateDisplay();
-      }
-      function manualKey(num) {
-        buffer += num;
-        tendered = parseFloat(buffer);
-        updateDisplay();
-      }
-      function clearCash() {
-        tendered = 0;
-        buffer = "";
-        updateDisplay();
-      }
-      function finalizePayment() {
-        alert(
-          "Payment Accepted!\nType: " +
-            (transType ?? "Regular") +
-            "\nChange: ₱" +
-            (tendered - total).toFixed(2)
-        );
-        closeCalculator();
-      }
-      function updateDisplay() {
-        document.getElementById("totalAmount").innerText =
-          "₱" + total.toFixed(2);
-        document.getElementById("tenderedAmount").innerText =
-          "₱" + tendered.toFixed(2);
-        document.getElementById("changeAmount").innerText =
-          "₱" + (tendered - total).toFixed(2);
-      }
-      function openQrPopup() {
-        document.getElementById("qrPopup").classList.remove("hidden");
-      }
-      function closeQrPopup() {
-        document.getElementById("qrPopup").classList.add("hidden");
-      }
-      function applyDiscount(type) {
-        if (transType) {
-          alert("Discount already applied: " + transType);
-          return;
-        }
-        total = originalTotal * 0.8;
-        transType = type;
-        updateDisplay();
-      }
+            document.getElementById("modalProductName").textContent = name;
+            modal.dataset.productId = card.dataset.id;
+            modal.classList.remove("hidden");
+          });
+        });
+
+        // Close modal
+        document.getElementById("closeModal").addEventListener("click", () => {
+          document.getElementById("productModal").classList.add("hidden");
+        });
+
+        // Confirm button
+        document
+          .getElementById("confirmSelection")
+          .addEventListener("click", () => {
+            const modal = document.getElementById("productModal");
+            const productId = modal.dataset.productId;
+
+            const selectedSize = document.querySelector(
+              ".size-btn.bg-blue-500"
+            );
+            const selectedAddons = Array.from(
+              document.querySelectorAll(".addon-btn.bg-green-500")
+            ).map((btn) => btn.dataset.addon);
+
+            if (!selectedSize) {
+              alert("Please select a size!");
+              return;
+            }
+
+            const size = selectedSize.dataset.size;
+            alert(
+              `✅ Selected: Product ${productId}\nSize: ${size}\nAdd-ons: ${selectedAddons.join(", ") || "None"}`
+            );
+            modal.classList.add("hidden");
+          });
+
+        // Toggle size and add-on selections
+        document.querySelectorAll(".size-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".size-btn")
+              .forEach((b) => b.classList.remove("bg-blue-500", "text-white"));
+            btn.classList.add("bg-blue-500", "text-white");
+          });
+        });
+
+        document.querySelectorAll(".addon-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            btn.classList.toggle("bg-green-500");
+            btn.classList.toggle("text-white");
+          });
+        });
+      });
     </script>
   </body>
 </html>

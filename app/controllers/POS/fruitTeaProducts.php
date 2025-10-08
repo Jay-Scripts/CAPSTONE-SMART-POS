@@ -54,10 +54,10 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 // =======================================================
 ?>
 
-<section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+<section class="flex flex-wrap justify-center gap-2">
     <?php foreach ($products as $id => $product): ?>
         <div
-            class="optionChoice cursor-pointer m-2 bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md"
+            class="optionChoice cursor-pointer aspect-square w-[47%] sm:w-[15%] bg-[transparent] rounded-lg border-2 border-[var(--border-color)] relative shadow-md p-2"
             data-id="<?php echo htmlspecialchars($id); ?>"
             data-name="<?php echo htmlspecialchars(strtoupper($product['name'])); ?>"
             data-sizes='<?php echo htmlspecialchars(json_encode($product['sizes'])); ?>'>
@@ -65,16 +65,41 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <img
                 src="<?php echo htmlspecialchars($product['thumbnail']); ?>"
                 alt="<?php echo htmlspecialchars(strtoupper($product['name'])); ?> IMAGE"
-                class="w-full h-auto object-cover rounded-t-lg" />
+                class="object-cover rounded-t-lg" />
 
-            <p class="text-center text-[8px] sm:text-[9px] lg:text-[10px] font-bold mb-2 z-10 text-[var(--text-color)]">
+            <p class="text-center text-xs font-bold z-10 text-[var(--text-color)]">
                 <?php echo htmlspecialchars(strtoupper($product['name'])); ?>
                 <?php foreach ($product['sizes'] as $size => $price): ?>
-                    <span class="text-red-500">
-                        <?php echo htmlspecialchars(strtoupper(substr($size, 0, 1))); ?>: ₱<?php echo htmlspecialchars(number_format($price, 2)); ?>
-                    </span>
                 <?php endforeach; ?>
             </p>
         </div>
     <?php endforeach; ?>
 </section>
+
+<!-- ========== MODAL ========== -->
+<div id="productModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 w-80 relative">
+        <button id="closeModal" class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-lg font-bold">×</button>
+
+        <h2 id="modalProductName" class="text-lg font-bold mb-3 text-center text-[var(--text-color)]">Product Name</h2>
+
+        <div class="space-y-2 mb-4">
+            <p class="text-sm font-semibold">Select Size:</p>
+            <div class="flex gap-3 justify-center">
+                <button class="size-btn bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded" data-size="medio">Medio</button>
+                <button class="size-btn bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded" data-size="grande">Grande</button>
+            </div>
+        </div>
+
+        <div class="space-y-2 mb-4">
+            <p class="text-sm font-semibold">Add-ons:</p>
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded" data-addon="Pearls">Pearls</button>
+                <button class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded" data-addon="Cream">Cream</button>
+                <button class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded" data-addon="Espresso Shot">Espresso Shot</button>
+            </div>
+        </div>
+
+        <button id="confirmSelection" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Confirm</button>
+    </div>
+</div>

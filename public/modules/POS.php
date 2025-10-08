@@ -129,7 +129,7 @@ if (!isset($_SESSION['staff_name'])) {
 
           <div
             id="userDropdown"
-            class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+            class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50">
             <div class="border-t border-gray-200"></div>
             <a
               href="../auth/cashier/cashierLogout.php"
@@ -156,85 +156,11 @@ if (!isset($_SESSION['staff_name'])) {
       ==========================================================================================================================================
     -->
     <section
-      class="grid grid-cols-4 landscape:grid-cols-5 gap-1 w-full h-[70vh]  p-4">
-      <!-- 
-      ========================================
-      =      Action Btns - Starts Here       =
-      ========================================
-    -->
-      <aside
-        class="text-white col-span-1 landscape:col-span-1 flex justify-center gap-2 items-center flex-col h-full"
-        id="actionBtnContainer">
+      class="grid grid-cols-4 gap-1 w-full h-[85vh] m-2">
 
-        <button
-          class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow-lg transition-all duration-200 overflow-hidden group">
-          <span
-            class="text-[.rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            SCAN
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200">
-            <img
-              src="../assets/QR.svg"
-              alt="SCAN ICON"
-              class="w-[70%] h-[70%]" />
-          </span>
-        </button>
-        <button
-          class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow-lg transition-all duration-200 overflow-hidden group">
-          <span
-            class="text-[.rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            SIZE
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/SIZE.svg"
-              alt="SIZE ICON"
-              class="w-[70%] h-[70%]" />
-          </span>
-        </button>
-
-        <button
-          class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
-          onclick="showModule('addOns')">
-          <span
-            class="text-[.6rem] md:text-[.7rem] lg:text-[1rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            ADD-ONS
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/ADD_ONS.svg"
-              alt="ADD-ONS ICON"
-              class="w-[70%] h-[70%]" />
-          </span>
-        </button>
-        <button
-          class="actionBtn border-2 border-[var(--border-color)] m-2 relative w-[80px] h-[50px] md:w-[120px] md:h-[50px] lg:w-[150px] lg:h-[55px] bg-green-500 hover:bg-green-400 text-white font-bold flex items-center justify-start px-4 rounded-lg shadow transition-all duration-200 overflow-hidden group"
-          onclick="showModule('modify')">
-          <span
-            class="text-[.9rem] md:text-[1rem] lg:text-[1.2rem] transition-all duration-200 transform group-hover:translate-x-[200%] group-hover:opacity-0">
-            MODIFY
-          </span>
-          <span
-            class="icon absolute right-0 h-full w-[20%] group-hover:w-full flex items-center justify-center border-l border-white transition-all duration-200">
-            <img
-              src="../assets/SVG/ACTION BTN/MODIFY.svg"
-              alt="MODIFY ICON"
-              class="w-[70%] h-[70%]" />
-          </span>
-        </button>
-
-      </aside>
-      <!-- 
-      ========================================
-      =      Action Btns - Ends  Here        =
-      ========================================
-    -->
       <section
         id="menuContainer"
-        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3">
+        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-4 landscape:col-span-3">
         <!-- Categories Section -->
         <fieldset
           id="orderCategory"
@@ -456,17 +382,17 @@ if (!isset($_SESSION['staff_name'])) {
 
         <section id="milktea" class="hidden">
           <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
+            <hr class="border border-[var(--border-color)] my-3" />
 
             <h1
               id="menuTitle"
               class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
               Milk Tea Menu
             </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
+            <hr class="border border-[var(--border-color)] my-3" />
           </div>
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="milkteaMenu">
             <?php
             include_once "../../app/controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
@@ -486,7 +412,7 @@ if (!isset($_SESSION['staff_name'])) {
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="fruitTeaMenu">
             <?php
             include_once "../../app/controllers/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
@@ -506,7 +432,7 @@ if (!isset($_SESSION['staff_name'])) {
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="hotBrewMenu">
             <?php
             include_once "../../app/controllers/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
@@ -524,7 +450,7 @@ if (!isset($_SESSION['staff_name'])) {
           </h1>
           <hr class="border-2 border-[var(--border-color)] my-5" />
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="prafMenu">
             <?php
             include_once "../../app/controllers/POS/prafProducts.php"; // Including the praf fetching logic  
@@ -552,7 +478,7 @@ if (!isset($_SESSION['staff_name'])) {
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="icedCoffeeMenu">
             <?php
             include_once "../../app/controllers/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
@@ -578,7 +504,7 @@ if (!isset($_SESSION['staff_name'])) {
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="icedCoffeeMenu">
             <?php
             include_once "../../app/controllers/POS/promoProducts.php"; // Including the promo fetching logic  
@@ -599,7 +525,7 @@ if (!isset($_SESSION['staff_name'])) {
             <hr class="border-2 border-[var(--border-color)] my-5" />
           </div>
           <div
-            class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+            class="gap-1 mt-2 justify-center items-center text-black"
             id="brostyMenu">
             <?php
             include_once "../../app/controllers/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
@@ -642,12 +568,12 @@ if (!isset($_SESSION['staff_name'])) {
     -->
       <section
         id="cart"
-        class="hidden portrait:mt-[-10%] portrait:ml-[-3%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 p-4 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
+        class="hidden portrait:mt-[-10%] portrait:ml-[-2%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
         aria-label="Order Summary">
         <!-- Cart Box -->
         <modal
           id="cartBox"
-          class="bg-[var(--background-color)] portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[70vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
+          class="bg-[var(--background-color)] portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
           <!-- Close button (only visible on portrait) -->
           <button
             onclick="toggleCart()"
@@ -661,30 +587,31 @@ if (!isset($_SESSION['staff_name'])) {
           </h2>
 
           <!-- Scrollable list -->
-          <div id="productList" class="flex-1 overflow-y-auto  px-2 space-y-3 w-full text-[var(--text-color)]">
-            <!-- Example items -->
-            <div
-              class="flex justify-between items-center p-2 over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
-            <div
-              class="flex justify-between items-center p-2 over">
-              <span>Milk Tea - asdasdasdasd</span>
-              <span class="font-semibold">₱120</span>
-            </div>
+          <div class="flex-1 overflow-y-auto  px-2 space-y-3 w-full text-[var(--text-color)]">
+            <div id="productList">
+              <!-- items -->
 
 
-            <!-- Checkout button (fixed at bottom) -->
-            <button
-              class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200"
-              onclick="openCalculator()">
-              <img
-                src="../assets/SVG/ACTION BTN/CART.svg"
-                alt="CART ICON"
-                class="w-5 h-5" />
-              Checkout
-            </button>
+
+
+            </div>
+            <!-- Subtotal -->
+            <div class="flex justify-between items-center border-t border-gray-300 mt-2 pt-2 px-2">
+              <span class="font-semibold text-gray-700">Subtotal</span>
+              <span id="subtotal" class="font-bold text-gray-800">₱0</span>
+            </div>
+          </div>
+
+          <!-- Checkout button (fixed at bottom) -->
+          <button
+            class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200"
+            onclick="openCalculator()">
+            <img
+              src="../assets/SVG/ACTION BTN/CART.svg"
+              alt="CART ICON"
+              class="w-5 h-5" />
+            Checkout
+          </button>
         </modal>
       </section>
 
