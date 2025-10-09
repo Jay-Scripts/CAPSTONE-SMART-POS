@@ -395,7 +395,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="milkteaMenu">
             <?php
-            include_once "../../app/controllers/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
+            include_once "../../app/includes/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
 
             ?>
           </div>
@@ -415,7 +415,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="fruitTeaMenu">
             <?php
-            include_once "../../app/controllers/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../../app/includes/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -435,7 +435,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="hotBrewMenu">
             <?php
-            include_once "../../app/controllers/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../../app/includes/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -453,7 +453,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="prafMenu">
             <?php
-            include_once "../../app/controllers/POS/prafProducts.php"; // Including the praf fetching logic  
+            include_once "../../app/includes/POS/prafProducts.php"; // Including the praf fetching logic  
 
             ?>
           </div>
@@ -481,7 +481,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="icedCoffeeMenu">
             <?php
-            include_once "../../app/controllers/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
+            include_once "../../app/includes/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
 
             ?>
           </div>
@@ -507,7 +507,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="icedCoffeeMenu">
             <?php
-            include_once "../../app/controllers/POS/promoProducts.php"; // Including the promo fetching logic  
+            include_once "../../app/includes/POS/promoProducts.php"; // Including the promo fetching logic  
 
             ?>
           </div>
@@ -528,7 +528,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="gap-1 mt-2 justify-center items-center text-black"
             id="brostyMenu">
             <?php
-            include_once "../../app/controllers/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
+            include_once "../../app/includes/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
 
             ?>
           </div>
@@ -573,7 +573,7 @@ if (!isset($_SESSION['staff_name'])) {
         <!-- Cart Box -->
         <modal
           id="cartBox"
-          class="bg-[var(--background-color)] portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
+          class="bg-[var(--background-color)] p-4 portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
           <!-- Close button (only visible on portrait) -->
           <button
             onclick="toggleCart()"
@@ -587,13 +587,9 @@ if (!isset($_SESSION['staff_name'])) {
           </h2>
 
           <!-- Scrollable list -->
-          <div class="flex-1 overflow-y-auto  px-2 space-y-3 w-full text-[var(--text-color)]">
+          <div class="flex-1 overflow-y-auto mb-16  px-2 space-y-3 w-full text-[var(--text-color)]">
             <div id="productList">
               <!-- items -->
-
-
-
-
             </div>
             <!-- Subtotal -->
             <div class="flex justify-between items-center border-t border-gray-300 mt-2 pt-2 px-2">
@@ -655,7 +651,7 @@ if (!isset($_SESSION['staff_name'])) {
           <!-- Summary -->
           <div class="space-y-2 mb-5 text-base sm:text-lg text-[var(--text-color)]">
             <div class="flex justify-between">
-              <span>Total:</span><span id="totalAmount" class="font-bold">₱350</span>
+              <span>Total:</span><span id="totalAmount" class="font-bold">0</span>
             </div>
             <div class="flex justify-between">
               <span>Tendered:</span><span id="tenderedAmount" class="font-bold">₱0</span>
@@ -744,7 +740,7 @@ if (!isset($_SESSION['staff_name'])) {
             <button onclick="manualKey(9)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">9</button>
             <button onclick="clearCash()" class="p-3 bg-red-500 hover:bg-red-600 text-white rounded-lg">Clear</button>
             <button onclick="manualKey(0)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">0</button>
-            <button onclick="finalizePayment()" class="p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">Cashout</button>
+            <button onclick="finalizePayment()" class="p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">Enter</button>
           </div>
 
 
@@ -793,8 +789,9 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </div>
-
-          <!-- ================================================
+        </div>
+      </div>
+      <!-- ================================================
           =           Cart Calculator - Ends Here             =
             ================================================ -->
 

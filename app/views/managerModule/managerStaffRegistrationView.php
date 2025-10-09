@@ -1,5 +1,5 @@
           <?php
-            include "../../app/controllers/managerModule/managerStaffRegistrationContrl.php";
+            include "../../app/includes/managerModule/managerStaffRegistrationContrl.php";
             ?>
 
           <div class="flex items-center justify-center p-4 lg:p-8 scaleIn">
