@@ -1,6 +1,6 @@
   <?php
   include "../../../app/config/dbConnection.php";
-  include "../../../app/controllers/POS/POSLogin.php";
+  include "../../../app/includes/POS/POSLogin.php";
   ?>
   <!doctype html>
   <html lang="en">

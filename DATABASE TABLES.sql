@@ -161,24 +161,18 @@ CREATE TABLE category (
       REG_TRANSACTION_ID INT AUTO_INCREMENT PRIMARY KEY,
       cust_account_id INT NULL, -- CAN BE NULL FOR WAILK IN CUST AND WE THE CASHHIER WILL SCAN THE BREW REWARDS CARD QR TO STORE THE CUST ACCOUNT ID HERE, IF THEY HAVE ONE 
       STAFF_ID INT NOT NULL,
-      product_id int null,
+      product_id int not null,
       ORDERED_BY ENUM('KIOSK', 'POS', 'REWARDS APP') DEFAULT 'POS',
       TOTAL_AMOUNT DECIMAL(6,2) DEFAULT 0.00,
       VAT_AMOUNT DECIMAL(6,2) NOT NULL DEFAULT 0.00,
-      STATUS ENUM('PENDING', 'PAID', 'WAITING', 'PREPARING', 'NOW SERVING', 'COMPLETED', 'REFUNDED', 'WASTE') NOT NULL,
+      STATUS ENUM('PENDING', 'PAID', 'WAITING', 'PREPARING', 'NOW SERVING', 'COMPLETED', 'REFUNDED', 'WASTE') DEFAULT 'PENDING',
       date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (cust_account_id) REFERENCES CUSTOMER_ACCOUNT(cust_account_id) ON DELETE SET NULL,
       FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE SET NULL,
       FOREIGN KEY (STAFF_ID) REFERENCES STAFF_INFO(STAFF_ID) ON DELETE CASCADE
     );
 
-    CREATE TABLE PAYMENT_METHODS(
-  PAYMENT_ID INT AUTO_INCREMENT PRIMARY KEY,
-  REG_TRANSACTION_ID INT NOT NULL,
-  TYPE ENUM ('CASH', 'E-PAYMENT') DEFAULT 'CASH',
-  TOTAL_AMOUNT DECIMAL(6,2) DEFAULT 0.00,
-  FOREIGN KEY (REG_TRANSACTION_ID) REFERENCES REG_TRANSACTION(REG_TRANSACTION_ID) ON DELETE CASCADE
-);
+
 --          
 --       ===================================================================================================================================================
 --       =                                                               PRODUCT Modification - starts HERE                                                =
@@ -218,7 +212,14 @@ CREATE TABLE item_modification (
     FOREIGN KEY(item_id) REFERENCES transaction_item(item_id) ON DELETE CASCADE,
     FOREIGN KEY(modification_id) REFERENCES product_modifications(modification_id) ON DELETE CASCADE
 );
-
+    CREATE TABLE PAYMENT_METHODS(
+  PAYMENT_ID INT AUTO_INCREMENT PRIMARY KEY,
+  REG_TRANSACTION_ID INT NOT NULL,
+  TYPE ENUM ('CASH', 'E-PAYMENT') DEFAULT 'CASH',
+  AMOUNT_SENT DECIMAL(6,2) DEFAULT 0.00,
+  CHANGE_AMOUNT DECIMAL(6,2) DEFAULT 0.00,
+  FOREIGN KEY (REG_TRANSACTION_ID) REFERENCES REG_TRANSACTION(REG_TRANSACTION_ID) ON DELETE CASCADE
+);
 
 --          
 --       =================================================================================================================================================

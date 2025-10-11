@@ -1,6 +1,6 @@
   <?php
   include "../../../app/config/dbConnection.php";
-  include "../../../app/controllers/BVS/BVSLoginContrl.php";
+  include "../../../app/includes/BVS/BVSLoginContrl.php";
   ?>
   <!doctype html>
   <html lang="en">

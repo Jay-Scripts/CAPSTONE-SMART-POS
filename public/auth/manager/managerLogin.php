@@ -1,6 +1,6 @@
   <?php
   include "../../../app/config/dbConnection.php";
-  include "../../../app/controllers/managerModule/managerLogin.php";
+  include "../../../app/includes/managerModule/managerLogin.php";
   ?>
   <!doctype html>
   <html lang="en">
