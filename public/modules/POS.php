@@ -740,7 +740,7 @@ if (!isset($_SESSION['staff_name'])) {
             <button onclick="manualKey(9)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">9</button>
             <button onclick="clearCash()" class="p-3 bg-red-500 hover:bg-red-600 text-white rounded-lg">Clear</button>
             <button onclick="manualKey(0)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">0</button>
-            <button onclick="finalizePayment()" class=" p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">
+            <button onclick="checkout()" class=" p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">
               Enter
             </button>
           </div>
