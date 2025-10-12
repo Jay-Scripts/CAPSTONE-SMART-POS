@@ -1,4 +1,5 @@
-  const totalDisplay = document.querySelector('#totalAmount');
+<script>
+    const totalDisplay = document.querySelector('#totalAmount');
     let products = <?= json_encode($products) ?>;
     let selectedProduct = null;
     let cart = [];
@@ -584,3 +585,4 @@
         transType = type;
         updateDisplay();
     }
+</script>

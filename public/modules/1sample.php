@@ -494,13 +494,13 @@ header('Content-Type: text/html');
       document.getElementById('productModal').classList.add('hidden');
     }
 
-    function updateTotal() {
-      let price = 0;
-      const size = document.querySelector('input[name="size"]:checked');
-      if (size) price += parseFloat(size.dataset.price);
-      document.querySelectorAll('.addon-checkbox:checked').forEach(a => price += parseFloat(a.dataset.price));
-      subtotalEl.textContent = (price * quantityInput.value).toFixed(2);
-    }
+    // function updateTotal() {
+    //   let price = 0;
+    //   const size = document.querySelector('input[name="size"]:checked');
+    //   if (size) price += parseFloat(size.dataset.price);
+    //   document.querySelectorAll('.addon-checkbox:checked').forEach(a => price += parseFloat(a.dataset.price));
+    //   subtotalEl.textContent = (price * quantityInput.value).toFixed(2);
+    // }
 
     document.getElementById('increaseQty').onclick = () => {
       quantityInput.value = parseInt(quantityInput.value) + 1;
@@ -922,7 +922,7 @@ header('Content-Type: text/html');
       formData.append("change_amount", change);
       formData.append("total", originalTotal);
 
-      fetch(window.location.href, {
+      fetch('', {
           method: "POST",
           body: formData
         })

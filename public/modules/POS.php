@@ -1,15 +1,68 @@
 <?php
 include "../../app/config/dbConnection.php";
-
 session_start();
+
+// === POST handling for order_data ===
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
+  header('Content-Type: application/json');
+
+  $order_data = json_decode($_POST['order_data'], true);
+  $payment_type = $_POST['payment_type'] ?? 'CASH';
+  $tendered = $_POST['amount_sent'] ?? 0;
+  $change = $_POST['change_amount'] ?? 0;
+
+  try {
+    $conn->beginTransaction();
+    $total = 0;
+    foreach ($order_data as $item) {
+      $total += $item['price'] * $item['quantity'];
+    }
+
+    $staff_id = $_SESSION['staff_id'] ?? 69;
+
+    $stmt = $conn->prepare("INSERT INTO REG_TRANSACTION (STAFF_ID, TOTAL_AMOUNT) VALUES (?, ?)");
+    $stmt->execute([$staff_id, $total]);
+    $transaction_id = $conn->lastInsertId();
+
+    foreach ($order_data as $item) {
+      $stmt = $conn->prepare("INSERT INTO TRANSACTION_ITEM (REG_TRANSACTION_ID, PRODUCT_ID, SIZE_ID, QUANTITY, PRICE) VALUES (?, ?, ?, ?, ?)");
+      $stmt->execute([$transaction_id, $item['product_id'], $item['size_id'], $item['quantity'], $item['price']]);
+      $item_id = $conn->lastInsertId();
+
+      if (!empty($item['addons'])) {
+        $stmt = $conn->prepare("INSERT INTO item_add_ons (add_ons_id, item_id) VALUES (?, ?)");
+        foreach ($item['addons'] as $addon_id) $stmt->execute([$addon_id, $item_id]);
+      }
+
+      if (!empty($item['modifications'])) {
+        $stmt = $conn->prepare("INSERT INTO item_modification (item_id, modification_id) VALUES (?, ?)");
+        foreach ($item['modifications'] as $mod_id) $stmt->execute([$item_id, $mod_id]);
+      }
+    }
+
+    // Insert payment
+    $stmt = $conn->prepare("INSERT INTO PAYMENT_METHODS (REG_TRANSACTION_ID, TYPE, AMOUNT_SENT, CHANGE_AMOUNT) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$transaction_id, $payment_type, $tendered, $change]);
+
+    $conn->commit();
+    echo json_encode(['success' => true, 'transaction_id' => $transaction_id]);
+  } catch (PDOException $e) {
+    $conn->rollBack();
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+  }
+  exit; // Important! Stop HTML output for AJAX
+}
+// === End POST handling ===
+
+// ===== Existing session check & HTML output =====
 $userId = $_SESSION['staff_id'] ?? null;
-
-
 if (!isset($_SESSION['staff_name'])) {
   header("Location: ../auth/cashier/cashierLogin.php");
   exit;
 }
+header('Content-Type: text/html');
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -380,6 +433,22 @@ if (!isset($_SESSION['staff_name'])) {
           </div>
         </fieldset>
 
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                  Popup Modal for Ordering Starts Here                                                  =
+      ==========================================================================================================================================
+    -->
+        <?php
+        include_once "../../app/includes/POS/POSPopUpModalOrdering.php";
+        ?>
+        <!-- 
+      ==========================================================================================================================================
+      =                                                  Popup Modal for Ordering Ends Here                                                    =
+      ==========================================================================================================================================
+    -->
+
+
         <section id="milktea" class="hidden">
           <div class="titleContainer">
             <hr class="border border-[var(--border-color)] my-3" />
@@ -591,11 +660,7 @@ if (!isset($_SESSION['staff_name'])) {
             <div id="productList">
               <!-- items -->
             </div>
-            <!-- Subtotal -->
-            <div class="flex justify-between items-center border-t border-gray-300 mt-2 pt-2 px-2">
-              <span class="font-semibold text-gray-700">Subtotal</span>
-              <span id="subtotal" class="font-bold text-gray-800">₱0</span>
-            </div>
+
           </div>
 
           <!-- Checkout button (fixed at bottom) -->
@@ -740,7 +805,7 @@ if (!isset($_SESSION['staff_name'])) {
             <button onclick="manualKey(9)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">9</button>
             <button onclick="clearCash()" class="p-3 bg-red-500 hover:bg-red-600 text-white rounded-lg">Clear</button>
             <button onclick="manualKey(0)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">0</button>
-            <button onclick="checkout()" class=" p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">
+            <button onclick="finalizePayment()" class=" p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">
               Enter
             </button>
           </div>
@@ -843,6 +908,29 @@ if (!isset($_SESSION['staff_name'])) {
       =   JS Links Ends Here =
       ========================
     -->
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+  <!-- 
+      ==========================================================================================================================================
+      =                                                  Ordering Script for POS Starts Here                                                  =
+      ==========================================================================================================================================
+    -->
+  <?php
+
+  include_once "../../app/includes/POS/POSOrderingScript.php";
+
+  ?>
+  <!-- 
+      ==========================================================================================================================================
+      =                                                  Ordering Script for POS Ends Here                                                  =
+      ==========================================================================================================================================
+    -->
+
+
 </body>
 
 </html>

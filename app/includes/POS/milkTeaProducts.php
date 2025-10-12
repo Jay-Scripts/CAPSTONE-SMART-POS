@@ -1,146 +1,644 @@
 <?php
-include "POSAddonsAndMods.php";
 
-$sql = "
-    SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size, ps.regular_price
-    FROM product_details pd
-    JOIN product_sizes ps ON pd.product_id = ps.product_id
-    WHERE pd.category_id = 1
-      AND pd.status = 'active'
-    ORDER BY pd.product_name ASC
-";
-$stmt = $conn->prepare($sql);
-$stmt->execute();
+//   ==========================================================================================================================================
+//   =                                                   MilkTea Products Category Starts Here                                               =
+//   ==========================================================================================================================================
+
+$stmt = $conn->query("
+SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size_id, ps.size, ps.regular_price
+FROM product_details pd
+JOIN product_sizes ps ON pd.product_id = ps.product_id
+WHERE pd.category_id = 1
+AND pd.status = 'active'
+ORDER BY pd.product_name ASC
+");
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $products = [];
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+foreach ($rows as $row) {
     $id = $row['product_id'];
-    $products[$id]['name'] = $row['product_name'];
-    $products[$id]['thumbnail'] = $row['thumbnail_path'];
-    $products[$id]['sizes'][$row['size']] = $row['regular_price'];
+    if (!isset($products[$id])) {
+        $products[$id] = [
+            'product_id' => $id,
+            'product_name' => $row['product_name'],
+            'thumbnail_path' => $row['thumbnail_path'],
+            'sizes' => []
+        ];
+    }
+    $products[$id]['sizes'][] = [
+        'size_id' => $row['size_id'],
+        'size' => $row['size'],
+        'price' => $row['regular_price']
+    ];
 }
+//   ==========================================================================================================================================
+//   =                                                   MilkTea Products Category Ends Here                                                  =
+//   ==========================================================================================================================================
+
+
+
 ?>
 
-<!-- Product List -->
+
+
 <section class="flex flex-wrap justify-center gap-2">
-    <?php foreach ($products as $id => $product): ?>
+
+    <?php foreach ($products as $product): ?>
         <div class="optionChoice cursor-pointer aspect-square w-[47%] sm:w-[15%] bg-transparent rounded-lg border border-gray-400 p-2"
-            data-id="<?= htmlspecialchars($id) ?>"
-            data-name="<?= htmlspecialchars($product['name']) ?>"
-            data-thumb="<?= htmlspecialchars($product['thumbnail']) ?>"
-            data-sizes='<?= json_encode($product['sizes']) ?>'>
-            <img src="<?= htmlspecialchars($product['thumbnail']) ?>" class="object-cover" />
-            <p class="text-center text-xs font-bold"><?= htmlspecialchars($product['name']) ?></p>
+            onclick='openModal(<?= json_encode($product) ?>)'>
+            <img src="<?= $product['thumbnail_path'] ?>" class="object-cover">
+            <h3 class="text-center font-semibold"><?= htmlspecialchars($product['product_name']) ?></h3>
         </div>
     <?php endforeach; ?>
+
 </section>
 
-<!-- Product Modal -->
-<div id="productModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md p-5 relative">
-        <button onclick="closeModal()" class="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-lg font-bold">&times;</button>
 
-        <div class="flex flex-col items-center">
-            <img id="modalThumb" src="" alt="Product" class="w-32 h-32 rounded-lg object-cover mb-3">
-            <h2 class="text-lg font-semibold text-gray-800" id="productName"></h2>
-        </div>
+<script>
+    const totalDisplay = document.querySelector('#totalAmount');
+    let products = <?= json_encode($products) ?>;
+    let selectedProduct = null;
+    let cart = [];
+    let quantityInput = document.getElementById('quantity');
+    let subtotalEl = document.getElementById('subtotal');
 
-        <div id="sizeOptions" class="mt-4">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Select Size</h3>
-            <div id="sizesContainer" class="flex flex-col gap-2"></div>
-        </div>
+    function openModal(product) {
+        selectedProduct = product;
+        document.getElementById('modalThumb').src = product.thumbnail_path;
+        document.getElementById('productName').textContent = product.product_name;
 
-        <!-- Add-ons -->
-        <div class="mt-4">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Add-ons</h3>
-            <div class="flex flex-wrap gap-2">
-                <?php foreach ($addons as $addon): ?>
-                    <label class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-1 cursor-pointer">
-                        <input type="checkbox" class="addon-checkbox accent-green-500"
-                            data-id="<?= $addon['ADD_ONS_ID'] ?>"
-                            data-price="<?= $addon['PRICE'] ?>">
-                        <?= htmlspecialchars($addon['ADD_ONS_NAME']) ?> (+₱<?= number_format($addon['PRICE'], 2) ?>)
-                    </label>
-                <?php endforeach; ?>
-            </div>
-        </div>
+        // build size options dynamically
+        const sizesContainer = document.getElementById('sizesContainer');
+        sizesContainer.innerHTML = '';
+        product.sizes.forEach((s, i) => {
+            const price = Number(s.price) || 0;
+            sizesContainer.innerHTML += `
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="size" data-id="${s.size_id}" data-price="${price}" 
+               ${i === 0 ? 'checked' : ''} onchange="updateTotal()">
+        <span class="ml-2">${s.size}</span>
+        <span class="ml-auto">₱${price.toFixed(2)}</span>
+      </label>`;
+        });
+
+        quantityInput.value = 1;
+        document.querySelectorAll('.addon-checkbox').forEach(c => c.checked = false);
+        document.querySelectorAll('.mod-checkbox').forEach(c => c.checked = false);
+
+        attachModalListeners();
+        originalTotal
+        updateTotal();
+        document.getElementById('productModal').classList.remove('hidden');
+    }
+
+    function attachModalListeners() {
+        document.querySelectorAll('input[name="size"]').forEach(radio => {
+            radio.addEventListener('change', updateTotal);
+        });
+        document.querySelectorAll('.addon-checkbox').forEach(cb => {
+            cb.addEventListener('change', updateTotal);
+        });
+    }
+
+    function safeParse(v) {
+        v = String(v || '').replace(/[^\d.]/g, '');
+        const n = parseFloat(v);
+        return isNaN(n) ? 0 : n;
+    }
+
+    function updateTotal() {
+        const selectedSize = document.querySelector('input[name="size"]:checked');
+        const base = selectedSize ? safeParse(selectedSize.dataset.price) : 0;
+
+        let addons = 0;
+        document.querySelectorAll('.addon-checkbox:checked').forEach(a => {
+            addons += safeParse(a.dataset.price);
+        });
+
+        const qty = parseInt(quantityInput.value) || 1;
+        const total = (base + addons) * qty;
+
+        subtotalEl.textContent = total.toFixed(2);
+    }
+
+    // qty buttons
+    document.getElementById('increaseQty').onclick = () => {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updateTotal();
+    };
+    document.getElementById('decreaseQty').onclick = () => {
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            updateTotal();
+        }
+    };
 
 
-        <!-- Ice Level -->
-        <div class="mt-4">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Ice Level</h3>
-            <div class="flex flex-wrap gap-2" id="iceLevel">
-                <?php foreach ($modifications as $mod): ?>
-                    <?php if ($mod['MODIFICATION_ID'] >= 1 && $mod['MODIFICATION_ID'] <= 2): ?>
-                        <label class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-1 cursor-pointer">
-                            <input type="checkbox" class="mod-checkbox accent-blue-500"
-                                value="<?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>">
-                            <?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>
-                        </label>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-        </div>
 
-        <!-- Sugar Level -->
-        <div class="mt-4">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Sugar Level</h3>
-            <div class="flex flex-wrap gap-2" id="sugarLevel">
-                <?php foreach ($modifications as $mod): ?>
-                    <?php if ($mod['MODIFICATION_ID'] >= 3 && $mod['MODIFICATION_ID'] <= 6): ?>
-                        <label class="bg-gray-100 hover:bg-gray-200 rounded-lg px-3 py-1 cursor-pointer">
-                            <input type="checkbox" class="mod-checkbox accent-red-500"
-                                value="<?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>">
-                            <?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>
-                        </label>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-        </div>
+    function closeModal() {
+        document.getElementById('productModal').classList.add('hidden');
+    }
 
-        <script>
-            // Make checkboxes behave like radio buttons
-            function singleCheck(containerId) {
-                const container = document.getElementById(containerId);
-                container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    cb.addEventListener('change', () => {
-                        if (cb.checked) {
-                            container.querySelectorAll('input[type="checkbox"]').forEach(other => {
-                                if (other !== cb) other.checked = false;
-                            });
-                        }
-                    });
+    // function updateTotal() {
+    //   let price = 0;
+    //   const size = document.querySelector('input[name="size"]:checked');
+    //   if (size) price += parseFloat(size.dataset.price);
+    //   document.querySelectorAll('.addon-checkbox:checked').forEach(a => price += parseFloat(a.dataset.price));
+    //   subtotalEl.textContent = (price * quantityInput.value).toFixed(2);
+    // }
+
+    document.getElementById('increaseQty').onclick = () => {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updateTotal();
+    }
+    document.getElementById('decreaseQty').onclick = () => {
+        if (quantityInput.value > 1) quantityInput.value--;
+        updateTotal();
+    }
+
+    function addToOrder() {
+        const size = document.querySelector('input[name="size"]:checked');
+        if (!size) {
+            alert('Please select a size');
+            return;
+        }
+
+        const orderItem = {
+            product_id: selectedProduct.product_id,
+            size_id: parseInt(size.dataset.id),
+            quantity: parseInt(quantityInput.value),
+            price: parseFloat(size.dataset.price),
+            addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(a => parseInt(a.dataset.id)),
+            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value))
+        };
+
+        cart.push(orderItem);
+        closeModal();
+        renderCart();
+    }
+
+    function renderCart() {
+        const container = document.getElementById('productList');
+        container.innerHTML = '';
+
+        const addonsList = <?= json_encode($addons) ?>;
+        const modsList = <?= json_encode($modifications) ?>;
+
+        const merged = [];
+        cart.forEach((item, idx) => {
+            const key = `${item.product_id}-${item.size_id}-${JSON.stringify(item.addons)}-${JSON.stringify(item.modifications)}`;
+            const found = merged.find(i => i.key === key);
+            if (found) {
+                found.quantity += item.quantity;
+                found.indexes.push(idx);
+            } else {
+                merged.push({
+                    ...item,
+                    key,
+                    indexes: [idx]
                 });
             }
+        });
 
-            singleCheck('iceLevel');
-            singleCheck('sugarLevel');
-        </script>
+        let total = 0;
 
+        merged.forEach((item, index) => {
+            const product = products[item.product_id];
+            const sizeObj = product.sizes.find(s => s.size_id === item.size_id);
+            const sizeLabel = sizeObj ? ` (${sizeObj.size})` : '';
+            const subtotal = item.price * item.quantity;
+            total += subtotal;
 
+            const addonsText = item.addons?.length ?
+                item.addons.map(id => {
+                    const addon = addonsList.find(a => a.ADD_ONS_ID == id);
+                    return addon ? `${addon.ADD_ONS_NAME.toUpperCase()} (+₱${parseFloat(addon.PRICE).toFixed(2)})` : '';
+                }).join(', ') :
+                'None';
 
+            const modsText = item.modifications?.length ?
+                item.modifications.map(id => {
+                    const mod = modsList.find(m => m.MODIFICATION_ID == id);
+                    return mod ? mod.MODIFICATION_NAME.toUpperCase() : '';
+                }).join(', ') :
+                'None';
 
-        <!-- Quantity -->
-        <div class="flex items-center justify-between mt-4">
-            <span class="text-sm font-medium text-gray-700">Quantity:</span>
-            <div class="flex items-center space-x-2">
-                <button id="decreaseQty" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 rounded">−</button>
-                <input id="quantity" type="number" value="1" min="1" class="w-12 text-center border rounded" readonly>
-                <button id="increaseQty" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 rounded">+</button>
-            </div>
+            container.innerHTML += `
+      <div class="flex flex-col border-b border-gray-200 py-2 group">
+        <div class="flex justify-between items-center">
+          <span class="text-sm">${item.quantity}x ${product.product_name}${sizeLabel}</span>
+          <div class="flex items-center gap-3">
+            <span class="font-semibold text-gray-800">₱${subtotal.toFixed(2)}</span>
+
+            <!-- Edit Button -->
+            <button onclick="editCartItem(${item.indexes[0]})" class="text-blue-500 hover:text-blue-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-blue-500">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.121 2.121 0 013 3L12 14l-4 1 1-4z" />
+              </svg>
+            </button>
+
+            <!-- Delete Button -->
+            <button onclick="removeFromCart(${item.indexes.join(',')})" class="text-red-500 hover:text-red-700 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-red-500">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m5-3v3" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        <!-- Total -->
-        <div class="mt-4 text-right text-sm font-semibold text-gray-800">
-            Total: ₱<span id="totalPrice">0</span>
+        <div class="text-xs text-gray-600 ml-5 mt-1 space-y-0.5">
+          <div><b>Add-ons:</b> ${addonsText}</div>
+          <div><b>Mods:</b> ${modsText}</div>
         </div>
+      </div>
+    `;
+        });
 
-        <!-- Add to Order -->
-        <div class="mt-5 flex justify-end">
-            <button class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg shadow" onclick="addToOrder()">Add to Order</button>
-        </div>
-    </div>
-</div>
+        container.innerHTML += `
+    <div class="text-right font-semibold mt-2">Total: ₱${total.toFixed(2)}</div>
+  `;
+
+        if (totalDisplay) {
+            totalDisplay.textContent = `₱${total.toFixed(2)}`;
+        } else {
+            console.warn('⚠️ totalAmount element not found in DOM');
+        }
+
+        originalTotal = total;
+        updateDisplay();
+    }
+
+    /* ✏️ Edit item */
+    function editCartItem(index) {
+        const item = cart[index];
+        if (!item) return;
+
+        Swal.fire({
+            icon: 'info',
+            title: 'Edit Item',
+            text: 'You can now modify this item.',
+            timer: 1200,
+            showConfirmButton: false
+        });
+
+        const product = products[item.product_id];
+        openModal(product);
+
+        document.querySelectorAll('input[name="size"]').forEach(radio => {
+            if (parseInt(radio.dataset.id) === item.size_id) radio.checked = true;
+        });
+
+        document.querySelectorAll('.addon-checkbox').forEach(ch => {
+            ch.checked = item.addons.includes(parseInt(ch.dataset.id));
+        });
+
+        document.querySelectorAll('.mod-checkbox').forEach(ch => {
+            ch.checked = item.modifications.includes(parseInt(ch.value));
+        });
+
+        document.getElementById('quantity').value = item.quantity;
+        updateTotal();
+        selectedProduct.editingIndex = index;
+    }
+
+    /* 🗑️ Delete item */
+    function removeFromCart(...indexes) {
+        Swal.fire({
+            title: 'Remove Item?',
+            text: 'This item will be deleted from your order.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(result => {
+            if (result.isConfirmed) {
+                indexes.sort((a, b) => b - a).forEach(i => cart.splice(i, 1));
+                renderCart();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: 'The item has been removed.',
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+
+    /* ✅ Add or update item */
+    function addToOrder() {
+        const size = document.querySelector('input[name="size"]:checked');
+        if (!size) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Size',
+                text: 'Please select a size first.',
+                timer: 1500,
+                showConfirmButton: false
+            });
+            return;
+        }
+
+        let basePrice = parseFloat(size.dataset.price);
+        let addonsPrice = 0;
+
+        // calculate total add-ons price
+        document.querySelectorAll('.addon-checkbox:checked').forEach(a => {
+            addonsPrice += parseFloat(a.dataset.price);
+        });
+
+        const totalItemPrice = basePrice + addonsPrice;
+
+        const newItem = {
+            product_id: selectedProduct.product_id,
+            size_id: parseInt(size.dataset.id),
+            quantity: parseInt(document.getElementById('quantity').value),
+            price: totalItemPrice, // ✅ now includes add-ons
+            addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(a => parseInt(a.dataset.id)),
+            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value))
+        };
+
+        if (selectedProduct.editingIndex !== undefined) {
+            cart[selectedProduct.editingIndex] = newItem;
+            delete selectedProduct.editingIndex;
+            Swal.fire({
+                icon: 'success',
+                title: 'Item Updated',
+                text: 'The item was successfully updated.',
+                timer: 1000,
+                showConfirmButton: false
+            });
+        } else {
+            cart.push(newItem);
+            Swal.fire({
+                icon: 'success',
+                title: 'Added to Cart',
+                text: 'Item successfully added!',
+                timer: 1000,
+                showConfirmButton: false
+            });
+        }
+
+        closeModal();
+        renderCart();
+    }
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    // function checkout() {
+    //   if (cart.length === 0) {
+    //     Swal.fire({
+    //       icon: 'warning',
+    //       title: 'Empty Cart',
+    //       text: 'Add items before checkout!'
+    //     });
+    //     return;
+    //   }
+
+    //   const paymentType = currentPaymentType || 'CASH';
+    //   const change = tendered - originalTotal;
+
+    //   console.log("Sending payment:", {
+    //     tendered,
+    //     change,
+    //     originalTotal
+    //   }); // ✅ debug
+
+    //   const formData = new FormData();
+    //   formData.append('order_data', JSON.stringify(cart));
+    //   formData.append('payment_type', paymentType);
+    //   formData.append('tendered', tendered);
+    //   formData.append('change', change);
+
+    //   fetch(window.location.href, { // ✅ self
+    //       method: 'POST',
+    //       body: formData
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       if (data.success) {
+    //         Swal.fire({
+    //           icon: 'success',
+    //           title: 'Payment Successful!',
+    //           text: `Transaction #${data.transaction_id} recorded.`,
+    //           timer: 2000,
+    //           showConfirmButton: false
+    //         });
+    //         cart = [];
+    //         renderCart();
+    //         closeCalculator();
+    //       } else {
+    //         Swal.fire({
+    //           icon: 'error',
+    //           title: 'Error',
+    //           text: data.message
+    //         });
+    //       }
+    //     })
+    //     .catch(err => Swal.fire({
+    //       icon: 'error',
+    //       title: 'Server Error',
+    //       text: err.message
+    //     }));
+    // }
+
+    let currentPaymentType = 'CASH';
+
+    function openEPaymentPopup() {
+        currentPaymentType = 'E-PAYMENT';
+        document.getElementById('EPaymentPopup').classList.remove('hidden');
+    }
+
+    function closeEPaymentPopup() {
+        document.getElementById('EPaymentPopup').classList.add('hidden');
+    }
+
+    function addCash(amount) {
+        tenderedAmount += amount;
+        updateCalculatorDisplay();
+    }
+
+
+
+    //calc
+    let originalTotal = 0;
+    let total = originalTotal;
+    let tendered = 0;
+    let buffer = "";
+    let transType = null;
+
+    function openCalculator() {
+        if (cart.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "No Orders!",
+                text: "Please add an order before proceeding to payment.",
+                timer: 1500,
+                showConfirmButton: false
+            });
+            return;
+        }
+
+        originalTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        document.getElementById("calculatorModal").classList.remove("hidden");
+        document.getElementById("totalAmount").textContent = `₱${originalTotal.toFixed(2)}`;
+        tendered = 0;
+        buffer = "";
+        updateDisplay();
+
+        Swal.fire({
+            icon: "info",
+            title: "Payment Window Opened",
+            text: "Please enter the customer's payment.",
+            timer: 1200,
+            showConfirmButton: false
+        });
+    }
+
+
+
+
+    function closeCalculator() {
+        document.getElementById("calculatorModal").classList.add("hidden");
+        tendered = 0;
+        buffer = "";
+        transType = null;
+        total = originalTotal;
+        updateDisplay();
+    }
+    // 💰 Calculator input buttons
+    function manualKey(num) {
+        buffer += num;
+        tendered = parseFloat(buffer) || 0;
+        updateDisplay();
+    }
+
+    function clearCash() {
+        tendered = 0;
+        buffer = "";
+        updateDisplay();
+    }
+
+    function addCash(amount) {
+        tendered += amount;
+        updateDisplay();
+    }
+
+    // ✅ Finalize payment and send to PHP
+    function finalizePayment() {
+        if (cart.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Empty Cart",
+                text: "Add items before finalizing payment."
+            });
+            return;
+        }
+
+        // make sure the displayed total is used
+        originalTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        if (tendered < originalTotal) {
+            Swal.fire({
+                icon: "warning",
+                title: "Insufficient Payment",
+                text: "Tendered amount is less than total."
+            });
+            return;
+        }
+
+        const change = tendered - originalTotal;
+        const paymentType = currentPaymentType || "CASH";
+
+        console.log("🟢 Sending to PHP:", {
+            tendered,
+            change,
+            total: originalTotal,
+            paymentType
+        });
+
+        const formData = new FormData();
+        formData.append("order_data", JSON.stringify(cart));
+        formData.append("payment_type", paymentType);
+        formData.append("amount_sent", tendered);
+        formData.append("change_amount", change);
+        formData.append("total", originalTotal);
+
+        fetch('', {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Payment Successful!",
+                        text: `Change: ₱${change.toFixed(2)}`,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    cart = [];
+                    renderCart();
+                    closeCalculator();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.message || "Payment failed."
+                    });
+                }
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Server Error",
+                    text: err.message
+                });
+            });
+    }
+
+
+    // 🧾 Display update
+    function updateDisplay() {
+        const tenderedDisplay = document.getElementById("tenderedAmount");
+        const changeDisplay = document.getElementById("changeAmount");
+        const totalDisplayEl = document.getElementById("totalAmount");
+
+        if (totalDisplayEl) totalDisplayEl.textContent = `₱${originalTotal.toFixed(2)}`;
+        if (tenderedDisplay) tenderedDisplay.textContent = `₱${tendered.toFixed(2)}`;
+
+        const change = Math.max(0, tendered - originalTotal);
+        if (changeDisplay) changeDisplay.textContent = `₱${change.toFixed(2)}`;
+    }
+
+
+    function openQrPopup() {
+        document.getElementById("qrPopup").classList.remove("hidden");
+    }
+
+    function openEPaymentPopup() {
+        document.getElementById("EPaymentPopup").classList.remove("hidden");
+    }
+
+    function closeQrPopup() {
+        document.getElementById("qrPopup").classList.add("hidden");
+    }
+
+    function closeEPaymentPopup() {
+        document.getElementById("EPaymentPopup").classList.add("hidden");
+    }
+
+    function applyDiscount(type) {
+        if (transType) {
+            alert("Discount already applied: " + transType);
+            return;
+        }
+        total = originalTotal * 0.8;
+        transType = type;
+        updateDisplay();
+    }
+</script>
