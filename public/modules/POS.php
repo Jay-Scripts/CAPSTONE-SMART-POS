@@ -13,55 +13,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
 
   try {
     $conn->beginTransaction();
+
+    // 🧮 Compute total and VAT
     $total = 0;
     foreach ($order_data as $item) {
       $total += $item['price'] * $item['quantity'];
     }
+    $vat = $total * 0.12; // 12% VAT
 
     $staff_id = $_SESSION['staff_id'] ?? 69;
 
-    $stmt = $conn->prepare("INSERT INTO REG_TRANSACTION (STAFF_ID, TOTAL_AMOUNT) VALUES (?, ?)");
-    $stmt->execute([$staff_id, $total]);
+    // 🧾 Insert transaction with VAT and status 'PAID'
+    $stmt = $conn->prepare("
+      INSERT INTO REG_TRANSACTION (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS)
+      VALUES (:staff_id, :total, :vat, 'PAID')
+    ");
+    $stmt->execute([
+      ':staff_id' => $staff_id,
+      ':total' => $total,
+      ':vat' => $vat
+    ]);
+
     $transaction_id = $conn->lastInsertId();
 
+    // 🧺 Insert each item
+    $stmtItem = $conn->prepare("
+      INSERT INTO TRANSACTION_ITEM 
+      (REG_TRANSACTION_ID, PRODUCT_ID, SIZE_ID, QUANTITY, PRICE)
+      VALUES (:transaction_id, :product_id, :size_id, :quantity, :price)
+    ");
+
     foreach ($order_data as $item) {
-      $stmt = $conn->prepare("INSERT INTO TRANSACTION_ITEM (REG_TRANSACTION_ID, PRODUCT_ID, SIZE_ID, QUANTITY, PRICE) VALUES (?, ?, ?, ?, ?)");
-      $stmt->execute([$transaction_id, $item['product_id'], $item['size_id'], $item['quantity'], $item['price']]);
+      $stmtItem->execute([
+        ':transaction_id' => $transaction_id,
+        ':product_id' => $item['product_id'],
+        ':size_id' => $item['size_id'],
+        ':quantity' => $item['quantity'],
+        ':price' => $item['price']
+      ]);
       $item_id = $conn->lastInsertId();
 
+      // Add-ons
       if (!empty($item['addons'])) {
-        $stmt = $conn->prepare("INSERT INTO item_add_ons (add_ons_id, item_id) VALUES (?, ?)");
-        foreach ($item['addons'] as $addon_id) $stmt->execute([$addon_id, $item_id]);
+        $stmtAdd = $conn->prepare("
+          INSERT INTO item_add_ons (add_ons_id, item_id)
+          VALUES (:addon_id, :item_id)
+        ");
+        foreach ($item['addons'] as $addon_id) {
+          $stmtAdd->execute([
+            ':addon_id' => $addon_id,
+            ':item_id' => $item_id
+          ]);
+        }
       }
 
+      // Modifications
       if (!empty($item['modifications'])) {
-        $stmt = $conn->prepare("INSERT INTO item_modification (item_id, modification_id) VALUES (?, ?)");
-        foreach ($item['modifications'] as $mod_id) $stmt->execute([$item_id, $mod_id]);
+        $stmtMod = $conn->prepare("
+          INSERT INTO item_modification (item_id, modification_id)
+          VALUES (:item_id, :mod_id)
+        ");
+        foreach ($item['modifications'] as $mod_id) {
+          $stmtMod->execute([
+            ':item_id' => $item_id,
+            ':mod_id' => $mod_id
+          ]);
+        }
       }
     }
 
-    // Insert payment
-    $stmt = $conn->prepare("INSERT INTO PAYMENT_METHODS (REG_TRANSACTION_ID, TYPE, AMOUNT_SENT, CHANGE_AMOUNT) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$transaction_id, $payment_type, $tendered, $change]);
+    // 💳 Insert payment record
+    $stmtPay = $conn->prepare("
+      INSERT INTO PAYMENT_METHODS 
+      (REG_TRANSACTION_ID, TYPE, AMOUNT_SENT, CHANGE_AMOUNT)
+      VALUES (:transaction_id, :type, :amount_sent, :change_amount)
+    ");
+    $stmtPay->execute([
+      ':transaction_id' => $transaction_id,
+      ':type' => $payment_type,
+      ':amount_sent' => $tendered,
+      ':change_amount' => $change
+    ]);
 
     $conn->commit();
-    echo json_encode(['success' => true, 'transaction_id' => $transaction_id]);
+
+    echo json_encode([
+      'success' => true,
+      'transaction_id' => $transaction_id,
+      'vat_amount' => $vat,
+      'message' => 'Transaction saved and marked as PAID'
+    ]);
   } catch (PDOException $e) {
     $conn->rollBack();
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
   }
-  exit; // Important! Stop HTML output for AJAX
-}
-// === End POST handling ===
 
-// ===== Existing session check & HTML output =====
-$userId = $_SESSION['staff_id'] ?? null;
+  exit; // Stop further output for AJAX
+}
+
+// ===== Session check & HTML output =====
 if (!isset($_SESSION['staff_name'])) {
   header("Location: ../auth/cashier/cashierLogin.php");
   exit;
 }
 header('Content-Type: text/html');
 ?>
+
 
 
 <!DOCTYPE html>
@@ -217,7 +274,7 @@ header('Content-Type: text/html');
         <!-- Categories Section -->
         <fieldset
           id="orderCategory"
-          class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 p-2"
+          class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3"
           aria-label="Order Categories">
           <div class="categoryButtons ">
             <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
@@ -464,9 +521,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="milkteaMenu">
             <?php
-            include_once "../../app/includes/POS/milkTeaProducts.php"; // Including the milktea fetching logic  
-
+            $category_id = 1; // Milk Tea
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
         <section id="fruittea" class="hidden">
@@ -484,9 +542,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="fruitTeaMenu">
             <?php
-            include_once "../../app/includes/POS/fruitTeaProducts.php"; // Including the fruit tea fetching logic  
-
+            $category_id = 2; // Fruit Tea
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
         <section id="hotbrew" class="hidden">
@@ -504,9 +563,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="hotBrewMenu">
             <?php
-            include_once "../../app/includes/POS/hotBrewProducts.php"; // Including the fruit tea fetching logic  
-
+            $category_id = 3; // Hot Brew
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
         <section id="praf" class="hidden">
@@ -522,9 +582,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="prafMenu">
             <?php
-            include_once "../../app/includes/POS/prafProducts.php"; // Including the praf fetching logic  
-
+            $category_id = 4; // Praf
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
         <!-- 
@@ -550,9 +611,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="icedCoffeeMenu">
             <?php
-            include_once "../../app/includes/POS/icedCoffeeProducts.php"; // Including the iced coffee fetching logic  
-
+            $category_id = 6; // Iced Coffee
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
         <!-- 
@@ -576,9 +638,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="icedCoffeeMenu">
             <?php
-            include_once "../../app/includes/POS/promoProducts.php"; // Including the promo fetching logic  
-
+            $category_id = 7; // Promos
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
 
@@ -597,9 +660,10 @@ header('Content-Type: text/html');
             class="gap-1 mt-2 justify-center items-center text-black"
             id="brostyMenu">
             <?php
-            include_once "../../app/includes/POS/brostyProducts.php"; // Including the fruit tea fetching logic  
-
+            $category_id = 5; // Brosty
+            include "../../app/includes/POS/fetchProducts.php";
             ?>
+
           </div>
         </section>
 
@@ -878,6 +942,23 @@ header('Content-Type: text/html');
 
 
   <!-- 
+      ==========================================================================================================================================
+      =                                                  Ordering Script for POS Starts Here                                                  =
+      ==========================================================================================================================================
+    -->
+  <?php
+
+  include_once "../../app/includes/POS/POSOrderingScript.php";
+
+  ?>
+  <!-- 
+      ==========================================================================================================================================
+      =                                                  Ordering Script for POS Ends Here                                                  =
+      ==========================================================================================================================================
+    -->
+
+
+  <!-- 
     
       ========================
       = JS Links Starts Here =
@@ -895,8 +976,6 @@ header('Content-Type: text/html');
 
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/shared/theme-toggle.js"></script>
-  <!-- linked JS file below for footer scrpts -->
-  <script src="../JS/shared/footer.js"></script>
   <!-- linked JS file below for checking DB status -->
 
   <!-- <script src="../JS/shared/checkDBCon.js"></script> -->
@@ -912,23 +991,6 @@ header('Content-Type: text/html');
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-
-
-  <!-- 
-      ==========================================================================================================================================
-      =                                                  Ordering Script for POS Starts Here                                                  =
-      ==========================================================================================================================================
-    -->
-  <?php
-
-  include_once "../../app/includes/POS/POSOrderingScript.php";
-
-  ?>
-  <!-- 
-      ==========================================================================================================================================
-      =                                                  Ordering Script for POS Ends Here                                                  =
-      ==========================================================================================================================================
-    -->
 
 
 </body>

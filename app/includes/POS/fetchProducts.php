@@ -1,17 +1,20 @@
 <?php
+include "../../app/config/dbConnection.php";
 
-//   ==========================================================================================================================================
-//   =                                                   MilkTea Products Category Starts Here                                               =
-//   ==========================================================================================================================================
+if (!isset($category_id)) {
+    echo "<p class='text-red-500'>Category not specified.</p>";
+    return;
+}
 
-$stmt = $conn->query("
+$stmt = $conn->prepare("
 SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size_id, ps.size, ps.regular_price
 FROM product_details pd
 JOIN product_sizes ps ON pd.product_id = ps.product_id
-WHERE pd.category_id = 1
+WHERE pd.category_id = ?
 AND pd.status = 'active'
 ORDER BY pd.product_name ASC
 ");
+$stmt->execute([$category_id]);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $products = [];
@@ -31,18 +34,9 @@ foreach ($rows as $row) {
         'price' => $row['regular_price']
     ];
 }
-//   ==========================================================================================================================================
-//   =                                                   MilkTea Products Category Ends Here                                                  =
-//   ==========================================================================================================================================
-
-
-
 ?>
 
-
-
 <section class="flex flex-wrap justify-center gap-2">
-
     <?php foreach ($products as $product): ?>
         <div class="optionChoice cursor-pointer aspect-square w-[47%] sm:w-[15%] bg-transparent rounded-lg border border-gray-400 p-2"
             onclick='openModal(<?= json_encode($product) ?>)'>
@@ -50,9 +44,7 @@ foreach ($rows as $row) {
             <h3 class="text-center font-semibold"><?= htmlspecialchars($product['product_name']) ?></h3>
         </div>
     <?php endforeach; ?>
-
 </section>
-
 
 <script>
     const totalDisplay = document.querySelector('#totalAmount');
@@ -275,13 +267,7 @@ foreach ($rows as $row) {
         const item = cart[index];
         if (!item) return;
 
-        Swal.fire({
-            icon: 'info',
-            title: 'Edit Item',
-            text: 'You can now modify this item.',
-            timer: 1200,
-            showConfirmButton: false
-        });
+
 
         const product = products[item.product_id];
         openModal(product);
@@ -388,62 +374,6 @@ foreach ($rows as $row) {
 
 
 
-    // function checkout() {
-    //   if (cart.length === 0) {
-    //     Swal.fire({
-    //       icon: 'warning',
-    //       title: 'Empty Cart',
-    //       text: 'Add items before checkout!'
-    //     });
-    //     return;
-    //   }
-
-    //   const paymentType = currentPaymentType || 'CASH';
-    //   const change = tendered - originalTotal;
-
-    //   console.log("Sending payment:", {
-    //     tendered,
-    //     change,
-    //     originalTotal
-    //   }); // ✅ debug
-
-    //   const formData = new FormData();
-    //   formData.append('order_data', JSON.stringify(cart));
-    //   formData.append('payment_type', paymentType);
-    //   formData.append('tendered', tendered);
-    //   formData.append('change', change);
-
-    //   fetch(window.location.href, { // ✅ self
-    //       method: 'POST',
-    //       body: formData
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //       if (data.success) {
-    //         Swal.fire({
-    //           icon: 'success',
-    //           title: 'Payment Successful!',
-    //           text: `Transaction #${data.transaction_id} recorded.`,
-    //           timer: 2000,
-    //           showConfirmButton: false
-    //         });
-    //         cart = [];
-    //         renderCart();
-    //         closeCalculator();
-    //       } else {
-    //         Swal.fire({
-    //           icon: 'error',
-    //           title: 'Error',
-    //           text: data.message
-    //         });
-    //       }
-    //     })
-    //     .catch(err => Swal.fire({
-    //       icon: 'error',
-    //       title: 'Server Error',
-    //       text: err.message
-    //     }));
-    // }
 
     let currentPaymentType = 'CASH';
 
@@ -489,13 +419,7 @@ foreach ($rows as $row) {
         buffer = "";
         updateDisplay();
 
-        Swal.fire({
-            icon: "info",
-            title: "Payment Window Opened",
-            text: "Please enter the customer's payment.",
-            timer: 1200,
-            showConfirmButton: false
-        });
+
     }
 
 
@@ -630,15 +554,5 @@ foreach ($rows as $row) {
 
     function closeEPaymentPopup() {
         document.getElementById("EPaymentPopup").classList.add("hidden");
-    }
-
-    function applyDiscount(type) {
-        if (transType) {
-            alert("Discount already applied: " + transType);
-            return;
-        }
-        total = originalTotal * 0.8;
-        transType = type;
-        updateDisplay();
     }
 </script>
