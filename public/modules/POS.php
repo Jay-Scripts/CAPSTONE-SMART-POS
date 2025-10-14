@@ -2,6 +2,29 @@
 include "../../app/config/dbConnection.php";
 session_start();
 
+$allProducts = [];
+
+$categories = [
+  1 => 'Milk Tea',
+  2 => 'Fruit Tea',
+  3 => 'Hot Brew',
+  4 => 'Praf',
+  5 => 'Brosty',
+  6 => 'Iced Coffee',
+  7 => 'Promos',
+
+];
+
+foreach ($categories as $id => $label) {
+  $category_id = $id;
+  ob_start();
+  include "../../app/includes/POS/fetchProducts.php";
+  ob_end_clean();
+  if (isset($products)) {
+    $allProducts[$id] = $products; // store each category’s products
+  }
+}
+
 // === POST handling for order_data ===
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
   header('Content-Type: application/json');

@@ -47,8 +47,15 @@ foreach ($rows as $row) {
 </section>
 
 <script>
+    const allProducts = <?= json_encode($allProducts) ?>;
     const totalDisplay = document.querySelector('#totalAmount');
-    let products = <?= json_encode($products) ?>;
+    let products = {};
+    Object.values(allProducts).forEach(group => {
+        Object.values(group).forEach(prod => {
+            products[prod.product_id] = prod;
+        });
+    });
+
     let selectedProduct = null;
     let cart = [];
     let quantityInput = document.getElementById('quantity');
