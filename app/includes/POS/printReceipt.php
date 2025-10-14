@@ -55,25 +55,35 @@ try {
     $items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
 
     // 🧩 Add-ons and Mods
-    foreach ($items as &$item) {
+    foreach ($items as $key => $item) {
+        // fetch addons
         $stmtAdd = $conn->prepare("
-            SELECT ao.add_ons_name, ao.price
-            FROM item_add_ons ia
-            JOIN product_add_ons ao ON ia.add_ons_id = ao.add_ons_id
-            WHERE ia.item_id = :item_id
-        ");
+        SELECT ao.add_ons_name, ao.price
+        FROM item_add_ons ia
+        JOIN product_add_ons ao ON ia.add_ons_id = ao.add_ons_id
+        WHERE ia.item_id = :item_id
+    ");
         $stmtAdd->execute([':item_id' => $item['item_id']]);
-        $item['addons'] = $stmtAdd->fetchAll(PDO::FETCH_ASSOC);
+        $items[$key]['addons'] = $stmtAdd->fetchAll(PDO::FETCH_ASSOC);
 
+        // fetch mods
         $stmtMod = $conn->prepare("
-            SELECT pm.modification_name
-            FROM item_modification im
-            JOIN product_modifications pm ON im.modification_id = pm.modification_id
-            WHERE im.item_id = :item_id
-        ");
+        SELECT pm.modification_name
+        FROM item_modification im
+        JOIN product_modifications pm ON im.modification_id = pm.modification_id
+        WHERE im.item_id = :item_id
+    ");
         $stmtMod->execute([':item_id' => $item['item_id']]);
-        $item['modifications'] = $stmtMod->fetchAll(PDO::FETCH_ASSOC);
+        $items[$key]['modifications'] = $stmtMod->fetchAll(PDO::FETCH_ASSOC);
     }
+    $stmtTotalItems = $conn->prepare("
+    SELECT SUM(quantity) AS total_items
+    FROM transaction_item
+    WHERE reg_transaction_id = :id
+");
+    $stmtTotalItems->execute([':id' => $transaction_id]);
+    $totalItemsResult = $stmtTotalItems->fetch(PDO::FETCH_ASSOC);
+    $total_items = $totalItemsResult['total_items'] ?? 0;
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
 }
@@ -125,7 +135,7 @@ try {
     </style>
 </head>
 
-<body onload="window.print(); setTimeout(() => window.close(), 2000);">
+<body onload="window.print(); ">
 
     <header>
         <h1>BIG BREW POS</h1>
@@ -145,45 +155,42 @@ try {
                 <td colspan="2">
                     <?= $item['quantity'] ?>x <?= htmlspecialchars($item['product_name']) ?> (<?= htmlspecialchars($item['size']) ?>)
                 </td>
-                <td> ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                <td>₱<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
             </tr>
 
-            <tr>
-                <td colspan="2" class="addons">
-                    - Add-ons:
-                    <?php if (!empty($item['addons'])): ?>
+            <?php if (!empty($item['addons'])): ?>
+                <tr>
+                    <td colspan="3" style="padding-left: 10px; font-size: 12px;">
+                        *Add-ons:
                         <?php foreach ($item['addons'] as $addon): ?>
-                            &nbsp;&nbsp;- <?= htmlspecialchars($addon['add_ons_name']) ?> (+₱<?= number_format($addon['price'], 2) ?>)
+                            <div style="padding-left: 20px;">- <?= htmlspecialchars($addon['add_ons_name']) ?> (+₱<?= number_format($addon['price'], 2) ?>)</div>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        None
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="mods">
-                    - Mods:
-                    <?php if (!empty($item['modifications'])): ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <?php if (!empty($item['modifications'])): ?>
+                <tr>
+                    <td colspan="3" style="padding-left: 10px; font-size: 12px;">
+                        *Mods:
                         <?php foreach ($item['modifications'] as $mod): ?>
-                            &nbsp;&nbsp;- <?= htmlspecialchars($mod['modification_name']) ?> <br>
+                            <div style="padding-left: 20px;">- <?= htmlspecialchars($mod['modification_name']) ?></div>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        None
-                    <?php endif; ?>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            <?php endif; ?>
 
             <tr>
                 <td colspan="3">
                     <hr>
                 </td>
             </tr>
-
-
         <?php endforeach; ?>
     </table>
 
+    <p class="total">Total items:
 
+    <p class="total">Total Items: <?= $total_items ?></p>
     <p class="total">Subtotal: ₱<?= number_format($receipt['total_amount'] - $receipt['vat_amount'], 2) ?></p>
     <p class="total">VAT (12%): ₱<?= number_format($receipt['vat_amount'], 2) ?></p>
     <p class="total">Total: ₱<?= number_format($receipt['total_amount'], 2) ?></p>
