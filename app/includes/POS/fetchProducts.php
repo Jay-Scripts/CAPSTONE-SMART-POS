@@ -138,13 +138,6 @@ foreach ($rows as $row) {
         document.getElementById('productModal').classList.add('hidden');
     }
 
-    // function updateTotal() {
-    //   let price = 0;
-    //   const size = document.querySelector('input[name="size"]:checked');
-    //   if (size) price += parseFloat(size.dataset.price);
-    //   document.querySelectorAll('.addon-checkbox:checked').forEach(a => price += parseFloat(a.dataset.price));
-    //   subtotalEl.textContent = (price * quantityInput.value).toFixed(2);
-    // }
 
     document.getElementById('increaseQty').onclick = () => {
         quantityInput.value = parseInt(quantityInput.value) + 1;
@@ -509,12 +502,25 @@ foreach ($rows as $row) {
                         icon: "success",
                         title: "Payment Successful!",
                         text: `Change: ₱${change.toFixed(2)}`,
-                        timer: 2000,
+                        timer: 1500,
                         showConfirmButton: false
+                    }).then(() => {
+                        // 🧾 Fetch and print receipt
+                        fetch(`../../app/includes/POS/printReceipt.php?id=${data.transaction_id}`)
+                            .then(res => res.text())
+                            .then(receiptHTML => {
+                                const printWindow = window.open('', '_blank', 'width=400,height=600');
+                                printWindow.document.write(receiptHTML);
+                                printWindow.document.close();
+                                printWindow.focus();
+                                printWindow.print();
+                            });
+
+                        // 🧹 Clear cart and close calculator after print
+                        cart = [];
+                        renderCart();
+                        closeCalculator();
                     });
-                    cart = [];
-                    renderCart();
-                    closeCalculator();
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -530,6 +536,7 @@ foreach ($rows as $row) {
                     text: err.message
                 });
             });
+
     }
 
 

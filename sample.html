@@ -1,147 +1,62 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>POS Checkout</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Receipt #<?= $transaction_id ?></title>
+    <style>
+      body {
+        font-family: monospace;
+        width: 240px;
+      }
+      .center {
+        text-align: center;
+      }
+      hr {
+        border: 1px dashed #000;
+      }
+      .right {
+        text-align: right;
+      }
+    </style>
   </head>
-  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <!-- ========== MODAL ========== -->
-    <div
-      id="productModal"
-      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-    >
-      <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 w-80 relative">
-        <button
-          id="closeModal"
-          class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-lg font-bold"
-        >
-          ×
-        </button>
-
-        <h2
-          id="modalProductName"
-          class="text-lg font-bold mb-3 text-center text-[var(--text-color)]"
-        >
-          Product Name
-        </h2>
-
-        <div class="space-y-2 mb-4">
-          <p class="text-sm font-semibold">Select Size:</p>
-          <div class="flex gap-3 justify-center">
-            <button
-              class="size-btn bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
-              data-size="medio"
-            >
-              Medio
-            </button>
-            <button
-              class="size-btn bg-gray-200 hover:bg-gray-300 text-black px-3 py-1 rounded"
-              data-size="grande"
-            >
-              Grande
-            </button>
-          </div>
-        </div>
-
-        <div class="space-y-2 mb-4">
-          <p class="text-sm font-semibold">Add-ons:</p>
-          <div class="flex flex-wrap gap-2 justify-center">
-            <button
-              class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded"
-              data-addon="Pearls"
-            >
-              Pearls
-            </button>
-            <button
-              class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded"
-              data-addon="Cream"
-            >
-              Cream
-            </button>
-            <button
-              class="addon-btn bg-gray-100 hover:bg-gray-200 text-black px-2 py-1 text-xs rounded"
-              data-addon="Espresso Shot"
-            >
-              Espresso Shot
-            </button>
-          </div>
-        </div>
-
-        <button
-          id="confirmSelection"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg"
-        >
-          Confirm
-        </button>
-      </div>
+  <body>
+    <div class="center">
+      <h3>BIG BREW</h3>
+      <p>Official Receipt</p>
+      <hr />
     </div>
 
-    <script>
-      // Ensure JS runs after DOM is ready
-      document.addEventListener("DOMContentLoaded", () => {
-        // Open modal
-        document.querySelectorAll(".optionChoice").forEach((card) => {
-          card.addEventListener("click", () => {
-            const name = card.dataset.name;
-            const sizes = JSON.parse(card.dataset.sizes);
-            const modal = document.getElementById("productModal");
+    <?php foreach ($items as $item): ?>
+    <div>
+      <?= htmlspecialchars($item['PRODUCT_NAME']) ?> x<?= $item['QUANTITY'] ?>
+      <span class="right"
+        ><?= number_format($item['PRICE'] * $item['QUANTITY'], 2) ?></span
+      >
+    </div>
+    <?php endforeach; ?>
 
-            document.getElementById("modalProductName").textContent = name;
-            modal.dataset.productId = card.dataset.id;
-            modal.classList.remove("hidden");
-          });
-        });
+    <hr />
+    <div class="right">
+      VAT (12%): <?= number_format($transaction['VAT_AMOUNT'], 2) ?>
+    </div>
+    <div class="right">
+      Total: <?= number_format($transaction['TOTAL_AMOUNT'], 2) ?>
+    </div>
+    <div class="right">
+      Tendered: <?= number_format($transaction['AMOUNT_SENT'], 2) ?>
+    </div>
+    <div class="right">
+      Change: <?= number_format($transaction['CHANGE_AMOUNT'], 2) ?>
+    </div>
+    <hr />
 
-        // Close modal
-        document.getElementById("closeModal").addEventListener("click", () => {
-          document.getElementById("productModal").classList.add("hidden");
-        });
-
-        // Confirm button
-        document
-          .getElementById("confirmSelection")
-          .addEventListener("click", () => {
-            const modal = document.getElementById("productModal");
-            const productId = modal.dataset.productId;
-
-            const selectedSize = document.querySelector(
-              ".size-btn.bg-blue-500"
-            );
-            const selectedAddons = Array.from(
-              document.querySelectorAll(".addon-btn.bg-green-500")
-            ).map((btn) => btn.dataset.addon);
-
-            if (!selectedSize) {
-              alert("Please select a size!");
-              return;
-            }
-
-            const size = selectedSize.dataset.size;
-            alert(
-              `✅ Selected: Product ${productId}\nSize: ${size}\nAdd-ons: ${selectedAddons.join(", ") || "None"}`
-            );
-            modal.classList.add("hidden");
-          });
-
-        // Toggle size and add-on selections
-        document.querySelectorAll(".size-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            document
-              .querySelectorAll(".size-btn")
-              .forEach((b) => b.classList.remove("bg-blue-500", "text-white"));
-            btn.classList.add("bg-blue-500", "text-white");
-          });
-        });
-
-        document.querySelectorAll(".addon-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            btn.classList.toggle("bg-green-500");
-            btn.classList.toggle("text-white");
-          });
-        });
-      });
-    </script>
+    <div class="center">
+      <small
+        >Served by: <?= htmlspecialchars($transaction['STAFF_NAME']) ?></small
+      ><br />
+      <small
+        ><?= date('M d, Y h:i A', strtotime($transaction['CREATED_AT'])) ?></small
+      >
+    </div>
   </body>
 </html>
