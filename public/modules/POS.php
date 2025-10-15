@@ -659,7 +659,7 @@ header('Content-Type: text/html');
           </div>
           <div
             class="gap-1 mt-2 justify-center items-center text-black"
-            id="icedCoffeeMenu">
+            id="promosMenu">
             <?php
             $category_id = 7; // Promos
             include "../../app/includes/POS/fetchProducts.php";
@@ -993,7 +993,8 @@ header('Content-Type: text/html');
   <script src="../JS/pos/POSCartResponsiveScripts.js"></script>
   <!-- linked JS file below for ordering -->
   <script src="../JS/pos/POSCartResponsiveScripts"></script>
-  <!-- linked JS file below for payment -->
+  <!-- linked JS file below for Reltime product status check -->
+  <script src="../JS/pos/POSRealTimeProductCheckStatus.js"></script>
 
 
 
@@ -1012,7 +1013,6 @@ header('Content-Type: text/html');
     -->
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 
 

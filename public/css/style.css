@@ -145,7 +145,7 @@
     opacity: 1;
   }
 }
-
+/* 
 .optionChoice {
   animation: fade-in-bottom 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   animation: fade-in-bottom 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
@@ -204,7 +204,7 @@
 
 .optionChoice:nth-child(14) {
   animation-delay: 1.3s;
-}
+} */
 
 /*------------------------------------------------------------------------
  |                    Option Choices keyframes - Ends Here                |

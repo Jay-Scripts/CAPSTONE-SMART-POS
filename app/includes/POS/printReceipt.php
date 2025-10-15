@@ -188,7 +188,6 @@ try {
         <?php endforeach; ?>
     </table>
 
-    <p class="total">Total items:
 
     <p class="total">Total Items: <?= $total_items ?></p>
     <p class="total">Subtotal: ₱<?= number_format($receipt['total_amount'] - $receipt['vat_amount'], 2) ?></p>

@@ -23,5 +23,3 @@ function showModule(moduleId) {
 window.addEventListener("load", () => {
   showModule("milktea");
 });
-a;
-a;
