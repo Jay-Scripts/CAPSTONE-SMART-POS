@@ -1,6 +1,80 @@
 <?php
 include "../../app/config/dbConnection.php";
 
+$sql = "
+SELECT 
+    rt.REG_TRANSACTION_ID,
+    rt.STATUS,
+    rt.TOTAL_AMOUNT,
+    UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(rt.date_added) AS elapsed_seconds,
+    ti.ITEM_ID,
+    ti.QUANTITY,
+    ti.PRICE,
+    pd.product_name,
+    ps.SIZE AS size_name
+FROM REG_TRANSACTION rt
+JOIN TRANSACTION_ITEM ti ON rt.REG_TRANSACTION_ID = ti.REG_TRANSACTION_ID
+JOIN PRODUCT_DETAILS pd ON ti.PRODUCT_ID = pd.PRODUCT_ID
+JOIN PRODUCT_SIZES ps ON ti.SIZE_ID = ps.SIZE_ID
+WHERE rt.STATUS = 'PAID'
+ORDER BY rt.date_added DESC, ti.ITEM_ID ASC
+";
+
+$stmt = $conn->query($sql);
+
+$transactions = [];
+
+// Organize data by transaction
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  $regId = $row['REG_TRANSACTION_ID'];
+
+  if (!isset($transactions[$regId])) {
+    $transactions[$regId] = [
+      'status' => $row['STATUS'],
+      'total_amount' => $row['TOTAL_AMOUNT'],
+      'elapsed_seconds' => $row['elapsed_seconds'],
+      'items' => []
+    ];
+  }
+
+  $itemId = $row['ITEM_ID'];
+  // Fetch add-ons for this item
+  $addonsStmt = $conn->prepare("
+    SELECT pa.add_ons_name
+    FROM item_add_ons ia
+    JOIN product_add_ons pa ON ia.add_ons_id = pa.add_ons_id
+    WHERE ia.item_id = :itemId
+");
+  $addonsStmt->execute(['itemId' => $itemId]);
+  $addons = [];
+  while ($a = $addonsStmt->fetch(PDO::FETCH_ASSOC)) {
+    $addons[] = $a['add_ons_name']; // no price column
+  }
+
+  // Fetch modifications for this item
+  $modsStmt = $conn->prepare("
+    SELECT pm.modification_name
+    FROM item_modification im
+    JOIN product_modifications pm ON im.modification_id = pm.modification_id
+    WHERE im.item_id = :itemId
+");
+  $modsStmt->execute(['itemId' => $itemId]);
+  $mods = [];
+  while ($m = $modsStmt->fetch(PDO::FETCH_ASSOC)) {
+    $mods[] = $m['modification_name'];
+  }
+
+
+  $transactions[$regId]['items'][] = [
+    'quantity' => $row['QUANTITY'],
+    'product_name' => $row['product_name'],
+    'size' => $row['size_name'],
+    'price' => $row['PRICE'],
+    'addons' => $addons,
+    'mods' => $mods
+  ];
+}
+
 session_start();
 $userId = $_SESSION['staff_id'] ?? null;
 
@@ -26,9 +100,9 @@ if (!isset($_SESSION['staff_name'])) {
   <!--  linked css below for animations purpose -->
   <link href="../css/style.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
-  <link href="../css/output.css" rel="stylesheet" />
+  <!-- <link href="../css/output.css" rel="stylesheet" /> -->
   <!--  linked script below cdn of tailwind for online use -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
 
   <!-- SweetAlert2 CSS -->
@@ -163,67 +237,71 @@ if (!isset($_SESSION['staff_name'])) {
       = Main Contents Starts Here =
       =============================
     -->
+  <section id="ordersContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <?php if (empty($transactions)): ?>
+      <!-- Placeholder Card -->
+      <div class="order-card flex flex-col items-center justify-center m-4 p-6 rounded-xl border-2 border-dashed border-gray-500 bg-gray-800 text-center transition transform hover:scale-105 duration-200">
+        <p class="text-gray-400 text-lg font-semibold">No transactions yet</p>
+        <p class="text-gray-500 text-sm mt-2">Paid transactions will appear here</p>
+        <svg class="w-16 h-16 mt-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
+        </svg>
+      </div>
+    <?php else: ?>
+      <?php foreach ($transactions as $regId => $trans): ?>
+        <div class="order-card flex flex-col justify-between m-4 p-5 rounded-xl border-2 border-[var(--border-color)] bg-[var(--order-container)] shadow-lg transition transform hover:scale-105">
+          <div>
+            <h6 class="text-xl text-[var(--text-color)] font-semibold mb-2 truncate text-center border-b">
+              Transaction #<?= $regId ?>
+              <span class="font-bold text-green-400"><?= $trans['status'] ?></span>
+            </h6>
 
-  <section
-    id="ordersContainer"
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <!-- Order Update Card Placeholder -->
-    <div
-      class="order-card m-5 bg-[var(--order-container)] border-2 border-[var(--border-color)] rounded-lg shadow p-6 flex flex-col items-center justify-center animate-pulse">
-      <div class="w-16 h-16 bg-gray-400 rounded-full mb-4"></div>
-      <h2 class="text-xl font-semibold text-[var(--text-color)] mb-2">
-        Order Updates
-      </h2>
-      <p class="text-base text-gray-300 mb-4">Waiting for new orders...</p>
-      <div class="w-full h-4 bg-gray-500 rounded"></div>
-    </div>
-    <div
-      class="order-card m-5 bg-[var(--order-container)] border-2 border-[var(--border-color)] rounded-lg shadow p-6 flex flex-col items-center justify-center animate-pulse">
-      <div class="w-16 h-16 bg-gray-400 rounded-full mb-4"></div>
-      <h2 class="text-xl font-semibold text-[var(--text-color)] mb-2">
-        Order Updates
-      </h2>
-      <p class="text-base text-gray-300 mb-4">Waiting for new orders...</p>
-      <div class="w-full h-4 bg-gray-500 rounded"></div>
-    </div>
-    <div
-      class="order-card m-5 bg-[var(--order-container)] border-2 border-[var(--border-color)] rounded-lg shadow p-6 flex flex-col items-center justify-center animate-pulse">
-      <div class="w-16 h-16 bg-gray-400 rounded-full mb-4"></div>
-      <h2 class="text-xl font-semibold text-[var(--text-color)] mb-2">
-        Order Updates
-      </h2>
-      <p class="text-base text-gray-300 mb-4">Waiting for new orders...</p>
-      <div class="w-full h-4 bg-gray-500 rounded"></div>
-    </div>
-    <div
-      class="order-card m-5 bg-[var(--order-container)] border-2 border-[var(--border-color)] rounded-lg shadow p-6 flex flex-col items-center justify-center animate-pulse">
-      <div class="w-16 h-16 bg-gray-400 rounded-full mb-4"></div>
-      <h2 class="text-xl font-semibold text-[var(--text-color)] mb-2">
-        Order Updates
-      </h2>
-      <p class="text-base text-gray-300 mb-4">Waiting for new orders...</p>
-      <div class="w-full h-4 bg-gray-500 rounded"></div>
-    </div>
-    <div
-      class="order-card m-5 bg-[var(--order-container)] border-2 border-[var(--border-color)] rounded-lg shadow p-6 flex flex-col items-center justify-center animate-pulse">
-      <div class="w-16 h-16 bg-gray-400 rounded-full mb-4"></div>
-      <h2 class="text-xl font-semibold text-[var(--text-color)] mb-2">
-        Order Updates
-      </h2>
-      <p class="text-base text-gray-300 mb-4">Waiting for new orders...</p>
-      <div class="w-full h-4 bg-gray-500 rounded"></div>
-    </div>
-    <div
-      class="order-card m-5 bg-[var(--order-container)] border-2 border-[var(--border-color)] rounded-lg shadow p-6 flex flex-col items-center justify-center animate-pulse">
-      <div class="w-16 h-16 bg-gray-400 rounded-full mb-4"></div>
-      <h2 class="text-xl font-semibold text-[var(--text-color)] mb-2">
-        Order Updates
-      </h2>
-      <p class="text-base text-gray-300 mb-4">Waiting for new orders...</p>
-      <div class="w-full h-4 bg-gray-500 rounded"></div>
-    </div>
-    <!-- Orders will be injected here -->
+            <div class="mt-4 space-y-3">
+              <?php $totalCount = 0; ?>
+              <?php foreach ($trans['items'] as $item): ?>
+                <?php $totalCount += $item['quantity']; ?>
+                <div class="rounded-lg">
+                  <!-- Main item -->
+                  <p class="text-sm text-[var(--text-color)] font-medium"><?= $item['quantity'] ?>x <?= $item['product_name'] ?> (<?= $item['size'] ?>)</p>
+
+                  <!-- Add-ons -->
+                  <?php if ($item['addons']): ?>
+                    <div class="ml-4 mt-1 text-xs text-[var(--text-color)]">
+                      <p>*Add-ons:</p>
+                      <ul class="list-disc list-inside ml-4">
+                        <?php foreach ($item['addons'] as $addon): ?>
+                          <li><?= $addon ?></li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </div>
+                  <?php endif; ?>
+
+                  <!-- Mods -->
+                  <?php if ($item['mods']): ?>
+                    <div class="ml-4 mt-1 text-xs text-[var(--text-color)]">
+                      <p>*Mods:</p>
+                      <ul class="list-disc list-inside ml-4">
+                        <?php foreach ($item['mods'] as $mod): ?>
+                          <li><?= $mod ?></li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </div>
+                  <?php endif; ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
+            <p class="font-bold text-lg">Total Items: <?= $totalCount ?></p>
+            <button class="px-3 py-1 bg-green-500 text-[var(--text-color)] rounded-lg text-sm hover:bg-green-600 transition">Serve</button>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </section>
+
+
 
   <!-- 
       ===========================
@@ -318,6 +396,76 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/shared/dropDownLogout.js"></script>
   <!-- SweetAlert2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <script>
+    function fetchTransactions() {
+      fetch('../../app/includes/BVS/BVSRealtimeOrderSync.php')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('ordersContainer');
+          container.innerHTML = ''; // Clear old transactions
+
+          if (!data || data.length === 0) {
+            container.innerHTML = `
+          <div class="order-card flex flex-col items-center justify-center m-4 p-6 rounded-xl border-2 border-dashed border-gray-500 bg-gray-800 text-center transition transform hover:scale-105 duration-200">
+            <p class="text-gray-400 text-lg font-semibold">No transactions yet</p>
+            <p class="text-gray-500 text-sm mt-2">Paid transactions will appear here</p>
+          </div>`;
+            return;
+          }
+
+          data.forEach(trans => {
+            let totalCount = 0;
+            let itemsHTML = '';
+
+            trans.items.forEach(item => {
+              totalCount += item.quantity;
+              let addonsHTML = '';
+              if (item.addons && item.addons.length > 0) {
+                addonsHTML = `<div class="ml-4 mt-1 text-xs text-[var(--text-color)]"><p>*Add-ons:</p><ul class="list-disc list-inside ml-4">` +
+                  item.addons.map(a => `<li>${a}</li>`).join('') +
+                  `</ul></div>`;
+              }
+
+              let modsHTML = '';
+              if (item.mods && item.mods.length > 0) {
+                modsHTML = `<div class="ml-4 mt-1 text-xs text-[var(--text-color)]"><p>*Mods:</p><ul class="list-disc list-inside ml-4">` +
+                  item.mods.map(m => `<li>${m}</li>`).join('') +
+                  `</ul></div>`;
+              }
+
+              itemsHTML += `
+            <div class="rounded-lg">
+              <p class="text-sm text-[var(--text-color)] font-medium">${item.quantity}x ${item.product_name} (${item.size})</p>
+              ${addonsHTML}
+              ${modsHTML}
+            </div>`;
+            });
+
+            container.innerHTML += `
+          <div class="order-card flex flex-col justify-between m-4 p-5 rounded-xl border-2 border-[var(--border-color)] bg-[var(--order-container)] shadow-lg transition transform hover:scale-105">
+            <div>
+              <h6 class="text-xl text-[var(--text-color)] font-semibold mb-2 truncate text-center border-b">
+                Transaction #${trans.REG_TRANSACTION_ID}
+                <span class="font-bold text-green-400">${trans.status}</span>
+              </h6>
+              <div class="mt-4 space-y-3">
+                ${itemsHTML}
+              </div>
+            </div>
+            <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
+              <p class="font-bold text-lg">Total Items: ${totalCount}</p>
+              <button class="px-3 py-1 bg-green-500 text-[var(--text-color)] rounded-lg text-sm hover:bg-green-600 transition">Serve</button>
+            </div>
+          </div>`;
+          });
+        })
+        .catch(err => console.error(err));
+    }
+
+    // Refresh every 1 second
+    setInterval(fetchTransactions, 1000);
+    fetchTransactions(); // initial load
+  </script>
 </body>
 
 </html>
