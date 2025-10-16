@@ -11,7 +11,7 @@ if (!isset($_SESSION['staff_name'])) {
 }
 
 try {
-    $sql = "
+    $selecteQueryForPaidTrans = "
     SELECT 
         rt.REG_TRANSACTION_ID,
         rt.STATUS,
@@ -30,7 +30,7 @@ try {
     ORDER BY rt.date_added DESC, ti.ITEM_ID ASC
     ";
 
-    $stmt = $conn->query($sql);
+    $stmt = $conn->query($selecteQueryForPaidTrans);
 
     $transactions = [];
 

@@ -1,6 +1,5 @@
 <?php
 include "../../config/dbConnection.php";
-header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $id = $_POST['product_id'];

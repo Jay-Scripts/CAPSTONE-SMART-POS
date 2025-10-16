@@ -5,15 +5,15 @@ if (!isset($category_id)) {
     echo "<p class='text-red-500'>Category not specified.</p>";
     return;
 }
-
-$stmt = $conn->prepare("
+$selectStatementInactiveProducts = "
 SELECT pd.product_id, pd.product_name, pd.thumbnail_path, ps.size_id, ps.size, ps.regular_price
 FROM product_details pd
 JOIN product_sizes ps ON pd.product_id = ps.product_id
 WHERE pd.category_id = ?
 AND pd.status = 'inactive'
 ORDER BY pd.product_name ASC
-");
+";
+$stmt = $conn->prepare($selectStatementInactiveProducts);
 $stmt->execute([$category_id]);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -45,7 +45,7 @@ foreach ($rows as $row) {
             <!-- Disable Button -->
             <button
                 class="absolute top-2 right-2 bg-green-500 hover:bg-green-600 text-white text-xs px-2 py-1 rounded"
-                onclick="disableProduct(<?= $product['product_id'] ?>, event)">
+                onclick="enableProduct(<?= $product['product_id'] ?>, event)">
                 Enable
             </button>
         </div>
@@ -53,11 +53,11 @@ foreach ($rows as $row) {
 </section>
 
 <script>
-    function disableProduct(productId, event) {
+    function enableProduct(productId, event) {
         event.stopPropagation();
 
         Swal.fire({
-            title: "Enable Product?",
+            title: "Disable Product?",
             text: "Are you sure you want to Enable this product?",
             icon: "warning",
             showCancelButton: true,
@@ -82,7 +82,7 @@ foreach ($rows as $row) {
                             setTimeout(() => productCard.remove(), 300);
 
                             Swal.fire({
-                                title: "Enable!",
+                                title: "Disabled!",
                                 text: data.message,
                                 icon: "success",
                                 timer: 1500,

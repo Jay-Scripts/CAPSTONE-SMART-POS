@@ -45,7 +45,7 @@ foreach ($rows as $row) {
             <!-- Disable Button -->
             <button
                 class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded"
-                onclick="enableProduct(<?= $product['product_id'] ?>, event)">
+                onclick="disableProduct(<?= $product['product_id'] ?>, event)">
                 Disable
             </button>
         </div>
@@ -53,7 +53,7 @@ foreach ($rows as $row) {
 </section>
 
 <script>
-    function enableProduct(productId, event) {
+    function disableProduct(productId, event) {
         event.stopPropagation();
 
         Swal.fire({

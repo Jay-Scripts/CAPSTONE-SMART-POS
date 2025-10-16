@@ -2570,7 +2570,7 @@ if (!isset($_SESSION['staff_name'])) {
                     class="gap-1 mt-2 justify-center items-center text-black "
                     id="icedCoffeeMenu">
                     <?php
-                    $category_id = 5; // Brosty
+                    $category_id = 6; // Iced Coffee
                     include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>

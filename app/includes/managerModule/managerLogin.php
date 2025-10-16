@@ -1,6 +1,9 @@
 <?php
 session_start();
-$sanitizedManagerScannedID = $managerScannedID = $managerModuleLoginMessage = $managerModulePopupAlert = "";
+$sanitizedManagerScannedID =
+    $managerScannedID =
+    $managerModuleLoginMessage =
+    $managerModulePopupAlert = "";
 
 if (isset($_POST['managerModuleLogin'])) {
     $managerScannedID = trim($_POST['IDNumber']);
