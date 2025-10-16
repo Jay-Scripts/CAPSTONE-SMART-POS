@@ -618,7 +618,7 @@ if (!isset($_SESSION['staff_name'])) {
                   <h3
                     class="text-3xl font-bold text-[var(--text-color)] mt-1"
                     id="salesAmount">
-                    ₱45,600
+                    ₱ 150
                   </h3>
                 </div>
               </article>
@@ -636,11 +636,11 @@ if (!isset($_SESSION['staff_name'])) {
                     clip-rule="evenodd" />
                 </svg>
                 <div>
-                  <p class="text-sm text-[var(--text-color)]">Total Profit</p>
+                  <p class="text-sm text-[var(--text-color)]">Total Transactions</p>
                   <h3
                     class="text-3xl font-bold text-[var(--text-color)] mt-1"
                     id="profitAmount">
-                    ₱8,320
+                    69
                   </h3>
                 </div>
               </article>
@@ -656,7 +656,7 @@ if (!isset($_SESSION['staff_name'])) {
                     d="M2.25 3a.75.75 0 000 1.5h1.386l1.65 7.43a2.25 2.25 0 002.2 1.77h8.804a2.25 2.25 0 002.2-1.77l1.716-7.72A.75.75 0 0019.5 3H4.045l-.33-1.5H2.25zM6.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                 </svg>
                 <div>
-                  <p class="text-sm text-gray-500">Items Sold</p>
+                  <p class="text-sm text-gray-500">Total Product Sold</p>
                   <h3
                     class="text-3xl font-bold text-gray-800 mt-1"
                     id="itemsSold">
@@ -752,69 +752,10 @@ if (!isset($_SESSION['staff_name'])) {
               ===============================
                Payment method ends here 
                ===============================-->
-                <section class="glass-card bg-white rounded-xl shadow p-6">
-                  <h3 class="text-lg font-semibold text-gray-700 mb-4">
-                    📦 Stock History
-                  </h3>
 
-                  <ul class="text-sm text-gray-600 space-y-1">
-                    <li>• 10pcs Matcha added (July 23)</li>
-                    <li>• 5pcs Dark Choco removed (July 22)</li>
-                    <li>• 7pcs Taro added (July 20)</li>
-                    <li>• Inventory audit completed (July 19)</li>
-                  </ul>
-                </section>
               </div>
 
-              <!--
-              ===============================
-               stock alerts 
-               ===============================-->
-              <section
-                class="glass-card bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-xl"
-                aria-labelledby="stock-alerts-title">
-                <header>
-                  <h4
-                    id="stock-alerts-title"
-                    class="flex items-center gap-2 font-semibold text-[var(--text-color)] mb-4">
-                    <!-- Warning / Alert Icon -->
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-7 h-7 text-red-500"
-                      fill="currentColor"
-                      viewBox="0 0 20 20">
-                      <path
-                        fill-rule="evenodd"
-                        d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-7-4a1 1 0 
-               10-2 0v4a1 1 0 102 0V6zm0 8a1 1 0 
-               11-2 0 1 1 0 012 0z"
-                        clip-rule="evenodd" />
-                    </svg>
 
-                    Stock Alerts
-                  </h4>
-                </header>
-
-                <ul class="space-y-3">
-                  <li
-                    class="flex items-center space-x-2 bg-white/60 backdrop-blur-sm p-3 rounded-lg border border-white/20 shadow-sm">
-                    <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-                    <span class="text-sm text-slate-600">Iced Latte (4 left)</span>
-                  </li>
-
-                  <li
-                    class="flex items-center space-x-2 bg-white/60 backdrop-blur-sm p-3 rounded-lg border border-white/20 shadow-sm">
-                    <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                    <span class="text-sm text-slate-600">Choco Frappe (8 left)</span>
-                  </li>
-
-                  <li
-                    class="flex items-center space-x-2 bg-white/60 backdrop-blur-sm p-3 rounded-lg border border-white/20 shadow-sm">
-                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                    <span class="text-sm text-slate-600">All others in stock</span>
-                  </li>
-                </ul>
-              </section>
             </section>
           </div>
         </section>
