@@ -32,7 +32,6 @@ if (isset($_POST['registerStaff'])) {
             $staffRegistrationMessage['staffName'] = "<p class='text-red-500 text-sm bg-red-300 w-full rounded-xl p-3'>This staff name already exists.</p>";
         }
     }
-
     // validate role
     $validRoles = ['barista', 'cashier', 'manager'];
     if (empty($role)) {

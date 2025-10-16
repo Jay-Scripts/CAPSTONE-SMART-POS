@@ -23,13 +23,15 @@ if (!isset($_SESSION['staff_name'])) {
     type="image/x-icon" />
   <!-- cdn for chartJs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- cdn for sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!--  linked css below for animations purpose -->
   <link href="../css/style.css" rel="stylesheet" />
   <!--  linked css below for tailwind dependencies to work ofline -->
-  <link href="../css/output.css" rel="stylesheet" />
+  <!-- <link href="../css/output.css" rel="stylesheet" /> -->
   <!--  linked script below cdn of tailwind for online use -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-[var(--background-color)]">
@@ -1402,7 +1404,7 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <div class="flex items-center justify-center p-3 scaleIn">
+          <div class="flex items-center justify-center p-3 ">
             <div class="glass-card rounded-3xl shadow-2xl p-5">
               <div
                 class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -1710,7 +1712,8 @@ if (!isset($_SESSION['staff_name'])) {
                   id="modifySubmitBtn"
                   name="submit"
                   type="submit"
-                  class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none active:translate-y-0 relative overflow-hidden group animate-fade-in delay-300 animation-fill-both text-sm sm:text-base lg:text-lg">
+                  class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none 
+                  f:translate-y-0 relative overflow-hidden group animate-fade-in delay-300 animation-fill-both text-sm sm:text-base lg:text-lg">
                   <div
                     class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                   Update Role
@@ -1760,7 +1763,7 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <div class="flex items-center justify-center p-4 lg:p-8 scaleIn">
+          <div class="flex items-center justify-center p-4 lg:p-8 ">
             <div class="glass-card rounded-2xl shadow-lg p-8 lg:p-10">
               <div
                 class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -1875,7 +1878,7 @@ if (!isset($_SESSION['staff_name'])) {
                         for="activeStatus"
                         class="block p-4 glass-card border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-green-400 hover:shadow-lg peer-checked:!border-green-500 peer-checked:!bg-green-500/20 peer-checked:!shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <div
-                          class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
+                          class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
                           <svg
                             class="w-5 h-5 lg:w-6 lg:h-6 text-[var(--text-color)]"
                             fill="none"
@@ -2169,7 +2172,7 @@ if (!isset($_SESSION['staff_name'])) {
             </div>
           </header>
           <section class="flex justify-center items-center h-screen">
-            <div class="w-full h-[70vh] p-4">
+            <div class="w-full h-screen p-4">
               <div
                 id="menuContainer"
                 class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing">
@@ -2429,21 +2432,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="milktea" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Milk Tea Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="milkteaMenu">
-                    <?php include_once
-                      "../controllers/POS/milkTeaProducts.php"; // Including the
-                    //milktea fetching logic 
+                    <?php
+                    $category_id = 1; // MilkTea
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2460,21 +2463,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="fruittea" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Fruit Tea Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="fruitTeaMenu">
-                    <?php include_once
-                      "../controllers/POS/fruitTeaProducts.php"; // Including
-                    // the fruit tea fetching logic 
+                    <?php
+                    $category_id = 2; // Fruit Tea
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2491,21 +2494,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="hotbrew" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Hot Brew Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="hotBrewMenu">
-                    <?php include_once
-                      "../controllers/POS/hotBrewProducts.php"; // Including the
-                    // fruit tea fetching logic 
+                    <?php
+                    $category_id = 3; // Hotbrew
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2521,19 +2524,20 @@ if (!isset($_SESSION['staff_name'])) {
       ------------------------------------------------------------------------------------------------------------------------------------------
     -->
                 <section id="praf" class="hidden">
-                  <hr class="border-2 border-[var(--border-color)] my-5" />
+                  <hr class="border border-[var(--border-color)] my-5" />
 
                   <h1
                     id="menuTitle"
                     class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                     Praf Menu
                   </h1>
-                  <hr class="border-2 border-[var(--border-color)] my-5" />
+                  <hr class="border border-[var(--border-color)] my-5" />
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="prafMenu">
-                    <?php include_once "../controllers/POS/prafProducts.php";
-                    //Including the praf fetching logic 
+                    <?php
+                    $category_id = 4; // Praf
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2553,21 +2557,21 @@ if (!isset($_SESSION['staff_name'])) {
                   class="hidden"
                   aria-labelledby="icedcoffeeTitle">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Iced Coffee Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="icedCoffeeMenu">
-                    <?php include_once
-                      "../controllers/POS/icedCoffeeProducts.php"; // Including
-                    //   the iced coffee fetching logic 
+                    <?php
+                    $category_id = 5; // Brosty
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2584,20 +2588,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="promos" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Promo Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="promosMenu">
-                    <?php include_once "../controllers/POS/promoProducts.php";
-                    // Including the promo fetching logic 
+                    <?php
+                    $category_id = 7; // Promos
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2614,21 +2619,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="brosty" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Brosty Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="brostyMenu">
-                    <?php include_once
-                      "../controllers/POS/brostyProducts.php"; // Including the
-                    //    fruit tea fetching logic 
+                    <?php
+                    $category_id = 5; // Brosty
+                    include "../../app/includes/managerModule/managersFetchEnabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -2645,14 +2650,14 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="modify" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Modify
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                 </section>
                 <!-- 
@@ -2668,14 +2673,14 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="addOns" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Add-ons
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                 </section>
               </div>
@@ -2698,7 +2703,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Enable Product Starts Here                                                           =
       ==========================================================================================================================================
     -->
-        <section id="enableProduct" class="bg-white rounded-lg shadow">
+        <section id="enableProduct" class="bg-[var(background-color)] rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
@@ -2710,8 +2715,8 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <section class="flex justify-center items-center h-screen">
-            <div class="w-full h-[70vh] p-4">
+          <section class="flex justify-center h-screen">
+            <div class="w-full h-auto p-4">
               <div
                 id="menuContainer"
                 class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-3 landscape:col-span- portrait:active:cursor-grabbing">
@@ -2972,21 +2977,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="enableMilktea" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Milk Tea Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enableMilkteaMenu">
-                    <?php include_once
-                      "../controllers/POS/milkTeaProducts.php"; // Including the
-                    //  milktea fetching logic 
+                    <?php
+                    $category_id = 1; // MilkTea
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3003,21 +3008,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="enableFruittea" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Fruit Tea Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enableFruitTeaMenu">
-                    <?php include_once
-                      "../controllers/POS/fruitTeaProducts.php"; // Including
-                    //  the fruit tea fetching logic 
+                    <?php
+                    $category_id = 2; // Fruit Tea
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3034,21 +3039,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="enableHotbrew" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Hot Brew Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enableHotBrewMenu">
-                    <?php include_once
-                      "../controllers/POS/hotBrewProducts.php"; // Including the
-                    //   fruit tea fetching logic 
+                    <?php
+                    $category_id = 3; // Hot Brew
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3064,19 +3069,20 @@ if (!isset($_SESSION['staff_name'])) {
       ------------------------------------------------------------------------------------------------------------------------------------------
     -->
                 <section id="enablePraf" class="hidden">
-                  <hr class="border-2 border-[var(--border-color)] my-5" />
+                  <hr class="border border-[var(--border-color)] my-5" />
 
                   <h1
                     id="menuTitle"
                     class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                     Praf Menu
                   </h1>
-                  <hr class="border-2 border-[var(--border-color)] my-5" />
+                  <hr class="border border-[var(--border-color)] my-5" />
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enablePrafMenu">
-                    <?php include_once "../controllers/POS/prafProducts.php";
-                    //Including the praf fetching logic 
+                    <?php
+                    $category_id = 4; // Praf
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3096,21 +3102,21 @@ if (!isset($_SESSION['staff_name'])) {
                   class="hidden"
                   aria-labelledby="icedcoffeeTitle">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Iced Coffee Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enableIcedCoffeeMenu">
-                    <?php include_once
-                      "../controllers/POS/icedCoffeeProducts.php"; // Including
-                    //  the iced coffee fetching logic 
+                    <?php
+                    $category_id = 6; // Iced Coffee
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3130,21 +3136,21 @@ if (!isset($_SESSION['staff_name'])) {
                   class="hidden"
                   aria-labelledby="PromosTitle">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Promos Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enablePromosMenu">
-                    <?php include_once
-                      "../controllers/POS/icedCoffeeProducts.php"; // Including
-                    //  the iced coffee fetching logic 
+                    <?php
+                    $category_id = 7; // Promos
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3161,21 +3167,21 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="enableBrosty" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Brosty Menu
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                   <div
-                    class="gap-1 mt-2 justify-center items-center text-black overflow-y-auto hide-scrollbar max-h-[calc(55vh-50px)]"
+                    class="gap-1 mt-2 justify-center items-center text-black "
                     id="enableBrostyMenu">
-                    <?php include_once
-                      "../controllers/POS/brostyProducts.php"; // Including the
-                    //  fruit tea fetching logic 
+                    <?php
+                    $category_id = 5; // Brosty
+                    include "../../app/includes/managerModule/managersFetchDisabledProducts.php";
                     ?>
                   </div>
                 </section>
@@ -3192,14 +3198,14 @@ if (!isset($_SESSION['staff_name'])) {
     -->
                 <section id="enableModify" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Modify
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                 </section>
                 <!-- 
@@ -3216,14 +3222,14 @@ if (!isset($_SESSION['staff_name'])) {
 
                 <section id="enableAddOns" class="hidden">
                   <div class="titleContainer">
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
 
                     <h1
                       id="menuTitle"
                       class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
                       Add-ons
                     </h1>
-                    <hr class="border-2 border-[var(--border-color)] my-5" />
+                    <hr class="border border-[var(--border-color)] my-5" />
                   </div>
                 </section>
               </div>
@@ -3428,53 +3434,6 @@ if (!isset($_SESSION['staff_name'])) {
       ==========================================================================================================================================
     -->
 
-    <footer class="fixed bottom-0 w-full bg-[transparent] px-3 p-5 z-50">
-      <div class="flex items-center justify-center">
-        <!-- Centered Info -->
-        <div class="flex justify-center items-center gap-3 text-[11px]">
-          <!-- Online/Offline -->
-          <span
-            class="onlineContainer flex items-center gap-1 text-base font-medium text-[var(--text-color)]">
-            <span class="text-[14px] text-green-600">●</span> Online
-          </span>
-          <span
-            class="offlineContainer hidden items-center gap-1 text-base font-medium text-[var(--text-color)]">
-            <span class="text-[14px] text-red-600">●</span> Offline
-          </span>
-
-          <!-- Date -->
-          <span class="flex items-center gap-1 text-[var(--text-color)]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              class="h-[1vw]"
-              fill="var(--text-color)">
-              <path
-                d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
-            </svg>
-            <span
-              id="footerDate"
-              class="font-medium text-base text-[var(--text-color)]">Loading...</span>
-          </span>
-
-          <!-- Time -->
-          <span
-            class="flex items-center text-base gap-1 text-[var(--text-color)]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              class="h-[1vw]"
-              fill="var(--text-color)">
-              <path
-                d="M582-298 440-440v-200h80v167l118 118-56 57ZM440-720v-80h80v80h-80Zm280 280v-80h80v80h-80ZM440-160v-80h80v80h-80ZM160-440v-80h80v80h-80ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-            </svg>
-            <span
-              id="footerTime"
-              class="text-base font-medium text-[var(--text-color)]">Loading...</span>
-          </span>
-        </div>
-      </div>
-    </footer>
 
     <!-- 
       ==========================================================================================================================================
@@ -3506,8 +3465,6 @@ if (!isset($_SESSION['staff_name'])) {
 
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/shared/theme-toggle.js"></script>
-  <!-- linked JS file below for footer scrpts -->
-  <script src="../JS/shared/footer.js"></script>
   <!-- linked JS file below for checking DB status -->
   <!-- <script src="../JS/shared/checkDBCon.js"></script> -->
 

@@ -31,7 +31,7 @@ const categories = [
 
 function loadProducts(categoryId, targetId) {
   fetch(
-    `../../app/includes/POS/fetchProductsAjax.php?category_id=${categoryId}`
+    `../../app/includes/POS/POSRealTimeProductCheckStatus.php?category_id=${categoryId}`
   )
     .then((res) => res.text())
     .then((html) => {

@@ -1,62 +1,174 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>Receipt #<?= $transaction_id ?></title>
+    <meta charset="utf-8" />
+    <title>Device Fingerprint Demo</title>
     <style>
       body {
-        font-family: monospace;
-        width: 240px;
+        font-family:
+          system-ui,
+          -apple-system,
+          Arial;
+        padding: 20px;
+        max-width: 900px;
       }
-      .center {
-        text-align: center;
+      .card {
+        border: 1px solid #ddd;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
       }
-      hr {
-        border: 1px dashed #000;
+      button {
+        padding: 8px 12px;
+        margin-right: 8px;
       }
-      .right {
-        text-align: right;
+      pre {
+        background: #f7f7f7;
+        padding: 10px;
+        border-radius: 6px;
+        overflow: auto;
       }
     </style>
   </head>
   <body>
-    <div class="center">
-      <h3>BIG BREW</h3>
-      <p>Official Receipt</p>
-      <hr />
+    <h2>Device Fingerprint (Demo)</h2>
+    <div class="card">
+      <div>
+        <button id="runBtn">Get Fingerprint</button>
+        <button id="copyBtn" disabled>Copy Fingerprint</button>
+      </div>
+
+      <p><strong>Fingerprint:</strong> <span id="fp">—</span></p>
+      <p><strong>Short summary:</strong> <span id="summary">—</span></p>
+
+      <details>
+        <summary>Full signals (click to expand)</summary>
+        <pre id="signals">—</pre>
+      </details>
     </div>
 
-    <?php foreach ($items as $item): ?>
-    <div>
-      <?= htmlspecialchars($item['PRODUCT_NAME']) ?> x<?= $item['QUANTITY'] ?>
-      <span class="right"
-        ><?= number_format($item['PRICE'] * $item['QUANTITY'], 2) ?></span
-      >
-    </div>
-    <?php endforeach; ?>
+    <script>
+      async function getDeviceFingerprint() {
+        const nav = window.navigator;
+        const screenInfo = window.screen || {};
+        const signals = {
+          userAgent: nav.userAgent,
+          platform: nav.platform,
+          languages: nav.languages,
+          language: nav.language,
+          cookieEnabled: nav.cookieEnabled,
+          doNotTrack: nav.doNotTrack,
+          hardwareConcurrency: nav.hardwareConcurrency,
+          deviceMemory: nav.deviceMemory,
+          screen: {
+            width: screenInfo.width,
+            height: screenInfo.height,
+            availWidth: screenInfo.availWidth,
+            availHeight: screenInfo.availHeight,
+            colorDepth: screenInfo.colorDepth,
+          },
+          timezoneOffset: new Date().getTimezoneOffset(),
+          touchSupport: {
+            maxTouchPoints: nav.maxTouchPoints || 0,
+            ontouchstart: "ontouchstart" in window,
+          },
+          pluginsLength: (nav.plugins && nav.plugins.length) || 0,
+          mimeTypesLength: (nav.mimeTypes && nav.mimeTypes.length) || 0,
+          canvasFp: await getCanvasFingerprint(),
+          webglFp: getWebGLFingerprint(),
+        };
+        const text = JSON.stringify(signals);
+        const hash = await sha256(text);
+        return { fingerprint: hash, signals };
+      }
 
-    <hr />
-    <div class="right">
-      VAT (12%): <?= number_format($transaction['VAT_AMOUNT'], 2) ?>
-    </div>
-    <div class="right">
-      Total: <?= number_format($transaction['TOTAL_AMOUNT'], 2) ?>
-    </div>
-    <div class="right">
-      Tendered: <?= number_format($transaction['AMOUNT_SENT'], 2) ?>
-    </div>
-    <div class="right">
-      Change: <?= number_format($transaction['CHANGE_AMOUNT'], 2) ?>
-    </div>
-    <hr />
+      function getCanvasFingerprint() {
+        return new Promise((resolve) => {
+          try {
+            const cvs = document.createElement("canvas");
+            cvs.width = 200;
+            cvs.height = 50;
+            const ctx = cvs.getContext("2d");
+            ctx.fillStyle = "#f60";
+            ctx.fillRect(0, 0, 200, 50);
+            ctx.font = '16px "Arial"';
+            ctx.fillStyle = "#069";
+            ctx.fillText("DeviceFingerprint test 🔍", 10, 25);
+            ctx.globalCompositeOperation = "multiply";
+            ctx.fillStyle = "rgba(255,0,255,0.3)";
+            ctx.beginPath();
+            ctx.arc(50, 25, 20, 0, Math.PI * 2);
+            ctx.fill();
+            resolve(cvs.toDataURL());
+          } catch (e) {
+            resolve("");
+          }
+        });
+      }
 
-    <div class="center">
-      <small
-        >Served by: <?= htmlspecialchars($transaction['STAFF_NAME']) ?></small
-      ><br />
-      <small
-        ><?= date('M d, Y h:i A', strtotime($transaction['CREATED_AT'])) ?></small
-      >
-    </div>
+      function getWebGLFingerprint() {
+        try {
+          const canvas = document.createElement("canvas");
+          const gl =
+            canvas.getContext("webgl") ||
+            canvas.getContext("experimental-webgl");
+          if (!gl) return "";
+          const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+          const vendor = dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : "";
+          const renderer = dbg
+            ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)
+            : "";
+          return vendor + "|" + renderer;
+        } catch (e) {
+          return "";
+        }
+      }
+
+      async function sha256(message) {
+        const msgUint8 = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      // UI wiring
+      const runBtn = document.getElementById("runBtn");
+      const copyBtn = document.getElementById("copyBtn");
+      const fpEl = document.getElementById("fp");
+      const summaryEl = document.getElementById("summary");
+      const signalsEl = document.getElementById("signals");
+
+      runBtn.addEventListener("click", async () => {
+        runBtn.disabled = true;
+        runBtn.textContent = "Running…";
+        try {
+          const { fingerprint, signals } = await getDeviceFingerprint();
+          fpEl.textContent = fingerprint;
+          summaryEl.textContent = `${signals.platform} — ${signals.userAgent.split(")")[0] || signals.userAgent}`;
+          signalsEl.textContent = JSON.stringify(signals, null, 2);
+          copyBtn.disabled = false;
+        } catch (err) {
+          fpEl.textContent = "Error: " + (err.message || err);
+        } finally {
+          runBtn.disabled = false;
+          runBtn.textContent = "Get Fingerprint";
+        }
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        const text = fpEl.textContent || "";
+        try {
+          await navigator.clipboard.writeText(text);
+          copyBtn.textContent = "Copied!";
+          setTimeout(() => {
+            copyBtn.textContent = "Copy Fingerprint";
+          }, 1200);
+        } catch {
+          alert(
+            "Clipboard failed — manually copy the fingerprint from the page."
+          );
+        }
+      });
+    </script>
   </body>
 </html>

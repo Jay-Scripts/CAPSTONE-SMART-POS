@@ -44,10 +44,4 @@ form.addEventListener("submit", () => {
   if (!validateStaffName()) {
     return; // mag stop if invalid
   }
-<<<<<<< HEAD
-=======
-
-  
-  
->>>>>>> 9579e6990e44b70c0c0ced7bc11b33e99a50c5cd
 });

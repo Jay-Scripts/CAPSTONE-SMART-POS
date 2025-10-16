@@ -2,7 +2,7 @@
             include "../../app/includes/managerModule/managerStaffRegistrationContrl.php";
             ?>
 
-          <div class="flex items-center justify-center p-4 lg:p-8 scaleIn">
+          <div class="flex items-center justify-center p-4 lg:p-8">
               <div class="glass-card rounded-2xl shadow-lg p-8 lg:p-10">
                   <div
                       class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">

@@ -66,6 +66,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
   $transactions[$regId]['items'][] = [
+
     'quantity' => $row['QUANTITY'],
     'product_name' => $row['product_name'],
     'size' => $row['size_name'],
