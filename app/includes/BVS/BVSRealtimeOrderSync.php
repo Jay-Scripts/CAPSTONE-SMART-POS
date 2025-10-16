@@ -39,6 +39,7 @@ try {
 
         if (!isset($transactions[$regId])) {
             $transactions[$regId] = [
+                'REG_TRANSACTION_ID' => $regId,
                 'status' => $row['STATUS'],
                 'total_amount' => $row['TOTAL_AMOUNT'],
                 'elapsed_seconds' => $row['elapsed_seconds'],

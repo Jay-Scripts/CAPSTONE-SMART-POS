@@ -295,7 +295,12 @@ if (!isset($_SESSION['staff_name'])) {
 
           <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
             <p class="font-bold text-lg">Total Items: <?= $totalCount ?></p>
-            <button class="px-3 py-1 bg-green-500 text-[var(--text-color)] rounded-lg text-sm hover:bg-green-600 transition">Serve</button>
+            <button
+              class="px-3 py-1 bg-green-500 text-[var(--text-color)] rounded-lg text-sm hover:bg-green-600 transition serve-btn"
+              data-id="${trans.REG_TRANSACTION_ID}">
+              Serve
+            </button>
+
           </div>
         </div>
       <?php endforeach; ?>
@@ -398,6 +403,48 @@ if (!isset($_SESSION['staff_name'])) {
   <!-- SweetAlert2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
   <script>
+    // Handle Serve button click
+    document.addEventListener("click", async (e) => {
+      if (e.target.classList.contains("serve-btn")) {
+        const regId = e.target.dataset.id;
+
+        const confirm = await Swal.fire({
+          title: "Mark as 'Now Serving'?",
+          text: `Transaction #${regId}`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#16a34a",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, serve it"
+        });
+
+        if (confirm.isConfirmed) {
+          const res = await fetch("../../app/includes/BVS/BVSserveTransaction.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `reg_id=${regId}`
+          });
+
+          const result = await res.json();
+
+          if (result.success) {
+            Swal.fire({
+              icon: "success",
+              title: "Now Serving!",
+              text: `Transaction #${regId} is now serving.`,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            fetchTransactions(); // refresh orders
+          } else {
+            Swal.fire("Error", "Failed to update transaction.", "error");
+          }
+        }
+      }
+    });
+
     function fetchTransactions() {
       fetch('../../app/includes/BVS/BVSRealtimeOrderSync.php')
         .then(response => response.json())
@@ -443,21 +490,26 @@ if (!isset($_SESSION['staff_name'])) {
             });
 
             container.innerHTML += `
-          <div class="order-card flex flex-col justify-between m-4 p-5 rounded-xl border-2 border-[var(--border-color)] bg-[var(--order-container)] shadow-lg transition transform hover:scale-105">
-            <div>
-              <h6 class="text-xl text-[var(--text-color)] font-semibold mb-2 truncate text-center border-b">
-                Transaction #${trans.REG_TRANSACTION_ID}
-                <span class="font-bold text-green-400">${trans.status}</span>
-              </h6>
-              <div class="mt-4 space-y-3">
-                ${itemsHTML}
-              </div>
-            </div>
-            <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
-              <p class="font-bold text-lg">Total Items: ${totalCount}</p>
-              <button class="px-3 py-1 bg-green-500 text-[var(--text-color)] rounded-lg text-sm hover:bg-green-600 transition">Serve</button>
-            </div>
-          </div>`;
+  <div class="order-card flex flex-col justify-between m-4 p-5 rounded-xl border-2 border-[var(--border-color)] bg-[var(--order-container)] shadow-lg transition transform hover:scale-105">
+    <div>
+      <h6 class="text-xl text-[var(--text-color)] font-semibold mb-2 truncate text-center border-b">
+        Transaction #${trans.REG_TRANSACTION_ID}
+        <span class="font-bold text-green-400">${trans.status}</span>
+      </h6>
+      <div class="mt-4 space-y-3">
+        ${itemsHTML}
+      </div>
+    </div>
+    <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
+      <p class="font-bold text-lg">Total Items: ${totalCount}</p>
+      <button 
+        class="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition serve-btn" 
+        data-id="${trans.REG_TRANSACTION_ID}">
+        Serve
+      </button>
+    </div>
+  </div>`;
+
           });
         })
         .catch(err => console.error(err));

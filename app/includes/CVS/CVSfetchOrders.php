@@ -8,7 +8,7 @@ $response = ['preparing' => [], 'serving' => []];
 $stmt = $conn->query("
   SELECT REG_TRANSACTION_ID 
   FROM REG_TRANSACTION 
-  WHERE STATUS IN ('PAID', 'PENDING') 
+  WHERE STATUS IN ('PAID') 
   ORDER BY date_added DESC
 ");
 $response['preparing'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
