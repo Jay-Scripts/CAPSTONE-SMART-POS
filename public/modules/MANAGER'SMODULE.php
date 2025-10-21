@@ -180,7 +180,7 @@ if (!isset($_SESSION['staff_name'])) {
           <div class="px-6 py-2 mt-2">
             <h3
               class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider">
-              Product Management
+              Inventory Management
             </h3>
           </div>
           <section class="space-y-1 px-3 group">
@@ -569,7 +569,7 @@ if (!isset($_SESSION['staff_name'])) {
         <!-- 
       ==========================================================================================================================================
       =                                                                                                                                        =
-      =                                                     Overview module Ends Here                                                          =
+      =                                                     Overview module Starts Here                                                          =
       =                                                                                                                                        =
       ==========================================================================================================================================
     -->
@@ -590,109 +590,100 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2 text-[var(--text-color)]">
-            📊 Overview
-          </h3>
+
+
           <div
             class="p-6 space-y-8 bg-[var(--background-color)] min-h-screen">
             <!-- 
-          ====================================
-            Store Performance Summary Starts Here
-          ====================================  
-        -->
+      ==========================================================================================================================================
+      =                                                     KPI Cards Starts Here                                                          =
+      ==========================================================================================================================================
+    -->
             <section
               aria-label="Store Performance Summary"
               class="grid portrait:grid-cols-1 sm:grid-cols-3 md:grid-cols-1 landscape:grid-cols-3 gap-6">
-              <article
-                class="glass-card bg-[var(--background-color)] p-4 rounded-lg shadow flex items-center space-x-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-10 w-10 text-green-500"
-                  viewBox="0 0 24 24"
+              <article class="glass-card bg-[var(--background-color)] p-4 rounded-lg shadow flex items-center space-x-4">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  class="h-10 w-10 text-[var(--text-color)]"
+                  viewBox="0 -960 960 960"
                   fill="currentColor">
-                  <path
-                    d="M2.25 6.75A2.25 2.25 0 014.5 4.5h15a2.25 2.25 0 012.25 2.25v.75h-19.5v-.75zM2.25 9h19.5v1.5H2.25V9zm0 3h19.5v1.5H2.25V12zm0 3h19.5v1.5H2.25V15zM2.25 18h19.5v.75a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V18z" />
+                  <path d="M320-414v-306h120v306l-60-56-60 56Zm200 60v-526h120v406L520-354ZM120-216v-344h120v224L120-216Zm0 98 258-258 142 122 224-224h-64v-80h200v200h-80v-64L524-146 382-268 232-118H120Z" />
                 </svg>
                 <div>
                   <p class="text-sm text-[var(--text-color)]">Total Sales</p>
-                  <h3
-                    class="text-3xl font-bold text-[var(--text-color)] mt-1"
-                    id="salesAmount">
+                  <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="salesAmount">
                     ₱ 150
                   </h3>
                 </div>
               </article>
 
-              <article
-                class="glass-card bg-[var(--background-color)] rounded-lg shadow flex items-center space-x-4">
+
+              <article class="glass-card bg-[var(--background-color)] rounded-lg shadow flex items-center space-x-4 p-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-10 w-10 text-blue-500"
-                  viewBox="0 0 20 20"
+                  class="w-10 h-10 text-[var(--text-color)]"
+                  viewBox="0 -960 960 960"
                   fill="currentColor">
-                  <path
-                    fill-rule="evenodd"
-                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 001 1h1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1h1a1 1 0 001-1V3zM4 6v10h12V6H4z"
-                    clip-rule="evenodd" />
+                  <path d="m691-150 139-138-42-42-97 95-39-39-42 43 81 81ZM240-600h480v-80H240v80ZM720-40q-83 0-141.5-58.5T520-240q0-83 58.5-141.5T720-440q83 0 141.5 58.5T920-240q0 83-58.5 141.5T720-40ZM120-80v-680q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v267q-19-9-39-15t-41-9v-243H200v562h243q5 31 15.5 59T486-86l-6 6-60-60-60 60-60-60-60 60-60-60-60 60Zm120-200h203q3-21 9-41t15-39H240v80Zm0-160h284q38-37 88.5-58.5T720-520H240v80Zm-40 242v-562 562Z" />
                 </svg>
                 <div>
                   <p class="text-sm text-[var(--text-color)]">Total Transactions</p>
-                  <h3
-                    class="text-3xl font-bold text-[var(--text-color)] mt-1"
-                    id="profitAmount">
+                  <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="profitAmount">
                     69
                   </h3>
                 </div>
               </article>
 
-              <article
-                class="glass-card bg-white p-4 rounded-lg shadow flex items-center space-x-4">
+
+              <article class="glass-card bg-[var(--background-color)] rounded-lg shadow flex items-center space-x-4 p-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-10 w-10 text-yellow-500"
+                  class="w-10 h-10 text-[var(--text-color)]"
                   viewBox="0 0 24 24"
                   fill="currentColor">
-                  <path
-                    d="M2.25 3a.75.75 0 000 1.5h1.386l1.65 7.43a2.25 2.25 0 002.2 1.77h8.804a2.25 2.25 0 002.2-1.77l1.716-7.72A.75.75 0 0019.5 3H4.045l-.33-1.5H2.25zM6.5 21a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                  <path d="M8 2a1 1 0 0 0-1 1v1H5a1 1 0 0 0-.99 1.14l1.75 14A2 2 0 0 0 7.74 21h8.52a2 2 0 0 0 1.98-1.86l1.75-14A1 1 0 0 0 19 4h-2V3a1 1 0 0 0-1-1H8Zm1 2h6v1H9V4Zm-2 3h10l-1.5 12h-7L7 7Zm2.5 3a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1Zm5 0a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1ZM9 14a.75.75 0 1 1 0 1.5A.75.75 0 0 1 9 14Zm6 0a.75.75 0 1 1 0 1.5A.75.75 0 0 1 15 14Z" />
                 </svg>
                 <div>
-                  <p class="text-sm text-gray-500">Total Product Sold</p>
-                  <h3
-                    class="text-3xl font-bold text-gray-800 mt-1"
-                    id="itemsSold">
+                  <p class="text-sm text-[var(--text-color)]">Total Product Sold</p>
+                  <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="itemsSold">
                     379
                   </h3>
                 </div>
               </article>
+
             </section>
+            <!-- 
+      ==========================================================================================================================================
+      =                                                     KPI Cards Ends Here                                                          =
+      ==========================================================================================================================================
+    -->
+
 
             <!-- 
-          ====================================
-            Store Performance Summary ends Here
-          ====================================  
-        -->
-            <!-- 
-          ====================================
-            Charts Starts Here
-          ====================================  
-        -->
+      ==========================================================================================================================================
+      =                                                     Visual Analytics Starts Here                                                          =
+      ==========================================================================================================================================
+    -->
 
             <section
               class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-4 mb-8">
-              <!--
-              ===============================
-               Sales Overview Starts here 
-               ===============================-->
+              <!--Sales Overview Starts here-->
               <section
                 class="bg-[var(--background-color)] space-y-6"
                 aria-label="Charts and Graphs">
-                <article
-                  class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6">
-                  <div
-                    class="bg-[var(--background-color)] flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700">
-                      📈 Sales Overview
+                <article class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6">
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="flex items-center gap-2 text-lg font-semibold text-[var(--text-color)]">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-[var(--text-color)]"
+                        viewBox="0 -960 960 960"
+                        fill="currentColor">
+                        <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                      </svg>
+                      Sales Overview
                     </h3>
+
                     <select
                       id="ovSalesFilter"
                       class="glass-light border border-black rounded px-2 py-1 text-sm">
@@ -701,24 +692,26 @@ if (!isset($_SESSION['staff_name'])) {
                       <option value="month">This Month</option>
                     </select>
                   </div>
+
                   <canvas id="ovSalesChart" height="100"></canvas>
                 </article>
+                <!--Sales Overview Ends here-->
 
-                <!--
-              ===============================
-               SALES OVERVIIEW charts ENDS HERE 
-               ===============================-->
 
-                <!--
-              ===============================
-               Top selling Products charts Starts HERE 
-               ===============================-->
-                <article
-                  class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6">
+                <!-- Top selling Products charts Starts HERE -->
+                <article class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6">
                   <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700">
-                      🛍️ Top-Selling Products
+                    <h3 class="flex items-center gap-2 text-lg font-semibold text-[var(--text-color)]">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-[var(--text-color)]"
+                        viewBox="0 -960 960 960"
+                        fill="currentColor">
+                        <path d="M160-160v-320h160v320H160Zm240 0v-640h160v640H400Zm240 0v-440h160v440H640Z" />
+                      </svg>
+                      Top-Selling Products
                     </h3>
+
                     <select
                       id="ovTsFilter"
                       class="glass-light border border-gray-300 rounded px-2 py-1 text-sm">
@@ -727,36 +720,42 @@ if (!isset($_SESSION['staff_name'])) {
                       <option value="month">This Month</option>
                     </select>
                   </div>
+
                   <canvas id="ovTsChart" height="100"></canvas>
                 </article>
+
               </section>
-              <!--
-              ===============================
-               Top-Seling ends Here 
-               ===============================-->
-              <!--
-              ===============================
-               Payment Method Starts here 
-               ===============================-->
+              <!-- Top-Seling ends Here -->
+
+
+              <!-- Payment Method Starts here -->
               <div class="space-y-6">
-                <article class="glass-card rounded-xl shadow p-6 bg-white">
-                  <h3 class="text-base font-semibold text-gray-700 mb-4">
-                    💳 Payment Method Breakdown
-                  </h3>
-                  <canvas
-                    id="ovPaymentMethodChart"
-                    width="50"
-                    height="50"></canvas>
+                <article class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6 ">
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="flex items-center gap-2 text-base font-semibold text-[var(--text-color)]">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[var(--text-color)]" viewBox="0 -960 960 960" fill="currentColor">
+                        <path d="M880-720v480q0 33-23.5 56.5T800-160H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720Zm-720 80h640v-80H160v80Zm0 160v240h640v-240H160Zm0 240v-480 480Z" />
+                      </svg>
+                      Payment Method Breakdown
+                    </h3>
+                  </div>
+
+                  <canvas id="ovPaymentMethodChart" height="100"></canvas>
                 </article>
-                <!--
-              ===============================
-               Payment method ends here 
-               ===============================-->
+
+                <!-- Payment method ends here -->
 
               </div>
 
 
             </section>
+
+
+            <!-- 
+      ==========================================================================================================================================
+      =                                                     Visual Analytics Ends Here                                                          =
+      ==========================================================================================================================================
+    -->
           </div>
         </section>
         <!-- 
@@ -798,304 +797,7 @@ if (!isset($_SESSION['staff_name'])) {
             </div>
           </header>
 
-          <!-- =============================================
-                 DASHBOARD CONTENT CONTAINER STARTS HERE
-                 ================================================= -->
-          <div class="p-4 sm:p-6 sm:space-y-8 bg-[var(--background-color)]">
-            <!-- ====================
-           Cards starts Here
-           ======================= -->
-            <section
-              class="bg-[var(--background-color)] grid grid-cols-1 xl:grid-cols-2 sm:gap-6"
-              aria-label="overview charts">
-              <!-- =============================================
-               Category's Percentage per sales charts Starts here
-               ================================================= -->
-              <article
-                class="glass-card rounded-xl shadow-lg p-4 sm:p-6 bg-white ease-in-out">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
-                    Sales Distribution by Category
-                  </h2>
-                  <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <svg
-                      class="w-4 h-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20">
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Updated 2 min ago</span>
-                  </div>
-                </div>
-                <div class="relative h-64 sm:h-80">
-                  <canvas
-                    id="srSalesCategoryChart"
-                    class="max-h-full"></canvas>
-                </div>
-              </article>
 
-              <!-- =============================================
-               Category's Percentage per sales charts Ends here
-               ================================================= -->
-              <!-- =============================================
-               Promos charts Starts here
-               ================================================= -->
-
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
-                    Active Promos Performance
-                  </h2>
-                </div>
-                <div class="relative h-64 sm:h-80">
-                  <canvas id="srPromosChart" class="max-h-full"></canvas>
-                </div>
-              </article>
-
-              <!-- =============================================
-               Promos charts Ends here
-               ================================================= -->
-            </section>
-            <!-- =============================================
-               Category charts Starts here
-               ================================================= -->
-            <section
-              class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 sm:gap-6"
-              aria-label="Category charts">
-              <!-- =============================================
-               Iced Coffee charts Starts here
-               ================================================= -->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
-                    <h3
-                      class="text-base sm:text-lg font-semibold text-gray-800">
-                      Iced Coffee
-                    </h3>
-                  </div>
-                  <select
-                    id="srIcedCoffeeFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
-                  <canvas id="srIcedCoffeeChart"></canvas>
-                </div>
-                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
-                  </div>
-                </div>
-              </article>
-
-              <!-- =============================================
-               Iced Coffee charts Ends here
-               ================================================= -->
-
-              <!-- =================================
-                      Fruit Tea charts Starts here
-               ======================================= -->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg sm:p-6 ease-in-out">
-                <div
-                  class="bg-[var(--background-color)] flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <h3
-                      class="text-base sm:text-lg font-semibold text-gray-800">
-                      Fruit Tea
-                    </h3>
-                  </div>
-                  <select
-                    id="srFruitteaFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
-                  <canvas id="srFruitteaChart"></canvas>
-                </div>
-                <div class="mt-3 p-3 bg-green-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-green-600">₱18,420</span>
-                  </div>
-                </div>
-              </article>
-              <!-- =============================================
-               Fruit Tea charts ends here
-               ================================================= -->
-
-              <!-- =================================
-               Hot Brew charts Starts here
-               ======================================= -->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <h3
-                      class="text-base sm:text-lg font-semibold text-gray-800">
-                      Hot Brew
-                    </h3>
-                  </div>
-                  <select
-                    id="srHotbrewFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
-                  <canvas id="srHotbrewChart"></canvas>
-                </div>
-                <div class="mt-3 p-3 bg-yellow-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-yellow-600">₱15,230</span>
-                  </div>
-                </div>
-              </article>
-              <!-- =============================================
-               Hot Brew charts ends here
-               ================================================= -->
-
-              <!-- =============================================
-               Category charts Starts here
-               ================================================= -->
-
-              <!-- =================================
-               Praf charts Starts here
-               ======================================= -->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-amber-600 rounded-full"></div>
-                    <h3
-                      class="text-base sm:text-lg font-semibold text-gray-800">
-                      Praf
-                    </h3>
-                  </div>
-                  <select
-                    id="srPrafFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <div class="relative h-[300px] w-[250px] sm:h-64">
-                  <canvas id="srPrafChart"></canvas>
-                </div>
-                <div class="mt-3 p-3 bg-amber-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-amber-600">₱12,890</span>
-                  </div>
-                </div>
-              </article>
-              <!-- =============================================
-               Praf charts ends here
-               ================================================= -->
-
-              <!-- =========================================
-             Milktea charts Starts Here
-             ============================================== -->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 fade-in">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <h3
-                      class="text-base sm:text-lg font-semibold text-gray-800">
-                      Milk Tea
-                    </h3>
-                  </div>
-                  <select
-                    id="srMilkteaFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
-                  <canvas id="srMilkteaChart"></canvas>
-                </div>
-                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-blue-600">₱24,580</span>
-                  </div>
-                </div>
-              </article>
-
-              <!-- =================================
-                       Milktea charts ends here
-               ======================================= -->
-
-              <!-- =============================================
-               Brosty charts Starts here
-               ================================================= -->
-              <article
-                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                  <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
-                    <h3
-                      class="text-base sm:text-lg font-semibold text-gray-800">
-                      Iced Coffee
-                    </h3>
-                  </div>
-                  <select
-                    id="srBrostyFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
-                </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
-                  <canvas id="srBrostyChart"></canvas>
-                </div>
-                <div class="mt-3 p-3 bg-indigo-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
-                  </div>
-                </div>
-              </article>
-
-              <!-- =============================================
-               Brosty charts Ends here
-               ================================================= -->
-            </section>
-
-            <!-- =============================================
-               Praf/Iced Coffee charts Ends here
-               ================================================= -->
-          </div>
         </section>
         <!-- 
       ==========================================================================================================================================
@@ -1298,18 +1000,16 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Register Staff Starts Here                                                         =
       ==========================================================================================================================================
     -->
-        <section id="registerStaff" class="bg-[var(--background-color)]">
-          <header class="shadow-sm p-3 text-[var(--text-color)]">
-            <div
-              class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <section id="registerStaff" class="bg-[var(--background-color)] text-[var(--text-color)]">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
               <div>
-                <h2 class="text-2xl sm:text-3xl ">
-                  Staff Registration
-                </h2>
-                <p class="text-sm sm:text-base mt-1">
-                  Please fill out the form below to register a new staff
-                  member.
+                <h2 class="text-2xl font-bold">Staff Registration</h2>
+                <p class="text-sm">
+                  Add new staff members and manage their account details.
                 </p>
+
               </div>
             </div>
           </header>
@@ -2100,14 +1800,14 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Disable Product Starts Here                                                          =
       ==========================================================================================================================================
     -->
-        <section id="disableProduct" class="bg-white rounded-lg shadow">
+        <section id="disableProduct" class="bg-[var(--background-color)] rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
-              <div>
+              <div class="text-[var(--text-color)]">
                 <h2 class="text-2xl font-bold">Disable Product</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
+                <p class="text-sm">
+                  Manage your store inventory by temporarily disabling products that are out of stock or unavailable.
                 </p>
               </div>
             </div>
@@ -2648,11 +2348,12 @@ if (!isset($_SESSION['staff_name'])) {
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
-              <div>
+              <div class="text-[var(--text-color)]">
                 <h2 class="text-2xl font-bold">Enable Product</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
+                <p class="text-sm">
+                  Reactivate previously disabled products to make them available for sale in your store again.
                 </p>
+
               </div>
             </div>
           </header>
@@ -3195,23 +2896,317 @@ if (!isset($_SESSION['staff_name'])) {
     -->
         <section
           id="productMovementHistory"
-          class="bg-white rounded-lg shadow">
+          class="bg-[var(--background-color)] rounded-lg shadow text-[var(--text-color)]">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
                 <h2 class="text-2xl font-bold">Product Movement History</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
+                <p class="text-sm">
+                  Track all product movements made within your store.
                 </p>
+
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // movement hist. dito naman analytics view lang ng galaw ng
-            product
-          </p>
+          <!-- =============================================
+                 DASHBOARD CONTENT CONTAINER STARTS HERE
+                 ================================================= -->
+          <div class="p-4 sm:p-6 sm:space-y-8 bg-[var(--background-color)]">
+            <!-- ====================
+           Cards starts Here
+           ======================= -->
+            <section
+              class="bg-[var(--background-color)] grid grid-cols-1 xl:grid-cols-2 sm:gap-6"
+              aria-label="overview charts">
+              <!-- =============================================
+               Category's Percentage per sales charts Starts here
+               ================================================= -->
+              <article
+                class="glass-card rounded-xl shadow-lg p-4 sm:p-6 bg-white ease-in-out">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
+                    Sales Distribution by Category
+                  </h2>
+                  <div class="flex items-center gap-2 text-sm text-gray-500">
+                    <svg
+                      class="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20">
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Updated 2 min ago</span>
+                  </div>
+                </div>
+                <div class="relative h-64 sm:h-80">
+                  <canvas
+                    id="srSalesCategoryChart"
+                    class="max-h-full"></canvas>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Category's Percentage per sales charts Ends here
+               ================================================= -->
+              <!-- =============================================
+               Promos charts Starts here
+               ================================================= -->
+
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
+                    Active Promos Performance
+                  </h2>
+                </div>
+                <div class="relative h-64 sm:h-80">
+                  <canvas id="srPromosChart" class="max-h-full"></canvas>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Promos charts Ends here
+               ================================================= -->
+            </section>
+            <!-- =============================================
+               Category charts Starts here
+               ================================================= -->
+            <section
+              class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 sm:gap-6"
+              aria-label="Category charts">
+              <!-- =============================================
+               Iced Coffee charts Starts here
+               ================================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800">
+                      Iced Coffee
+                    </h3>
+                  </div>
+                  <select
+                    id="srIcedCoffeeFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srIcedCoffeeChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Iced Coffee charts Ends here
+               ================================================= -->
+
+              <!-- =================================
+                      Fruit Tea charts Starts here
+               ======================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg sm:p-6 ease-in-out">
+                <div
+                  class="bg-[var(--background-color)] flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800">
+                      Fruit Tea
+                    </h3>
+                  </div>
+                  <select
+                    id="srFruitteaFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srFruitteaChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-green-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-green-600">₱18,420</span>
+                  </div>
+                </div>
+              </article>
+              <!-- =============================================
+               Fruit Tea charts ends here
+               ================================================= -->
+
+              <!-- =================================
+               Hot Brew charts Starts here
+               ======================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800">
+                      Hot Brew
+                    </h3>
+                  </div>
+                  <select
+                    id="srHotbrewFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srHotbrewChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-yellow-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-yellow-600">₱15,230</span>
+                  </div>
+                </div>
+              </article>
+              <!-- =============================================
+               Hot Brew charts ends here
+               ================================================= -->
+
+              <!-- =============================================
+               Category charts Starts here
+               ================================================= -->
+
+              <!-- =================================
+               Praf charts Starts here
+               ======================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-amber-600 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800">
+                      Praf
+                    </h3>
+                  </div>
+                  <select
+                    id="srPrafFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[250px] sm:h-64">
+                  <canvas id="srPrafChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-amber-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-amber-600">₱12,890</span>
+                  </div>
+                </div>
+              </article>
+              <!-- =============================================
+               Praf charts ends here
+               ================================================= -->
+
+              <!-- =========================================
+             Milktea charts Starts Here
+             ============================================== -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 fade-in">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800">
+                      Milk Tea
+                    </h3>
+                  </div>
+                  <select
+                    id="srMilkteaFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srMilkteaChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-blue-600">₱24,580</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =================================
+                       Milktea charts ends here
+               ======================================= -->
+
+              <!-- =============================================
+               Brosty charts Starts here
+               ================================================= -->
+              <article
+                class="glass-card bg-[var(--glass-bg)] rounded-xl shadow-lg p-4 sm:p-6 ease-in-out">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+                  <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
+                    <h3
+                      class="text-base sm:text-lg font-semibold text-gray-800">
+                      Iced Coffee
+                    </h3>
+                  </div>
+                  <select
+                    id="srBrostyFilter"
+                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="day">Today</option>
+                    <option value="week" selected>This Week</option>
+                    <option value="month">This Month</option>
+                  </select>
+                </div>
+                <div class="relative h-[300px] w-[300px] sm:h-64">
+                  <canvas id="srBrostyChart"></canvas>
+                </div>
+                <div class="mt-3 p-3 bg-indigo-50 rounded-lg">
+                  <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Total Sales</span>
+                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- =============================================
+               Brosty charts Ends here
+               ================================================= -->
+            </section>
+
+            <!-- =============================================
+               Praf/Iced Coffee charts Ends here
+               ================================================= -->
+          </div>
         </section>
         <!-- 
       ==========================================================================================================================================
@@ -3403,6 +3398,9 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerStaffModify.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
+
+  <!-- linked JS file below for Overview Section -->
+  <script src="../JS/manager/managerOverview.js"></script>
 
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/shared/theme-toggle.js"></script>
