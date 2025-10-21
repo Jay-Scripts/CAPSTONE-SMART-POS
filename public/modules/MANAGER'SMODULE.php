@@ -1111,6 +1111,7 @@ if (!isset($_SESSION['staff_name'])) {
 
                 <div class="space-y-2">
                   <label
+                    for="currentRole"
                     class="flex items-center gap-2 text-sm lg:text-base font-medium text-[var(--text-color)]">
                     <svg
                       class="w-4 h-4 lg:w-5 lg:h-5 text-[var(--text-color)]"
@@ -1134,7 +1135,7 @@ if (!isset($_SESSION['staff_name'])) {
 
                 <div class="space-y-2">
                   <label
-                    for="newRole"
+                    for="addRoleBarista"
                     class="flex items-center gap-2 text-sm lg:text-base font-semibold text-[var(--text-color)]">
                     <svg
                       class="w-4 h-4 lg:w-5 lg:h-5 text-green-600"
@@ -1429,7 +1430,7 @@ if (!isset($_SESSION['staff_name'])) {
                 <div
                   class="space-y-3 animate-fade-in delay-100 animation-fill-both">
                   <label
-                    for="staffNames"
+                    for="staffName"
                     class="flex items center gap-2 text-sm lg:text-base font-semibold text-[var(--text-color)] transition-colors duration-200">
                     <svg
                       class="w-4 h-4 lg:h-5 lg:w-5 text-[var(--text-color)]"
@@ -3399,8 +3400,6 @@ if (!isset($_SESSION['staff_name'])) {
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 
-  <!-- linked JS file below for Overview Section -->
-  <script src="../JS/manager/managerOverview.js"></script>
 
   <!-- linked JS file below for theme toggle interaction -->
   <script src="../JS/shared/theme-toggle.js"></script>

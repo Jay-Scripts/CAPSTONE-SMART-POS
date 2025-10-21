@@ -1,7 +1,7 @@
 <?php
 include "../../app/config/dbConnection.php";
 
-$sql = "
+$selectQueryToGetPaidOrders = "
 SELECT 
     rt.REG_TRANSACTION_ID,
     rt.STATUS,
@@ -20,7 +20,7 @@ WHERE rt.STATUS = 'PAID'
 ORDER BY rt.date_added DESC, ti.ITEM_ID ASC
 ";
 
-$stmt = $conn->query($sql);
+$stmt = $conn->query($selectQueryToGetPaidOrders);
 
 $transactions = [];
 
@@ -445,74 +445,85 @@ if (!isset($_SESSION['staff_name'])) {
       }
     });
 
-    function fetchTransactions() {
-      fetch('../../app/includes/BVS/BVSRealtimeOrderSync.php')
-        .then(response => response.json())
-        .then(data => {
-          const container = document.getElementById('ordersContainer');
-          container.innerHTML = ''; // Clear old transactions
+    async function fetchTransactions() {
+      try {
+        const response = await fetch('../../app/includes/BVS/BVSRealtimeOrderSync.php');
+        const data = await response.json();
+        const container = document.getElementById('ordersContainer');
+        container.innerHTML = ''; // Clear old transactions
 
-          if (!data || data.length === 0) {
-            container.innerHTML = `
-          <div class="order-card flex flex-col items-center justify-center m-4 p-6 rounded-xl border-2 border-dashed border-gray-500 bg-gray-800 text-center transition transform hover:scale-105 duration-200">
-            <p class="text-gray-400 text-lg font-semibold">No transactions yet</p>
-            <p class="text-gray-500 text-sm mt-2">Paid transactions will appear here</p>
-          </div>`;
-            return;
-          }
+        if (!data || data.length === 0) {
+          container.innerHTML = `
+        <div class="order-card flex flex-col items-center justify-center m-4 p-6 rounded-xl border-2 border-dashed border-gray-500 bg-gray-800 text-center transition transform hover:scale-105 duration-200">
+          <p class="text-gray-400 text-lg font-semibold">No transactions yet</p>
+          <p class="text-gray-500 text-sm mt-2">Paid transactions will appear here</p>
+        </div>`;
+          return;
+        }
 
-          data.forEach(trans => {
-            let totalCount = 0;
-            let itemsHTML = '';
+        data.forEach(trans => {
+          let totalCount = 0;
+          let itemsHTML = '';
 
-            trans.items.forEach(item => {
-              totalCount += item.quantity;
-              let addonsHTML = '';
-              if (item.addons && item.addons.length > 0) {
-                addonsHTML = `<div class="ml-4 mt-1 text-xs text-[var(--text-color)]"><p>*Add-ons:</p><ul class="list-disc list-inside ml-4">` +
-                  item.addons.map(a => `<li>${a}</li>`).join('') +
-                  `</ul></div>`;
-              }
+          trans.items.forEach(item => {
+            totalCount += item.quantity;
 
-              let modsHTML = '';
-              if (item.mods && item.mods.length > 0) {
-                modsHTML = `<div class="ml-4 mt-1 text-xs text-[var(--text-color)]"><p>*Mods:</p><ul class="list-disc list-inside ml-4">` +
-                  item.mods.map(m => `<li>${m}</li>`).join('') +
-                  `</ul></div>`;
-              }
-
-              itemsHTML += `
-            <div class="rounded-lg">
-              <p class="text-sm text-[var(--text-color)] font-medium">${item.quantity}x ${item.product_name} (${item.size})</p>
-              ${addonsHTML}
-              ${modsHTML}
+            let addonsHTML = '';
+            if (item.addons && item.addons.length > 0) {
+              addonsHTML = `
+            <div class="ml-4 mt-1 text-xs text-[var(--text-color)]">
+              <p>*Add-ons:</p>
+              <ul class="list-disc list-inside ml-4">
+                ${item.addons.map(a => `<li>${a}</li>`).join('')}
+              </ul>
             </div>`;
-            });
+            }
 
-            container.innerHTML += `
-  <div class="order-card flex flex-col justify-between m-4 p-5 rounded-xl border-2 border-[var(--border-color)] bg-[var(--order-container)] shadow-lg transition transform hover:scale-105">
-    <div>
-      <h6 class="text-xl text-[var(--text-color)] font-semibold mb-2 truncate text-center border-b">
-        Transaction #${trans.REG_TRANSACTION_ID}
-        <span class="font-bold text-green-400">${trans.status}</span>
-      </h6>
-      <div class="mt-4 space-y-3">
-        ${itemsHTML}
-      </div>
-    </div>
-    <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
-      <p class="font-bold text-lg">Total Items: ${totalCount}</p>
-      <button 
-        class="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition serve-btn" 
-        data-id="${trans.REG_TRANSACTION_ID}">
-        Serve
-      </button>
-    </div>
-  </div>`;
+            let modsHTML = '';
+            if (item.mods && item.mods.length > 0) {
+              modsHTML = `
+            <div class="ml-4 mt-1 text-xs text-[var(--text-color)]">
+              <p>*Mods:</p>
+              <ul class="list-disc list-inside ml-4">
+                ${item.mods.map(m => `<li>${m}</li>`).join('')}
+              </ul>
+            </div>`;
+            }
 
+            itemsHTML += `
+          <div class="rounded-lg">
+            <p class="text-sm text-[var(--text-color)] font-medium">
+              ${item.quantity}x ${item.product_name} (${item.size})
+            </p>
+            ${addonsHTML}
+            ${modsHTML}
+          </div>`;
           });
-        })
-        .catch(err => console.error(err));
+
+          container.innerHTML += `
+        <div class="order-card flex flex-col justify-between m-4 p-5 rounded-xl border-2 border-[var(--border-color)] bg-[var(--order-container)] shadow-lg transition transform hover:scale-105">
+          <div>
+            <h6 class="text-xl text-[var(--text-color)] font-semibold mb-2 truncate text-center border-b">
+              Transaction #${trans.REG_TRANSACTION_ID}
+              <span class="font-bold text-green-400">${trans.status}</span>
+            </h6>
+            <div class="mt-4 space-y-3">
+              ${itemsHTML}
+            </div>
+          </div>
+          <div class="mt-4 pt-2 border-t text-[var(--text-color)] flex justify-between items-center">
+            <p class="font-bold text-lg">Total Items: ${totalCount}</p>
+            <button 
+              class="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition serve-btn" 
+              data-id="${trans.REG_TRANSACTION_ID}">
+              Serve
+            </button>
+          </div>
+        </div>`;
+        });
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
     }
 
     // Refresh every 1 second
