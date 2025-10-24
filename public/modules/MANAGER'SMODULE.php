@@ -3213,23 +3213,12 @@ if (!isset($_SESSION['staff_name'])) {
                       Iced Coffee
                     </h3>
                   </div>
-                  <select
-                    id="srIcedCoffeeFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
+
                 </div>
                 <div class="relative h-[300px] w-[300px] sm:h-64">
                   <canvas id="srIcedCoffeeChart"></canvas>
                 </div>
-                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
-                  </div>
-                </div>
+
               </article>
 
               <!-- =============================================
@@ -3250,23 +3239,12 @@ if (!isset($_SESSION['staff_name'])) {
                       Fruit Tea
                     </h3>
                   </div>
-                  <select
-                    id="srFruitteaFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
+
                 </div>
                 <div class="relative h-[300px] w-[300px] sm:h-64">
                   <canvas id="srFruitteaChart"></canvas>
                 </div>
-                <div class="mt-3 p-3 bg-green-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-green-600">₱18,420</span>
-                  </div>
-                </div>
+
               </article>
               <!-- =============================================
                Fruit Tea charts ends here
@@ -3286,23 +3264,12 @@ if (!isset($_SESSION['staff_name'])) {
                       Hot Brew
                     </h3>
                   </div>
-                  <select
-                    id="srHotbrewFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
+
                 </div>
                 <div class="relative h-[300px] w-[300px] sm:h-64">
                   <canvas id="srHotbrewChart"></canvas>
                 </div>
-                <div class="mt-3 p-3 bg-yellow-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-yellow-600">₱15,230</span>
-                  </div>
-                </div>
+
               </article>
               <!-- =============================================
                Hot Brew charts ends here
@@ -3326,23 +3293,12 @@ if (!isset($_SESSION['staff_name'])) {
                       Praf
                     </h3>
                   </div>
-                  <select
-                    id="srPrafFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
+
                 </div>
                 <div class="relative h-[300px] w-[250px] sm:h-64">
                   <canvas id="srPrafChart"></canvas>
                 </div>
-                <div class="mt-3 p-3 bg-amber-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-amber-600">₱12,890</span>
-                  </div>
-                </div>
+
               </article>
               <!-- =============================================
                Praf charts ends here
@@ -3362,23 +3318,12 @@ if (!isset($_SESSION['staff_name'])) {
                       Milk Tea
                     </h3>
                   </div>
-                  <select
-                    id="srMilkteaFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
+
                 </div>
                 <div class="relative h-[300px] w-[300px] sm:h-64">
                   <canvas id="srMilkteaChart"></canvas>
                 </div>
-                <div class="mt-3 p-3 bg-blue-100 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-blue-600">₱24,580</span>
-                  </div>
-                </div>
+
               </article>
 
               <!-- =================================
@@ -3399,23 +3344,12 @@ if (!isset($_SESSION['staff_name'])) {
                       Iced Coffee
                     </h3>
                   </div>
-                  <select
-                    id="srBrostyFilter"
-                    class="glass-light border border-gray-300 rounded-lg px-2 py-1 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="day">Today</option>
-                    <option value="week" selected>This Week</option>
-                    <option value="month">This Month</option>
-                  </select>
+
                 </div>
                 <div class="relative h-[300px] w-[300px] sm:h-64">
                   <canvas id="srBrostyChart"></canvas>
                 </div>
-                <div class="mt-3 p-3 bg-indigo-50 rounded-lg">
-                  <div class="flex justify-between items-center">
-                    <span class="text-sm text-gray-600">Total Sales</span>
-                    <span class="text-lg font-bold text-blue-300">₱9,760</span>
-                  </div>
-                </div>
+
               </article>
 
               <!-- =============================================
@@ -3628,6 +3562,8 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerProductAnalyticsSoldPerCategory.js"></script>
   <!-- linked JS file below for Product Analytics Sold Addons -->
   <script src="../JS/manager/managerProductAnalyticsSoldAddons.js"></script>
+  <!-- linked JS file below for Product Analytics Bar Charts per Category -->
+  <script src="../JS/manager/managerProductAnalyticsBarCharts.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 
