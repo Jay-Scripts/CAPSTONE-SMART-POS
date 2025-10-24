@@ -46,7 +46,7 @@ async function updateCategoryChart(
       charts[canvasId].update();
     }
   } catch (err) {
-    console.error("Error fetching category sales:", err);
+    console.error("Error fetching category sold product:", err);
   }
 }
 

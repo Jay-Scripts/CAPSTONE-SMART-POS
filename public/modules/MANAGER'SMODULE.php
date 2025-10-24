@@ -774,13 +774,7 @@ if (!isset($_SESSION['staff_name'])) {
                       Sales Overview
                     </h3>
 
-                    <select
-                      id="ovSalesFilter"
-                      class="glass-light border border-black rounded px-2 py-1 text-sm">
-                      <option value="day">Today</option>
-                      <option value="week" selected>This Week</option>
-                      <option value="month">This Month</option>
-                    </select>
+
                   </div>
 
                   <canvas id="ovSalesChart" height="100"></canvas>
@@ -802,13 +796,6 @@ if (!isset($_SESSION['staff_name'])) {
                       Top-Selling Products
                     </h3>
 
-                    <select
-                      id="ovTsFilter"
-                      class="glass-light border border-gray-300 rounded px-2 py-1 text-sm">
-                      <option value="day">Today</option>
-                      <option value="week" selected>This Week</option>
-                      <option value="month">This Month</option>
-                    </select>
                   </div>
 
                   <canvas id="topProductsChart" height="100"></canvas>
@@ -3197,7 +3184,7 @@ if (!isset($_SESSION['staff_name'])) {
                Category charts Starts here
                ================================================= -->
             <section
-              class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 sm:gap-6"
+              class="bg-[var(--background-color)] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3  sm:gap-6"
               aria-label="Category charts">
               <!-- =============================================
                Iced Coffee charts Starts here
@@ -3215,7 +3202,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
 
                 </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
+                <div class="relative h-[300px] w-full sm:h-64">
                   <canvas id="srIcedCoffeeChart"></canvas>
                 </div>
 
@@ -3241,7 +3228,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
 
                 </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
+                <div class="relative h-[300px] w-full sm:h-64">
                   <canvas id="srFruitteaChart"></canvas>
                 </div>
 
@@ -3266,7 +3253,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
 
                 </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
+                <div class="relative h-[300px] w-full sm:h-64">
                   <canvas id="srHotbrewChart"></canvas>
                 </div>
 
@@ -3295,7 +3282,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
 
                 </div>
-                <div class="relative h-[300px] w-[250px] sm:h-64">
+                <div class="relative h-[300px] w-full sm:h-64">
                   <canvas id="srPrafChart"></canvas>
                 </div>
 
@@ -3320,7 +3307,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
 
                 </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
+                <div class="relative h-[300px] w-full sm:h-64">
                   <canvas id="srMilkteaChart"></canvas>
                 </div>
 
@@ -3346,7 +3333,7 @@ if (!isset($_SESSION['staff_name'])) {
                   </div>
 
                 </div>
-                <div class="relative h-[300px] w-[300px] sm:h-64">
+                <div class="relative h-[300px] w-full sm:h-64">
                   <canvas id="srBrostyChart"></canvas>
                 </div>
 
