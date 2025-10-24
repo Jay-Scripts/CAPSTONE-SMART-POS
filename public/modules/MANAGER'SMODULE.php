@@ -1708,6 +1708,38 @@ if (!isset($_SESSION['staff_name'])) {
               </form>
             </div>
           </div>
+          <script>
+            document.getElementById('staffStatusForm').addEventListener('submit', async function(e) {
+              e.preventDefault(); // prevent page reload
+
+              const form = e.target;
+              const formData = new FormData(form);
+              const statusMessage = document.getElementById('statusMessage');
+
+              statusMessage.textContent = 'Updating...';
+
+              try {
+                const response = await fetch('../../app/includes/managerModule/managerUpdateStaffStatus.php', {
+                  method: 'POST',
+                  body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                  statusMessage.textContent = result.message;
+                  statusMessage.className = 'text-green-500 text-center mt-3';
+                } else {
+                  statusMessage.textContent = result.message;
+                  statusMessage.className = 'text-red-500 text-center mt-3';
+                }
+              } catch (error) {
+                statusMessage.textContent = 'Error: ' + error.message;
+                statusMessage.className = 'text-red-500 text-center mt-3';
+              }
+            });
+          </script>
+
         </section>
         <!-- 
       ==========================================================================================================================================
@@ -1733,240 +1765,167 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <div class="flex items-center justify-center p-4 lg:p-8 ">
-            <div class="glass-card rounded-2xl shadow-lg p-8 lg:p-10">
-              <div
-                class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <img
-                  src="../assets/SVG/LOGO/BLOGO.svg"
-                  alt="Logo Icon"
-                  class="h-20 w-35 theme-logo" />
+
+          <div class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-10 bg-[var(--bg-color)]">
+            <form id="staffStatusForm" class="glass-card w-full sm:w-[90%] md:w-[70%] lg:w-[50%] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
+              <!-- Logo -->
+              <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <img src="../assets/SVG/LOGO/BLOGO.svg" alt="Logo Icon" class="h-16 w-auto theme-logo" />
               </div>
 
-              <h2
-                class="text-2xl lg:text-3xl font-bold text-center text-[var(--text-color)] mb-2">
+              <!-- Header -->
+              <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-center text-[var(--text-color)] mb-2">
                 Modify Staff Status
               </h2>
-              <p
-                class="text-[var(--text-color)] text-sm lg:text-base font-medium text-center mb-4"></p>
+              <p class="text-[var(--text-color)] text-xs sm:text-sm lg:text-base font-medium text-center mb-4">
+                Update or deactivate an employee account.
+              </p>
 
-              <form
-                id="staffRegistrationForm"
-                class="space-y-6 lg:space-x-8"
-                action="#"
-                method="POST">
-                <div
-                  class="space-y-3 animate-fade-in delay-100 animation-fill-both">
-                  <label
-                    for="staffName"
-                    class="flex items center gap-2 text-sm lg:text-base font-semibold text-[var(--text-color)] transition-colors duration-200">
-                    <svg
-                      class="w-4 h-4 lg:h-5 lg:w-5 text-[var(--text-color)]"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                    Staff Name :</label>
-                  <div class="relative group">
-                    <input
-                      type="text"
-                      name="staffName"
-                      id="staffName"
-                      placeholder="Enter full name"
-                      class="w-full px-4 py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 hover:border-gray-300 placeholder:text-gray-400 font-medium outline-none focus:-translate-y-0.5"
-                      required
-                      maxlength="30"
-                      autocomplete="name"
-                      autofocus />
-                    <p id="staffNameFeedback" class="text-sm mt-1"></p>
+              <!-- Staff ID -->
+              <fieldset class="space-y-3">
+                <legend class="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
+                  Staff Identification
+                </legend>
+                <p class="text-xs sm:text-sm text-gray-500">Provide the staff ID to locate their record.</p>
 
-                    <div
-                      class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                      <svg
-                        class="size-5 text-[var(--text-color)] group-focus-within:text-blue-500 transition-colors duration-200"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                      </svg>
+                <label class="block mt-1">
+                  <span class="block text-sm font-medium text-gray-700">
+                    Staff ID <span class="text-red-500">*</span>
+                  </span>
+                  <input
+                    type="text"
+                    name="staffID"
+                    id="staffID"
+                    maxlength="30"
+                    required
+                    placeholder="Enter Staff ID Number"
+                    class="w-full mt-1 rounded-lg border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-gray-800 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
+                </label>
+                <p id="staffIDFeedback" class="text-sm text-gray-500"></p>
+              </fieldset>
+
+              <!-- Status -->
+              <fieldset class="space-y-3 mt-6">
+                <legend class="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
+                  Update Staff Status
+                </legend>
+                <p class="text-xs sm:text-sm text-gray-500">Choose the new status for this staff account.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <!-- Active -->
+                  <label class="cursor-pointer">
+                    <input type="radio" name="staffStatus" value="active" class="peer hidden" required />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 sm:py-4 text-gray-700 text-sm sm:text-base peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:bg-green-50 transition">
+                      <div class="flex items-center gap-2 font-semibold">
+                        Active
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                <div class="space-y-4">
-                  <label
-                    for="roleBarista"
-                    class="flex items-center gap-2 text-sm lg:text-base font-semibold text-[var(--text-color)]">
-                    <svg
-                      class="w-5 h-5 lg:w-6 lg:h-6 text-[var(--text-color)]"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M4.5 20.25a8.25 8.25 0 0115 0" />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16.862 16.862l3.536-3.536a1.5 1.5 0 10-2.121-2.121l-3.536 3.536v2.121h2.121z" />
-                    </svg>
-
-                    Update Status
                   </label>
 
-                  <section
-                    class="grid grid-cols-1 sm:grid-cols-3 lg:gap-4 gap-3">
-                    <!-- 
-      ==========================================================================================================================================
-      =                                             Radio   Active Position - Starts Here                                                      =
-      ==========================================================================================================================================
-    -->
-                    <div class="rolePositionCashier">
-                      <input
-                        type="radio"
-                        id="activeStatus"
-                        name="staffStatus"
-                        value="active"
-                        class="hidden peer" />
-                      <label
-                        for="activeStatus"
-                        class="block p-4 glass-card border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-green-400 hover:shadow-lg peer-checked:!border-green-500 peer-checked:!bg-green-500/20 peer-checked:!shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div
-                          class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
-                          <svg
-                            class="w-5 h-5 lg:w-6 lg:h-6 text-[var(--text-color)]"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M4.5 20.25a8.25 8.25 0 0115 0" />
-                          </svg>
-                        </div>
-
-                        <h3
-                          class="font-bold text-center text-[var(--text-color)] text-sm lg:text-base">
-                          Active
-                        </h3>
-                        <p
-                          class="text-xs text-center text-[var(--text-color)] mt-1">
-                          Staff is currently Active
-                        </p>
-                      </label>
+                  <!-- Inactive -->
+                  <label class="cursor-pointer">
+                    <input type="radio" name="staffStatus" value="inactive" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 sm:py-4 text-gray-700 text-sm sm:text-base peer-checked:border-red-500 peer-checked:ring-2 peer-checked:ring-red-400 peer-checked:bg-red-50 transition">
+                      <div class="flex items-center gap-2 font-semibold">
+                        Inactive
+                      </div>
                     </div>
-                    <!-- 
-      ==========================================================================================================================================
-      =                                             Radio   Active Position - Ends Here                                                        =
-      ==========================================================================================================================================
-    -->
-
-                    <!-- 
-      ==========================================================================================================================================
-      =                                               Radio Inactive Position - Starts Here                                                    =
-      ==========================================================================================================================================
-    -->
-                    <div class="rolePositionManager">
-                      <input
-                        type="radio"
-                        id="inActiveStatus"
-                        name="staffStatus"
-                        value="inactive"
-                        class="hidden peer" />
-                      <label
-                        for="inActiveStatus"
-                        class="block p-4 glass-card border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-red-400 hover:shadow-lg peer-checked:!border-red-500 peer-checked:!bg-red-500/20 peer-checked:!shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div
-                          class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center shadow-md">
-                          <svg
-                            class="w-5 h-5 lg:w-6 lg:h-6 text-[var(--text-color)]"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M4.5 20.25a8.25 8.25 0 0115 0" />
-                            <line
-                              x1="4"
-                              y1="4"
-                              x2="20"
-                              y2="20"
-                              stroke="currentColor"
-                              stroke-width="1.5"
-                              stroke-linecap="round" />
-                          </svg>
-                        </div>
-
-                        <h3
-                          class="font-bold text-center text-[var(--text-color)] text-sm lg:text-base">
-                          Inactive
-                        </h3>
-                        <p
-                          class="text-xs text-center text-[var(--text-color)] mt-1">
-                          Staff is no longer working
-                        </p>
-                      </label>
-                    </div>
-                    <!-- 
-      ==========================================================================================================================================
-      =                                               Radio Inactive Position - Ends Here                                                      =
-      ==========================================================================================================================================
-    -->
-                  </section>
+                  </label>
                 </div>
+              </fieldset>
 
-                <!-- 
-      ===================================
-      = Manager's ID Stored in $Session =
-      ===================================12
-    -->
-                <?php // Example: assume manager is logged in and session has
-                //their ID session_start(); $managerAccount =
-                $_SESSION['manager_account'] ?? ''; ?>
-                <input
-                  type="hidden"
-                  name="manager_account"
-                  value="<?php echo htmlspecialchars($managerAccount); ?>" />
+              <!-- Hidden Manager -->
+              <input type="hidden" name="manager_account" />
 
-                <button
-                  name="submit"
-                  type="submit"
-                  id="submitBtn"
-                  class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none active:translate-y-0 relative overflow-hidden group animate-fade-in delay-300 animation-fill-both text-sm sm:text-base lg:text-lg">
+              <!-- Submit -->
+              <div class="flex pt-6">
+                <button type="submit" name="submit" id="submitBtn" class="w-full rounded-lg bg-indigo-600 px-6 py-2.5 text-sm sm:text-base font-semibold text-white shadow hover:bg-indigo-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-indigo-500">
                   Update Status
                 </button>
-              </form>
-            </div>
+              </div>
+
+              <!-- Message -->
+              <p id="statusMessage" class="text-center text-sm mt-3"></p>
+            </form>
           </div>
+
+          <script>
+            document.getElementById('staffStatusForm').addEventListener('submit', async function(e) {
+              e.preventDefault(); // prevent page reload
+
+              const staffID = document.getElementById('staffID').value.trim();
+              const staffStatus = document.querySelector('input[name="staffStatus"]:checked');
+
+              // ✅ Front-end validation
+              if (!staffID) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Staff ID Required',
+                  text: 'Please enter the Staff ID to continue.'
+                });
+                return;
+              }
+
+              if (!staffStatus) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Select Status',
+                  text: 'Please choose a status for the staff.'
+                });
+                return;
+              }
+
+              try {
+                const formData = new FormData();
+                formData.append('staffID', staffID);
+                formData.append('staffStatus', staffStatus.value);
+
+                const response = await fetch('../../app/includes/managerModule/managerUpdateStaffStatus.php', {
+                  method: 'POST',
+                  body: formData
+                });
+
+                // ✅ Safely parse JSON
+                let result;
+                try {
+                  result = await response.json();
+                } catch {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Response',
+                    text: 'Server did not return valid JSON.'
+                  });
+                  return;
+                }
+
+                // ✅ SweetAlert based on server response
+                if (result.status === 'success') {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: result.message
+                  });
+                  this.reset(); // optional: reset form
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: result.message
+                  });
+                }
+
+              } catch (err) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Network Error',
+                  text: 'Could not connect to server.'
+                });
+                console.error(err);
+              }
+            });
+          </script>
         </section>
         <!-- 
       ==========================================================================================================================================
