@@ -3181,11 +3181,11 @@ if (!isset($_SESSION['staff_name'])) {
                 <div
                   class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                   <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
-                    Active Promos Performance
+                    Sold Addons
                   </h2>
                 </div>
                 <div class="relative h-64 sm:h-80">
-                  <canvas id="srPromosChart" class="max-h-full"></canvas>
+                  <canvas id="soldAddOnsChart" class="max-h-full"></canvas>
                 </div>
               </article>
 
@@ -3624,8 +3624,10 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerUpdateStaffStatus.js"></script>
   <!-- linked JS file below for in Overview -->
   <script src="../JS/manager/managerOverview.js"></script>
-  <!-- linked JS file below for Product Analytics -->
-  <script src="../JS/manager/managerProductAnalytics.js"></script>
+  <!-- linked JS file below for Product Analytics Sold Items per Category -->
+  <script src="../JS/manager/managerProductAnalyticsSoldPerCategory.js"></script>
+  <!-- linked JS file below for Product Analytics Sold Addons -->
+  <script src="../JS/manager/managerProductAnalyticsSoldAddons.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 

@@ -7,7 +7,7 @@ async function updateSoldProductByCategoryChart() {
 
   try {
     const res = await fetch(
-      "../../app/includes/managerModule/managerProductAnalytics.php"
+      "../../app/includes/managerModule/managerProductAnalyticsSoldPerCategory.php"
     );
     if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
     const data = await res.json();
