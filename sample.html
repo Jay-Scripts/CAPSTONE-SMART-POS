@@ -1,174 +1,185 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>Device Fingerprint Demo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salt Water Fish</title>
     <style>
       body {
-        font-family:
-          system-ui,
-          -apple-system,
-          Arial;
+        background-color: #0d4b8c;
+        font-family: Arial, sans-serif;
+        color: white;
+        margin: 0;
+      }
+      h1 {
+        text-align: center;
+        background-color: #094480;
         padding: 20px;
-        max-width: 900px;
+        margin: 0;
+        font-size: 28px;
       }
-      .card {
-        border: 1px solid #ddd;
-        padding: 16px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      table {
+        width: 95%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        text-align: center;
       }
-      button {
-        padding: 8px 12px;
-        margin-right: 8px;
+      td {
+        border: 2px solid white;
+        padding: 6px;
+        background-color: #1565c0;
       }
-      pre {
-        background: #f7f7f7;
-        padding: 10px;
-        border-radius: 6px;
-        overflow: auto;
+      img {
+        width: 100%;
+        height: 130px;
+        object-fit: cover;
+        border-radius: 4px;
+        display: block;
+      }
+      .label {
+        margin-top: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 4px 6px;
+        border-radius: 4px;
+        display: inline-block;
+        font-weight: bold;
       }
     </style>
   </head>
   <body>
-    <h2>Device Fingerprint (Demo)</h2>
-    <div class="card">
-      <div>
-        <button id="runBtn">Get Fingerprint</button>
-        <button id="copyBtn" disabled>Copy Fingerprint</button>
-      </div>
+    <h1>Salt Water Fish</h1>
 
-      <p><strong>Fingerprint:</strong> <span id="fp">—</span></p>
-      <p><strong>Short summary:</strong> <span id="summary">—</span></p>
-
-      <details>
-        <summary>Full signals (click to expand)</summary>
-        <pre id="signals">—</pre>
-      </details>
-    </div>
-
-    <script>
-      async function getDeviceFingerprint() {
-        const nav = window.navigator;
-        const screenInfo = window.screen || {};
-        const signals = {
-          userAgent: nav.userAgent,
-          platform: nav.platform,
-          languages: nav.languages,
-          language: nav.language,
-          cookieEnabled: nav.cookieEnabled,
-          doNotTrack: nav.doNotTrack,
-          hardwareConcurrency: nav.hardwareConcurrency,
-          deviceMemory: nav.deviceMemory,
-          screen: {
-            width: screenInfo.width,
-            height: screenInfo.height,
-            availWidth: screenInfo.availWidth,
-            availHeight: screenInfo.availHeight,
-            colorDepth: screenInfo.colorDepth,
-          },
-          timezoneOffset: new Date().getTimezoneOffset(),
-          touchSupport: {
-            maxTouchPoints: nav.maxTouchPoints || 0,
-            ontouchstart: "ontouchstart" in window,
-          },
-          pluginsLength: (nav.plugins && nav.plugins.length) || 0,
-          mimeTypesLength: (nav.mimeTypes && nav.mimeTypes.length) || 0,
-          canvasFp: await getCanvasFingerprint(),
-          webglFp: getWebGLFingerprint(),
-        };
-        const text = JSON.stringify(signals);
-        const hash = await sha256(text);
-        return { fingerprint: hash, signals };
-      }
-
-      function getCanvasFingerprint() {
-        return new Promise((resolve) => {
-          try {
-            const cvs = document.createElement("canvas");
-            cvs.width = 200;
-            cvs.height = 50;
-            const ctx = cvs.getContext("2d");
-            ctx.fillStyle = "#f60";
-            ctx.fillRect(0, 0, 200, 50);
-            ctx.font = '16px "Arial"';
-            ctx.fillStyle = "#069";
-            ctx.fillText("DeviceFingerprint test 🔍", 10, 25);
-            ctx.globalCompositeOperation = "multiply";
-            ctx.fillStyle = "rgba(255,0,255,0.3)";
-            ctx.beginPath();
-            ctx.arc(50, 25, 20, 0, Math.PI * 2);
-            ctx.fill();
-            resolve(cvs.toDataURL());
-          } catch (e) {
-            resolve("");
-          }
-        });
-      }
-
-      function getWebGLFingerprint() {
-        try {
-          const canvas = document.createElement("canvas");
-          const gl =
-            canvas.getContext("webgl") ||
-            canvas.getContext("experimental-webgl");
-          if (!gl) return "";
-          const dbg = gl.getExtension("WEBGL_debug_renderer_info");
-          const vendor = dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : "";
-          const renderer = dbg
-            ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)
-            : "";
-          return vendor + "|" + renderer;
-        } catch (e) {
-          return "";
-        }
-      }
-
-      async function sha256(message) {
-        const msgUint8 = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-      }
-
-      // UI wiring
-      const runBtn = document.getElementById("runBtn");
-      const copyBtn = document.getElementById("copyBtn");
-      const fpEl = document.getElementById("fp");
-      const summaryEl = document.getElementById("summary");
-      const signalsEl = document.getElementById("signals");
-
-      runBtn.addEventListener("click", async () => {
-        runBtn.disabled = true;
-        runBtn.textContent = "Running…";
-        try {
-          const { fingerprint, signals } = await getDeviceFingerprint();
-          fpEl.textContent = fingerprint;
-          summaryEl.textContent = `${signals.platform} — ${signals.userAgent.split(")")[0] || signals.userAgent}`;
-          signalsEl.textContent = JSON.stringify(signals, null, 2);
-          copyBtn.disabled = false;
-        } catch (err) {
-          fpEl.textContent = "Error: " + (err.message || err);
-        } finally {
-          runBtn.disabled = false;
-          runBtn.textContent = "Get Fingerprint";
-        }
-      });
-
-      copyBtn.addEventListener("click", async () => {
-        const text = fpEl.textContent || "";
-        try {
-          await navigator.clipboard.writeText(text);
-          copyBtn.textContent = "Copied!";
-          setTimeout(() => {
-            copyBtn.textContent = "Copy Fingerprint";
-          }, 1200);
-        } catch {
-          alert(
-            "Clipboard failed — manually copy the fingerprint from the page."
-          );
-        }
-      });
-    </script>
+    <table>
+      <tr>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Epinephelus_malabaricus2.jpg"
+          />
+          <div class="label">Lapu Lapu (Grouper)</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Chanos_chanos_1.jpg"
+          />
+          <div class="label">Milkfish (Bangus)</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Yellowfin_tuna.jpg"
+          />
+          <div class="label">Tuna</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Sardina_pilchardus1.jpg"
+          />
+          <div class="label">Sardines</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Coryphaena_hippurus_by_NOAA.jpg"
+          />
+          <div class="label">Mahi Mahi</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/0/04/Xiphias_gladius2.jpg"
+          />
+          <div class="label">Swordfish</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Lates_calcarifer_in_Tasmania_01.jpg"
+          />
+          <div class="label">Barramundi</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Scomber_scombrus_SA2.jpg"
+          />
+          <div class="label">Mackerel</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/8/81/Trachinotus_blochii.jpg"
+          />
+          <div class="label">Pompano</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Flounder_Northsea.jpg"
+          />
+          <div class="label">Flounder</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/5/56/Acanthocybium_solandri1.jpg"
+          />
+          <div class="label">Wahoo</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Sarda_sarda_01.jpg"
+          />
+          <div class="label">Bonito</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Pomatomus_saltatrix1.jpg"
+          />
+          <div class="label">Bluefish</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Balistes_capriscus3.jpg"
+          />
+          <div class="label">Triggerfish</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Rachycentron_canadum_01.jpg"
+          />
+          <div class="label">Cobia</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Hippoglossus_hippoglossus_2.jpg"
+          />
+          <div class="label">Halibut</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Mullus_surmuletus.jpg"
+          />
+          <div class="label">Red Mullet</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/4/45/Menhaden_Fish.jpg"
+          />
+          <div class="label">Menhaden</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Lutjanus_campechanus.jpg"
+          />
+          <div class="label">Snapper</div>
+        </td>
+        <td>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Seriola_dumerili_1.jpg"
+          />
+          <div class="label">Amberjack</div>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

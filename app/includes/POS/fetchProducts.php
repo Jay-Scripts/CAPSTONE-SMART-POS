@@ -36,7 +36,15 @@ foreach ($rows as $row) {
 }
 ?>
 
-
+<section class="flex flex-wrap justify-center gap-2">
+    <?php foreach ($products as $product): ?>
+        <div class="optionChoice cursor-pointer aspect-square w-[47%] sm:w-[15%] bg-transparent rounded-lg border border-gray-400 p-2"
+            onclick='openModal(<?= json_encode($product) ?>)'>
+            <img src="<?= $product['thumbnail_path'] ?>" class="object-cover">
+            <h3 class="text-center text-[var(--text-color)] font-semibold"><?= htmlspecialchars($product['product_name']) ?></h3>
+        </div>
+    <?php endforeach; ?>
+</section>
 
 <script>
     const allProducts = <?= json_encode($allProducts) ?>;

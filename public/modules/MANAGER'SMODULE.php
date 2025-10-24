@@ -17,6 +17,8 @@ if (!isset($_SESSION['staff_name'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manager's Module</title>
+
   <link
     rel="shortcut icon"
     href="../assets/favcon/manager.ico"
@@ -180,7 +182,7 @@ if (!isset($_SESSION['staff_name'])) {
           <div class="px-6 py-2 mt-2">
             <h3
               class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider">
-              Inventory Management
+              Product Management
             </h3>
           </div>
           <section class="space-y-1 px-3 group">
@@ -259,6 +261,93 @@ if (!isset($_SESSION['staff_name'])) {
           <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
       -                                                  Product Management Ends Here                                                         -
+      -----------------------------------------------------------------------------------------------------------------------------------------
+    -->
+          <!-- 
+      -----------------------------------------------------------------------------------------------------------------------------------------
+      -                                                  Inventory Management Starts Here                                                     -
+      -----------------------------------------------------------------------------------------------------------------------------------------
+    -->
+          <div class="px-6 py-2 mt-2">
+            <h3
+              class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider">
+              Inventory Management
+            </h3>
+          </div>
+          <section class="space-y-1 px-3 group">
+            <a
+              data-module="stockEntry"
+              href="#"
+              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+              <svg
+                class="w-5 h-5 mr-3 text-emerald-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"></path>
+              </svg>
+              Stock Entry
+            </a>
+            <a
+              data-module="stockLevel"
+              href="#"
+              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+              <svg
+                class="w-5 h-5 mr-3 text-teal-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+              </svg>
+              Stock Levels
+            </a>
+            <a
+              data-module="lowStockAlerts"
+              href="#"
+              class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+              <svg
+                class="w-5 h-5 mr-3 text-yellow-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+              Low Stock Alerts
+            </a>
+            <a
+              data-module="stocksMovementHistory"
+              href="#"
+              class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+              <svg
+                class="w-5 h-5 mr-3 text-pink-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2" />
+              </svg>
+
+              Movement History
+            </a>
+          </section>
+          <!-- 
+      -----------------------------------------------------------------------------------------------------------------------------------------
+      -                                                  Inventory Management Ends Here                                                       -
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
 
@@ -628,7 +717,7 @@ if (!isset($_SESSION['staff_name'])) {
                 </svg>
                 <div>
                   <p class="text-sm text-[var(--text-color)]">Total Transactions</p>
-                  <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="profitAmount">
+                  <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="transactions">
                     69
                   </h3>
                 </div>
@@ -851,127 +940,119 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <section class="mx-auto max-w-4xl px-4 py-6">
-            <form
-              action="#"
-              method="POST"
-              class="rounded-2xl bg-[var(--background-color)] border p-6 shadow-sm space-y-6">
-              <!-- 
-    =================================
-    =   Transaction Reference        =
-    =================================
-    -->
-              <fieldset class="space-y-2">
-                <legend
-                  class="text-lg text-[var(--text-color)] font-semibold">
+          <section class="mx-auto max-w-3xl px-4 py-10">
+            <form id="refundForm" class="rounded-2xl bg-white border border-gray-200 p-8 shadow-lg space-y-8 transition-all hover:shadow-xl">
+
+              <!-- ============================== Transaction Reference ============================== -->
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                   Transaction Reference
                 </legend>
-                <p class="text-sm text-gray-500">
-                  Link this refund record to an existing transaction (from
-                  REG_TRANSACTION table).
-                </p>
-                <label class="block mt-2">
-                  <span class="block text-sm font-medium">Transaction ID <span class="text-red-500">*</span></span>
+                <p class="text-sm text-gray-500">Link this refund record to an existing transaction.</p>
+
+                <label class="block mt-1">
+                  <span class="block text-sm font-medium text-gray-700">
+                    Transaction ID <span class="text-red-500">*</span>
+                  </span>
                   <input
                     type="number"
                     name="REG_TRANSACTION_ID"
                     required
                     placeholder="Enter Transaction ID"
-                    class="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500" />
+                    class="w-full mt-1 rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
+                  <small id="txnError" class="hidden text-red-500 text-sm mt-1">Invalid transaction number.</small>
                 </label>
               </fieldset>
 
-              <!-- 
-    =================================
-    =       Refund Reason            =
-    =================================
-    -->
-              <fieldset class="space-y-2">
-                <legend class="text-lg font-semibold">
+              <!-- ============================== Refund Reason ============================== -->
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                   Reason for Refund
                 </legend>
-                <p class="text-sm text-gray-500">
-                  Select the primary reason for this refund transaction.
-                </p>
+                <p class="text-sm text-gray-500">Select the main reason for this refund.</p>
+
                 <div class="grid gap-3 sm:grid-cols-2">
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="reason"
-                      value="Customer Cancelled"
-                      required />
-                    <span>Customer Cancelled</span>
+                  <!-- Peer-based radio options -->
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Customer Cancelled" class="peer hidden" required />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Customer Cancelled
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Wrong Order" />
-                    <span>Wrong Order</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Wrong Order" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Wrong Order
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="reason"
-                      value="Product Defect" />
-                    <span>Product Defect</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Product Defect" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Product Defect
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Overcharge" />
-                    <span>Overcharge</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Overcharge" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Overcharge
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Staff Error" />
-                    <span>Staff Error</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Staff Error" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Staff Error
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Expired Item" />
-                    <span>Expired Item</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Expired Item" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Expired Item
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Others" />
-                    <span>Others</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Others" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Others
+                    </div>
                   </label>
                 </div>
               </fieldset>
 
-              <!-- 
-    =================================
-    =       Additional Notes         =
-    =================================
-    -->
-              <fieldset class="space-y-2">
-                <legend class="text-lg font-semibold">
+              <!-- ============================== Additional Notes ============================== -->
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                   Additional Notes
                 </legend>
-                <p class="text-sm text-gray-500">
-                  Optional: clarify the refund transaction.
-                </p>
+                <p class="text-sm text-gray-500">Optional: clarify refund details.</p>
                 <textarea
                   name="notes"
                   rows="3"
                   placeholder="e.g., Wrong item delivered, customer requested refund..."
-                  class="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                  class="w-full rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
               </fieldset>
 
-              <!-- 
-    =================================
-    =       Submit Button            =
-    =================================
-    -->
-              <div class="flex items-center justify-end gap-3 pt-2">
+              <!-- ============================== Submit Button ============================== -->
+              <div class="flex items-center justify-end pt-6">
                 <button
                   type="submit"
-                  class="rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500">
+                  class="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow hover:bg-red-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-red-500">
                   Log as Refund
                 </button>
               </div>
             </form>
           </section>
+
+
+
         </section>
         <!-- 
       ==========================================================================================================================================
@@ -986,6 +1067,253 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                                                                                                        =
       ==========================================================================================================================================
     -->
+        <!-- 
+      ==========================================================================================================================================
+      =                                                                                                                                        =
+      =                                                      Stock Management Starts Here                                                      =
+      =                                                                                                                                        =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Stock Entry Starts Here                                                            =
+      ==========================================================================================================================================
+    -->
+        <section id="stockEntry" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Entry</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <section
+            class="flex justify-center items-center min-h-screen bg-gray-100 p-6">
+            <div
+              class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border">
+              <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">
+                Stock Entry
+              </h2>
+
+              <form
+                action="stock_process.php"
+                method="POST"
+                class="space-y-4">
+                <!-- Category -->
+                <div>
+                  <label
+                    for="category"
+                    class="block text-sm font-medium text-gray-700">Select Category
+                  </label>
+                  <select
+                    id="category"
+                    name="item_id"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                    <option value="">-- Choose Category --</option>
+                    <option value="#">Milk Tea</option>
+                    <option value="#">Fruit Tea</option>
+                    <option value="#">Praf</option>
+                    <option value="#">Iced Coffee</option>
+                    <option value="#">Hot Brew</option>
+                    <option value="#">Brosty</option>
+                  </select>
+                </div>
+                <!-- Item -->
+                <div>
+                  <label
+                    for="item"
+                    class="block text-sm font-medium text-gray-700">Select Product Type</label>
+                  <select
+                    id="item"
+                    name="item_id"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                    <option value="">-- Choose Item --</option>
+                    <option value="#">Winter Melon</option>
+                    <option value="#">Taro</option>
+                    <option value="#">Okinawa</option>
+                    <option value="#">Strawberry</option>
+                    <option value="#">Salted Caramel</option>
+                    <option value="#">Brown Sugar</option>
+                  </select>
+                </div>
+                <!-- Quantity with Unit -->
+                <div>
+                  <label
+                    for="quantity"
+                    class="block text-sm font-medium text-gray-700">
+                    Quantity
+                  </label>
+                  <div class="flex gap-2">
+                    <input
+                      type="number"
+                      step="0.01"
+                      id="quantity"
+                      name="quantity"
+                      class="mt-1 block w-2/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      placeholder="Enter quantity"
+                      required />
+                    <select
+                      id="unit"
+                      name="unit"
+                      class="mt-1 block w-1/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      required>
+                      <option value="">Unit</option>
+                      <option value="g">Grams (g)</option>
+                      <option value="kg">Kilograms (kg)</option>
+                      <option value="ml">Milliliters (ml)</option>
+                      <option value="l">Liters (L)</option>
+                      <option value="pcs">Pieces (pcs)</option>
+                      <option value="pack">Pack</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Date of Expiry -->
+                <div>
+                  <label
+                    for="expiry_date"
+                    class="block text-sm font-medium text-gray-700">Date of Expiry</label>
+                  <input
+                    type="date"
+                    id="expiry_date"
+                    name="expiry_date"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                </div>
+
+                <!-- Remarks -->
+                <div>
+                  <label
+                    for="remarks"
+                    class="block text-sm font-medium text-gray-700">Remarks</label>
+                  <textarea
+                    id="remarks"
+                    name="remarks"
+                    rows="2"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    placeholder="Optional notes..."></textarea>
+                </div>
+
+                <!-- Submit -->
+                <div class="flex justify-center">
+                  <button
+                    type="submit"
+                    class="w-full py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
+                    Save Stock Movement
+                  </button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </section>
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Stock Entry Ends Here                                                              =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Stock Level Starts Here                                                            =
+      ==========================================================================================================================================
+    -->
+        <section id="stockLevel" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Level</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // dito naman sa stock levels more on graphs to and reports like
+            line chart bat chart or pie charts analytics
+          </p>
+        </section>
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Stock Level Ends Here                                                              =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Low Stock Alert Starts Here                                                        =
+      ==========================================================================================================================================
+    -->
+        <section id="lowStockAlerts" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Low Stock Alert</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // low stocks history lalabas lang rito charts for analytics views
+            ng mga critical stocks
+          </p>
+        </section>
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Low Stock Alert Ends Here                                                          =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                    Stock Movement History Starts Here                                                  =
+      ==========================================================================================================================================
+    -->
+        <section
+          id="stocksMovementHistory"
+          class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Stock Movement History</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+                </p>
+              </div>
+            </div>
+          </header>
+          <h3 class="text-xl font-semibold mb-2">Refund</h3>
+          <p>
+            // movement hist. dito naman analytics view lang ng galaw ng
+            stocks
+          </p>
+        </section>
+        <!-- 
+      ==========================================================================================================================================
+      =                                                    Stock Movement History Ends Here                                                    =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                                                                                                        =
+      =                                                   Stock Management Ends Here                                                           =
+      =                                                                                                                                        =
+      ==========================================================================================================================================
+
+    -->
+
 
         <!-- 
       ==========================================================================================================================================
@@ -1808,7 +2136,7 @@ if (!isset($_SESSION['staff_name'])) {
               <div class="text-[var(--text-color)]">
                 <h2 class="text-2xl font-bold">Disable Product</h2>
                 <p class="text-sm">
-                  Manage your store inventory by temporarily disabling products that are out of stock or unavailable.
+                  Manage your store Product by temporarily disabling products that are out of stock or unavailable.
                 </p>
               </div>
             </div>
@@ -3396,7 +3724,11 @@ if (!isset($_SESSION['staff_name'])) {
   <!-- linked JS file below for Staff Register Module -->
   <script src="../JS/manager/managerStaffRegister.js"></script>
   <!-- linked JS file below for Staff Modify Module -->
-  <script src="../JS/manager/managerStaffModify.js"></script>
+  <script src="../JS/manager/managerStaffModify.js"></script>\
+  <!-- linked JS file below for KPI in Overview section -->
+  <script src="../JS/manager/managerOverviewKPI.js"></script>
+  <!-- linked JS file below for KPI in Overview section -->
+  <script src="../JS/manager/managerRefundTrans.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 

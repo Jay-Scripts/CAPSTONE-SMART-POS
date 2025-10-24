@@ -454,7 +454,7 @@ if (!isset($_SESSION['staff_name'])) {
 
         if (!data || data.length === 0) {
           container.innerHTML = `
-        <div class="order-card flex flex-col items-center justify-center m-4 p-6 rounded-xl border-2 border-dashed border-gray-500 bg-gray-800 text-center transition transform hover:scale-105 duration-200">
+        <div class="order-card flex flex-col items-center justify-center m-4 p-6 rounded-xl border-2 border-dashed  text-center transition transform hover:scale-105 duration-200">
           <p class="text-gray-400 text-lg font-semibold">No transactions yet</p>
           <p class="text-gray-500 text-sm mt-2">Paid transactions will appear here</p>
         </div>`;

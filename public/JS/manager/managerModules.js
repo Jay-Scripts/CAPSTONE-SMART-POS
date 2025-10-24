@@ -223,16 +223,16 @@ document.getElementById("ovTsFilter").addEventListener("change", function () {
 // UPDATES (AUTO-REFRESH) STARTS HERE
 // ========================================================
 setInterval(() => {
-  const newSales = Math.floor(Math.random() * 1000 + 45000);
-  const newProfit = Math.floor(newSales * 0.18);
-  const newSold = Math.floor(Math.random() * 100 + 300);
+  const salesAmount = 31;
+  const transactions = 33;
+  const itemsSold = 6;
 
   document.getElementById("salesAmount").textContent =
-    "₱" + newSales.toLocaleString();
-  document.getElementById("profitAmount").textContent =
-    "₱" + newProfit.toLocaleString();
-  document.getElementById("itemsSold").textContent = newSold;
-}, 5000);
+    "₱" + salesAmount.toLocaleString();
+  document.getElementById("transactions").textContent =
+    "₱" + transactions.toLocaleString();
+  document.getElementById("itemsSold").textContent = itemsSold;
+}, 1000);
 // ========================================================
 // DASHBOARD HEADER OVERVIEW REALTIME DATA DUMMY UPDATES ENDS HERE
 // ========================================================

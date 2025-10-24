@@ -995,6 +995,8 @@ header('Content-Type: text/html');
   <script src="../JS/pos/POSCartResponsiveScripts"></script>
   <!-- linked JS file below for Reltime product status check -->
   <script src="../JS/pos/POSRealTimeProductCheckStatus.js"></script>
+  <!-- linked JS file below for Manager refund transaction -->
+  <script src="../JS/manager/managerRefundTrans.js"></script>
 
 
 
