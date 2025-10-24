@@ -774,10 +774,16 @@ if (!isset($_SESSION['staff_name'])) {
                       Sales Overview
                     </h3>
 
-
+                    <select
+                      id="ovSalesFilter"
+                      class="glass-light border border-black rounded px-2 py-1 text-sm">
+                      <option value="day">Today</option>
+                      <option value="week" selected>This Week</option>
+                      <option value="month">This Month</option>
+                    </select>
                   </div>
 
-                  <canvas id="weeklySalesChart" height="100"></canvas>
+                  <canvas id="ovSalesChart" height="100"></canvas>
                 </article>
                 <!--Sales Overview Ends here-->
 
@@ -3627,8 +3633,8 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerLogwaste.js"></script>
   <!-- linked JS file below for updating staff status -->
   <script src="../JS/manager/managerUpdateStaffStatus.js"></script>
-  <!-- linked JS file below for KPI in Overview -->
-  <script src="../JS/manager/managerOverviewKPI.js"></script>
+  <!-- linked JS file below for in Overview -->
+  <script src="../JS/manager/managerOverview.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 
