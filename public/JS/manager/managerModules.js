@@ -278,63 +278,6 @@ document
 // ========================================================
 
 // ========================================================
-// SALES PER CATEGORY SalesReports CHART STARTS HERE
-// ========================================================
-
-const srStCtx = document
-  .getElementById("srSalesCategoryChart")
-  .getContext("2d");
-const srStSalesData = [1200, 800, 600, 400, 1000, 700]; // sample data
-const total = srStSalesData.reduce((a, b) => a + b, 0);
-const srSalesCategoryChart = new Chart(srStCtx, {
-  type: "pie",
-  data: {
-    labels: [
-      "Milktea",
-      "Praf",
-      "Hot Brew",
-      "Promos",
-      "Iced Coffee",
-      "Fruit Tea",
-    ],
-    datasets: [
-      {
-        label: "Sales",
-        data: srStSalesData, // Dito naten Replace yung real sales data
-        borderWidth: 1,
-        backgroundColor: [
-          "#6366F1", // Milktea
-          "#F59E0B", // Praf
-          "#10B981", // Hot Brew
-          "#EF4444", // Promos
-          "#3B82F6", // Iced Coffee
-          "#8B5CF6", // Fruit Tea
-        ],
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            let value = context.raw;
-            let percentage = ((value / total) * 100).toFixed(1);
-            return `${
-              context.label
-            }: ₱${value.toLocaleString()} (${percentage}% `;
-          },
-        },
-      },
-    },
-  },
-});
-
-// ========================================================
 // SALES PER CATEGORY SalesReports CHART ENDS HERE
 // ========================================================
 

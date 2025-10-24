@@ -961,7 +961,7 @@ if (!isset($_SESSION['staff_name'])) {
                     name="REG_TRANSACTION_ID"
                     required
                     placeholder="Enter Transaction ID"
-                    class="w-full mt-1 rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
+                    class="w-full mt-1 border rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
                   <small id="txnError" class="hidden text-red-500 text-sm mt-1">Invalid transaction number.</small>
                 </label>
               </fieldset>
@@ -1038,7 +1038,7 @@ if (!isset($_SESSION['staff_name'])) {
                   name="notes"
                   rows="3"
                   placeholder="e.g., Wrong item delivered, customer requested refund..."
-                  class="w-full rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+                  class="w-full border rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
               </fieldset>
 
               <!-- ============================== Submit Button ============================== -->
@@ -1924,7 +1924,7 @@ if (!isset($_SESSION['staff_name'])) {
                     name="REG_TRANSACTION_ID"
                     required
                     placeholder="Enter Transaction ID"
-                    class="w-full mt-1 rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
+                    class="w-full mt-1 border rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
                 </label>
               </fieldset>
 
@@ -1999,7 +1999,7 @@ if (!isset($_SESSION['staff_name'])) {
                   name="notes"
                   rows="3"
                   placeholder="e.g., Customer changed order after payment, item already prepared..."
-                  class="w-full rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+                  class="w-full border rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
               </fieldset>
 
               <!-- ============================== Submit Button ============================== -->
@@ -3156,24 +3156,15 @@ if (!isset($_SESSION['staff_name'])) {
                 <div
                   class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                   <h2 class="text-lg sm:text-xl font-semibold text-gray-800">
-                    Sales Distribution by Category
+                    Sold Product by Category
                   </h2>
                   <div class="flex items-center gap-2 text-sm text-gray-500">
-                    <svg
-                      class="w-4 h-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20">
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 9.586V6z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Updated 2 min ago</span>
+
                   </div>
                 </div>
                 <div class="relative h-64 sm:h-80">
                   <canvas
-                    id="srSalesCategoryChart"
+                    id="soldProductByCategoryChart"
                     class="max-h-full"></canvas>
                 </div>
               </article>
@@ -3624,9 +3615,7 @@ if (!isset($_SESSION['staff_name'])) {
   <!-- linked JS file below for Staff Register Module -->
   <script src="../JS/manager/managerStaffRegister.js"></script>
   <!-- linked JS file below for Staff Modify Module -->
-  <script src="../JS/manager/managerStaffModify.js"></script>\
-  <!-- linked JS file below for KPI in Overview section -->
-  <script src="../JS/manager/managerOverviewKPI.js"></script>
+  <script src="../JS/manager/managerStaffModify.js"></script>
   <!-- linked JS file below for refund -->
   <script src="../JS/manager/managerRefundTrans.js"></script>
   <!-- linked JS file below for waste -->
@@ -3635,6 +3624,8 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerUpdateStaffStatus.js"></script>
   <!-- linked JS file below for in Overview -->
   <script src="../JS/manager/managerOverview.js"></script>
+  <!-- linked JS file below for Product Analytics -->
+  <script src="../JS/manager/managerProductAnalytics.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 
