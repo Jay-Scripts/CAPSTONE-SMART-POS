@@ -219,25 +219,6 @@ document.getElementById("ovTsFilter").addEventListener("change", function () {
 // ========================================================
 
 // ========================================================
-// DASHBOARD HEADER OVERVIEW REALTIME DATA DUMMY
-// UPDATES (AUTO-REFRESH) STARTS HERE
-// ========================================================
-setInterval(() => {
-  const salesAmount = 31;
-  const transactions = 33;
-  const itemsSold = 6;
-
-  document.getElementById("salesAmount").textContent =
-    "₱" + salesAmount.toLocaleString();
-  document.getElementById("transactions").textContent =
-    "₱" + transactions.toLocaleString();
-  document.getElementById("itemsSold").textContent = itemsSold;
-}, 1000);
-// ========================================================
-// DASHBOARD HEADER OVERVIEW REALTIME DATA DUMMY UPDATES ENDS HERE
-// ========================================================
-
-// ========================================================
 // PAYMENT METHOD OVERVIEW STARTS HERE
 // ========================================================
 

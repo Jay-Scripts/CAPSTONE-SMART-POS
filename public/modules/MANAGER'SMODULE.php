@@ -254,7 +254,7 @@ if (!isset($_SESSION['staff_name'])) {
                   d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2" />
               </svg>
 
-              Movement History
+              Product Analytics
             </a>
           </section>
 
@@ -701,7 +701,7 @@ if (!isset($_SESSION['staff_name'])) {
                 <div>
                   <p class="text-sm text-[var(--text-color)]">Total Sales</p>
                   <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="salesAmount">
-                    ₱ 150
+                    ₱ 0
                   </h3>
                 </div>
               </article>
@@ -718,7 +718,7 @@ if (!isset($_SESSION['staff_name'])) {
                 <div>
                   <p class="text-sm text-[var(--text-color)]">Total Transactions</p>
                   <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="transactions">
-                    69
+                    0
                   </h3>
                 </div>
               </article>
@@ -735,7 +735,7 @@ if (!isset($_SESSION['staff_name'])) {
                 <div>
                   <p class="text-sm text-[var(--text-color)]">Total Product Sold</p>
                   <h3 class="text-3xl font-bold text-[var(--text-color)] mt-1" id="itemsSold">
-                    379
+                    0
                   </h3>
                 </div>
               </article>
@@ -746,6 +746,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     KPI Cards Ends Here                                                          =
       ==========================================================================================================================================
     -->
+
 
 
             <!-- 
@@ -773,16 +774,10 @@ if (!isset($_SESSION['staff_name'])) {
                       Sales Overview
                     </h3>
 
-                    <select
-                      id="ovSalesFilter"
-                      class="glass-light border border-black rounded px-2 py-1 text-sm">
-                      <option value="day">Today</option>
-                      <option value="week" selected>This Week</option>
-                      <option value="month">This Month</option>
-                    </select>
+
                   </div>
 
-                  <canvas id="ovSalesChart" height="100"></canvas>
+                  <canvas id="weeklySalesChart" height="100"></canvas>
                 </article>
                 <!--Sales Overview Ends here-->
 
@@ -1766,7 +1761,7 @@ if (!isset($_SESSION['staff_name'])) {
             </div>
           </header>
 
-          <div class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-10 bg-[var(--bg-color)]">
+          <div class="flex justify-center p-4 sm:p-6 lg:p-10 bg-[var(--bg-color)]">
             <form id="staffStatusForm" class="glass-card w-full sm:w-[90%] md:w-[70%] lg:w-[50%] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
               <!-- Logo -->
               <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -1800,7 +1795,7 @@ if (!isset($_SESSION['staff_name'])) {
                     maxlength="30"
                     required
                     placeholder="Enter Staff ID Number"
-                    class="w-full mt-1 rounded-lg border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-gray-800 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
+                    class="w-full mt-1 border rounded-lg border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-gray-800 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
                 </label>
                 <p id="staffIDFeedback" class="text-sm text-gray-500"></p>
               </fieldset>
@@ -1851,81 +1846,7 @@ if (!isset($_SESSION['staff_name'])) {
             </form>
           </div>
 
-          <script>
-            document.getElementById('staffStatusForm').addEventListener('submit', async function(e) {
-              e.preventDefault(); // prevent page reload
 
-              const staffID = document.getElementById('staffID').value.trim();
-              const staffStatus = document.querySelector('input[name="staffStatus"]:checked');
-
-              // ✅ Front-end validation
-              if (!staffID) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Staff ID Required',
-                  text: 'Please enter the Staff ID to continue.'
-                });
-                return;
-              }
-
-              if (!staffStatus) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Select Status',
-                  text: 'Please choose a status for the staff.'
-                });
-                return;
-              }
-
-              try {
-                const formData = new FormData();
-                formData.append('staffID', staffID);
-                formData.append('staffStatus', staffStatus.value);
-
-                const response = await fetch('../../app/includes/managerModule/managerUpdateStaffStatus.php', {
-                  method: 'POST',
-                  body: formData
-                });
-
-                // ✅ Safely parse JSON
-                let result;
-                try {
-                  result = await response.json();
-                } catch {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Response',
-                    text: 'Server did not return valid JSON.'
-                  });
-                  return;
-                }
-
-                // ✅ SweetAlert based on server response
-                if (result.status === 'success') {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    text: result.message
-                  });
-                  this.reset(); // optional: reset form
-                } else {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Oops!',
-                    text: result.message
-                  });
-                }
-
-              } catch (err) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Network Error',
-                  text: 'Could not connect to server.'
-                });
-                console.error(err);
-              }
-            });
-          </script>
         </section>
         <!-- 
       ==========================================================================================================================================
@@ -3704,6 +3625,10 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerRefundTrans.js"></script>
   <!-- linked JS file below for waste -->
   <script src="../JS/manager/managerLogwaste.js"></script>
+  <!-- linked JS file below for updating staff status -->
+  <script src="../JS/manager/managerUpdateStaffStatus.js"></script>
+  <!-- linked JS file below for KPI in Overview -->
+  <script src="../JS/manager/managerOverviewKPI.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 
