@@ -752,7 +752,7 @@ header('Content-Type: text/html');
 
           <!-- Checkout button (fixed at bottom) -->
           <button
-            class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-lg transition-all duration-200"
+            class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-lg border shadow-lg transition-all duration-200"
             onclick="openCalculator()">
             <img
               src="../assets/SVG/ACTION BTN/CART.svg"

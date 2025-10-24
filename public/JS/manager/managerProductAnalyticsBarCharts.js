@@ -50,13 +50,12 @@ async function updateCategoryChart(
   }
 }
 
-// Example usage
 setInterval(() => {
-  updateCategoryChart(1, "srMilkteaChart", "Milk Tea Sales", "y", "#60a5fa");
+  updateCategoryChart(1, "srMilkteaChart", "Milk Tea Sales", "x", "#60a5fa");
   updateCategoryChart(2, "srFruitteaChart", "Fruit Tea Sales", "x", "#065909");
   updateCategoryChart(3, "srHotbrewChart", "Hot Brew Sales", "x", "#C2A013");
-  updateCategoryChart(4, "srPrafChart", "Praf Sales", "y", "#B06913");
-  updateCategoryChart(5, "srBrostyChart", "Brosty Sales", "y", "#93C5FD");
+  updateCategoryChart(4, "srPrafChart", "Praf Sales", "x", "#B06913");
+  updateCategoryChart(5, "srBrostyChart", "Brosty Sales", "x", "#93C5FD");
   updateCategoryChart(
     6,
     "srIcedCoffeeChart",
