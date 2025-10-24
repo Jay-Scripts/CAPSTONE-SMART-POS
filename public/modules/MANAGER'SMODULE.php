@@ -811,7 +811,7 @@ if (!isset($_SESSION['staff_name'])) {
                     </select>
                   </div>
 
-                  <canvas id="ovTsChart" height="100"></canvas>
+                  <canvas id="topProductsChart" height="100"></canvas>
                 </article>
 
               </section>
@@ -830,7 +830,7 @@ if (!isset($_SESSION['staff_name'])) {
                     </h3>
                   </div>
 
-                  <canvas id="ovPaymentMethodChart" height="100"></canvas>
+                  <canvas id="paymentChart" height="100"></canvas>
                 </article>
 
                 <!-- Payment method ends here -->

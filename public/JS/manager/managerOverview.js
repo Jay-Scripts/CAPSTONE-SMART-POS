@@ -31,55 +31,65 @@ setInterval(fetchKPI, 1000);
 // ================================================================================================================================================================================================================================
 //                                                                                                          Weekly Sales Overview Starts here
 // ================================================================================================================================================================================================================================
+let weeklySalesChart;
 
-async function loadWeeklySalesChart() {
-  const ctx = document.getElementById("ovSalesChart").getContext("2d");
+async function updateWeeklySalesChart() {
+  const canvas = document.getElementById("ovSalesChart");
+  if (!canvas) return; // chart not yet in DOM
+  const ctx = canvas.getContext("2d");
 
   try {
-    const response = await fetch(
+    const res = await fetch(
       "../../app/includes/managerModule/managerOverviewSalesOverview.php"
     );
-    const data = await response.json();
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    const data = await res.json();
 
-    // Chart.js expects arrays in order Mon–Sun
     const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const salesData = labels.map((day) => data[day] || 0);
 
-    new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "₱ Sales",
-            data: salesData,
-            borderColor: "#3b82f6",
-            backgroundColor: "rgba(59,130,246,0.1)",
-            tension: 0.4,
-            fill: true,
-            pointRadius: 4,
-            pointBackgroundColor: "#3b82f6",
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: (value) => "₱" + value,
+    if (!weeklySalesChart) {
+      // Create chart for the first time
+      weeklySalesChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "₱ Sales",
+              data: salesData,
+              borderColor: "#3b82f6",
+              backgroundColor: "rgba(59,130,246,0.1)",
+              tension: 0.4,
+              fill: true,
+              pointRadius: 4,
+              pointBackgroundColor: "#3b82f6",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { callback: (value) => "₱" + value },
             },
           },
         },
-      },
-    });
+      });
+    } else {
+      // Update chart data
+      weeklySalesChart.data.datasets[0].data = salesData;
+      weeklySalesChart.update();
+    }
   } catch (err) {
-    console.error("Error loading weekly sales:", err);
+    console.error("Error updating weekly sales chart:", err);
   }
 }
-loadWeeklySalesChart();
+
+// Update every second
+setInterval(updateWeeklySalesChart, 1000);
 
 // ================================================================================================================================================================================================================================
 //                                                                                                          Weekly Sales Overview Ends here
@@ -88,169 +98,96 @@ loadWeeklySalesChart();
 // ================================================================================================================================================================================================================================
 // Dummy
 // ================================================================================================================================================================================================================================
-
-document
-  .getElementById("ovSalesFilter")
-  .addEventListener("change", function () {
-    const value = this.value;
-    ovSalesChart.data.labels = ovSalesData[value].labels;
-    ovSalesChart.data.datasets[0].data = ovSalesData[value].data;
-    ovSalesChart.update();
-  });
+// Function to fetch and render top products
+let topProductsChart, paymentChart;
 
 // ========================================================
-// TOP SELLING PRODUCTS CHART STARTS HERE
+// Top Products Chart - Real-time
 // ========================================================
-const ovTsCtx = document.getElementById("ovTsChart").getContext("2d");
+async function updateTopProductsChart() {
+  const canvas = document.getElementById("topProductsChart");
+  if (!canvas) return;
 
-const ovTsData = {
-  day: {
-    labels: ["Fruit tea", "Praf", "Hot Choco"],
-    data: [20, 15, 10],
-  },
-  week: {
-    labels: [
-      "Hot Brew",
-      "Milk Tea",
-      "Iced Coffee",
-      "fruit Tea",
-      "Praf",
-      "Promos",
-    ],
-    data: [120, 93, 75, 68, 55],
-  },
-  month: {
-    labels: [
-      "Milk Tea",
-      "fruit Tea",
-      "Hot Brew",
-      "Praf",
-      "Iced Coffee",
-      "Promos",
-    ],
-    data: [400, 350, 320, 280, 200, 180],
-  },
-};
+  const ctx = canvas.getContext("2d");
 
-const ovTsChart = new Chart(ovTsCtx, {
-  type: "bar",
-  data: {
-    labels: ovTsData.week.labels,
-    datasets: [
-      {
-        label: "Units Sold",
-        data: ovTsData.week.data,
-        backgroundColor: [
-          "#60a5fa",
-          "#34d399",
-          "#fbbf24",
-          "#f87171",
-          "#c084fc",
-          "#818cf8",
-        ],
-        borderRadius: 6,
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: { y: { beginAtZero: true } },
-  },
-});
+  try {
+    const res = await fetch(
+      "../../app/includes/managerModule/managerOverviewTopSellingProduct.php"
+    );
+    const data = await res.json();
 
-document.getElementById("ovTsFilter").addEventListener("change", function () {
-  const value = this.value;
-  ovTsChart.data.labels = ovTsData[value].labels;
-  ovTsChart.data.datasets[0].data = ovTsData[value].data;
-  ovTsChart.update();
-});
-// ========================================================
-// TOP SELLING PRODUCTS CHART ENDS HERE
-// ========================================================
+    const labels = data.map((item) => item.product_name);
+    const values = data.map((item) => item.total_sold);
 
-// ========================================================
-// PAYMENT METHOD OVERVIEW STARTS HERE
-// ========================================================
-
-window.addEventListener("DOMContentLoaded", () => {
-  const ovPaymentMethodCtx = document
-    .getElementById("ovPaymentMethodChart")
-    ?.getContext("2d");
-
-  if (!ovPaymentMethodCtx) {
-    console.error("❌ ovPaymentMethodChart canvas not found.");
-    return;
+    if (!topProductsChart) {
+      topProductsChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            { label: "Items Sold", data: values, backgroundColor: "#3b82f6" },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } },
+        },
+      });
+    } else {
+      topProductsChart.data.labels = labels;
+      topProductsChart.data.datasets[0].data = values;
+      topProductsChart.update();
+    }
+  } catch (err) {
+    console.error("Error updating top products:", err);
   }
+}
 
-  // Custom plugin to draw center total
-  const doughnutCenterText = {
-    id: "doughnutCenterText",
-    beforeDraw(chart) {
-      const { width, height, ctx } = chart;
-      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+// ========================================================
+// Payment Breakdown Chart - Real-time
+// ========================================================
+async function updatePaymentBreakdownChart() {
+  const canvas = document.getElementById("paymentChart");
+  if (!canvas) return;
 
-      ctx.save();
-      ctx.font = "bold 16px sans-serif";
-      ctx.fillStyle = "#111";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+  const ctx = canvas.getContext("2d");
 
-      ctx.fillText("Total", width / 2, height / 2 - 10);
-      ctx.fillText(`₱${total.toLocaleString()}`, width / 2, height / 2 + 12);
-      ctx.restore();
-    },
-  };
+  try {
+    const res = await fetch(
+      "../../app/includes/managerModule/managerOverviewPaymentBreakdown.php"
+    );
+    const data = await res.json();
 
-  const ovPaymentMethodChart = new Chart(ovPaymentMethodCtx, {
-    type: "doughnut",
-    data: {
-      labels: ["Cash", "E-payment"],
-      datasets: [
-        {
-          label: "Payment Methods",
-          data: [0, 0],
-          backgroundColor: ["#10B981", "#3B82F6"],
-          borderWidth: 1,
+    const labels = data.map((p) => p.TYPE);
+    const values = data.map((p) => parseFloat(p.total_amount));
+
+    if (!paymentChart) {
+      paymentChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels,
+          datasets: [{ data: values, backgroundColor: ["#10b981", "#3b82f6"] }],
         },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "bottom",
+        options: {
+          responsive: true,
+          plugins: { legend: { position: "bottom" } },
         },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              let value = context.raw;
-              let percentage = ((value / total) * 100).toFixed(1);
-              return `${
-                context.label
-              }: ₱${value.toLocaleString()} (${percentage}% `;
-            },
-          },
-        },
-      },
-      animation: {
-        duration: 3000,
-        easing: "linear",
-      },
-    },
-    plugins: [doughnutCenterText], // ⬅️ Register the plugin
-  });
-
-  // Dummy data update function STARTS HERE
-  function updatePaymentMethods() {
-    const cash = Math.floor(Math.random() * 1000);
-    const ePayment = Math.floor(Math.random() * 1000);
-    ovPaymentMethodChart.data.datasets[0].data = [cash, ePayment];
-    ovPaymentMethodChart.update();
+      });
+    } else {
+      paymentChart.data.labels = labels;
+      paymentChart.data.datasets[0].data = values;
+      paymentChart.update();
+    }
+  } catch (err) {
+    console.error("Error updating payment breakdown:", err);
   }
-  // Dummy data update function ENDS HERE
+}
 
-  // Initial call + auto update
-  updatePaymentMethods();
-  setInterval(updatePaymentMethods, 5000);
-});
+// ========================================================
+// Set Interval - Real-time every 1 second
+// ========================================================
+setInterval(() => {
+  updateTopProductsChart();
+  updatePaymentBreakdownChart();
+}, 1000);
