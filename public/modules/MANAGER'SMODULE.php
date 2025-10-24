@@ -2013,110 +2013,124 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <section class="mx-auto max-w-4xl px-4 py-6">
+          <section class="mx-auto max-w-3xl px-4 py-10">
             <form
-              action="#"
+              id="wasteForm"
               method="POST"
-              class="rounded-2xl bg-[var(--background-color)] border p-6 shadow-sm space-y-6">
-              <fieldset class="space-y-2">
-                <legend
-                  class="text-lg text-[var(--text-color)] font-semibold">
+              class="rounded-2xl bg-white border border-gray-200 p-8 shadow-lg space-y-8 transition-all hover:shadow-xl">
+
+              <!-- ============================== Transaction Reference ============================== -->
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                   Transaction Reference
                 </legend>
                 <p class="text-sm text-gray-500">
-                  Link this waste record to an existing transaction (from
-                  REG_TRANSACTION table).
+                  Link this waste record to an existing transaction.
                 </p>
-                <label class="block mt-2">
-                  <span class="block text-sm font-medium">Transaction ID <span class="text-red-500">*</span></span>
+
+                <label class="block mt-1">
+                  <span class="block text-sm font-medium text-gray-700">
+                    Transaction ID <span class="text-red-500">*</span>
+                  </span>
                   <input
                     type="number"
                     name="REG_TRANSACTION_ID"
                     required
                     placeholder="Enter Transaction ID"
-                    class="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500" />
+                    class="w-full mt-1 rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
                 </label>
               </fieldset>
 
-              <fieldset class="space-y-2">
-                <legend class="text-lg font-semibold">
+              <!-- ============================== Reason for Waste ============================== -->
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                   Reason for Waste
                 </legend>
-                <p class="text-sm text-gray-500">
-                  Select the primary reason for this waste transaction.
-                </p>
+                <p class="text-sm text-gray-500">Select the main reason for this waste.</p>
+
                 <div class="grid gap-3 sm:grid-cols-2">
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="reason"
-                      value="Wrong Order"
-                      required />
-                    <span>Wrong Order</span>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Wrong Order" class="peer hidden" required />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Wrong Order
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="reason"
-                      value="Customer Cancelled" />
-                    <span>Customer Cancelled</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Customer Cancelled" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Customer Cancelled
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Staff Error" />
-                    <span>Staff Error</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Staff Error" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Staff Error
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Expired" />
-                    <span>Expired</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Expired" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Expired
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="reason"
-                      value="Free Drink / Complimentary" />
-                    <span>Free Drink / Complimentary</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Free Drink / Complimentary" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Free Drink / Complimentary
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Product Test" />
-                    <span>Product Test</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Product Test" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Product Test
+                    </div>
                   </label>
-                  <label
-                    class="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50">
-                    <input type="radio" name="reason" value="Others" />
-                    <span>Others</span>
+
+                  <label class="cursor-pointer">
+                    <input type="radio" name="reason" value="Others" class="peer hidden" />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 text-gray-700 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 peer-checked:bg-indigo-50 transition">
+                      Others
+                    </div>
                   </label>
                 </div>
               </fieldset>
 
-              <fieldset class="space-y-2">
-                <legend class="text-lg font-semibold">
+              <!-- ============================== Additional Notes ============================== -->
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                  <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                   Additional Notes
                 </legend>
-                <p class="text-sm text-gray-500">
-                  Optional: clarify the waste transaction.
-                </p>
+                <p class="text-sm text-gray-500">Optional: clarify the waste transaction.</p>
                 <textarea
                   name="notes"
                   rows="3"
                   placeholder="e.g., Customer changed order after payment, item already prepared..."
-                  class="w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                  class="w-full rounded-lg border-gray-300 px-4 py-2.5 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
               </fieldset>
 
-              <div class="flex items-center justify-end gap-3 pt-2">
+              <!-- ============================== Submit Button ============================== -->
+              <div class="flex items-center justify-end pt-6">
                 <button
                   type="submit"
-                  class="rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500">
+                  name="logWaste"
+                  class="rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow hover:bg-red-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-red-500">
                   Log as Waste
                 </button>
               </div>
+
+              <!-- Message Container -->
+              <p id="wasteMessage" class="text-center text-sm mt-3"></p>
             </form>
           </section>
+
         </section>
         <!-- 
       ==========================================================================================================================================
@@ -3727,8 +3741,10 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerStaffModify.js"></script>\
   <!-- linked JS file below for KPI in Overview section -->
   <script src="../JS/manager/managerOverviewKPI.js"></script>
-  <!-- linked JS file below for KPI in Overview section -->
+  <!-- linked JS file below for refund -->
   <script src="../JS/manager/managerRefundTrans.js"></script>
+  <!-- linked JS file below for waste -->
+  <script src="../JS/manager/managerLogwaste.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 
