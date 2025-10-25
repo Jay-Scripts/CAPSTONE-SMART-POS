@@ -1097,7 +1097,7 @@ if (!isset($_SESSION['staff_name'])) {
                 <button
                   id="openModalBtn"
                   class="rounded-lg bg-green-600 text-white px-5 py-2 text-sm font-semibold shadow hover:bg-green-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-green-400">
-                  + Receive Inventory
+                  Add Inventory Items
                 </button>
               </div>
 
@@ -1105,7 +1105,7 @@ if (!isset($_SESSION['staff_name'])) {
               <div class="flex items-center gap-2 mb-4">
                 <input
                   type="text"
-                  placeholder="Search products, SKU, or barcode..."
+                  placeholder="Search Inventory Items"
                   class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm sm:text-base" />
               </div>
 
@@ -1118,6 +1118,7 @@ if (!isset($_SESSION['staff_name'])) {
                       <th class="px-4 py-3 font-medium">Category</th>
                       <th class="px-4 py-3 font-medium">Stock</th>
                       <th class="px-4 py-3 font-medium">Status</th>
+                      <th class="px-4 py-3 font-medium">Added By</th>
                       <th class="px-4 py-3 text-center font-medium">Actions</th>
                     </tr>
                   </thead>
@@ -1127,6 +1128,7 @@ if (!isset($_SESSION['staff_name'])) {
                 </table>
               </div>
             </div>
+
 
             <!-- Modal -->
             <div id="inventoryModal"
@@ -1188,84 +1190,7 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </section>
-          <!-- Script -->
-          <script>
-            const modal = document.getElementById("inventoryModal");
-            const openModalBtn = document.getElementById("openModalBtn");
-            const closeModalBtn = document.getElementById("closeModalBtn");
-            const inventoryForm = document.getElementById("inventoryForm");
 
-            // 🟢 Open and Close modal
-            openModalBtn.addEventListener("click", () => modal.classList.remove("hidden"));
-            closeModalBtn.addEventListener("click", () => modal.classList.add("hidden"));
-
-            // 🟡 Handle form submission
-            inventoryForm.addEventListener("submit", async (e) => {
-              e.preventDefault();
-
-              const item_name = document.getElementById("item_name").value.trim();
-              const category = document.getElementById("category").value;
-              const quantity = document.getElementById("quantity").value.trim();
-              const unit = document.getElementById("unit").value;
-
-              // 🔍 Front-end validation
-              if (!item_name || !category || !quantity || !unit) {
-                Swal.fire({
-                  icon: "warning",
-                  title: "Incomplete Data",
-                  text: "Please fill in all required fields.",
-                  confirmButtonColor: "#facc15"
-                });
-                return;
-              }
-
-              const formData = new FormData();
-              formData.append("item_name", item_name);
-              formData.append("category", category);
-              formData.append("quantity", quantity);
-              formData.append("unit", unit);
-
-              try {
-                const res = await fetch(
-                  "../../app/includes/managerModule/managerStockManagementAddStocks.php", {
-                    method: "POST",
-                    body: formData,
-                  }
-                );
-
-                const data = await res.json();
-
-                if (data.status === "success") {
-                  Swal.fire({
-                    icon: "success",
-                    title: "Success!",
-                    text: data.message,
-                    confirmButtonColor: "#16a34a",
-                  }).then(() => {
-                    inventoryForm.reset();
-                    modal.classList.add("hidden");
-                    // 🔄 Optional: refresh inventory table
-                    // loadInventoryItems();
-                  });
-                } else {
-                  Swal.fire({
-                    icon: "warning",
-                    title: "Oops...",
-                    text: data.message,
-                    confirmButtonColor: "#facc15",
-                  });
-                }
-              } catch (error) {
-                Swal.fire({
-                  icon: "error",
-                  title: "Server Error",
-                  text: "Something went wrong while saving.",
-                  confirmButtonColor: "#dc2626",
-                });
-                console.error("Fetch error:", error);
-              }
-            });
-          </script>
 
 
 
@@ -3626,6 +3551,10 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/manager/managerProductAnalyticsSoldAddons.js"></script>
   <!-- linked JS file below for Product Analytics Bar Charts per Category -->
   <script src="../JS/manager/managerProductAnalyticsBarCharts.js"></script>
+  <!-- linked JS file below for Stocks Management Add Stocks -->
+  <script src="../JS/manager/managerStockManagementAddStock.js"></script>
+  <!-- linked JS file below for Stocks Management Fetch Inv List  -->
+  <script src="../JS/manager/managerStockManagementFetchInvItems.js"></script>
   <!-- linked JS file below for account Dropdown to logOut -->
   <script src="../JS/shared/dropDownLogout.js"></script>
 

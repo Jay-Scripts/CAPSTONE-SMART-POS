@@ -1,0 +1,42 @@
+async function loadInventoryItems() {
+  try {
+    const response = await fetch(
+      "../../app/includes/managerModule/managerStockManagementFetchInvItems.php"
+    );
+    const data = await response.json();
+    const tableBody = document.getElementById("inventoryTableBody");
+    tableBody.innerHTML = "";
+
+    data.forEach((item) => {
+      const row = `
+        <tr>
+          <td class="px-4 py-3">${item.item_name}</td>
+          <td class="px-4 py-3">${item.category_name}</td>
+          <td class="px-4 py-3">${item.quantity} ${item.unit}</td>
+          <td class="px-4 py-3">
+            <span class="px-2 py-1 rounded-full text-xs font-semibold 
+              ${
+                item.status === "IN STOCK"
+                  ? "bg-green-100 text-green-700"
+                  : item.status === "LOW STOCK"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "bg-red-100 text-red-700"
+              }">
+              ${item.status}
+            </span>
+          </td>
+          <td class="px-4 py-3">${item.added_by_name}</td>
+          <td class="px-4 py-3 text-center">
+            <button class=" hover:underline"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="red"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></button>
+          </td>
+        </tr>`;
+      tableBody.insertAdjacentHTML("beforeend", row);
+    });
+  } catch (err) {
+    console.error("Error fetching inventory:", err);
+  }
+}
+
+// 🔄 Realtime update every 1s
+setInterval(loadInventoryItems, 1000);
+loadInventoryItems();

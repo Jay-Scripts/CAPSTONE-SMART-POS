@@ -303,11 +303,7 @@ CREATE TABLE inventory_category (
   date_added DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO inventory_category (category_name)
-VALUES
-('Ingredients'),
-('Packaging'),
-('Utensils');
+
 
 
 CREATE TABLE inventory_item (
@@ -317,6 +313,7 @@ CREATE TABLE inventory_item (
    added_by INT NOT NULL, -- 🔹 Manager ID who added the item
   product_id INT NULL, -- only if tied to an actual POS product so hindi include packaing mats. and add-ons
   unit ENUM('pcs', 'kg', 'L', 'ml', 'g') NOT NULL,
+  quantity DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER item_name;
   status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK') DEFAULT 'IN STOCK',
   date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (inv_category_id) REFERENCES inventory_category(inv_category_id) ON DELETE CASCADE,

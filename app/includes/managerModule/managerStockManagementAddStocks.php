@@ -59,7 +59,6 @@ if ($quantity <= 0) {
 }
 
 try {
-    // ✅ Validate category
     $stmt = $conn->prepare("SELECT inv_category_id FROM inventory_category WHERE category_name = ?");
     $stmt->execute([$category_name]);
     $category = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -71,18 +70,20 @@ try {
 
     $inv_category_id = $category["inv_category_id"];
 
-    // ✅ Insert inventory item (handle nullable product_id)
-    $sql = "INSERT INTO inventory_item (inv_category_id, item_name, added_by, product_id, unit)
-            VALUES (:inv_category_id, :item_name, :added_by, :product_id, :unit)";
-    $stmt = $conn->prepare($sql);
+    $addInvItem = "INSERT INTO inventory_item 
+          (inv_category_id, item_name, quantity, added_by, product_id, unit)
+        VALUES 
+          (:inv_category_id, :item_name, :quantity, :added_by, :product_id, :unit)";
+    $stmt = $conn->prepare($addInvItem);
+    $stmt->execute([
+        ":inv_category_id" => $inv_category_id,
+        ":item_name" => $item_name,
+        ":quantity" => $quantity,
+        ":added_by" => $staff_id,
+        ":product_id" => $product_id,
+        ":unit" => $unit
+    ]);
 
-    $stmt->bindValue(':inv_category_id', $inv_category_id, PDO::PARAM_INT);
-    $stmt->bindValue(':item_name', $item_name, PDO::PARAM_STR);
-    $stmt->bindValue(':added_by', $staff_id, PDO::PARAM_INT);
-    $stmt->bindValue(':product_id', $product_id, $product_id === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
-    $stmt->bindValue(':unit', $unit, PDO::PARAM_STR);
-
-    $stmt->execute();
 
     echo json_encode(["status" => "success", "message" => "Inventory item added successfully!"]);
 } catch (PDOException $e) {
