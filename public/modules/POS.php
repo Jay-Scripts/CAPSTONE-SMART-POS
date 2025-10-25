@@ -724,12 +724,12 @@ header('Content-Type: text/html');
     -->
       <section
         id="cart"
-        class="hidden portrait:mt-[-10%] portrait:ml-[-2%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
+        class="animate-[fadeIn_0.3s_ease] hidden portrait:mt-[-10%] portrait:ml-[-2%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
         aria-label="Order Summary">
         <!-- Cart Box -->
         <modal
           id="cartBox"
-          class="bg-[var(--background-color)] p-4 portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
+          class="animate-[animate-[fadeIn_0.3s_ease]_0.3s_ease] bg-[var(--background-color)] p-4 portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
           <!-- Close button (only visible on portrait) -->
           <button
             onclick="toggleCart()"
@@ -786,10 +786,10 @@ header('Content-Type: text/html');
       <!-- Calculator Modal -->
       <div
         id="calculatorModal"
-        class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50">
+        class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 ">
         <div
           id="calculator"
-          class="bg-[var(--background-color)] border rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-xl sm:max-h-xs p-4 sm:p-6 mx-2">
+          class="bg-[var(--background-color)] border rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-xl sm:max-h-xs p-4 sm:p-6 mx-2 animate-[fadeIn_0.3s_ease]">
 
           <!-- Header -->
           <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -901,7 +901,7 @@ header('Content-Type: text/html');
           <!-- QR Popup -->
           <div
             id="qrPopup"
-            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)]">
+            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
             <div
               class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
               id="rewardingQR">
@@ -912,7 +912,7 @@ header('Content-Type: text/html');
               </div>
               <div class="flex flex-col items-center">
                 <form action="POST">
-                  <input type="text" name="rewardingCustQR" placeholder="Scan QR" class="border-0 bg-transparent">
+                  <input type="text" name="rewardingCustQR" placeholder="Scan QR" class="border bg-transparent">
                 </form>
                 <button onclick="closeQrPopup()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
                   Done
@@ -924,7 +924,7 @@ header('Content-Type: text/html');
           <!-- E-payment Popup -->
           <div
             id="EPaymentPopup"
-            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)]">
+            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
             <div
               class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
               id="EPayment">
@@ -935,7 +935,7 @@ header('Content-Type: text/html');
               </div>
               <div class="flex flex-col items-center">
                 <form action="POST">
-                  <input type="text" name="refNumber" placeholder="Enter reference number" class="border-0 bg-transparent">
+                  <input type="text" name="refNumber" placeholder="Enter reference number" class="border bg-transparent">
                 </form>
                 <button onclick="closeEPaymentPopup()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
                   Done
@@ -991,12 +991,9 @@ header('Content-Type: text/html');
   <script src="../JS/pos/POSmodules.js"></script>
   <!-- linked JS file below for cart button in tablet version -->
   <script src="../JS/pos/POSCartResponsiveScripts.js"></script>
-  <!-- linked JS file below for ordering -->
-  <script src="../JS/pos/POSCartResponsiveScripts"></script>
   <!-- linked JS file below for Reltime product status check -->
   <script src="../JS/pos/POSRealTimeProductCheckStatus.js"></script>
   <!-- linked JS file below for Manager refund transaction -->
-  <script src="../JS/manager/managerRefundTrans.js"></script>
 
 
 

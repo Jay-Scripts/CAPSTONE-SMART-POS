@@ -1068,135 +1068,164 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Stock Entry Starts Here                                                            =
       ==========================================================================================================================================
     -->
-        <section id="stockEntry" class="bg-white rounded-lg shadow">
+        <section id="stockEntry" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
                 <h2 class="text-2xl font-bold">Stock Entry</h2>
-                <p class="text-sm text-gray-600">
+                <p class="text-sm ">
                   Welcome back, here's what's happening with your store today.
                 </p>
               </div>
             </div>
           </header>
-          <section
-            class="flex justify-center items-center min-h-screen bg-gray-100 p-6">
-            <div
-              class="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 border">
-              <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">
-                Stock Entry
-              </h2>
+          <section class="flex justify-center p-4 sm:p-6">
+            <div class="w-full max-w-6xl bg-white shadow-md rounded-2xl p-4 sm:p-6 border border-gray-200">
+              <!-- Header -->
+              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Inventory Products</h2>
+                <button
+                  id="openModalBtn"
+                  class="rounded-lg bg-green-600 text-white px-5 py-2 text-sm font-semibold shadow hover:bg-green-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-green-400">
+                  + Receive Inventory
+                </button>
+              </div>
 
-              <form
-                action="stock_process.php"
-                method="POST"
-                class="space-y-4">
-                <!-- Category -->
-                <div>
-                  <label
-                    for="category"
-                    class="block text-sm font-medium text-gray-700">Select Category
-                  </label>
-                  <select
-                    id="category"
-                    name="item_id"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-                    <option value="">-- Choose Category --</option>
-                    <option value="#">Milk Tea</option>
-                    <option value="#">Fruit Tea</option>
-                    <option value="#">Praf</option>
-                    <option value="#">Iced Coffee</option>
-                    <option value="#">Hot Brew</option>
-                    <option value="#">Brosty</option>
-                  </select>
-                </div>
-                <!-- Item -->
-                <div>
-                  <label
-                    for="item"
-                    class="block text-sm font-medium text-gray-700">Select Product Type</label>
-                  <select
-                    id="item"
-                    name="item_id"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
-                    <option value="">-- Choose Item --</option>
-                    <option value="#">Winter Melon</option>
-                    <option value="#">Taro</option>
-                    <option value="#">Okinawa</option>
-                    <option value="#">Strawberry</option>
-                    <option value="#">Salted Caramel</option>
-                    <option value="#">Brown Sugar</option>
-                  </select>
-                </div>
-                <!-- Quantity with Unit -->
-                <div>
-                  <label
-                    for="quantity"
-                    class="block text-sm font-medium text-gray-700">
-                    Quantity
-                  </label>
-                  <div class="flex gap-2">
-                    <input
-                      type="number"
-                      step="0.01"
-                      id="quantity"
-                      name="quantity"
-                      class="mt-1 block w-2/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      placeholder="Enter quantity"
-                      required />
-                    <select
-                      id="unit"
-                      name="unit"
-                      class="mt-1 block w-1/3 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      required>
-                      <option value="">Unit</option>
-                      <option value="g">Grams (g)</option>
-                      <option value="kg">Kilograms (kg)</option>
-                      <option value="ml">Milliliters (ml)</option>
-                      <option value="l">Liters (L)</option>
-                      <option value="pcs">Pieces (pcs)</option>
-                      <option value="pack">Pack</option>
+              <!-- Search -->
+              <div class="flex items-center gap-2 mb-4">
+                <input
+                  type="text"
+                  placeholder="Search products, SKU, or barcode..."
+                  class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm sm:text-base" />
+              </div>
+
+              <!-- Table (Mobile Friendly) -->
+              <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full text-sm text-left">
+                  <thead class="bg-green-700 text-white">
+                    <tr>
+                      <th class="px-4 py-3 font-medium">Product</th>
+                      <th class="px-4 py-3 font-medium">Category</th>
+                      <th class="px-4 py-3 font-medium">Stock</th>
+                      <th class="px-4 py-3 font-medium">Status</th>
+                      <th class="px-4 py-3 text-center font-medium">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 text-gray-700">
+                    <tr class="hover:bg-gray-50 transition">
+                      <td class="px-4 py-3 font-medium">Medium Cup</td>
+                      <td class="px-4 py-3">Packaging</td>
+                      <td class="px-4 py-3">42 pcs</td>
+                      <td class="px-4 py-3">
+                        <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">In Stock</span>
+                      </td>
+                      <td class="px-4 py-3 text-center">
+                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-lg text-xs sm:text-sm">
+                          👁 View
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition">
+                      <td class="px-4 py-3 font-medium">Straw</td>
+                      <td class="px-4 py-3">Packaging</td>
+                      <td class="px-4 py-3">5 pcs</td>
+                      <td class="px-4 py-3">
+                        <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">Low Stock</span>
+                      </td>
+                      <td class="px-4 py-3 text-center">
+                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-lg text-xs sm:text-sm">
+                          👁 View
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Modal -->
+            <div id="inventoryModal"
+              class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+              <div
+                class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md p-6 animate-[fadeIn_0.3s_ease]">
+                <h2 class="text-lg sm:text-xl font-bold mb-4 text-center text-gray-800">Receive Inventory</h2>
+
+                <form id="inventoryForm" class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
+                    <input type="text" id="item_name" required
+                      class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400" />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="category"
+                      class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400">
+                      <option>Ingredients</option>
+                      <option>Packaging</option>
+                      <option>Utensils</option>
                     </select>
                   </div>
-                </div>
 
-                <!-- Date of Expiry -->
-                <div>
-                  <label
-                    for="expiry_date"
-                    class="block text-sm font-medium text-gray-700">Date of Expiry</label>
-                  <input
-                    type="date"
-                    id="expiry_date"
-                    name="expiry_date"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
-                </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                      <input type="number" id="quantity" required min="1"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400" />
+                    </div>
 
-                <!-- Remarks -->
-                <div>
-                  <label
-                    for="remarks"
-                    class="block text-sm font-medium text-gray-700">Remarks</label>
-                  <textarea
-                    id="remarks"
-                    name="remarks"
-                    rows="2"
-                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    placeholder="Optional notes..."></textarea>
-                </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Type of Measurement</label>
+                      <select id="unit"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400">
+                        <option value="pcs">Pieces (pcs)</option>
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="g">Grams (g)</option>
+                        <option value="l">Liters (L)</option>
+                        <option value="ml">Milliliters (ml)</option>
+                      </select>
+                    </div>
+                  </div>
 
-                <!-- Submit -->
-                <div class="flex justify-center">
-                  <button
-                    type="submit"
-                    class="w-full py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
-                    Save Stock Movement
-                  </button>
-                </div>
-              </form>
+                  <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" id="closeModalBtn"
+                      class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium text-sm">Cancel</button>
+                    <button type="submit"
+                      class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium text-sm">Save</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </section>
+
+          <!-- Script -->
+          <script>
+            const modal = document.getElementById('inventoryModal');
+            document.getElementById('openModalBtn').onclick = () => modal.classList.remove('hidden');
+            document.getElementById('closeModalBtn').onclick = () => modal.classList.add('hidden');
+            document.getElementById('inventoryForm').addEventListener('submit', (e) => {
+              e.preventDefault();
+              alert('Inventory item added successfully!');
+              modal.classList.add('hidden');
+            });
+          </script>
+
+          <style>
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+                transform: scale(0.95);
+              }
+
+              to {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+          </style>
+
+
         </section>
         <!-- 
       ==========================================================================================================================================

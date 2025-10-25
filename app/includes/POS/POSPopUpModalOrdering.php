@@ -9,8 +9,8 @@ $modifications = $mods_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- Modal -->
-<div id="productModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md p-5 relative">
+<div id="productModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center ">
+    <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md p-5 relative animate-[fadeIn_0.3s_ease]">
         <button onclick="closeModal()" class="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-lg font-bold">&times;</button>
         <div class="flex flex-col items-center">
             <img id="modalThumb" src="" alt="Product" class="w-32 h-32 rounded-lg object-cover mb-3">
