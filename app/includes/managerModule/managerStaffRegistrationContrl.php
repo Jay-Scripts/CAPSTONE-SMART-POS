@@ -1,5 +1,6 @@
 <?php
-include "../../app/config/dbConnection.php";
+include "../../config/dbConnection.php";
+
 
 $sanitizedStaffName = $staffName = $role = $registerStaffSuccess = "";
 $staffRegistrationMessage = [

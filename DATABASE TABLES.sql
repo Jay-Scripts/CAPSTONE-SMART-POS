@@ -92,7 +92,7 @@ CREATE TABLE customer_points_history (
 --    
 
 CREATE TABLE category (
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
+  inv_ INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(50) NOT NULL UNIQUE,
     status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -297,5 +297,39 @@ CREATE TABLE refund_transactions (
 
 
 
+CREATE TABLE inventory_category (
+  inv_category_id INT AUTO_INCREMENT PRIMARY KEY,
+  category_name VARCHAR(50) NOT NULL UNIQUE,
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO inventory_category (category_name)
+VALUES
+('Ingredients'),
+('Packaging'),
+('Utensils');
 
 
+CREATE TABLE inventory_item (
+  item_id INT AUTO_INCREMENT PRIMARY KEY,
+  inv_category_id INT NOT NULL,
+  item_name VARCHAR(100) NULL,
+   added_by INT NOT NULL, -- 🔹 Manager ID who added the item
+  product_id INT NULL, -- only if tied to an actual POS product so hindi include packaing mats. and add-ons
+  unit ENUM('pcs', 'kg', 'L', 'ml', 'g') NOT NULL,
+  status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK') DEFAULT 'IN STOCK',
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (inv_category_id) REFERENCES inventory_category(inv_category_id) ON DELETE CASCADE,
+  FOREIGN KEY (added_by) REFERENCES staff_info(staff_id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE product_ingredient_ratio ( 
+  map_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  item_id INT NOT NULL,
+  quantity_needed DECIMAL(10,2) NOT NULL, -- ratio per serving
+  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE
+);

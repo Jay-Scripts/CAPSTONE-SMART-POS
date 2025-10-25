@@ -1080,6 +1080,15 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
+          <?php
+          try {
+            $catStmt = $conn->query("SELECT inv_category_id, category_name FROM inventory_category ORDER BY category_name ASC");
+            $categories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
+          } catch (PDOException $e) {
+            $categories = [];
+          }
+          ?>
+
           <section class="flex justify-center p-4 sm:p-6">
             <div class="w-full max-w-6xl bg-white shadow-md rounded-2xl p-4 sm:p-6 border border-gray-200">
               <!-- Header -->
@@ -1100,7 +1109,7 @@ if (!isset($_SESSION['staff_name'])) {
                   class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm sm:text-base" />
               </div>
 
-              <!-- Table (Mobile Friendly) -->
+              <!-- Table -->
               <div class="overflow-x-auto rounded-lg border border-gray-200">
                 <table class="min-w-full text-sm text-left">
                   <thead class="bg-green-700 text-white">
@@ -1112,33 +1121,8 @@ if (!isset($_SESSION['staff_name'])) {
                       <th class="px-4 py-3 text-center font-medium">Actions</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-200 text-gray-700">
-                    <tr class="hover:bg-gray-50 transition">
-                      <td class="px-4 py-3 font-medium">Medium Cup</td>
-                      <td class="px-4 py-3">Packaging</td>
-                      <td class="px-4 py-3">42 pcs</td>
-                      <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">In Stock</span>
-                      </td>
-                      <td class="px-4 py-3 text-center">
-                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-lg text-xs sm:text-sm">
-                          👁 View
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition">
-                      <td class="px-4 py-3 font-medium">Straw</td>
-                      <td class="px-4 py-3">Packaging</td>
-                      <td class="px-4 py-3">5 pcs</td>
-                      <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">Low Stock</span>
-                      </td>
-                      <td class="px-4 py-3 text-center">
-                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-lg text-xs sm:text-sm">
-                          👁 View
-                        </button>
-                      </td>
-                    </tr>
+                  <tbody id="inventoryTableBody" class="divide-y divide-gray-200 text-gray-700">
+                    <!-- Data will be dynamically fetched via JS -->
                   </tbody>
                 </table>
               </div>
@@ -1162,9 +1146,15 @@ if (!isset($_SESSION['staff_name'])) {
                     <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <select id="category"
                       class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400">
-                      <option>Ingredients</option>
-                      <option>Packaging</option>
-                      <option>Utensils</option>
+                      <?php if (!empty($categories)): ?>
+                        <?php foreach ($categories as $cat): ?>
+                          <option value="<?= htmlspecialchars($cat['category_name']) ?>">
+                            <?= htmlspecialchars($cat['category_name']) ?>
+                          </option>
+                        <?php endforeach; ?>
+                      <?php else: ?>
+                        <option disabled>No categories found</option>
+                      <?php endif; ?>
                     </select>
                   </div>
 
@@ -1198,32 +1188,88 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </section>
-
           <!-- Script -->
           <script>
-            const modal = document.getElementById('inventoryModal');
-            document.getElementById('openModalBtn').onclick = () => modal.classList.remove('hidden');
-            document.getElementById('closeModalBtn').onclick = () => modal.classList.add('hidden');
-            document.getElementById('inventoryForm').addEventListener('submit', (e) => {
+            const modal = document.getElementById("inventoryModal");
+            const openModalBtn = document.getElementById("openModalBtn");
+            const closeModalBtn = document.getElementById("closeModalBtn");
+            const inventoryForm = document.getElementById("inventoryForm");
+
+            // 🟢 Open and Close modal
+            openModalBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+            closeModalBtn.addEventListener("click", () => modal.classList.add("hidden"));
+
+            // 🟡 Handle form submission
+            inventoryForm.addEventListener("submit", async (e) => {
               e.preventDefault();
-              alert('Inventory item added successfully!');
-              modal.classList.add('hidden');
+
+              const item_name = document.getElementById("item_name").value.trim();
+              const category = document.getElementById("category").value;
+              const quantity = document.getElementById("quantity").value.trim();
+              const unit = document.getElementById("unit").value;
+
+              // 🔍 Front-end validation
+              if (!item_name || !category || !quantity || !unit) {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Incomplete Data",
+                  text: "Please fill in all required fields.",
+                  confirmButtonColor: "#facc15"
+                });
+                return;
+              }
+
+              const formData = new FormData();
+              formData.append("item_name", item_name);
+              formData.append("category", category);
+              formData.append("quantity", quantity);
+              formData.append("unit", unit);
+
+              try {
+                const res = await fetch(
+                  "../../app/includes/managerModule/managerStockManagementAddStocks.php", {
+                    method: "POST",
+                    body: formData,
+                  }
+                );
+
+                const data = await res.json();
+
+                if (data.status === "success") {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: data.message,
+                    confirmButtonColor: "#16a34a",
+                  }).then(() => {
+                    inventoryForm.reset();
+                    modal.classList.add("hidden");
+                    // 🔄 Optional: refresh inventory table
+                    // loadInventoryItems();
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "warning",
+                    title: "Oops...",
+                    text: data.message,
+                    confirmButtonColor: "#facc15",
+                  });
+                }
+              } catch (error) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Server Error",
+                  text: "Something went wrong while saving.",
+                  confirmButtonColor: "#dc2626",
+                });
+                console.error("Fetch error:", error);
+              }
             });
           </script>
 
-          <style>
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-                transform: scale(0.95);
-              }
 
-              to {
-                opacity: 1;
-                transform: scale(1);
-              }
-            }
-          </style>
+
+
 
 
         </section>
