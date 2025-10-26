@@ -3,89 +3,71 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header("Content-Type: application/json");
 include "../../config/dbConnection.php";
-
 session_start();
 
-// ✅ Check session
 $staff_id = $_SESSION['staff_id'] ?? null;
 if (!$staff_id) {
     echo json_encode(["status" => "error", "message" => "Session expired. Please log in again."]);
     exit;
 }
 
-// ✅ Only allow POST
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["status" => "error", "message" => "Invalid request method."]);
     exit;
 }
 
-// ✅ Sanitize inputs
 function sanitizeInput($data)
 {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-    return $data;
+    return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
 }
 
-$item_name = sanitizeInput($_POST["item_name"] ?? '');
-$category_name = sanitizeInput($_POST["category"] ?? '');
-$quantity = filter_var($_POST["quantity"] ?? '', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-$unit = sanitizeInput($_POST["unit"] ?? '');
-$product_id = $_POST["product_id"] ?? null;
+$item_name       = sanitizeInput($_POST['item_name'] ?? '');
+$inv_category_id = isset($_POST['inv_category']) ? (int)$_POST['inv_category'] : null;
+$category_id     = (!empty($_POST['category_id'])) ? (int)$_POST['category_id'] : null;
+$product_id      = (!empty($_POST['product_id'])) ? (int)$_POST['product_id'] : null;
+$quantity        = filter_var($_POST['quantity'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$unit            = sanitizeInput($_POST['unit'] ?? '');
+$date_made       = sanitizeInput($_POST['date_made'] ?? '');
+$date_expiry     = sanitizeInput($_POST['date_expiry'] ?? '');
 
-// ✅ Convert empty product_id to NULL
-$product_id = ($product_id === '' || $product_id === null) ? null : (int)$product_id;
-
-// ✅ Input validation rules
-if (empty($item_name) || empty($category_name) || empty($quantity) || empty($unit)) {
-    echo json_encode(["status" => "error", "message" => "All fields are required."]);
-    exit;
-}
-
-if (!preg_match("/^[a-zA-Z0-9\s\-\_\(\)]+$/", $item_name)) {
-    echo json_encode(["status" => "error", "message" => "Item name contains invalid characters."]);
-    exit;
-}
-
-if (!in_array($unit, ['pcs', 'kg', 'L', 'ml', 'g'])) {
-    echo json_encode(["status" => "error", "message" => "Invalid unit type."]);
-    exit;
-}
-
-if ($quantity <= 0) {
-    echo json_encode(["status" => "error", "message" => "Quantity must be greater than 0."]);
+if (!$item_name || !$inv_category_id || !$quantity || !$unit || !$date_made || !$date_expiry) {
+    echo json_encode(["status" => "error", "message" => "Missing required fields."]);
     exit;
 }
 
 try {
-    $stmt = $conn->prepare("SELECT inv_category_id FROM inventory_category WHERE category_name = ?");
-    $stmt->execute([$category_name]);
-    $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$category) {
-        echo json_encode(["status" => "error", "message" => "Invalid category."]);
-        exit;
+    if ($product_id !== null) {
+        $stmt = $conn->prepare("SELECT 1 FROM product_details WHERE product_id = ?");
+        $stmt->execute([$product_id]);
+        if ($stmt->rowCount() === 0) $product_id = null;
     }
 
-    $inv_category_id = $category["inv_category_id"];
+    if ($category_id !== null) {
+        $stmt = $conn->prepare("SELECT 1 FROM category WHERE category_id = ?");
+        $stmt->execute([$category_id]);
+        if ($stmt->rowCount() === 0) $category_id = null;
+    }
 
-    $addInvItem = "INSERT INTO inventory_item 
-          (inv_category_id, item_name, quantity, added_by, product_id, unit)
-        VALUES 
-          (:inv_category_id, :item_name, :quantity, :added_by, :product_id, :unit)";
-    $stmt = $conn->prepare($addInvItem);
+    $stmt = $conn->prepare("
+    INSERT INTO inventory_item 
+    (inv_category_id, item_name, quantity, added_by, product_id, category_id, unit, date_made, date_expiry)
+    VALUES (:inv_category_id, :item_name, :quantity, :added_by, :product_id, :category_id, :unit, :date_made, :date_expiry)
+  ");
+
     $stmt->execute([
         ":inv_category_id" => $inv_category_id,
-        ":item_name" => $item_name,
-        ":quantity" => $quantity,
-        ":added_by" => $staff_id,
-        ":product_id" => $product_id,
-        ":unit" => $unit
+        ":item_name"       => $item_name,
+        ":quantity"        => $quantity,
+        ":added_by"        => $staff_id,
+        ":product_id"      => $product_id,
+        ":category_id"     => $category_id,
+        ":unit"            => $unit,
+        ":date_made"       => $date_made,
+        ":date_expiry"     => $date_expiry
     ]);
-
 
     echo json_encode(["status" => "success", "message" => "Inventory item added successfully!"]);
 } catch (PDOException $e) {
-    echo json_encode(["status" => "error", "message" => "Database error: " . $e->getMessage()]);
+    echo json_encode(["status" => "error", "message" => "DB Error: " . $e->getMessage()]);
 }

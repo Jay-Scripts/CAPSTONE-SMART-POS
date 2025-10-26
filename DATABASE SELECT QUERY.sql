@@ -154,8 +154,3 @@ INNER JOIN staff_roles sr
 --    
 
 
-INSERT INTO inventory_category (category_name)
-VALUES
-('Ingredients'),
-('Packaging'),
-('Utensils');

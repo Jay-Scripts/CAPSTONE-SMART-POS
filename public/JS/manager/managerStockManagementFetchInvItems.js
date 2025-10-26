@@ -8,11 +8,19 @@ async function loadInventoryItems() {
     tableBody.innerHTML = "";
 
     data.forEach((item) => {
+      const dateMade = item.date_made
+        ? new Date(item.date_made).toLocaleDateString()
+        : "—";
+      const dateExpiry = item.date_expiry
+        ? new Date(item.date_expiry).toLocaleDateString()
+        : "—";
+
       const row = `
         <tr>
           <td class="px-4 py-3">${item.item_name}</td>
           <td class="px-4 py-3">${item.category_name}</td>
           <td class="px-4 py-3">${item.quantity} ${item.unit}</td>
+
           <td class="px-4 py-3">
             <span class="px-2 py-1 rounded-full text-xs font-semibold 
               ${
@@ -25,9 +33,17 @@ async function loadInventoryItems() {
               ${item.status}
             </span>
           </td>
+                    <td class="px-4 py-3">${dateMade}</td>
+          <td class="px-4 py-3">${dateExpiry}</td>
           <td class="px-4 py-3">${item.added_by_name}</td>
           <td class="px-4 py-3 text-center">
-            <button class=" hover:underline"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="red"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></button>
+            <button class="hover:underline">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="red">
+                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 
+                56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 
+                0h80v-360h-80v360Z"/>
+              </svg>
+            </button>
           </td>
         </tr>`;
       tableBody.insertAdjacentHTML("beforeend", row);
@@ -37,6 +53,5 @@ async function loadInventoryItems() {
   }
 }
 
-// 🔄 Realtime update every 1s
 setInterval(loadInventoryItems, 1000);
 loadInventoryItems();

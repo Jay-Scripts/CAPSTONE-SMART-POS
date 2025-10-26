@@ -92,7 +92,7 @@ CREATE TABLE customer_points_history (
 --    
 
 CREATE TABLE category (
-  inv_ INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(50) NOT NULL UNIQUE,
     status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -304,21 +304,25 @@ CREATE TABLE inventory_category (
 );
 
 
-
+ALTER TABLE inventory_item
 
 CREATE TABLE inventory_item (
   item_id INT AUTO_INCREMENT PRIMARY KEY,
   inv_category_id INT NOT NULL,
   item_name VARCHAR(100) NULL,
    added_by INT NOT NULL, -- 🔹 Manager ID who added the item
-  product_id INT NULL, -- only if tied to an actual POS product so hindi include packaing mats. and add-ons
+  product_id INT NULL, -- only if tied to an actual POS product for specific product ing
+  category_id INT NULL, -- only if tied to an actual POS category so for per category control
   unit ENUM('pcs', 'kg', 'L', 'ml', 'g') NOT NULL,
-  quantity DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER item_name;
+  quantity DECIMAL(10,2) NOT NULL,
   status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK') DEFAULT 'IN STOCK',
+   date_made DATE NOT NULL,
+  date_expiry DATE NOT NULL,
   date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (inv_category_id) REFERENCES inventory_category(inv_category_id) ON DELETE CASCADE,
   FOREIGN KEY (added_by) REFERENCES staff_info(staff_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
+  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE,
+  foreign key (category_id) references category(category_id) on DELETE cascade
 );
 
 

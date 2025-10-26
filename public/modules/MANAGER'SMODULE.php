@@ -1082,8 +1082,17 @@ if (!isset($_SESSION['staff_name'])) {
           </header>
           <?php
           try {
-            $catStmt = $conn->query("SELECT inv_category_id, category_name FROM inventory_category ORDER BY category_name ASC");
-            $categories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
+            // Inventory categories
+            $invCatStmt = $conn->query("SELECT inv_category_id, category_name FROM inventory_category ORDER BY category_name ASC");
+            $invCategories = $invCatStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Product categories
+            $prodCatStmt = $conn->query("SELECT category_id, category_name FROM category ORDER BY category_name ASC");
+            $prodCategories = $prodCatStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Products
+            $productStmt = $conn->query("SELECT product_id, product_name FROM product_details ORDER BY product_name ASC");
+            $products = $productStmt->fetchAll(PDO::FETCH_ASSOC);
           } catch (PDOException $e) {
             $categories = [];
           }
@@ -1118,15 +1127,18 @@ if (!isset($_SESSION['staff_name'])) {
                       <th class="px-4 py-3 font-medium">Category</th>
                       <th class="px-4 py-3 font-medium">Stock</th>
                       <th class="px-4 py-3 font-medium">Status</th>
+                      <th class="px-4 py-3 font-medium">Date Made</th>
+                      <th class="px-4 py-3 font-medium">Expiry Date</th>
                       <th class="px-4 py-3 font-medium">Added By</th>
                       <th class="px-4 py-3 text-center font-medium">Actions</th>
                     </tr>
                   </thead>
                   <tbody id="inventoryTableBody" class="divide-y divide-gray-200 text-gray-700">
-                    <!-- Data will be dynamically fetched via JS -->
+                    <!-- Data dynamically loaded via JS -->
                   </tbody>
                 </table>
               </div>
+
             </div>
 
 
@@ -1138,39 +1150,54 @@ if (!isset($_SESSION['staff_name'])) {
                 <h2 class="text-lg sm:text-xl font-bold mb-4 text-center text-gray-800">Receive Inventory</h2>
 
                 <form id="inventoryForm" class="space-y-4">
+                  <!-- Item Name -->
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
-                    <input type="text" id="item_name" required
-                      class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400" />
+                    <input type="text" id="item_name" required class="w-full p-2 border rounded-lg" />
                   </div>
 
+                  <!-- Inventory Category -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                    <select id="category"
-                      class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400">
-                      <?php if (!empty($categories)): ?>
-                        <?php foreach ($categories as $cat): ?>
-                          <option value="<?= htmlspecialchars($cat['category_name']) ?>">
-                            <?= htmlspecialchars($cat['category_name']) ?>
-                          </option>
-                        <?php endforeach; ?>
-                      <?php else: ?>
-                        <option disabled>No categories found</option>
-                      <?php endif; ?>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Inventory Category</label>
+                    <select id="inv_category" required class="w-full p-2 border rounded-lg">
+                      <option value="" disabled selected>Select inventory category</option>
+                      <?php foreach ($invCategories as $cat): ?>
+                        <option value="<?= $cat['inv_category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
+                      <?php endforeach; ?>
                     </select>
                   </div>
 
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <!-- Product Category -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Category</label>
+                    <select id="prod_category" class="w-full p-2 border rounded-lg">
+                      <option value="" disabled selected>Select product category</option>
+                      <?php foreach ($prodCategories as $cat): ?>
+                        <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+
+                  <!-- Product -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Product</label>
+                    <select id="product" class="w-full p-2 border rounded-lg">
+                      <option value="" disabled selected>Select product</option>
+                      <?php foreach ($products as $prod): ?>
+                        <option value="<?= $prod['product_id'] ?>"><?= htmlspecialchars($prod['product_name']) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+
+                  <!-- Quantity & Unit -->
+                  <div class="grid grid-cols-2 gap-3">
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
-                      <input type="number" id="quantity" required min="1"
-                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400" />
+                      <input type="number" id="quantity" required min="1" class="w-full p-2 border rounded-lg" />
                     </div>
-
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">Type of Measurement</label>
-                      <select id="unit"
-                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400">
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+                      <select id="unit" class="w-full p-2 border rounded-lg">
                         <option value="pcs">Pieces (pcs)</option>
                         <option value="kg">Kilograms (kg)</option>
                         <option value="g">Grams (g)</option>
@@ -1179,14 +1206,25 @@ if (!isset($_SESSION['staff_name'])) {
                       </select>
                     </div>
                   </div>
+                  <!-- Date Made & Expiry -->
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Date Made</label>
+                      <input type="date" id="date_made" required class="w-full p-2 border rounded-lg" />
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                      <input type="date" id="date_expiry" required class="w-full p-2 border rounded-lg" />
+                    </div>
+                  </div>
+
 
                   <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" id="closeModalBtn"
-                      class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium text-sm">Cancel</button>
-                    <button type="submit"
-                      class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium text-sm">Save</button>
+                    <button type="button" id="closeModalBtn" class="bg-gray-200 px-4 py-2 rounded-lg">Cancel</button>
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg">Save</button>
                   </div>
                 </form>
+
               </div>
             </div>
           </section>
@@ -1221,11 +1259,7 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
-          <h3 class="text-xl font-semibold mb-2">Refund</h3>
-          <p>
-            // dito naman sa stock levels more on graphs to and reports like
-            line chart bat chart or pie charts analytics
-          </p>
+
         </section>
         <!-- 
       ==========================================================================================================================================
