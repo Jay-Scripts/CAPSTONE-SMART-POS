@@ -38,7 +38,7 @@ foreach ($rows as $row) {
 
 <section class="flex flex-wrap justify-center gap-2">
     <?php foreach ($products as $product): ?>
-        <div class="optionChoice cursor-pointer aspect-square w-[47%] sm:w-[15%] bg-transparent rounded-lg border border-gray-400 p-2 "
+        <div class="optionChoice cursor-pointer aspect-square w-[47%] sm:w-[15%] bg-transparent rounded-lg border border-gray-400 p-2"
             onclick='openModal(<?= json_encode($product) ?>)'>
             <img src="<?= $product['thumbnail_path'] ?>" class="object-cover">
             <h3 class="text-center text-[var(--text-color)] font-semibold"><?= htmlspecialchars($product['product_name']) ?></h3>
@@ -568,5 +568,66 @@ foreach ($rows as $row) {
 
     function closeEPaymentPopup() {
         document.getElementById("EPaymentPopup").classList.add("hidden");
+    }
+
+    async function loadKioskOrder(transactionId) {
+        try {
+            const res = await fetch(`../../app/includes/POS/fetchKioskOrder.php?id=${transactionId}`);
+            const data = await res.json();
+
+            if (!data.success) {
+                Swal.fire("Error", data.message, "error");
+                return;
+            }
+
+            // Convert fetched kiosk items into cart format
+            cart = data.items.map(item => ({
+                product_id: parseInt(item.product_id),
+                size_id: parseInt(item.size_id),
+                quantity: parseInt(item.quantity),
+                price: parseFloat(item.price),
+                addons: JSON.parse(item.addon_ids),
+                modifications: JSON.parse(item.modification_ids)
+            }));
+
+            renderCart();
+            Swal.fire({
+                icon: "success",
+                title: "Kiosk Order Loaded!",
+                text: `Transaction #${transactionId} added to cart.`,
+                timer: 1200,
+                showConfirmButton: false
+            });
+        } catch (err) {
+            Swal.fire("Error", err.message, "error");
+        }
+    }
+
+    function openKioskModal() {
+        document.getElementById("kioskModal").classList.remove("hidden");
+        document.getElementById("kioskInput").focus();
+    }
+
+    function closeKioskModal() {
+        document.getElementById("kioskModal").classList.add("hidden");
+        document.getElementById("kioskInput").value = "";
+    }
+
+    function submitKioskOrder() {
+        let input = document.getElementById("kioskInput").value.trim();
+        if (!input) {
+            Swal.fire("Input Required", "Please enter or scan a Kiosk QR code.", "warning");
+            return;
+        }
+
+        const match = input.match(/(\d+)/);
+        if (!match) {
+            Swal.fire("Invalid Code", "Please scan a valid Kiosk QR (TXN-xxxxx).", "error");
+            return;
+        }
+
+        const kioskId = match[1];
+        closeKioskModal();
+        loadKioskOrder(kioskId);
     }
 </script>
