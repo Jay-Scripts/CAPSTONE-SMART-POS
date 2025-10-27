@@ -128,7 +128,7 @@ header('Content-Type: text/html');
 
       <section
         id="menuContainer"
-        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-4 landscape:col-span-3">
+        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-4 ">
         <!-- Categories Section -->
         <fieldset
           id="orderCategory"
@@ -559,7 +559,7 @@ header('Content-Type: text/html');
     -->
       <section
         id="cart"
-        class="animate-[fadeIn_0.3s_ease] hidden portrait:mt-[-10%] portrait:ml-[-2%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
+        class="animate-[fadeIn_0.3s_ease] hidden portraitmt-[-10%] mt-[-5%]  portrait:ml-[-2%] landscape:ml-[25%] absolute items-center justify-center rounded-lg portrait:p-0 w-[50%] h-screen portrait:m-0"
         aria-label="Order Summary">
         <!-- Cart Box -->
         <modal
@@ -568,7 +568,7 @@ header('Content-Type: text/html');
           <!-- Close button (only visible on portrait) -->
           <button
             onclick="toggleCart()"
-            class="portrait:block landscape:hidden absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition">
+            class=" absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition">
             &times;
           </button>
 
@@ -599,7 +599,7 @@ header('Content-Type: text/html');
       </section>
 
       <!-- CART BUTTON (Only on Portrait) -->
-      <section class="landscape:hidden fixed bottom-5 right-5">
+      <section class="fixed bottom-5 right-5">
         <button
           onclick="toggleCart()"
           class="actionBtn relative w-[150px] h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-xl transition-all duration-200 overflow-hidden group">
@@ -657,7 +657,7 @@ header('Content-Type: text/html');
   <!-- linked JS file below for changing category module content -->
   <script src="../JS/pos/POSmodules.js"></script>
   <!-- linked JS file below for cart button in tablet version -->
-  <script src="../JS/pos/POSCartResponsiveScripts.js"></script>
+  <script src="../JS/pos/POSCartResponsiveScriptsKioks.js"></script>
   <!-- linked JS file below for Reltime product status check -->
   <script src="../JS/pos/POSRealTimeProductCheckStatus.js"></script>
 
