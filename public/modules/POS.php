@@ -4,6 +4,7 @@ session_start();
 
 $allProducts = [];
 
+// ✅ Category loading
 $categories = [
   1 => 'Milk Tea',
   2 => 'Fruit Tea',
@@ -12,7 +13,6 @@ $categories = [
   5 => 'Brosty',
   6 => 'Iced Coffee',
   7 => 'Promos',
-
 ];
 
 foreach ($categories as $id => $label) {
@@ -21,11 +21,11 @@ foreach ($categories as $id => $label) {
   include "../../app/includes/POS/fetchProducts.php";
   ob_end_clean();
   if (isset($products)) {
-    $allProducts[$id] = $products; // store each category’s products
+    $allProducts[$id] = $products;
   }
 }
 
-// === POST handling for order_data ===
+// ✅ POST handling for order_data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
   header('Content-Type: application/json');
 
@@ -42,19 +42,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
     foreach ($order_data as $item) {
       $total += $item['price'] * $item['quantity'];
     }
-    $vat = $total * 0.12; // 12% VAT
+    $vat = $total * 0.12;
 
     $staff_id = $_SESSION['staff_id'] ?? 69;
+    $kiosk_id = $_SESSION['kiosk_transaction_id'] ?? null; // ✅ check if kiosk ID is stored
+    $ordered_by = $kiosk_id ? 'KIOSK' : 'POS'; // ✅ flag the source
 
-    // 🧾 Insert transaction with VAT and status 'PAID'
+    // 🧾 Insert REG_TRANSACTION (link kiosk_transaction if available)
     $stmt = $conn->prepare("
-      INSERT INTO REG_TRANSACTION (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS)
-      VALUES (:staff_id, :total, :vat, 'PAID')
+      INSERT INTO REG_TRANSACTION 
+      (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS, kiosk_transaction_id, ORDERED_BY)
+      VALUES (:staff_id, :total, :vat, 'PAID', :kiosk_id, :ordered_by)
     ");
     $stmt->execute([
       ':staff_id' => $staff_id,
       ':total' => $total,
-      ':vat' => $vat
+      ':vat' => $vat,
+      ':kiosk_id' => $kiosk_id,
+      ':ordered_by' => $ordered_by
     ]);
 
     $transaction_id = $conn->lastInsertId();
@@ -118,6 +123,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
       ':change_amount' => $change
     ]);
 
+    // ✅ If this came from kiosk, update its status to PAID
+    if ($kiosk_id) {
+      $updateKiosk = $conn->prepare("
+        UPDATE kiosk_transaction 
+        SET status = 'PAID' 
+        WHERE kiosk_transaction_id = ?
+      ");
+      $updateKiosk->execute([$kiosk_id]);
+
+      // ✅ Clear kiosk transaction ID after completion
+      unset($_SESSION['kiosk_transaction_id']);
+    }
+
     $conn->commit();
 
     echo json_encode([
@@ -131,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
   }
 
-  exit; // Stop further output for AJAX
+  exit;
 }
 
 // ===== Session check & HTML output =====
@@ -141,8 +159,6 @@ if (!isset($_SESSION['staff_name'])) {
 }
 header('Content-Type: text/html');
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
