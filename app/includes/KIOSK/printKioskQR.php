@@ -2,7 +2,6 @@
 include "../../config/dbConnection.php";
 session_start();
 
-
 $transactionId = intval($_GET['id']);
 
 // Fetch transaction details
@@ -13,8 +12,6 @@ $transaction = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$transaction) {
     die("Transaction not found in KIOSK_TRANSACTION");
 }
-
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,7 +43,7 @@ if (!$transaction) {
         }
 
         .qr-code {
-            margin: 20px auto;
+            margin: 15px auto;
             display: block;
         }
 
@@ -73,10 +70,8 @@ if (!$transaction) {
             #<?= str_pad($transactionId, 6, '0', STR_PAD_LEFT) ?>
         </div>
 
-        <!-- QR Code using Google Charts API -->
-        <img class="qr-code"
-            src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=TXN-<?= $transactionId ?>&choe=UTF-8"
-            alt="QR Code">
+        <!-- Canvas for JS QR -->
+        <canvas id="qrCanvas" class="qr-code"></canvas>
 
         <p>Scan at POS to complete payment</p>
 
@@ -85,13 +80,24 @@ if (!$transaction) {
         <p><strong>Total Amount:</strong> ₱<?= number_format($transaction['total_amount'], 2) ?></p>
         <p><strong>Date:</strong> <?= date('M d, Y h:i A', strtotime($transaction['date_added'])) ?></p>
 
-
         <div class="divider"></div>
         <p style="font-size: 10px;">
             Please proceed to the counter<br>
             to complete your payment
         </p>
     </div>
+
+    <!-- ✅ Qrious QR generator -->
+    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script>
+        // Generate QR dynamically
+        const qr = new QRious({
+            element: document.getElementById('qrCanvas'),
+            value: '<?= $transactionId ?>',
+            size: 150, // adjust size for 80mm paper
+            level: 'H' // high error correction for better scanning
+        });
+    </script>
 </body>
 
 </html>

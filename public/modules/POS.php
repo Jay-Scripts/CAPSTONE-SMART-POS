@@ -179,33 +179,7 @@ header('Content-Type: text/html');
       </span>
 
     </h1>
-    <button
-      onclick="openKioskModal()"
-      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
-      🧾 Load Kiosk Order
-    </button>
-    <!-- 🧾 Kiosk Order Modal -->
-    <div id="kioskModal"
-      class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div class="bg-white p-6 rounded-xl shadow-lg w-[300px]">
-        <h2 class="text-lg font-semibold text-gray-800 mb-3 text-center">Load Kiosk Order</h2>
-        <input id="kioskInput"
-          type="text"
-          placeholder="Enter or scan QR (e.g. TXN-00123)"
-          class="w-full border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
 
-        <div class="flex justify-between">
-          <button onclick="closeKioskModal()"
-            class="bg-gray-300 px-3 py-2 rounded hover:bg-gray-400 transition">
-            Cancel
-          </button>
-          <button onclick="submitKioskOrder()"
-            class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition">
-            Load
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- 
       ==================================
@@ -537,7 +511,71 @@ header('Content-Type: text/html');
               <!-- Label -->
               <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">BROSTY</p>
             </label>
+
+
+
           </div>
+
+          <button
+            onclick="openKioskModal()"
+            class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
+              viewBox="0 -960 960 960"
+              fill="currentColor">
+              <path d="M120-520v-320h320v320H120Zm80-80h160v-160H200v160Zm-80 480v-320h320v320H120Zm80-80h160v-160H200v160Zm320-320v-320h320v320H520Zm80-80h160v-160H600v160Zm160 480v-80h80v80h-80ZM520-360v-80h80v80h-80Zm80 80v-80h80v80h-80Zm-80 80v-80h80v80h-80Zm80 80v-80h80v80h-80Zm80-80v-80h80v80h-80Zm0-160v-80h80v80h-80Zm80 80v-80h80v80h-80Z" />
+            </svg>
+            <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">Recall Order</p>
+
+
+          </button>
+          <!-- 🧾 Kiosk Order Modal -->
+          <div id="kioskModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+            <div class="bg-[var(--background-color)] text-[var(--text-color)] border-2 border-[var(--container-border)] p-6 rounded-2xl shadow-xl w-[300px] text-center">
+              <h2 class="text-lg font-semibold mb-3">Load Kiosk Order</h2>
+              <input id="kioskInput"
+                type="text"
+                placeholder="Scan or enter QR code"
+                class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-black/40">
+
+              <div class="flex justify-between">
+                <button onclick="closeKioskModal()" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">Cancel</button>
+                <button onclick="submitKioskOrder()" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">Load</button>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            const kioskModal = document.getElementById("kioskModal");
+            const kioskInput = document.getElementById("kioskInput");
+
+            function openKioskModal() {
+              kioskModal.classList.remove("hidden");
+              kioskInput.focus();
+            }
+
+            function closeKioskModal() {
+              kioskModal.classList.add("hidden");
+              kioskInput.value = "";
+            }
+
+            function submitKioskOrder() {
+              const value = kioskInput.value.trim();
+              if (!value) return;
+
+              // redirect or fetch the kiosk order here
+              window.location.href = `../pos/loadKioskOrder.php?id=${value}`;
+            }
+
+            // ✅ Auto-submit when scanner sends "Enter"
+            kioskInput.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                submitKioskOrder();
+              }
+            });
+          </script>
+
         </fieldset>
 
 
