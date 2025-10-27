@@ -392,6 +392,8 @@ if (!isset($_SESSION['staff_name'])) {
   <script src="../JS/shared/checkDBCon.js"></script>
   <!-- linked JS file below for footer scrpts -->
   <script src="../JS/shared/footer.js"></script>
+  <!-- linked JS file below for printing pick slip and update order status to serve -->
+  <script src="../JS/bvs/BVSServe.js"></script>
 
   <!-- 
       ======================
@@ -403,48 +405,6 @@ if (!isset($_SESSION['staff_name'])) {
   <!-- SweetAlert2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
   <script>
-    // Handle Serve button click
-    document.addEventListener("click", async (e) => {
-      if (e.target.classList.contains("serve-btn")) {
-        const regId = e.target.dataset.id;
-
-        const confirm = await Swal.fire({
-          title: "Mark as 'Now Serving'?",
-          text: `Transaction #${regId}`,
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonColor: "#16a34a",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, serve it"
-        });
-
-        if (confirm.isConfirmed) {
-          const res = await fetch("../../app/includes/BVS/BVSserveTransaction.php", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `reg_id=${regId}`
-          });
-
-          const result = await res.json();
-
-          if (result.success) {
-            Swal.fire({
-              icon: "success",
-              title: "Now Serving!",
-              text: `Transaction #${regId} is now serving.`,
-              timer: 1500,
-              showConfirmButton: false
-            });
-            fetchTransactions(); // refresh orders
-          } else {
-            Swal.fire("Error", "Failed to update transaction.", "error");
-          }
-        }
-      }
-    });
-
     async function fetchTransactions() {
       try {
         const response = await fetch('../../app/includes/BVS/BVSRealtimeOrderSync.php');

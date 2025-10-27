@@ -103,9 +103,10 @@ try {
         }
 
         body {
-            font-family: monospace;
-            width: 100%;
-            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            width: 80mm;
+            margin: 0 auto;
+            font-size: 12px;
         }
 
         table {
