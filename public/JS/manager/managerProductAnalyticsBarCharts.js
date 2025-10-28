@@ -43,6 +43,9 @@ async function updateCategoryChart(
     } else {
       charts[canvasId].data.labels = labels;
       charts[canvasId].data.datasets[0].data = sales;
+      charts[canvasId].data.datasets[0].backgroundColor = labels.map(
+        () => bgColor
+      ); // ✅ fix
       charts[canvasId].update();
     }
   } catch (err) {
@@ -63,4 +66,4 @@ setInterval(() => {
     "x",
     "#1FB4C2"
   );
-}, 1000); // Update every 1 sec
+}, 1000);
