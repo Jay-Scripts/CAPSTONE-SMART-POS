@@ -281,17 +281,33 @@ if (!isset($_SESSION['staff_name'])) {
               class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
               <svg
                 class="w-5 h-5 mr-3 text-emerald-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
+                fill="currentColor"
+                viewBox="0 -960 960 960"
+                xmlns="http://www.w3.org/2000/svg">
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4m4-11v6m0 0v3m0-3h3m-3 0h-3"></path>
+                  d="M640-640h120-120Zm-440 0h338-18 14-334Zm16-80h528l-34-40H250l-34 40Zm184 270 80-40 80 40v-190H400v190Zm182 330H200q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v196q-19-7-39-11t-41-4v-122H640v153q-35 20-61 49.5T538-371l-58-29-160 80v-320H200v440h334q8 23 20 43t28 37Zm138 0v-120H600v-80h120v-120h80v120h120v80H800v120h-80Z" />
               </svg>
-              Stock Entry
+              Add New Stock
             </a>
+            <a
+              data-module="restock"
+              href="#"
+              class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200  hover:text-white">
+              <svg
+                class="w-5 h-5 mr-3 text-emerald-400"
+                fill="currentColor"
+                viewBox="0 -960 960 960"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M640-640h120-120Zm-440 0h338-18 14-334Zm16-80h528l-34-40H250l-34 40Zm184 270 80-40 80 40v-190H400v190Zm182 330H200q-33 0-56.5-23.5T120-200v-499q0-14 4.5-27t13.5-24l50-61q11-14 27.5-21.5T250-840h460q18 0 34.5 7.5T772-811l50 61q9 11 13.5 24t4.5 27v196q-19-7-39-11t-41-4v-122H640v153q-35 20-61 49.5T538-371l-58-29-160 80v-320H200v440h334q8 23 20 43t28 37Z" />
+                <path d="M720-120v-160h-80l120-120 120 120h-80v160h-80Z" />
+              </svg>
+
+
+
+              Restock
+
+            </a>
+
             <a
               data-module="stockLevel"
               href="#"
@@ -331,7 +347,7 @@ if (!isset($_SESSION['staff_name'])) {
               href="#"
               class="navItem flex font-medium items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
               <svg
-                class="w-5 h-5 mr-3 text-pink-400"
+                class="w-5 h-5 mr-3 text-red-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24">
@@ -339,10 +355,9 @@ if (!isset($_SESSION['staff_name'])) {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M4 6v14h16M8 16v-4m4 4V8m4 8v-2" />
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
               </svg>
-
-              Movement History
+              Expiry Alerts
             </a>
           </section>
           <!-- 
@@ -1073,10 +1088,11 @@ if (!isset($_SESSION['staff_name'])) {
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
-                <h2 class="text-2xl font-bold">Stock Entry</h2>
-                <p class="text-sm ">
-                  Welcome back, here's what's happening with your store today.
+                <h2 class="text-2xl font-bold">New Inventory Entry</h2>
+                <p class="text-sm text-gray-500">
+                  Add newly received items to your inventory and set their initial stock levels.
                 </p>
+
               </div>
             </div>
           </header>
@@ -1241,6 +1257,31 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Stock Entry Ends Here                                                              =
       ==========================================================================================================================================
     -->
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Restock Starts Here                                                            =
+      ==========================================================================================================================================
+    -->
+        <section id="restock" class="bg-white rounded-lg shadow hidden">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Restock</h2>
+                <p class="text-sm text-gray-600">
+                  Add additional quantities to existing inventory items.
+                </p>
+              </div>
+            </div>
+          </header>
+          <!-- You can place your form or table for restocking here -->
+        </section>
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                     Restock Ends Here                                                              =
+      ==========================================================================================================================================
+    -->
 
         <!-- 
       ==========================================================================================================================================
@@ -1308,7 +1349,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
-                <h2 class="text-2xl font-bold">Stock Movement History</h2>
+                <h2 class="text-2xl font-bold">Soon to Expired Products</h2>
                 <p class="text-sm text-gray-600">
                   Welcome back, here's what's happening with your store today.
                 </p>
@@ -3151,7 +3192,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
-                <h2 class="text-2xl font-bold">Product Movement History</h2>
+                <h2 class="text-2xl font-bold">Product Sold per Category</h2>
                 <p class="text-sm">
                   Track all product movements made within your store.
                 </p>

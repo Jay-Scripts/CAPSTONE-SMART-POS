@@ -8,6 +8,7 @@ function showModule(moduleId) {
     "modifyPosition",
     "modifyStatus",
     "stockEntry",
+    "restock",
     "stockLevel",
     "lowStockAlerts",
     "stocksMovementHistory",
@@ -76,67 +77,3 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-// ===================================================
-//        ACTIVE CLASS SIDEBAR ENDS HERE
-//===================================================
-
-// ========================================================
-//  OVERVIEW CHART STARTS HERE
-// ========================================================
-
-// ========================================================
-// BROSTY SalesReports CHART ENDS HERE
-// ========================================================
-
-// ========================================================
-// PROMOS  SalesReports POLARCHART STARTS HERE
-// ========================================================
-
-// const ctx = document.getElementById("srPromosChart").getContext("2d");
-
-// new Chart(ctx, {
-//   type: "pie",
-//   data: {
-//     labels: [
-//       "5 + 1",
-//       "Black Pink",
-//       "Boss Brew",
-//       "Super Choco",
-//       "Kape KMJS",
-//       "Kape Van",
-//       "Supreme Mocha",
-//     ],
-//     datasets: [
-//       {
-//         label: "Promo Sales",
-//         data: [120, 80, 60, 40, 70, 200, 142], // sample values
-//         backgroundColor: [
-//           "#382A04",
-//           "#20C0E8",
-//           "#AEBCBF",
-//           "#107333",
-//           "#929E19",
-//           "#FFF380",
-//           "#12357A",
-//         ],
-//         borderColor: "white",
-//         borderWidth: 2,
-//       },
-//     ],
-//   },
-//   options: {
-//     responsive: true,
-//     plugins: { legend: { display: false } },
-//     scales: { y: { beginAtZero: true } },
-//     indexAxis: "y",
-//     maintainAspectRatio: false,
-//   },
-// });
-
-// ========================================================
-// PROMOS  SalesReports POLARCHART STARTS HERE
-// ========================================================
-
-// ========================================================
-//  Sales Reports CHART ENDS HERE
-// ========================================================
