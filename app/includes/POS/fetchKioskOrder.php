@@ -1,18 +1,32 @@
 <?php
 include "../../config/dbConnection.php";
 header('Content-Type: application/json');
-session_start(); // ✅ Make sure sessions are enabled
+session_start();
 
+// ✅ Validate & sanitize input
 if (!isset($_GET['id'])) {
     echo json_encode(['success' => false, 'message' => 'Missing transaction ID']);
     exit;
 }
 
-$transactionId = intval($_GET['id']);
+$transactionIdRaw = trim($_GET['id']);
+
+// Allow only digits (prevent SQL injection / tampering)
+if (!preg_match('/^\d+$/', $transactionIdRaw)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid transaction ID']);
+    exit;
+}
+
+// Convert safely to integer
+$transactionId = (int)$transactionIdRaw;
 
 try {
-    // ✅ Fetch main transaction (only if status = 'Pending')
-    $stmt = $conn->prepare("SELECT * FROM kiosk_transaction WHERE kiosk_transaction_id = ? AND status = 'Pending'");
+    //  Fetch main transaction (only if status = 'Pending')
+    $stmt = $conn->prepare("
+        SELECT * 
+        FROM kiosk_transaction 
+        WHERE kiosk_transaction_id = ? AND status = 'Pending'
+    ");
     $stmt->execute([$transactionId]);
     $txn = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -21,10 +35,10 @@ try {
         exit;
     }
 
-    // ✅ Store kiosk_transaction_id to session
+    //  Store kiosk_transaction_id to session
     $_SESSION['kiosk_transaction_id'] = $txn['kiosk_transaction_id'];
 
-    // ✅ Fetch ordered items + add-ons + modifications
+    //  Fetch ordered items + add-ons + modifications
     $q = "
         SELECT 
             ki.item_id,
@@ -60,8 +74,11 @@ try {
         'success' => true,
         'transaction' => $txn,
         'items' => $items,
-        'session_kiosk_id' => $_SESSION['kiosk_transaction_id'] // ✅ for verification
+        'session_kiosk_id' => $_SESSION['kiosk_transaction_id']
     ]);
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Server error: ' . htmlspecialchars($e->getMessage())
+    ]);
 }
