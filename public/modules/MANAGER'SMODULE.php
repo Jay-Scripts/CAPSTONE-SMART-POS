@@ -289,10 +289,12 @@ if (!isset($_SESSION['staff_name'])) {
               </svg>
               Add New Stock
             </a>
+
+
             <a
-              data-module="restock"
+              data-module="stockLevel"
               href="#"
-              class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200  hover:text-white">
+              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
               <svg
                 class="w-5 h-5 mr-3 text-emerald-400"
                 fill="currentColor"
@@ -302,28 +304,7 @@ if (!isset($_SESSION['staff_name'])) {
                 <path d="M720-120v-160h-80l120-120 120 120h-80v160h-80Z" />
               </svg>
 
-
-
               Restock
-
-            </a>
-
-            <a
-              data-module="stockLevel"
-              href="#"
-              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-              <svg
-                class="w-5 h-5 mr-3 text-teal-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-              </svg>
-              Stock Levels
             </a>
             <a
               data-module="lowStockAlerts"
@@ -673,7 +654,7 @@ if (!isset($_SESSION['staff_name'])) {
         <!-- 
       ==========================================================================================================================================
       =                                                                                                                                        =
-      =                                                     Overview module Starts Here                                                          =
+      =                                                     Overview module Starts Here                                                          =F
       =                                                                                                                                        =
       ==========================================================================================================================================
     -->
@@ -873,7 +854,7 @@ if (!isset($_SESSION['staff_name'])) {
     -->
         <section
           id="salesReports"
-          class="hidden bg-[var(--background-color)] rounded-lg shadow">
+          class=" bg-[var(--background-color)] rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] sm:px-6 py-4 rounded-t-lg">
             <div
@@ -1126,13 +1107,6 @@ if (!isset($_SESSION['staff_name'])) {
                 </button>
               </div>
 
-              <!-- Search -->
-              <div class="flex items-center gap-2 mb-4">
-                <input
-                  type="text"
-                  placeholder="Search Inventory Items"
-                  class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm sm:text-base" />
-              </div>
 
               <!-- Table -->
               <div class="overflow-x-auto rounded-lg border border-gray-200">
@@ -1146,7 +1120,6 @@ if (!isset($_SESSION['staff_name'])) {
                       <th class="px-4 py-3 font-medium">Date Made</th>
                       <th class="px-4 py-3 font-medium">Expiry Date</th>
                       <th class="px-4 py-3 font-medium">Added By</th>
-                      <th class="px-4 py-3 text-center font-medium">Actions</th>
                     </tr>
                   </thead>
                   <tbody id="inventoryTableBody" class="divide-y divide-gray-200 text-gray-700">
@@ -1168,13 +1141,13 @@ if (!isset($_SESSION['staff_name'])) {
                 <form id="inventoryForm" class="space-y-4">
                   <!-- Item Name -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="item_name">Item Name</label>
                     <input type="text" id="item_name" required class="w-full p-2 border rounded-lg" />
                   </div>
 
                   <!-- Inventory Category -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Inventory Category</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="inv_category">Inventory Category</label>
                     <select id="inv_category" required class="w-full p-2 border rounded-lg">
                       <option value="" disabled selected>Select inventory category</option>
                       <?php foreach ($invCategories as $cat): ?>
@@ -1185,7 +1158,7 @@ if (!isset($_SESSION['staff_name'])) {
 
                   <!-- Product Category -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Category</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="prod_category">Product Category</label>
                     <select id="prod_category" class="w-full p-2 border rounded-lg">
                       <option value="" disabled selected>Select product category</option>
                       <?php foreach ($prodCategories as $cat): ?>
@@ -1196,7 +1169,7 @@ if (!isset($_SESSION['staff_name'])) {
 
                   <!-- Product -->
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Product</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="product">Product</label>
                     <select id="product" class="w-full p-2 border rounded-lg">
                       <option value="" disabled selected>Select product</option>
                       <?php foreach ($products as $prod): ?>
@@ -1208,11 +1181,11 @@ if (!isset($_SESSION['staff_name'])) {
                   <!-- Quantity & Unit -->
                   <div class="grid grid-cols-2 gap-3">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-1" for="quantity">Quantity</label>
                       <input type="number" id="quantity" required min="1" class="w-full p-2 border rounded-lg" />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-1" for="unit">Unit</label>
                       <select id="unit" class="w-full p-2 border rounded-lg">
                         <option value="pcs">Pieces (pcs)</option>
                         <option value="kg">Kilograms (kg)</option>
@@ -1225,11 +1198,11 @@ if (!isset($_SESSION['staff_name'])) {
                   <!-- Date Made & Expiry -->
                   <div class="grid grid-cols-2 gap-3">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">Date Made</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-1" for="date_made">Date Made</label>
                       <input type="date" id="date_made" required class="w-full p-2 border rounded-lg" />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-1" for="date_expiry">Expiry Date</label>
                       <input type="date" id="date_expiry" required class="w-full p-2 border rounded-lg" />
                     </div>
                   </div>
@@ -1262,19 +1235,112 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Restock Starts Here                                                            =
       ==========================================================================================================================================
     -->
-        <section id="restock" class="bg-white rounded-lg shadow hidden">
+
+        <section id="stockLevel" class="bg-white rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
                 <h2 class="text-2xl font-bold">Restock</h2>
                 <p class="text-sm text-gray-600">
-                  Add additional quantities to existing inventory items.
+                  Welcome back, here's what's happening with your store today.
                 </p>
               </div>
             </div>
           </header>
-          <!-- You can place your form or table for restocking here -->
+
+          <div id="inventoryContainer" class="p-6 space-y-6"></div>
+          <script>
+            async function loadInventory() {
+              const container = document.getElementById("inventoryContainer");
+              container.innerHTML = "<p>Loading...</p>";
+
+              try {
+                const res = await fetch("../../app/includes/managerModule/managerStockManagementRestock.php");
+                const data = await res.json();
+
+                if (!data.success) throw new Error(data.error);
+
+                container.innerHTML = "";
+
+                data.data.forEach(cat => {
+                  const categoryBlock = document.createElement("div");
+                  categoryBlock.className = "border rounded-lg shadow-sm p-4";
+
+                  const itemsList = cat.items.map(item => `
+        <div class="flex justify-between items-center border-b py-2">
+          <div>
+            <p class="font-medium">${item.item_name}</p>
+            <p class="text-sm text-gray-500">
+              Qty: ${item.quantity} ${item.unit} | ${item.status}
+            </p>
+            <p class="text-xs text-gray-400">
+              Made: ${item.date_made} | Exp: ${item.date_expiry}
+            </p>
+          </div>
+          <button 
+            onclick="openRestockForm(${item.item_id}, '${item.item_name}')"
+            class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+            + Add Stock
+          </button>
+        </div>
+      `).join("");
+
+                  categoryBlock.innerHTML = `
+        <h3 class="text-lg font-semibold mb-2 border-b pb-2">${cat.category_name}</h3>
+        <div class="space-y-2">${itemsList || "<p class='text-sm text-gray-500'>No items yet.</p>"}</div>
+      `;
+
+                  container.appendChild(categoryBlock);
+                });
+              } catch (err) {
+                container.innerHTML = `<p class='text-red-500'>${err.message}</p>`;
+              }
+            }
+
+            function openRestockForm(itemId, itemName) {
+              Swal.fire({
+                title: `Restock ${itemName}`,
+                input: 'number',
+                inputLabel: 'Enter quantity to add',
+                inputAttributes: {
+                  min: 1,
+                  step: 'any'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Add Stock',
+                preConfirm: async (qty) => {
+                  if (!qty || qty <= 0) {
+                    Swal.showValidationMessage("Please enter a valid quantity");
+                    return false;
+                  }
+
+                  const res = await fetch("../../app/includes/managerModule/managerStockManagementRestock.php", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                      item_id: itemId,
+                      quantity: qty
+                    })
+                  });
+
+                  const result = await res.json();
+                  if (!result.success) throw new Error(result.message);
+                  return result;
+                }
+              }).then(result => {
+                if (result.isConfirmed) {
+                  Swal.fire("Success", "Stock updated successfully!", "success");
+                  loadInventory();
+                }
+              });
+            }
+
+            loadInventory();
+          </script>
+
         </section>
 
         <!-- 
@@ -1283,30 +1349,8 @@ if (!isset($_SESSION['staff_name'])) {
       ==========================================================================================================================================
     -->
 
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Stock Level Starts Here                                                            =
-      ==========================================================================================================================================
-    -->
-        <section id="stockLevel" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold">Stock Level</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
 
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                     Stock Level Ends Here                                                              =
-      ==========================================================================================================================================
-    -->
+
 
         <!-- 
       ==========================================================================================================================================

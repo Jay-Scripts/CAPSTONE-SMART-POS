@@ -8,7 +8,6 @@ function showModule(moduleId) {
     "modifyPosition",
     "modifyStatus",
     "stockEntry",
-    "restock",
     "stockLevel",
     "lowStockAlerts",
     "stocksMovementHistory",

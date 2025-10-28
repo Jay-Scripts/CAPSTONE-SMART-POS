@@ -306,7 +306,6 @@
   );
 
 
-  ALTER TABLE inventory_item
 
   CREATE TABLE inventory_item (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -327,6 +326,17 @@
     foreign key (category_id) references category(category_id) on DELETE cascade
   );
 
+CREATE TABLE inventory_item_logs (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    item_id INT NOT NULL,
+    staff_id INT NOT NULL, -- who performed the action
+    action_type ENUM('RESTOCK', 'ADJUSTMENT', 'EXPIRED', 'DAMAGED') NOT NULL,
+    quantity_change DECIMAL(10,2) NOT NULL, -- positive for IN, negative for OUT
+    remarks VARCHAR(255) NULL,
+    date_logged DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE,
+    FOREIGN KEY (staff_id) REFERENCES staff_info(staff_id) ON DELETE CASCADE
+);
 
   CREATE TABLE product_ingredient_ratio ( 
     map_id INT AUTO_INCREMENT PRIMARY KEY,
