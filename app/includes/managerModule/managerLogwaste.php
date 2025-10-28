@@ -20,19 +20,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // ✅ Allow only numbers for transaction_id
+    //  Allow only numbers for transaction_id
     if (!preg_match("/^[0-9]+$/", $transaction_id)) {
         echo json_encode(['status' => 'error', 'message' => 'Transaction ID can only contain numbers.']);
         exit;
     }
 
-    // ✅ Allow only letters, numbers, and spaces for reason
+    //  Allow only letters, numbers, and spaces for reason
     if (!preg_match("/^[a-zA-Z0-9 ]+$/", $reason)) {
         echo json_encode(['status' => 'error', 'message' => 'Reason can only contain letters, numbers, and spaces.']);
         exit;
     }
 
-    // ✅ Notes are optional but sanitized; limit to allowed characters if provided
+    //  Notes are optional but sanitized; limit to allowed characters if provided
     if (!empty($notes) && !preg_match("/^[a-zA-Z0-9 ,.()'-]*$/", $notes)) {
         echo json_encode(['status' => 'error', 'message' => 'Notes contain invalid characters.']);
         exit;
