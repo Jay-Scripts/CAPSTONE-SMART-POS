@@ -4,7 +4,7 @@ session_start();
 
 $allProducts = [];
 
-// ✅ Category loading
+//  Category loading
 $categories = [
   1 => 'Milk Tea',
   2 => 'Fruit Tea',
@@ -25,7 +25,7 @@ foreach ($categories as $id => $label) {
   }
 }
 
-// ✅ POST handling for order_data
+// POST handling for order_data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
   header('Content-Type: application/json');
 
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
     $kiosk_id = $_SESSION['kiosk_transaction_id'] ?? null; // ✅ check if kiosk ID is stored
     $ordered_by = $kiosk_id ? 'KIOSK' : 'POS'; // ✅ flag the source
 
-    // 🧾 Insert REG_TRANSACTION (link kiosk_transaction if available)
+    // Insert REG_TRANSACTION (link kiosk_transaction if available)
     $stmt = $conn->prepare("
       INSERT INTO REG_TRANSACTION 
       (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS, kiosk_transaction_id, ORDERED_BY)
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
 
     $transaction_id = $conn->lastInsertId();
 
-    // 🧺 Insert each item
+    //  Insert each item
     $stmtItem = $conn->prepare("
       INSERT INTO TRANSACTION_ITEM 
       (REG_TRANSACTION_ID, PRODUCT_ID, SIZE_ID, QUANTITY, PRICE)
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
       ':change_amount' => $change
     ]);
 
-    // ✅ If this came from kiosk, update its status to PAID
+    //  If this came from kiosk, update its status to PAID
     if ($kiosk_id) {
       $updateKiosk = $conn->prepare("
         UPDATE kiosk_transaction 
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
       ");
       $updateKiosk->execute([$kiosk_id]);
 
-      // ✅ Clear kiosk transaction ID after completion
+      //  Clear kiosk transaction ID after completion
       unset($_SESSION['kiosk_transaction_id']);
     }
 
@@ -532,6 +532,7 @@ header('Content-Type: text/html');
 
           </div>
 
+          <!-- Recall Order Button -->
           <button
             onclick="openKioskModal()"
             class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
@@ -542,15 +543,17 @@ header('Content-Type: text/html');
               <path d="M120-520v-320h320v320H120Zm80-80h160v-160H200v160Zm-80 480v-320h320v320H120Zm80-80h160v-160H200v160Zm320-320v-320h320v320H520Zm80-80h160v-160H600v160Zm160 480v-80h80v80h-80ZM520-360v-80h80v80h-80Zm80 80v-80h80v80h-80Zm-80 80v-80h80v80h-80Zm80 80v-80h80v80h-80Zm80-80v-80h80v80h-80Zm0-160v-80h80v80h-80Zm80 80v-80h80v80h-80Z" />
             </svg>
             <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">Recall Order</p>
-
-
           </button>
-          <!-- 🧾 Kiosk Order Modal -->
-          <div id="kioskModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+
+          <!-- Kiosk Order Modal -->
+          <div id="kioskModal"
+            class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
             <div class="bg-[var(--background-color)] text-[var(--text-color)] border-2 border-[var(--container-border)] p-6 rounded-2xl shadow-xl w-[300px] text-center">
               <h2 class="text-lg font-semibold mb-3">Load Kiosk Order</h2>
               <input id="kioskInput"
                 type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 placeholder="Scan or enter QR code"
                 class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-black/40">
 
@@ -575,15 +578,44 @@ header('Content-Type: text/html');
               kioskInput.value = "";
             }
 
-            function submitKioskOrder() {
-              const value = kioskInput.value.trim();
-              if (!value) return;
-
-              // redirect or fetch the kiosk order here
-              window.location.href = `../pos/loadKioskOrder.php?id=${value}`;
+            function sanitizeInput(input) {
+              // Remove anything that isn’t a number
+              return input.replace(/[^0-9]/g, "");
             }
 
-            // ✅ Auto-submit when scanner sends "Enter"
+            function submitKioskOrder() {
+              let value = kioskInput.value.trim();
+              value = sanitizeInput(value);
+
+              if (!value) {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Invalid Input",
+                  text: "Please enter a valid numeric QR code.",
+                });
+                return;
+              }
+
+              // Apply basic numeric validation
+              if (!/^\d+$/.test(value)) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Invalid Code",
+                  text: "Only numbers are allowed in the QR input.",
+                });
+                return;
+              }
+
+              // Safe redirect
+              const encodedValue = encodeURIComponent(value);
+              window.location.href = `../pos/loadKioskOrder.php?id=${encodedValue}`;
+            }
+
+            kioskInput.addEventListener("input", () => {
+              kioskInput.value = sanitizeInput(kioskInput.value);
+            });
+
+            // Auto-submit when scanner presses Enter
             kioskInput.addEventListener("keydown", (e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -591,6 +623,7 @@ header('Content-Type: text/html');
               }
             });
           </script>
+
 
         </fieldset>
 
