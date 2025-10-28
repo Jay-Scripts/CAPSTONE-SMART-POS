@@ -103,13 +103,16 @@
       </h2>
 
       <input
-        type="text"
         id="qrInput"
-        placeholder="Scan or Enter QR Code..."
-        class="w-full px-4 py-3 sm:px-6 sm:py-4 border border-gray-300 rounded-xl text-black text-center text-base sm:text-lg focus:outline-none focus:ring-4 focus:ring-green-400"
-        autofocus />
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        autocomplete="off"
+        autofocus
+        class="w-full text-center text-lg p-3 border-2 text-[var(--text-color)] placeholder-[var(--text-color)] rounded-md focus:ring-2 bg-[var(--background-color)] focus:ring-blue-400"
+        placeholder="Scan or enter QR code..." />
 
-      <p class="text-xs sm:text-sm text-gray-300 mt-3">
+      <p class="text-xs sm:text-sm text-[var(--text-color)]  mt-3">
         Connect your scanner and scan the QR code. It will automatically update the status.
       </p>
     </section>
@@ -247,18 +250,39 @@
     -->
   <!-- SweetAlert2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const qrInput = document.getElementById("qrInput");
 
-      // Keep focus so the QR scanner always types here
+      // Keep focus for scanner input
+      const keepFocus = () => qrInput.focus();
+      document.addEventListener("click", keepFocus);
       qrInput.focus();
 
+      // ✅ Allow only numeric input in real time
+      qrInput.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/\D/g, ""); // remove non-digits
+      });
+
+      // ✅ Handle Enter / QR scan submission
       qrInput.addEventListener("keypress", async (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
           const regId = qrInput.value.trim();
-          if (!regId) return;
+
+          if (!regId) {
+            Swal.fire({
+              icon: "warning",
+              title: "Invalid QR",
+              text: "Please scan a valid numeric QR code.",
+              timer: 1500,
+              showConfirmButton: false
+            });
+            qrInput.value = "";
+            qrInput.focus();
+            return;
+          }
 
           try {
             const res = await fetch("../../app/includes/CVS/CVSStaffViewCompleteTransaction.php", {
@@ -266,45 +290,44 @@
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
-              body: `regId=${regId}`,
+              body: `regId=${encodeURIComponent(regId)}`
             });
 
             const data = await res.json();
+            const iconType =
+              data.status === "success" ?
+              "success" :
+              data.status === "info" ?
+              "info" :
+              "error";
 
-            if (data.status === "success") {
-              Swal.fire({
-                icon: "success",
-                title: "Completed!",
-                text: data.message,
-                timer: 1500,
-                showConfirmButton: false
-              });
-            } else {
-              Swal.fire({
-                icon: "info",
-                title: "Info",
-                text: data.message,
-                timer: 1500,
-                showConfirmButton: false
-              });
-            }
+            Swal.fire({
+              icon: iconType,
+              title: data.status === "success" ?
+                "Completed!" : data.status === "info" ?
+                "Info" : "Error",
+              text: data.message,
+              timer: 1600,
+              showConfirmButton: false
+            });
           } catch (err) {
             Swal.fire({
               icon: "error",
-              title: "Server Error",
-              text: err.message,
-              timer: 1500,
+              title: "Network Error",
+              text: "Unable to reach the server. Please try again.",
+              timer: 1600,
               showConfirmButton: false
             });
           }
 
-          // Reset for next scan
           qrInput.value = "";
           qrInput.focus();
         }
       });
     });
   </script>
+
+
 
 
 </body>
