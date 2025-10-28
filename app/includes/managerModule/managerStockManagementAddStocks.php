@@ -21,6 +21,7 @@ function sanitizeInput($data)
     return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
 }
 
+// Sanitize inputs
 $item_name       = sanitizeInput($_POST['item_name'] ?? '');
 $inv_category_id = isset($_POST['inv_category']) ? (int)$_POST['inv_category'] : null;
 $category_id     = (!empty($_POST['category_id'])) ? (int)$_POST['category_id'] : null;
@@ -30,13 +31,45 @@ $unit            = sanitizeInput($_POST['unit'] ?? '');
 $date_made       = sanitizeInput($_POST['date_made'] ?? '');
 $date_expiry     = sanitizeInput($_POST['date_expiry'] ?? '');
 
+//  Validation
 if (!$item_name || !$inv_category_id || !$quantity || !$unit || !$date_made || !$date_expiry) {
     echo json_encode(["status" => "error", "message" => "Missing required fields."]);
     exit;
 }
 
-try {
+//  Only letters, numbers, spaces allowed in item_name
+if (!preg_match("/^[a-zA-Z0-9 ]+$/", $item_name)) {
+    echo json_encode(["status" => "error", "message" => "Item name can only contain letters, numbers, and spaces."]);
+    exit;
+}
 
+//  Only letters allowed in unit
+if (!preg_match("/^[a-zA-Z ]+$/", $unit)) {
+    echo json_encode(["status" => "error", "message" => "Unit can only contain letters and spaces."]);
+    exit;
+}
+
+// Quantity must be positive number
+if (!is_numeric($quantity) || $quantity <= 0) {
+    echo json_encode(["status" => "error", "message" => "Quantity must be a valid positive number."]);
+    exit;
+}
+
+//  Validate date format (YYYY-MM-DD)
+$datePattern = "/^\d{4}-\d{2}-\d{2}$/";
+if (!preg_match($datePattern, $date_made) || !preg_match($datePattern, $date_expiry)) {
+    echo json_encode(["status" => "error", "message" => "Invalid date format. Use YYYY-MM-DD."]);
+    exit;
+}
+
+//  Ensure expiry date is not before date made
+if (strtotime($date_expiry) < strtotime($date_made)) {
+    echo json_encode(["status" => "error", "message" => "Expiry date cannot be earlier than date made."]);
+    exit;
+}
+
+try {
+    // Validate foreign keys if provided
     if ($product_id !== null) {
         $stmt = $conn->prepare("SELECT 1 FROM product_details WHERE product_id = ?");
         $stmt->execute([$product_id]);
@@ -49,11 +82,12 @@ try {
         if ($stmt->rowCount() === 0) $category_id = null;
     }
 
+    // Insert record
     $stmt = $conn->prepare("
-    INSERT INTO inventory_item 
-    (inv_category_id, item_name, quantity, added_by, product_id, category_id, unit, date_made, date_expiry)
-    VALUES (:inv_category_id, :item_name, :quantity, :added_by, :product_id, :category_id, :unit, :date_made, :date_expiry)
-  ");
+        INSERT INTO inventory_item 
+        (inv_category_id, item_name, quantity, added_by, product_id, category_id, unit, date_made, date_expiry)
+        VALUES (:inv_category_id, :item_name, :quantity, :added_by, :product_id, :category_id, :unit, :date_made, :date_expiry)
+    ");
 
     $stmt->execute([
         ":inv_category_id" => $inv_category_id,
