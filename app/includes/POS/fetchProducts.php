@@ -72,7 +72,7 @@ foreach ($rows as $row) {
         product.sizes.forEach((s, i) => {
             const price = Number(s.price) || 0;
             sizesContainer.innerHTML += `
-      <label class="flex items-center gap-2 cursor-pointer">
+      <label class="flex items-center gap-2 cursor-pointer z-50">
         <input type="radio" name="size" data-id="${s.size_id}" data-price="${price}" 
                ${i === 0 ? 'checked' : ''} onchange="updateTotal()">
         <span class="ml-2">${s.size}</span>
@@ -220,7 +220,7 @@ foreach ($rows as $row) {
         <div class="flex justify-between items-center">
           <span class="text-sm">${item.quantity}x ${product.product_name}${sizeLabel}</span>
           <div class="flex items-center gap-3">
-            <span class="font-semibold text-gray-800">₱${subtotal.toFixed(2)}</span>
+            <span class="font-semibold">₱${subtotal.toFixed(2)}</span>
 
             <!-- Edit Button -->
             <button onclick="editCartItem(${item.indexes[0]})" class="text-blue-500 hover:text-blue-700 transition">
@@ -240,7 +240,7 @@ foreach ($rows as $row) {
           </div>
         </div>
 
-        <div class="text-xs text-gray-600 ml-5 mt-1 space-y-0.5">
+        <div class="text-xs ml-5 mt-1 space-y-0.5">
           <div><b>Add-ons:</b> ${addonsText}</div>
           <div><b>Mods:</b> ${modsText}</div>
         </div>

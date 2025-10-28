@@ -554,12 +554,13 @@ header('Content-Type: text/html');
                 type="text"
                 inputmode="numeric"
                 pattern="[0-9]*"
+                autofocus
                 placeholder="Scan or enter QR code"
-                class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-black/40">
+                class="w-full border rounded-lg p-2 mb-4 placeholder-[var(--text-color)] text-[var(--text-color)] bg-[var(--background-color)] focus:outline-none focus:ring-2 focus:ring-black/40">
 
               <div class="flex justify-between">
-                <button onclick="closeKioskModal()" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">Cancel</button>
-                <button onclick="submitKioskOrder()" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">Load</button>
+                <button onclick="closeKioskModal()" class="bg-red-600 text-white hover:bg-red-400 px-4 py-2 rounded-lg transition">Cancel</button>
+                <button onclick="submitKioskOrder()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-400 transition">Load</button>
               </div>
             </div>
           </div>
