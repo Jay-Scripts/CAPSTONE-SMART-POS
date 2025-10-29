@@ -1096,7 +1096,7 @@ if (!isset($_SESSION['staff_name'])) {
           ?>
 
           <section class="flex justify-center p-4 sm:p-6">
-            <div class="w-full max-w-6xl bg-white shadow-md rounded-2xl p-4 sm:p-6 border border-gray-200">
+            <div class="w-full max-w-6xl bg-[var(--background-color)] text-[var(--text-color)] shadow-md rounded-2xl p-4 sm:p-6 border border-gray-200">
               <!-- Header -->
               <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5">
                 <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Inventory Products</h2>
@@ -1133,7 +1133,7 @@ if (!isset($_SESSION['staff_name'])) {
 
             <!-- Modal -->
             <div id="inventoryModal"
-              class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+              class="fixed inset-0  bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
               <div
                 class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md p-6 animate-[fadeIn_0.3s_ease]">
                 <h2 class="text-lg sm:text-xl font-bold mb-4 text-center text-gray-800">Receive Inventory</h2>
@@ -1188,9 +1188,7 @@ if (!isset($_SESSION['staff_name'])) {
                       <label class="block text-sm font-medium text-gray-700 mb-1" for="unit">Unit</label>
                       <select id="unit" class="w-full p-2 border rounded-lg">
                         <option value="pcs">Pieces (pcs)</option>
-                        <option value="kg">Kilograms (kg)</option>
                         <option value="g">Grams (g)</option>
-                        <option value="l">Liters (L)</option>
                         <option value="ml">Milliliters (ml)</option>
                       </select>
                     </div>
@@ -1236,7 +1234,7 @@ if (!isset($_SESSION['staff_name'])) {
       ==========================================================================================================================================
     -->
 
-        <section id="stockLevel" class="bg-white rounded-lg shadow">
+        <section id="stockLevel" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
@@ -1271,10 +1269,10 @@ if (!isset($_SESSION['staff_name'])) {
         <div class="flex justify-between items-center border-b py-2">
           <div>
             <p class="font-medium">${item.item_name}</p>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm t">
               Qty: ${item.quantity} ${item.unit} | ${item.status}
             </p>
-            <p class="text-xs text-gray-400">
+            <p class="text-xs ">
               Made: ${item.date_made} | Exp: ${item.date_expiry}
             </p>
           </div>

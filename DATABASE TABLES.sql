@@ -115,7 +115,7 @@
       category_id INT NOT NULL,
       thumbnail_path VARCHAR(150) NOT NULL,
       date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-      status ENUM('active', 'inactive') DEFAULT 'active',
+      status ENUM('active', 'inactive') DEFAULT 'inactive',
       FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
     );
 
@@ -130,10 +130,12 @@
       
       CREATE TABLE PRODUCT_ADD_ONS(
       ADD_ONS_ID INT AUTO_INCREMENT PRIMARY KEY,
+      category_id INT not null,
       ADD_ONS_NAME VARCHAR(50) NOT NULL,
       PRICE  DECIMAL(6,2) DEFAULT 0.00,
       date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-      status ENUM('active', 'inactive') DEFAULT 'active'
+      status ENUM('active', 'inactive') DEFAULT 'active',
+      foreign key (category_id) references category(category_id)
       ); 
       
       CREATE TABLE PRODUCT_MODIFICATIONS(
@@ -314,7 +316,7 @@
     added_by INT NOT NULL, -- 🔹 Manager ID who added the item
     product_id INT NULL, -- only if tied to an actual POS product for specific product ing
     category_id INT NULL, -- only if tied to an actual POS category so for per category control
-    unit ENUM('pcs', 'kg', 'L', 'ml', 'g') NOT NULL,
+    unit ENUM('pcs','ml','g') NOT NULL,
     quantity DECIMAL(10,2) NOT NULL,
     status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK') DEFAULT 'IN STOCK',
     date_made DATE NOT NULL,
@@ -334,7 +336,7 @@ CREATE TABLE inventory_item_logs (
     quantity_change DECIMAL(10,2) NOT NULL, -- positive for IN, negative for OUT
     remarks VARCHAR(255) NULL,
     date_logged DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) RSSSEFERENCES inventory_item(item_id) ON DELETE CASCADE,
     FOREIGN KEY (staff_id) REFERENCES staff_info(staff_id) ON DELETE CASCADE
 );
 

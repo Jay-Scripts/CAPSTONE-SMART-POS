@@ -14,13 +14,18 @@
 --    
 insert INTO STAFF_INFO(STAFF_NAME) 
 VALUES
-('JDM')
+('Kean'),
+('Jushua'),
+('Jikuy'),
+('Reyn'),
 ;
 
 insert into staff_roles(staff_id, role)
 values
 (1, 'BARISTA'),
-(1, 'CASHIER')
+(2, 'MANAGER')
+(3, 'CASHIER')
+(4, 'CASHIER')
 ;
 
 SELECT si.staff_name, sr.role
@@ -52,6 +57,7 @@ WHERE si.staff_id = 1;
 	('BROSTY'), -- DONE
 	('ICED COFFEE'), -- DONE
 	('PROMOS'); -- DONE
+	('ADD-ONS'); -- DONE
 
 --          
 --       ===========================================================================================================================================
@@ -117,8 +123,6 @@ WHERE si.staff_id = 1;
 	  (10, 'grande', 49.00),
 	  (11, 'grande', 49.00),
 	  (12, 'grande', 49.00);
-
-
 --    
 --       =======================
 --       =  MILKTEA ENDS HERE  =
@@ -449,3 +453,173 @@ VALUES
 ('Ingredients'),
 ('Packaging'),
 ('Utensils');
+
+
+--       ============================
+--       = MILKTEA INV START HERE  =
+--       ============================
+--    
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Wintermelon Syrup', 1, 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Taro Syrup', 1, 2, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Strawberry Syrup', 1, 3, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Salted Caramel Syrup', 1, 4, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Red Velvet Syrup', 1, 5, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Matcha Syrup', 1, 6, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Double Dutch Syrup', 1, 7, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Dark Choco Syrup', 1, 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Choco Hazelnut Syrup', 1, 9, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cookies & Cream Syrup', 1, 10, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Choco Kisses Syrup', 1, 11, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Brown Sugar Syrup', 1, 12, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = MILKTEA INV ENDS HERE  =
+--       ============================
+--  
+
+
+
+--       ============================
+--       = FRUIT TEA INV STARTS HERE  =
+--       ============================
+--  
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Green Apple Syrup', 1, 13, 2, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kiwi Syrup', 1, 14, 2, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Lemon Syrup', 1, 15, 2, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Passion Fruit Syrup', 1, 16, 2, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Strawberry Syrup', 1, 17, 2, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Watermelon Syrup', 1, 18, 2, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = FRUIT TEA INV ENDS HERE  =
+--       ============================
+--  
+
+
+--       ============================
+--       = ICED COFFEE INV ENDS HERE  =
+--       ============================
+--  
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Kape Brusko Syrup', 1, 19, 6, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kape Karamel Syrup', 1, 20, 6, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kape Macch Syrup', 1, 21, 6, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kape Vanilla Syrup', 1, 22, 6, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = ICED COFFEE INV ENDS HERE  =
+--       ============================
+--  
+
+--       ============================
+--       = PRAF INV STARRT HERE  =
+--       ============================
+--  
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Caramel Matcch Syrup', 1, 23, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cheese Cake Syrup', 1, 24, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Choco Cream Syrup', 1, 25, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Coffee Jelly Syrup', 1, 26, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cookies & Cream Syrup', 1, 27, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Creamy Avocado Syrup', 1, 28, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Matcha Syrup', 1, 29, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Melon Syrup', 1, 30, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Mocha Syrup', 1, 31, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Strawberry Syrup', 1, 32, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Vanilla Coffee Syrup', 1, 33, 4, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = PRAF INV ENDS HERE  =
+--       ============================
+--  
+
+--       ============================
+--       = BROSTY INV STARTS HERE  =
+--       ============================
+--  
+
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Blue Berry Syrup', 1, 33, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Green Apple Syrup', 1, 34, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Honey Peach Syrup', 1, 35, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kiwi Syrup', 1, 36, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Lemon Syrup', 1, 37, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Lychee Syrup', 1, 38, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Mango Syrup', 1, 39, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Passion Fruit Syrup', 1, 40, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Strawberry Syrup', 1, 41, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Watermelon Syrup', 1, 42, 5, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = BROSTY INV ENDS HERE  =
+--       ============================
+--  
+
+--       ============================
+--       = HOT BREW INV START HERE  =
+--       ============================
+--  
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Hot Brusko Syrup', 1, 44, 3, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Hot Choco Syrup', 1, 45, 3, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Hot Moca Syrup', 1, 46, 3, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Hot Matcha Syrup', 1, 47, 3, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Hot Karamel Syrup', 1, 48, 3, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = HOT BREW INV ENDS HERE  =
+--       ============================
+--
+
+--       ============================
+--       = PROMOS INV START HERE  =
+--       ============================
+--
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Blackpink Syrup', 1, 49, 7, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Boss Brew Syrup', 1, 50, 7, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Super Choco Syrup', 1, 51, 7, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kape KMJS Syrup', 1, 52, 7, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Kara Van Syrup', 1, 53, 7, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Supreme Moca Syrup', 1, 54, 7, 'ml', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = PROMOS INV ENDS HERE  =
+--       ============================
+--
+
+
+--       ============================
+--       = ADDONS INV STARTS HERE  =
+--       ============================
+--
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (1, 'Cheese Cake Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Pearl Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cream Cheese Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Coffee Jelly Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Crushed Oreo Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Chia Seed Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+--       ============================
+--       = ADDONS INV ENDS HERE  =
+--       ============================
+--
