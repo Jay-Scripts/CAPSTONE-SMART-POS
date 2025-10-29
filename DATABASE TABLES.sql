@@ -336,12 +336,12 @@ CREATE TABLE inventory_item_logs (
     quantity_change DECIMAL(10,2) NOT NULL, -- positive for IN, negative for OUT
     remarks VARCHAR(255) NULL,
     date_logged DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (item_id) RSSSEFERENCES inventory_item(item_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE,
     FOREIGN KEY (staff_id) REFERENCES staff_info(staff_id) ON DELETE CASCADE
 );
 
   CREATE TABLE product_ingredient_ratio ( 
-    map_id INT AUTO_INCREMENT PRIMARY KEY,
+    ratio_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     item_id INT NOT NULL,
     quantity_needed DECIMAL(10,2) NOT NULL, -- ratio per serving
@@ -357,7 +357,7 @@ CREATE TABLE kiosk_transaction (
   cust_account_id INT NULL, -- can be null for walk-in customers
   total_amount DECIMAL(10,2) DEFAULT 0.00,
   vat_amount DECIMAL(10,2) DEFAULT 0.00,
- status ENUM('PENDING', 'PAID', 'VOID') DEFAULT 'PENDING';
+ status ENUM('PENDING', 'PAID', 'VOID') DEFAULT 'PENDING',
   date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id) ON DELETE SET NULL
 );
