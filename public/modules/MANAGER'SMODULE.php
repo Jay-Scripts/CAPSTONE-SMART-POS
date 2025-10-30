@@ -1246,98 +1246,96 @@ if (!isset($_SESSION['staff_name'])) {
               </div>
             </div>
           </header>
+          <?php
 
-          <div id="inventoryContainer" class="p-6 space-y-6"></div>
-          <script>
-            async function loadInventory() {
-              const container = document.getElementById("inventoryContainer");
-              container.innerHTML = "<p>Loading...</p>";
+          try {
+            $query = "
+    SELECT 
+      c.category_id,
+      c.category_name,
+      ii.item_id,
+      ii.item_name,
+      ii.quantity,
+      ii.unit,
+      ii.status,
+      ii.date_made,
+      ii.date_expiry,
+      si.staff_name AS added_by
+    FROM category c
+    LEFT JOIN inventory_item ii ON c.category_id = ii.category_id
+    LEFT JOIN staff_info si ON ii.added_by = si.staff_id
+    ORDER BY c.category_id, ii.item_name
+  ";
 
-              try {
-                const res = await fetch("../../app/includes/managerModule/managerStockManagementRestock.php");
-                const data = await res.json();
+            $stmt = $conn->query($query);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                if (!data.success) throw new Error(data.error);
-
-                container.innerHTML = "";
-
-                data.data.forEach(cat => {
-                  const categoryBlock = document.createElement("div");
-                  categoryBlock.className = "border rounded-lg shadow-sm p-4";
-
-                  const itemsList = cat.items.map(item => `
-        <div class="flex justify-between items-center border-b py-2">
-          <div>
-            <p class="font-medium">${item.item_name}</p>
-            <p class="text-sm t">
-              Qty: ${item.quantity} ${item.unit} | ${item.status}
-            </p>
-            <p class="text-xs ">
-              Made: ${item.date_made} | Exp: ${item.date_expiry}
-            </p>
-          </div>
-          <button 
-            onclick="openRestockForm(${item.item_id}, '${item.item_name}')"
-            class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-            + Add Stock
-          </button>
-        </div>
-      `).join("");
-
-                  categoryBlock.innerHTML = `
-        <h3 class="text-lg font-semibold mb-2 border-b pb-2">${cat.category_name}</h3>
-        <div class="space-y-2">${itemsList || "<p class='text-sm text-gray-500'>No items yet.</p>"}</div>
-      `;
-
-                  container.appendChild(categoryBlock);
-                });
-              } catch (err) {
-                container.innerHTML = `<p class='text-red-500'>${err.message}</p>`;
-              }
+            $grouped = [];
+            foreach ($data as $row) {
+              $grouped[$row['category_id']]['category_name'] = $row['category_name'];
+              $grouped[$row['category_id']]['items'][] = $row;
             }
+          } catch (PDOException $e) {
+            echo "<p class='text-red-500'>Error: " . $e->getMessage() . "</p>";
+          }
+          ?>
 
-            function openRestockForm(itemId, itemName) {
-              Swal.fire({
-                title: `Restock ${itemName}`,
-                input: 'number',
-                inputLabel: 'Enter quantity to add',
-                inputAttributes: {
-                  min: 1,
-                  step: 'any'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Add Stock',
-                preConfirm: async (qty) => {
-                  if (!qty || qty <= 0) {
-                    Swal.showValidationMessage("Please enter a valid quantity");
-                    return false;
-                  }
+          <?php foreach ($grouped as $catId => $category): ?>
+            <section class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow mb-6">
+              <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 flex items-center justify-between">
+                <div>
+                  <h2 class="text-2xl font-bold"><?= htmlspecialchars($category['category_name']) ?></h2>
+                  <p class="text-sm text-gray-500">
+                    Category ID: <?= $catId ?> | Total Items: <?= isset($category['items']) ? count($category['items']) : 0 ?>
+                  </p>
+                </div>
+              </header>
 
-                  const res = await fetch("../../app/includes/managerModule/managerStockManagementRestock.php", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                      item_id: itemId,
-                      quantity: qty
-                    })
-                  });
+              <div class="p-4">
+                <?php if (!empty($category['items'][0]['item_id'])): ?>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left border-collapse">
+                      <thead>
+                        <tr class="border-b border-gray-300 text-gray-400">
+                          <th class="py-2 px-3">Item</th>
+                          <th class="py-2 px-3 text-center">Qty</th>
+                          <th class="py-2 px-3 text-center">Unit</th>
+                          <th class="py-2 px-3 text-center">Status</th>
+                          <th class="py-2 px-3 text-center">Mfg</th>
+                          <th class="py-2 px-3 text-center">Exp</th>
+                          <th class="py-2 px-3 text-center">Added By</th>
+                          <th class="py-2 px-3 text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php foreach ($category['items'] as $item): ?>
+                          <tr class="border-b border-gray-200 hover:bg-gray-100/10 transition">
+                            <td class="py-2 px-3"><?= htmlspecialchars($item['item_name']) ?></td>
+                            <td class="py-2 px-3 text-center"><?= $item['quantity'] ?></td>
+                            <td class="py-2 px-3 text-center"><?= $item['unit'] ?></td>
+                            <td class="py-2 px-3 text-center 
+                    <?= $item['status'] === 'OUT OF STOCK' ? 'text-red-500' : ($item['status'] === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500') ?>">
+                              <?= $item['status'] ?>
+                            </td>
+                            <td class="py-2 px-3 text-center"><?= $item['date_made'] ?></td>
+                            <td class="py-2 px-3 text-center"><?= $item['date_expiry'] ?></td>
+                            <td class="py-2 px-3 text-center"><?= htmlspecialchars($item['added_by'] ?? 'Unknown') ?></td>
+                            <td class="py-2 px-3 text-center space-x-2">
+                              <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
+                              <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                  </div>
+                <?php else: ?>
+                  <p class="text-gray-400 text-sm italic">No inventory items linked to this category yet.</p>
+                <?php endif; ?>
+              </div>
+            </section>
+          <?php endforeach; ?>
 
-                  const result = await res.json();
-                  if (!result.success) throw new Error(result.message);
-                  return result;
-                }
-              }).then(result => {
-                if (result.isConfirmed) {
-                  Swal.fire("Success", "Stock updated successfully!", "success");
-                  loadInventory();
-                }
-              });
-            }
-
-            loadInventory();
-          </script>
 
         </section>
 
