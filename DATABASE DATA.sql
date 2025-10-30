@@ -15,22 +15,16 @@ VALUES
 ('Kean'),
 ('Jushua'),
 ('Jikuy'),
-('Reyn'),
+('Reyn')
 ;
 
 insert into staff_roles(staff_id, role)
 values
 (1, 'BARISTA'),
-(2, 'MANAGER')
-(3, 'CASHIER')
+(2, 'MANAGER'),
+(3, 'CASHIER'),
 (4, 'CASHIER')
 ;
-
-SELECT si.staff_name, sr.role
-FROM staff_info si
-INNER JOIN staff_roles sr
-  ON si.staff_id = sr.staff_id
-WHERE si.staff_id = 1;
 
 --          
 --       ==========================================================================================================================================
@@ -54,7 +48,7 @@ WHERE si.staff_id = 1;
 	('PRAF'), -- DONE
 	('BROSTY'), -- DONE
 	('ICED COFFEE'), -- DONE
-	('PROMOS'); -- DONE
+	('PROMOS'), -- DONE
 	('ADD-ONS'); -- DONE
 
 --          
@@ -392,14 +386,14 @@ VALUES
 --    
 
 
-INSERT INTO PRODUCT_ADD_ONS(ADD_ONS_NAME, PRICE)
+INSERT INTO PRODUCT_ADD_ONS(category_id, ADD_ONS_NAME, PRICE)
 VALUES
-('CHEESE CAKE', 10.00),
-('PEARL', 10.00),
-('CREAM CHEESE', 10.00),
-('COFFEE JELLY', 10.00),
-('CRUSHED OREO', 10.00),
-('CHIA SEED', 10.00);
+(8, 'CHEESE CAKE', 10.00),
+(8, 'PEARL', 10.00),
+(8, 'CREAM CHEESE', 10.00),
+(8, 'COFFEE JELLY', 10.00),
+(8, 'CRUSHED OREO', 10.00),
+(8, 'CHIA SEED', 10.00);
 
 --   
 --       ======================

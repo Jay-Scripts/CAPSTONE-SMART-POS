@@ -151,6 +151,77 @@
   --       =                                                        PRODUCT TABLE - ENDS HERE                                                       =
   --       ==========================================================================================================================================
   --    
+
+
+
+  --          
+  --       ================================================================================================================================================
+  --       =                                                     Kiosk - STARTS HERE                                                                      =
+  --       ================================================================================================================================================
+  --    
+
+-- ========================================================================
+--                    MAIN KIOSK TRANSACTION TABLE                        =
+-- ========================================================================
+CREATE TABLE kiosk_transaction (
+  kiosk_transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+  cust_account_id INT NULL, -- can be null for walk-in customers
+  total_amount DECIMAL(10,2) DEFAULT 0.00,
+  vat_amount DECIMAL(10,2) DEFAULT 0.00,
+ status ENUM('PENDING', 'PAID', 'VOID') DEFAULT 'PENDING',
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id) ON DELETE SET NULL
+);
+
+
+-- ========================================================================
+--                      EACH PRODUCT PER TRANSACTION                      =
+-- ========================================================================
+CREATE TABLE kiosk_transaction_item (
+  item_id INT AUTO_INCREMENT PRIMARY KEY,
+  kiosk_transaction_id INT NOT NULL,
+  product_id INT NOT NULL,
+  size_id INT NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  price DECIMAL(10,2) NOT NULL,
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (kiosk_transaction_id) REFERENCES kiosk_transaction(kiosk_transaction_id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE,
+  FOREIGN KEY (size_id) REFERENCES product_sizes(size_id) ON DELETE CASCADE
+);
+
+
+-- ========================================================================
+--              PRODUCT ADD-ONS (like pearl, extra cheese, etc.)          =
+-- ========================================================================
+CREATE TABLE kiosk_item_addons (
+  kiosk_item_addon_id INT AUTO_INCREMENT PRIMARY KEY,
+  add_ons_id INT NOT NULL,
+  kiosk_item_id INT NOT NULL,
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (add_ons_id) REFERENCES product_add_ons(add_ons_id) ON DELETE CASCADE,
+  FOREIGN KEY (kiosk_item_id) REFERENCES kiosk_transaction_item(item_id) ON DELETE CASCADE
+);
+
+
+-- ========================================================================
+--            PRODUCT MODIFICATIONS (like less sugar, no ice, etc.)       =
+-- ========================================================================
+CREATE TABLE kiosk_item_modification (
+  kiosk_item_modification_id INT AUTO_INCREMENT PRIMARY KEY,
+  kiosk_item_id INT NOT NULL,
+  modification_id INT NOT NULL,
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (kiosk_item_id) REFERENCES kiosk_transaction_item(item_id) ON DELETE CASCADE,
+  FOREIGN KEY (modification_id) REFERENCES product_modifications(modification_id) ON DELETE CASCADE
+);
+
+
+  --          
+  --       ================================================================================================================================================
+  --       =                                                     Kiosk - Ends HERE                                                          =
+  --       ================================================================================================================================================
+  --    
   --          
   --       ================================================================================================================================================
   --       =                                                     TRANSACTION TABLE - STARTS HERE                                                          =
@@ -299,8 +370,16 @@
   --       =                                                                                                                                                                                                                                =
   --       ==================================================================================================================================================================================================================================
 
+  --          
+  --       ================================================================================================================================================
+  --       =                                                     Inventory Tables - STARTS HERE                                                          =
+  --       ================================================================================================================================================
+  --    
 
 
+-- ========================================================================
+--                      EACH CATEGORIES OF INVENTORY ITEMS                =
+-- ========================================================================
   CREATE TABLE inventory_category (
     inv_category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(50) NOT NULL UNIQUE,
@@ -308,7 +387,9 @@
   );
 
 
-
+-- ========================================================================
+--                      EACH INVENTORY ITEMS PER CATEGORIES               =
+-- ========================================================================
   CREATE TABLE inventory_item (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
     inv_category_id INT NOT NULL,
@@ -328,6 +409,9 @@
     foreign key (category_id) references category(category_id) on DELETE cascade
   );
 
+-- ========================================================================
+--                      FOR ACCOUNTABILITY IN INVENTORY ADJUSTMENTS       =
+-- ========================================================================
 CREATE TABLE inventory_item_logs (
     log_id INT AUTO_INCREMENT PRIMARY KEY,
     item_id INT NOT NULL,
@@ -339,6 +423,9 @@ CREATE TABLE inventory_item_logs (
     FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE,
     FOREIGN KEY (staff_id) REFERENCES staff_info(staff_id) ON DELETE CASCADE
 );
+-- ========================================================================
+--                      EACH PRODUCT PER Deductions                       =
+-- ========================================================================
 
   CREATE TABLE product_ingredient_ratio ( 
     ratio_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -349,58 +436,8 @@ CREATE TABLE inventory_item_logs (
     FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE
   );
 
--- ========================================================================
--- MAIN KIOSK TRANSACTION TABLE
--- ========================================================================
-CREATE TABLE kiosk_transaction (
-  kiosk_transaction_id INT AUTO_INCREMENT PRIMARY KEY,
-  cust_account_id INT NULL, -- can be null for walk-in customers
-  total_amount DECIMAL(10,2) DEFAULT 0.00,
-  vat_amount DECIMAL(10,2) DEFAULT 0.00,
- status ENUM('PENDING', 'PAID', 'VOID') DEFAULT 'PENDING',
-  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id) ON DELETE SET NULL
-);
-
-
--- ========================================================================
--- EACH PRODUCT PER TRANSACTION
--- ========================================================================
-CREATE TABLE kiosk_transaction_item (
-  item_id INT AUTO_INCREMENT PRIMARY KEY,
-  kiosk_transaction_id INT NOT NULL,
-  product_id INT NOT NULL,
-  size_id INT NOT NULL,
-  quantity INT NOT NULL DEFAULT 1,
-  price DECIMAL(10,2) NOT NULL,
-  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (kiosk_transaction_id) REFERENCES kiosk_transaction(kiosk_transaction_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE,
-  FOREIGN KEY (size_id) REFERENCES product_sizes(size_id) ON DELETE CASCADE
-);
-
-
--- ========================================================================
--- PRODUCT ADD-ONS (like pearl, extra cheese, etc.)
--- ========================================================================
-CREATE TABLE kiosk_item_addons (
-  kiosk_item_addon_id INT AUTO_INCREMENT PRIMARY KEY,
-  add_ons_id INT NOT NULL,
-  kiosk_item_id INT NOT NULL,
-  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (add_ons_id) REFERENCES product_add_ons(add_ons_id) ON DELETE CASCADE,
-  FOREIGN KEY (kiosk_item_id) REFERENCES kiosk_transaction_item(item_id) ON DELETE CASCADE
-);
-
-
--- ========================================================================
--- PRODUCT MODIFICATIONS (like less sugar, no ice, etc.)
--- ========================================================================
-CREATE TABLE kiosk_item_modification (
-  kiosk_item_modification_id INT AUTO_INCREMENT PRIMARY KEY,
-  kiosk_item_id INT NOT NULL,
-  modification_id INT NOT NULL,
-  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (kiosk_item_id) REFERENCES kiosk_transaction_item(item_id) ON DELETE CASCADE,
-  FOREIGN KEY (modification_id) REFERENCES product_modifications(modification_id) ON DELETE CASCADE
-);
+  --          
+  --       ================================================================================================================================================
+  --       =                                                     Inventory Tables - Ends HERE                                                          =
+  --       ================================================================================================================================================
+  --    
