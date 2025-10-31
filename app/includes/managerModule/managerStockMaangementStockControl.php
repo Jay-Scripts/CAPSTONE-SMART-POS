@@ -253,7 +253,12 @@ try {
     <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
         <h2 class="text-lg font-bold mb-3 text-center text-gray-800">Restock Item</h2>
         <form id="restockForm" class="space-y-4">
-            <input type="hidden" id="restock_item_id">
+            <!-- Hidden reference fields -->
+            <input type="hidden" id="restock_item_name">
+            <input type="hidden" id="restock_unit">
+            <input type="hidden" id="restock_product_id">
+            <input type="hidden" id="restock_category_id">
+
             <div>
                 <label class="text-sm font-medium text-gray-700">Quantity to Add</label>
                 <input type="number" id="restock_quantity" min="1" required class="w-full p-2 border rounded-lg">
@@ -275,6 +280,101 @@ try {
         </form>
     </div>
 </div>
+<script>
+    // Open modal and fill reference fields
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('bg-green-500')) {
+            const tr = e.target.closest('tr');
+            const itemData = {
+                name: tr.dataset.name,
+                unit: tr.dataset.unit,
+                productId: tr.dataset.productId,
+                categoryId: tr.dataset.categoryId
+            };
+
+            document.getElementById('restock_item_name').value = itemData.name;
+            document.getElementById('restock_unit').value = itemData.unit;
+            document.getElementById('restock_product_id').value = itemData.productId;
+            document.getElementById('restock_category_id').value = itemData.categoryId;
+
+            document.getElementById('restock_quantity').value = '';
+            document.getElementById('restock_date_made').value = '';
+            document.getElementById('restock_date_expiry').value = '';
+
+            const modal = document.getElementById('restockModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+    });
+
+    // Close modal
+    document.querySelectorAll('.closeModal').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = document.getElementById('restockModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+    });
+
+    // Handle form submission (send to PHP)
+    document.getElementById('restockForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const data = {
+            item_name: document.getElementById('restock_item_name').value,
+            unit: document.getElementById('restock_unit').value,
+            product_id: document.getElementById('restock_product_id').value,
+            inv_category_id: document.getElementById('restock_category_id').value,
+            quantity: document.getElementById('restock_quantity').value,
+            date_made: document.getElementById('restock_date_made').value,
+            date_expiry: document.getElementById('restock_date_expiry').value
+        };
+
+        try {
+            const response = await fetch('../../app/includes/managerModule/managersStockManagementRestockModal.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            // Use text() first to catch HTML errors
+            const text = await response.text();
+
+            let res;
+            try {
+                res = JSON.parse(text);
+            } catch (err) {
+                throw new Error("Server returned invalid JSON:\n" + text);
+            }
+
+            if (res.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Restocked!',
+                    text: 'Item has been added successfully.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: res.msg || 'Something went wrong.'
+                });
+            }
+
+        } catch (err) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Server Error',
+                text: err.message
+            });
+            console.error(err);
+        }
+    });
+</script>
 
 <!-- ✅ MODIFY MODAL -->
 <div id="modifyModal" class="fixed inset-0 bg-black/40 hidden z-50 items-center justify-center p-4">
@@ -310,7 +410,7 @@ try {
         <input type="hidden" id="delete_item_id">
         <div class="flex justify-center gap-3">
             <button type="button" class="closeModal bg-gray-200 px-4 py-2 rounded-lg">Cancel</button>
-            <button id="confirmDeleteBtn" class="bg-red-600 text-white px-4 py-2 rounded-lg">Delete</button>
+            <button id="confirmDeleteBtn" class="bg-red-600 text-white px-4 py-2 rounded-lg">Remove</button>
         </div>
     </div>
 </div>
@@ -373,7 +473,7 @@ try {
                                     item.added_by || 'Unknown',
                                     `<button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
                      <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
-                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>`
+                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Remove</button>`
                                 ]);
                             });
                         }
@@ -394,7 +494,7 @@ try {
                                     item.added_by || 'Unknown',
                                     `<button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
                      <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
-                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>`
+                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Remove</button>`
                                 ]);
                             });
                         }
@@ -412,11 +512,7 @@ try {
         // Refresh every 1 second
         setInterval(updateMaterialsTable, 1000);
     });
-    $(document).on('click', '.bg-green-500', function() {
-        const itemId = $(this).closest('tr').data('id'); // if you include data-id in PHP rows
-        $('#restock_item_id').val(itemId);
-        $('#restockModal').removeClass('hidden').addClass('flex');
-    });
+
 
     $(document).on('click', '.bg-blue-500', function() {
         const itemId = $(this).closest('tr').data('id');

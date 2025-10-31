@@ -417,12 +417,15 @@ CREATE TABLE inventory_item_logs (
     item_id INT NOT NULL,
     staff_id INT NOT NULL, -- who performed the action
     action_type ENUM('RESTOCK', 'ADJUSTMENT', 'EXPIRED', 'DAMAGED') NOT NULL,
-    quantity_change DECIMAL(10,2) NOT NULL, -- positive for IN, negative for OUT
+    last_quantity DECIMAL(10,2) NOT NULL,     -- 🔹 Quantity before the action
+    quantity_adjusted DECIMAL(10,2) NOT NULL, -- 🔹 Quantity added or removed
+    total_after DECIMAL(10,2) NOT NULL,       -- 🔹 Quantity after the action
     remarks VARCHAR(255) NULL,
     date_logged DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE,
     FOREIGN KEY (staff_id) REFERENCES staff_info(staff_id) ON DELETE CASCADE
 );
+
 -- ========================================================================
 --                      EACH PRODUCT PER Deductions                       =
 -- ========================================================================
