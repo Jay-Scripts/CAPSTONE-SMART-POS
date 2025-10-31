@@ -284,27 +284,58 @@ try {
                 success: function(response) {
                     $('.categoryTable').each(function() {
                         const table = $(this).data('tableInstance');
+                        const section = $(this).closest('section');
+                        const headerText = section.find('h2').text().trim();
+
                         table.clear();
 
-                        // Use response.materials or filter by table if needed
-                        response.materials.forEach(item => {
-                            table.row.add([
-                                item.item_name,
-                                item.quantity,
-                                item.unit,
-                                `<span class="${item.status === 'OUT OF STOCK' ? 'text-red-500' : item.status === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500'}">${item.status}</span>`,
-                                item.date_made,
-                                item.date_expiry,
-                                item.added_by || 'Unknown',
-                                `<button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
-                             <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
-                             <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>`
-                            ]);
-                        });
+                        // MATERIALS TABLE
+                        if (headerText === 'Materials') {
+                            response.materials.forEach(item => {
+                                table.row.add([
+                                    item.item_name,
+                                    item.quantity,
+                                    item.unit,
+                                    `<span class="${item.status === 'OUT OF STOCK'
+                        ? 'text-red-500'
+                        : item.status === 'LOW STOCK'
+                        ? 'text-yellow-500'
+                        : 'text-green-500'}">${item.status}</span>`,
+                                    item.date_made,
+                                    item.date_expiry,
+                                    item.added_by || 'Unknown',
+                                    `<button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
+                     <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
+                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>`
+                                ]);
+                            });
+                        }
+                        // OTHER CATEGORIES
+                        else if (response.categories[headerText]) {
+                            response.categories[headerText].items.forEach(item => {
+                                table.row.add([
+                                    item.item_name,
+                                    item.quantity,
+                                    item.unit,
+                                    `<span class="${item.status === 'OUT OF STOCK'
+                        ? 'text-red-500'
+                        : item.status === 'LOW STOCK'
+                        ? 'text-yellow-500'
+                        : 'text-green-500'}">${item.status}</span>`,
+                                    item.date_made,
+                                    item.date_expiry,
+                                    item.added_by || 'Unknown',
+                                    `<button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
+                     <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
+                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>`
+                                ]);
+                            });
+                        }
 
                         table.draw(false);
                     });
                 }
+
             });
         }
 
