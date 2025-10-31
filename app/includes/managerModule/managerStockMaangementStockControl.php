@@ -248,6 +248,73 @@ try {
     </div>
 
 </section>
+<!-- ✅ RESTOCK MODAL -->
+<div id="restockModal" class="fixed inset-0 bg-black/40 hidden z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
+        <h2 class="text-lg font-bold mb-3 text-center text-gray-800">Restock Item</h2>
+        <form id="restockForm" class="space-y-4">
+            <input type="hidden" id="restock_item_id">
+            <div>
+                <label class="text-sm font-medium text-gray-700">Quantity to Add</label>
+                <input type="number" id="restock_quantity" min="1" required class="w-full p-2 border rounded-lg">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-sm font-medium text-gray-700">Date Made</label>
+                    <input type="date" id="restock_date_made" required class="w-full p-2 border rounded-lg">
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-700">Expiry Date</label>
+                    <input type="date" id="restock_date_expiry" required class="w-full p-2 border rounded-lg">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-3">
+                <button type="button" class="closeModal bg-gray-200 px-4 py-2 rounded-lg">Cancel</button>
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ MODIFY MODAL -->
+<div id="modifyModal" class="fixed inset-0 bg-black/40 hidden z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
+        <h2 class="text-lg font-bold mb-3 text-center text-gray-800">Modify Item</h2>
+        <form id="modifyForm" class="space-y-4">
+            <input type="hidden" id="modify_item_id">
+            <div>
+                <label class="text-sm font-medium text-gray-700">Item Name</label>
+                <input type="text" id="modify_item_name" required class="w-full p-2 border rounded-lg">
+            </div>
+            <div>
+                <label class="text-sm font-medium text-gray-700">Unit</label>
+                <select id="modify_unit" class="w-full p-2 border rounded-lg">
+                    <option value="pcs">Pieces (pcs)</option>
+                    <option value="g">Grams (g)</option>
+                    <option value="ml">Milliliters (ml)</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-3 pt-3">
+                <button type="button" class="closeModal bg-gray-200 px-4 py-2 rounded-lg">Cancel</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ DELETE MODAL -->
+<div id="deleteModal" class="fixed inset-0 bg-black/40 hidden z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 text-center">
+        <h2 class="text-lg font-bold mb-3 text-gray-800">Delete Confirmation</h2>
+        <p class="text-gray-600 mb-4">Are you sure you want to delete this item?</p>
+        <input type="hidden" id="delete_item_id">
+        <div class="flex justify-center gap-3">
+            <button type="button" class="closeModal bg-gray-200 px-4 py-2 rounded-lg">Cancel</button>
+            <button id="confirmDeleteBtn" class="bg-red-600 text-white px-4 py-2 rounded-lg">Delete</button>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         // Initialize DataTables for each category table with empty data
@@ -344,5 +411,27 @@ try {
 
         // Refresh every 1 second
         setInterval(updateMaterialsTable, 1000);
+    });
+    $(document).on('click', '.bg-green-500', function() {
+        const itemId = $(this).closest('tr').data('id'); // if you include data-id in PHP rows
+        $('#restock_item_id').val(itemId);
+        $('#restockModal').removeClass('hidden').addClass('flex');
+    });
+
+    $(document).on('click', '.bg-blue-500', function() {
+        const itemId = $(this).closest('tr').data('id');
+        $('#modify_item_id').val(itemId);
+        $('#modifyModal').removeClass('hidden').addClass('flex');
+    });
+
+    $(document).on('click', '.bg-red-500', function() {
+        const itemId = $(this).closest('tr').data('id');
+        $('#delete_item_id').val(itemId);
+        $('#deleteModal').removeClass('hidden').addClass('flex');
+    });
+
+    // Close modals
+    $('.closeModal').on('click', function() {
+        $(this).closest('.fixed').addClass('hidden').removeClass('flex');
     });
 </script>
