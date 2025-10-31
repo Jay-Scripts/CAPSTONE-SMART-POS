@@ -77,7 +77,7 @@ try {
         </div>
 
         <!-- ================== Materials Table ================== -->
-        <section class="bg-[var(--background-color)] text-[var(--text-color)] border-2 m-5 border-[var(--border-color)] rounded-lg shadow-xl mb-6 p-2">
+        <section class="bg-[var(--background-color)] text-[var(--text-color)] border m-5 border-[var(--border-color)] rounded-lg shadow-xl mb-6 p-2">
             <header class="shadow-sm border-b border-[var(--border-color)] m-2 px-6 py-4 flex items-center justify-between">
                 <div>
                     <h2 class="text-2xl font-bold">Materials </h2>
@@ -85,32 +85,32 @@ try {
                 </div>
             </header>
             <div class="p-3">
-                <table class="materialsTable categoryTable w-auto text-sm text-center border-2  border[var(--border-color)]">
+                <table class="materialsTable categoryTable w-auto text-sm text-center border  border-[var(--border-color)]">
                     <thead>
-                        <tr class="border-2 border[var(--border-color)]">
-                            <th class="py-2 px-3 border border[var(--border-color)]">Item</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Quantity</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Unit</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Status</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Mfg Date</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Exp Date</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Added By</th>
-                            <th class="py-2 px-3 border border[var(--border-color)]">Actions</th>
+                        <tr class="border border-[var(--border-color)]">
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Item</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Quantity</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Unit</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Status</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Mfg Date</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Exp Date</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Added By</th>
+                            <th class="py-2 px-3 border border-[var(--border-color)]">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($materialsItems as $item): ?>
-                            <tr class="border-b border[var(--border-color)] hover:bg-blue-400/10 hover:scale-[101%] transition">
-                                <td class="py-2 px-3 border border[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
-                                <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['quantity'] ?></td>
-                                <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['unit'] ?></td>
-                                <td class="py-2 px-3 border border[var(--border-color)] <?= $item['status'] === 'OUT OF STOCK' ? 'text-red-500' : ($item['status'] === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500') ?>">
+                            <tr class="border-b border-[var(--border-color)] hover:bg-blue-400/10 hover:scale-[101%] transition">
+                                <td class="py-2 px-3 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                                <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                                <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
+                                <td class="py-2 px-3 border border-[var(--border-color)] <?= $item['status'] === 'OUT OF STOCK' ? 'text-red-500' : ($item['status'] === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500') ?>">
                                     <?= $item['status'] ?>
                                 </td>
-                                <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['date_made'] ?></td>
-                                <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['date_expiry'] ?></td>
-                                <td class="py-2 px-3 border border[var(--border-color)]"><?= htmlspecialchars($item['added_by'] ?? 'Unknown') ?></td>
-                                <td class="py-2 px-3 border border[var(--border-color)] space-x-2">
+                                <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
+                                <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                <td class="py-2 px-3 border border-[var(--border-color)]"><?= htmlspecialchars($item['added_by'] ?? 'Unknown') ?></td>
+                                <td class="py-2 px-3 border border-[var(--border-color)] space-x-2">
                                     <button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
                                     <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
                                     <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>
@@ -124,7 +124,7 @@ try {
 
         <!-- ================== Other Categories ================== -->
         <?php foreach ($grouped as $catId => $category): ?>
-            <section class="bg-[var(--background-color)] text-[var(--text-color)] border-2 m-5 border-[var(--border-color)] rounded-lg shadow-xl mb-6 p-2">
+            <section class="bg-[var(--background-color)] text-[var(--text-color)] border m-5 border-[var(--border-color)] rounded-lg shadow-xl mb-6 p-2">
                 <header class="shadow-sm border-b border-[var(--border-color)] m-2 px-6 py-4 flex items-center justify-between">
                     <div>
                         <h2 class="text-2xl font-bold"><?= htmlspecialchars($category['category_name']) ?></h2>
@@ -134,33 +134,33 @@ try {
                 <div>
                     <?php if (!empty($category['items'][0]['item_id'])): ?>
                         <div class="p-3">
-                            <table class="materialsTable categoryTable w-auto text-sm text-center border-2  border[var(--border-color)]">
+                            <table class="materialsTable categoryTable w-auto text-sm text-center border  border-[var(--border-color)]">
 
                                 <thead>
-                                    <tr class="border-2 border[var(--border-color)]">
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Item</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Quantity</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Unit</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Status</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Mfg Date</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Exp Date</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Added By</th>
-                                        <th class="py-2 px-3 border border[var(--border-color)]">Actions</th>
+                                    <tr class="border border-[var(--border-color)]">
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Item</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Quantity</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Unit</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Status</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Mfg Date</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Exp Date</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Added By</th>
+                                        <th class="py-2 px-3 border border-[var(--border-color)]">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($category['items'] as $item): ?>
-                                        <tr class="border-b border[var(--border-color)] hover:bg-blue-400/10 hover:scale-[101%] transition">
-                                            <td class="py-2 px-3 border border[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
-                                            <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['quantity'] ?></td>
-                                            <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['unit'] ?></td>
-                                            <td class="py-2 px-3 border border[var(--border-color)] <?= $item['status'] === 'OUT OF STOCK' ? 'text-red-500' : ($item['status'] === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500') ?>">
+                                        <tr class="border-b border-[var(--border-color)] hover:bg-blue-400/10 hover:scale-[101%] transition">
+                                            <td class="py-2 px-3 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                                            <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                                            <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
+                                            <td class="py-2 px-3 border border-[var(--border-color)] <?= $item['status'] === 'OUT OF STOCK' ? 'text-red-500' : ($item['status'] === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500') ?>">
                                                 <?= $item['status'] ?>
                                             </td>
-                                            <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['date_made'] ?></td>
-                                            <td class="py-2 px-3 border border[var(--border-color)]"><?= $item['date_expiry'] ?></td>
-                                            <td class="py-2 px-3 border border[var(--border-color)]"><?= htmlspecialchars($item['added_by'] ?? 'Unknown') ?></td>
-                                            <td class="py-2 px-3 border border[var(--border-color)] space-x-2">
+                                            <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
+                                            <td class="py-2 px-3 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                            <td class="py-2 px-3 border border-[var(--border-color)]"><?= htmlspecialchars($item['added_by'] ?? 'Unknown') ?></td>
+                                            <td class="py-2 px-3 border border-[var(--border-color)] space-x-2">
                                                 <button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
                                                 <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
                                                 <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>
@@ -248,65 +248,70 @@ try {
     </div>
 
 </section>
-
-<!-- ================== DataTables Initialization ================== -->
 <script>
     $(document).ready(function() {
+        // Initialize DataTables for each category table with empty data
         $('.categoryTable').each(function() {
-            if (!$.fn.dataTable.isDataTable(this)) {
-                $(this).DataTable({
-                    responsive: true,
-                    pageLength: 10,
-                    lengthMenu: [5, 10, 25, 50],
-                    columnDefs: [{
-                        orderable: false,
-                        targets: 7
-                    }],
-                    language: {
-                        search: "Search items:",
-                        lengthMenu: "Show _MENU_ items per page",
-                        info: "Showing _START_ to _END_ of _TOTAL_ items"
-                    }
-                });
-            }
+            const table = $(this).DataTable({
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                columnDefs: [{
+                    orderable: false,
+                    targets: 7
+                }],
+                language: {
+                    search: "Search items:",
+                    lengthMenu: "Show _MENU_ items per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ items"
+                },
+                createdRow: function(row, data) {
+                    // Add Tailwind classes for styling
+                    $(row).addClass('hover:bg-blue-400/10 transition');
+                    $(row).find('td').addClass('py-2 px-3 border border-[var(--border-color)]');
+                }
+            });
+
+            // Store DataTable instance in element for easy access
+            $(this).data('tableInstance', table);
         });
+
+        function updateMaterialsTable() {
+            $.ajax({
+                url: '../../app/includes/managerModule/managerStockManagementFetchInvItems.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $('.categoryTable').each(function() {
+                        const table = $(this).data('tableInstance');
+                        table.clear();
+
+                        // Use response.materials or filter by table if needed
+                        response.materials.forEach(item => {
+                            table.row.add([
+                                item.item_name,
+                                item.quantity,
+                                item.unit,
+                                `<span class="${item.status === 'OUT OF STOCK' ? 'text-red-500' : item.status === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500'}">${item.status}</span>`,
+                                item.date_made,
+                                item.date_expiry,
+                                item.added_by || 'Unknown',
+                                `<button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
+                             <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
+                             <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>`
+                            ]);
+                        });
+
+                        table.draw(false);
+                    });
+                }
+            });
+        }
+
+        // Initial load
+        updateMaterialsTable();
+
+        // Refresh every 1 second
+        setInterval(updateMaterialsTable, 1000);
     });
-
-    function updateMaterialsTable() {
-        $.ajax({
-            url: '../../app/includes/managerModule/managerStockManagementFetchInvItems.php',
-            method: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                const tbody = $('.materialsTable tbody');
-                tbody.empty(); // clear current table
-
-                response.materials.forEach(item => {
-                    const row = `
-                    <tr class="border-b border[var(--border-color)] hover:bg-blue-400/10 hover:scale-[101%] transition">
-                        <td class="py-2 px-3 border border[var(--border-color)]">${item.item_name}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)]">${item.quantity}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)]">${item.unit}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)] ${item.status === 'OUT OF STOCK' ? 'text-red-500' : item.status === 'LOW STOCK' ? 'text-yellow-500' : 'text-green-500'}">${item.status}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)]">${item.date_made}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)]">${item.date_expiry}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)]">${item.added_by || 'Unknown'}</td>
-                        <td class="py-2 px-3 border border[var(--border-color)]">
-                            <button class="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600">Restock</button>
-                            <button class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">Modify</button>
-                            <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Delete</button>
-                        </td>
-                    </tr>
-                `;
-                    tbody.append(row);
-                });
-            }
-        });
-    }
-
-    // Initial load
-    updateMaterialsTable();
-
-    // Refresh every 1 second
-    setInterval(updateMaterialsTable, 1000);
 </script>
