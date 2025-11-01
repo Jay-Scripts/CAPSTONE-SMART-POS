@@ -56,6 +56,22 @@ try {
     $materialsItems = [];
     $grouped = [];
 }
+function getStatusClass($status)
+{
+    switch (strtoupper($status)) {
+        case 'IN STOCK':
+            return 'bg-green-100 text-green-800 border-green-300';
+        case 'LOW STOCK':
+            return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+        case 'OUT OF STOCK':
+            return 'bg-red-100 text-red-800 border-red-300';
+        case 'UNAVAILABLE':
+            return 'bg-gray-200 text-gray-700 border-gray-300';
+        default:
+            return 'bg-gray-100 text-gray-800 border-gray-300';
+    }
+}
+
 ?>
 
 <section class="flex justify-center p-4 sm:p-6">
@@ -109,6 +125,7 @@ try {
         }
 
         $materials = getMaterials($conn);
+
         ?>
 
 
@@ -131,11 +148,22 @@ try {
                     </thead>
                     <tbody>
                         <?php foreach ($items as $item): ?>
-                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                            <tr
+                                data-id="<?= $item['item_id'] ?>"
+                                data-inv-category-id="<?= $item['inv_category_id'] ?>"
+                                data-product-id="<?= $item['product_id'] ?? '' ?>"
+                                data-category-id="<?= $item['category_id'] ?? '' ?>"
+                                class="border-b border-gray-200 hover:bg-blue-400 hover:scale-[101%] hover:text-white">
+
                                 <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
                                 <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
                                 <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['unit'] ?></td>
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['status'] ?></td>
+                                <td class="py-1 px-2 sm:px-4 border text-center border border-[var(--border-color)]">
+                                    <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
+                                        <?= htmlspecialchars($item['status']) ?>
+                                    </span>
+                                </td>
+
                                 <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
                                 <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
                                 <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
@@ -169,11 +197,22 @@ try {
                 </thead>
                 <tbody>
                     <?php foreach ($materials as $item): ?>
-                        <tr class=" hover:bg-gray-50">
+                        <tr
+                            data-id="<?= $item['item_id'] ?>"
+                            data-inv-category-id="<?= $item['inv_category_id'] ?>"
+                            data-product-id="<?= $item['product_id'] ?? '' ?>"
+                            data-category-id="<?= $item['category_id'] ?? '' ?>"
+                            class="border-b border-gray-200 hover:bg-blue-400 hover:scale-[101%] hover:text-white">
+
                             <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
                             <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
                             <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['unit'] ?></td>
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['status'] ?></td>
+                            <td class="py-1 px-2 sm:px-4 border text-center border border-[var(--border-color)]">
+                                <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
+                                    <?= htmlspecialchars($item['status']) ?>
+                                </span>
+                            </td>
+
                             <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
                             <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
                             <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
@@ -187,6 +226,63 @@ try {
                 </tbody>
             </table>
         </div>
+        <!-- Restock Modal -->
+        <div id="restockModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md shadow-xl">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Restock Item</h2>
+                <form id="restockForm" class="space-y-4">
+
+                    <!-- Item Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
+                        <input id="restock-item_name" type="text" readonly
+                            class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+
+                    <!-- Unit -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Unit</label>
+                        <input id="restock-unit" type="text" readonly
+                            class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+
+                    <!-- Quantity -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
+                        <input id="restock-quantity" type="number" min="0.01" step="0.01" required placeholder="Enter quantity"
+                            class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+
+                    <!-- Manufacturing Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Manufacturing Date</label>
+                        <input id="restock-date_made" type="date" required
+                            class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+
+                    <!-- Expiry Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Expiry Date</label>
+                        <input id="restock-date_expiry" type="date" required
+                            class="w-full mt-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-end gap-2">
+                        <button type="button" id="restockCancelBtn"
+                            class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Restock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
         <!-- Modal backdrop -->
         <div id="modifyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
             <!-- Modal box -->
@@ -237,25 +333,96 @@ try {
         </div>
 
         <script>
-            // SweetAlert actions same as before
+            // ================= Restock =================
+            const restockModal = document.getElementById('restockModal');
+            const restockForm = document.getElementById('restockForm');
+            const restockCancelBtn = document.getElementById('restockCancelBtn');
+
+            // Show restock modal
             document.querySelectorAll('.restock-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const itemId = this.dataset.id;
-                    Swal.fire({
-                        title: 'Restock Item ID: ' + itemId,
-                        input: 'number',
-                        inputLabel: 'Quantity to Add',
-                        inputAttributes: {
-                            min: 1
-                        },
-                        showCancelButton: true
-                    }).then(result => {
-                        if (result.isConfirmed) {
-                            Swal.fire('Success!', 'Item restocked.', 'success');
-                        }
-                    });
+                    const row = this.closest('tr');
+
+                    restockModal.dataset.itemId = this.dataset.id;
+                    restockModal.dataset.invCategoryId = row.dataset.invCategoryId;
+                    restockModal.dataset.productId = row.dataset.productId || null;
+                    restockModal.dataset.categoryId = row.dataset.categoryId || null;
+
+                    const itemName = row.querySelector('td:nth-child(1)').textContent.trim();
+                    const unit = row.querySelector('td:nth-child(3)').textContent.trim();
+
+                    document.getElementById('restock-item_name').value = itemName;
+                    document.getElementById('restock-unit').value = unit;
+                    document.getElementById('restock-quantity').value = '';
+                    document.getElementById('restock-date_made').value = '';
+                    document.getElementById('restock-date_expiry').value = '';
+
+                    restockModal.classList.remove('hidden');
+                    restockModal.classList.add('flex');
                 });
             });
+
+            // Cancel button
+            restockCancelBtn.addEventListener('click', () => {
+                restockModal.classList.add('hidden');
+            });
+
+            // Submit restock form
+            restockForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const itemId = restockModal.dataset.itemId;
+                const invCategoryId = restockModal.dataset.invCategoryId;
+                const productId = restockModal.dataset.productId;
+                const categoryId = restockModal.dataset.categoryId;
+
+                const itemName = document.getElementById('restock-item_name').value;
+                const unit = document.getElementById('restock-unit').value;
+                const quantity = document.getElementById('restock-quantity').value;
+                const dateMade = document.getElementById('restock-date_made').value;
+                const dateExpiry = document.getElementById('restock-date_expiry').value;
+
+                try {
+                    const res = await fetch('../../app/includes/managerModule/managerStockManagementRestock.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            item_id: itemId,
+                            inv_category_id: invCategoryId,
+                            product_id: productId,
+                            category_id: categoryId,
+                            item_name: itemName,
+                            unit: unit,
+                            quantity: quantity,
+                            date_made: dateMade,
+                            date_expiry: dateExpiry
+                        })
+                    });
+
+                    const result = await res.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Item Restocked',
+                            text: `${itemName} added with ${quantity} ${unit}.`,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        restockModal.classList.add('hidden');
+                    } else {
+                        Swal.fire('Error!', result.message || 'Failed to restock item.', 'error');
+                    }
+                } catch (err) {
+                    Swal.fire('Error!', 'Request failed: ' + err.message, 'error');
+                }
+            });
+
+
+
+
 
             document.querySelectorAll('.modify-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -407,7 +574,7 @@ try {
         </script>
     </div>
 
-    <!-- ================== Modal ================== -->
+    <!-- ================== Modal Adding  ================== -->
     <div id="inventoryModal" class="fixed inset-0 bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
         <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md p-6 animate-[fadeIn_0.3s_ease]">
             <h2 class="text-lg sm:text-xl font-bold mb-4 text-center text-gray-800">Receive Inventory</h2>
