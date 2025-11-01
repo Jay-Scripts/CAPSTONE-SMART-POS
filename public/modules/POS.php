@@ -897,6 +897,111 @@ header('Content-Type: text/html');
       <!-- ================================================
       =           Cart Calculator - Starts Here           =
       ================================================ -->
+      <!-- Discount Info Modal -->
+      <div id="discountModal" class="fixed inset-0 bg-black/70 hidden flex items-center justify-center z-[999]">
+        <div class="bg-[var(--background-color)] rounded-2xl shadow-2xl w-full max-w-sm p-6">
+          <h2 class="text-lg font-bold mb-4">Enter Discount Info</h2>
+          <form id="discountForm">
+            <input type="hidden" id="discountType" name="discountType" value="">
+            <div class="mb-3">
+              <label class="block mb-1">ID Number</label>
+              <input type="number" id="idNum" name="idNum" required class="w-full border p-2 rounded">
+            </div>
+            <div class="mb-3">
+              <label class="block mb-1">First Name</label>
+              <input type="text" id="firstName" name="firstName" required class="w-full border p-2 rounded">
+            </div>
+            <div class="mb-3">
+              <label class="block mb-1">Last Name</label>
+              <input type="text" id="lastName" name="lastName" required class="w-full border p-2 rounded">
+            </div>
+            <div class="flex justify-end gap-2">
+              <button type="button" onclick="closeDiscountModal()" class="px-4 py-2 bg-gray-400 rounded">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Apply</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        function applyDiscount(type) {
+          // Set discount type (PWD or SC)
+          document.getElementById('discountType').value = type;
+
+          // Hide calculator if you want to prevent overlap
+          document.getElementById('calculatorModal').classList.add('hidden');
+
+          // Show discount modal
+          document.getElementById('discountModal').classList.remove('hidden');
+        }
+
+        function closeDiscountModal() {
+          document.getElementById('discountModal').classList.add('hidden');
+
+          // Show calculator again
+          document.getElementById('calculatorModal').classList.remove('hidden');
+        }
+
+        // Handle discount form submission
+        document.getElementById('discountForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          const discountData = {
+            type: document.getElementById('discountType').value, // PWD or SC
+            idNum: document.getElementById('idNum').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value
+          };
+
+          // Save discount info globally or to order
+          window.discountInfo = discountData;
+
+          // Apply 20% discount if SC or PWD
+          let total = parseFloat(document.getElementById('totalAmount').innerText) || 0;
+          if (discountData.type === 'SC' || discountData.type === 'PWD') {
+            total = total * 0.8; // 20% off
+          }
+          document.getElementById('totalAmount').innerText = total.toFixed(2);
+
+          closeDiscountModal();
+        });
+
+        document.getElementById('discountForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          const discountData = {
+            type: document.getElementById('discountType').value, // PWD or SC
+            idNum: document.getElementById('idNum').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value
+          };
+
+          // Apply 20% discount locally
+          let total = parseFloat(document.getElementById('totalAmount').innerText) || 0;
+          if (discountData.type === 'SC' || discountData.type === 'PWD') {
+            total = total * 0.8;
+            document.getElementById('totalAmount').innerText = total.toFixed(2);
+          }
+
+          // Send data to PHP
+          fetch('discount_process.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(discountData)
+            })
+            .then(res => res.json())
+            .then(response => {
+              console.log('Server response:', response);
+              // Optionally show a success message
+            })
+            .catch(err => console.error('Error:', err));
+
+          // Close modal
+          closeDiscountModal();
+        });
+      </script>
 
       <!-- Calculator Modal -->
       <div
