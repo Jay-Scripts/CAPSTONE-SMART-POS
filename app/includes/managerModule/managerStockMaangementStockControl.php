@@ -1,12 +1,21 @@
 <?php
 try {
-    // Inventory categories
+    // 
+    //   ==========================================================================================================================================
+    //   =                                                          Inventory categories                                                          =
+    //   ==========================================================================================================================================
     $invCategories = $conn->query("SELECT inv_category_id, category_name FROM inventory_category ORDER BY category_name ASC")->fetchAll(PDO::FETCH_ASSOC);
 
-    // Product categories
+    //   ==========================================================================================================================================
+    //   =                                                          Product categories                                                          =
+    //   ==========================================================================================================================================
+    // 
     $prodCategories = $conn->query("SELECT category_id, category_name FROM category ORDER BY category_name ASC")->fetchAll(PDO::FETCH_ASSOC);
 
-    // Products
+    //   ==========================================================================================================================================
+    //   =                                                          Base Ingredients Products                                                     =
+    //   ==========================================================================================================================================
+    // 
     $products = $conn->query("SELECT product_id, product_name FROM product_details ORDER BY product_name ASC")->fetchAll(PDO::FETCH_ASSOC);
 
     // ===================== Materials (Inventory category 2) =====================
@@ -138,9 +147,16 @@ function getStatusClass($status)
         ?>
 
 
-        <!-- ================= Ingredients Tables (Mobile-First) ================= -->
+        <!-- //   
+         ==========================================================================================================================================
+    //   =                                                          Ingredients Table Starts Here                                                 =
+    //   ========================================================================================================================================== -->
         <?php foreach ($ingredientsByCat as $catName => $items): ?>
             <h2 class="text-xl sm:text-2xl font-bold mb-2"><?= htmlspecialchars($catName) ?></h2>
+
+            <!-- Search bar per category -->
+            <input type="text" class="search-ingredients mb-2 p-2 border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-color)] rounded w-full" placeholder="Search <?= htmlspecialchars($catName) ?>...">
+
             <div class="overflow-x-auto mb-6">
                 <table class="min-w-full bg-[var(--background-color)] rounded">
                     <thead>
@@ -164,19 +180,16 @@ function getStatusClass($status)
                                 data-category-id="<?= $item['category_id'] ?? '' ?>"
                                 class="border-b border-gray-200 hover:bg-blue-400 hover:scale-[101%] hover:text-white">
 
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['unit'] ?></td>
-                                <td class="py-1 px-2 sm:px-4 border text-center border border-[var(--border-color)]">
-                                    <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
-                                        <?= htmlspecialchars($item['status']) ?>
-                                    </span>
+                                <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                                <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                                <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
+                                <td class="py-1 px-2 sm:px-4 text-center border border-[var(--border-color)]">
+                                    <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>"><?= htmlspecialchars($item['status']) ?></span>
                                 </td>
-
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
-                                <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
-                                <td class="py-1 px-2 sm:px-4 space-x-1 flex flex-wrap  border border-[var(--border-color)]">
+                                <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
+                                <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
+                                <td class="py-1 px-2 sm:px-4 space-x-1 flex flex-wrap border border-[var(--border-color)]">
                                     <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
                                     <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
                                     <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
@@ -188,11 +201,26 @@ function getStatusClass($status)
             </div>
         <?php endforeach; ?>
 
-        <!-- ================= Materials Table ================= -->
+        <!-- //   
+         ==========================================================================================================================================
+    //   =                                                          Ingredients Table Ends Here                                                   =
+    //   ========================================================================================================================================== -->
+
+
+
+
+        <!-- //   
+         ==========================================================================================================================================
+    //   =                                                          Materials Table Starts Here                                                   =
+    //   ========================================================================================================================================== -->
         <h2 class="text-xl sm:text-2xl font-bold mb-2">Materials</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-300 bg-[var(--background-color)] shadow rounded">
-                <thead class="bg-gray-200">
+
+        <!-- Search bar for Materials -->
+        <input type="text" class="search-materials mb-2 p-2 border border-[var(--border-color)] bg-[var(--background-color)] text-[var(--text-color)] rounded w-full" placeholder="Search Materials...">
+
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full bg-[var(--background-color)] rounded">
+                <thead>
                     <tr>
                         <th class="py-2 px-2 sm:px-4 border border-[var(--border-color)]">Item</th>
                         <th class="py-2 px-2 sm:px-4 border border-[var(--border-color)]">Quantity</th>
@@ -213,19 +241,16 @@ function getStatusClass($status)
                             data-category-id="<?= $item['category_id'] ?? '' ?>"
                             class="border-b border-gray-200 hover:bg-blue-400 hover:scale-[101%] hover:text-white">
 
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['unit'] ?></td>
-                            <td class="py-1 px-2 sm:px-4 border text-center border border-[var(--border-color)]">
-                                <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
-                                    <?= htmlspecialchars($item['status']) ?>
-                                </span>
+                            <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                            <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                            <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
+                            <td class="py-1 px-2 sm:px-4 text-center border border-[var(--border-color)]">
+                                <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>"><?= htmlspecialchars($item['status']) ?></span>
                             </td>
-
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
-                            <td class="py-1 px-2 sm:px-4  border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
-                            <td class="py-1 px-2 sm:px-4 space-x-1 flex flex-wrap  border border-[var(--border-color)]">
+                            <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
+                            <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                            <td class="py-1 px-2 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
+                            <td class="py-1 px-2 sm:px-4 space-x-1 flex flex-wrap border border-[var(--border-color)]">
                                 <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
                                 <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
                                 <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
@@ -236,13 +261,27 @@ function getStatusClass($status)
             </table>
         </div>
 
-        <?php
-        include "../../app/includes/managerModule/managerStockManagementRestockUI.php";
-        include "../../app/includes/managerModule/managerStockManagementModifyUI.php";
-        include "../../app/includes/managerModule/managerStockManagementRemoveUI.php";
-        ?>
 
+        <!-- //   
+         ==========================================================================================================================================
+    //   =                                                          Materials Table Ends Here                                                     =
+    //   ========================================================================================================================================== -->
+    </div>
 
+    <?php
+    //   ==========================================================================================================================================
+    //   =                                                          Restock BTN Includes                                                          =
+    //   ==========================================================================================================================================
+    include "../../app/includes/managerModule/managerStockManagementRestockUI.php";
+    //   ==========================================================================================================================================
+    //   =                                                          Modify BTN Includes                                                           =
+    //   ==========================================================================================================================================
+    include "../../app/includes/managerModule/managerStockManagementModifyUI.php";
+    //   ==========================================================================================================================================
+    //   =                                                          Remove BTN Includes                                                           =
+    //   ==========================================================================================================================================
+    include "../../app/includes/managerModule/managerStockManagementRemoveUI.php";
+    ?>
 
 
 
@@ -250,3 +289,30 @@ function getStatusClass($status)
 
 
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Ingredients search
+        document.querySelectorAll('.search-ingredients').forEach(input => {
+            const table = input.nextElementSibling.querySelector('table');
+            input.addEventListener('input', () => {
+                const filter = input.value.toLowerCase();
+                table.querySelectorAll('tbody tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+                });
+            });
+        });
+
+        // Materials search
+        const matInput = document.querySelector('.search-materials');
+        const matTable = matInput.nextElementSibling.querySelector('table');
+        matInput.addEventListener('input', () => {
+            const filter = matInput.value.toLowerCase();
+            matTable.querySelectorAll('tbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        });
+
+    });
+</script>
