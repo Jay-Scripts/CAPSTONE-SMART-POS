@@ -58,21 +58,22 @@ BEGIN
         ELSE 'IN STOCK'
     END;
 
-    -- 🔹 Update categories 1 & 2 based on Tea quantity
-    UPDATE category
-    SET status = CASE
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Tea' LIMIT 1) < 250 THEN 'INACTIVE'
-        ELSE 'ACTIVE'
-    END
-    WHERE category_id IN (1,2);
+    -- For Tea (categories 1 & 2)
+UPDATE category
+SET status = CASE
+    WHEN (SELECT SUM(quantity) FROM inventory_item WHERE item_name = 'Tea') < 250 THEN 'INACTIVE'
+    ELSE 'ACTIVE'
+END
+WHERE category_id IN (1,2);
 
-    -- 🔹 Update categories 3 & 6 based on Coffee quantity
-    UPDATE category
-    SET status = CASE
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Coffee' LIMIT 1) < 350 THEN 'INACTIVE'
-        ELSE 'ACTIVE'
-    END
-    WHERE category_id IN (3,6);
+-- For Coffee (categories 3 & 6)
+UPDATE category
+SET status = CASE
+    WHEN (SELECT SUM(quantity) FROM inventory_item WHERE item_name = 'Coffee') < 250 THEN 'INACTIVE'
+    ELSE 'ACTIVE'
+END
+WHERE category_id IN (3,6);
+
 END$$
 
 DELIMITER ;
