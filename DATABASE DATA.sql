@@ -441,7 +441,8 @@ VALUES
 INSERT INTO inventory_category (category_name)
 VALUES
 ('Ingredients'),
-('Materials');
+('Materials'),
+('Base');
 
 
 --       ==================================================================================================================================================================================================================================
@@ -469,6 +470,8 @@ VALUES
     (1, 'Cookies & Cream Syrup', 1, 10, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (1, 'Choco Kisses Syrup', 1, 11, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (1, 'Brown Sugar Syrup', 1, 12, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+
+
 --       ============================
 --       = MILKTEA INV ENDS HERE  =
 --       ============================
@@ -643,6 +646,21 @@ VALUES
 --       = MATERIALS INV ENDS HERE  =
 --       ============================
 --
+
+
+
+
+
+    INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, category_id, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (3, 'Tea', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (3, 'Coffee', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+        (3, 'Fluctose', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (3, 'Creamer', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+
+
 -- ============================
 
 
