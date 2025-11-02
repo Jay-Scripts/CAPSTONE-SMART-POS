@@ -1,3 +1,72 @@
+      <?php
+        try {
+            // 
+            //   ==========================================================================================================================================
+            //   =                                                          Inventory categories                                                          =
+            //   ==========================================================================================================================================
+            $invCategories = $conn->query("SELECT inv_category_id, category_name FROM inventory_category ORDER BY category_name ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+            //   ==========================================================================================================================================
+            //   =                                                          Product categories                                                          =
+            //   ==========================================================================================================================================
+            // 
+            $prodCategories = $conn->query("SELECT category_id, category_name FROM category ORDER BY category_name ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+            //   ==========================================================================================================================================
+            //   =                                                          Base Ingredients Products                                                     =
+            //   ==========================================================================================================================================
+            // 
+            $products = $conn->query("SELECT product_id, product_name FROM product_details ORDER BY product_name ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+            // ===================== Materials (Inventory category 2) =====================
+            $materials = $conn->prepare("
+        SELECT 
+            ii.item_id,
+            ii.item_name,
+            ii.quantity,
+            ii.unit,
+            ii.status,
+            ii.date_made,
+            ii.date_expiry,
+            si.staff_name AS added_by
+        FROM inventory_item ii
+        LEFT JOIN staff_info si ON ii.added_by = si.staff_id
+        WHERE ii.inv_category_id = 2
+        ORDER BY ii.item_name
+    ");
+            $materials->execute();
+            $materialsItems = $materials->fetchAll(PDO::FETCH_ASSOC);
+
+            // ===================== Other categories =====================
+            $data = $conn->query("
+        SELECT 
+            c.category_id,
+            c.category_name,
+            ii.item_id,
+            ii.item_name,
+            ii.quantity,
+            ii.unit,
+            ii.status,
+            ii.date_made,
+            ii.date_expiry,
+            si.staff_name AS added_by
+        FROM category c
+        LEFT JOIN inventory_item ii ON c.category_id = ii.category_id
+        LEFT JOIN staff_info si ON ii.added_by = si.staff_id
+        ORDER BY c.category_id, ii.item_name
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+            $grouped = [];
+            foreach ($data as $row) {
+                $grouped[$row['category_id']]['category_name'] = $row['category_name'];
+                $grouped[$row['category_id']]['items'][] = $row;
+            }
+        } catch (PDOException $e) {
+            $materialsItems = [];
+            $grouped = [];
+        }
+        ?>
+
       <!-- 
       ==========================================================================================================================================
       =                                                                                                                                        =
@@ -17,7 +86,7 @@
       ==========================================================================================================================================
     -->
       <div id="inventoryModal" class="fixed inset-0 bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-          <div class="relative bg-[var(--background-color)] text-[var(--text-color)] border border-[var(--border-color)] rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md p-6 animate-[fadeIn_0.3s_ease]">
+          <div class="relative bg-[var(--background-color)] text-[var(--text-color)] border border-[var(--border-color)] rounded-2xl shadow-xl w-full  p-6 animate-[fadeIn_0.3s_ease]">
               <h2 class="text-lg sm:text-xl font-bold mb-4 text-center ">Receive Inventory</h2>
               <form id="inventoryForm" class="space-y-4">
                   <div>
