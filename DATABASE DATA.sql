@@ -618,6 +618,33 @@ VALUES
 --       ============================
 --
 
+--       ============================
+--       = MATERIALS INV ENDS HERE  =
+--       ============================
+--
+
+--       ==============================
+--       = MATERIALS INV STARTS HERE  =
+--       ==============================
+--
+
+INSERT INTO inventory_item (
+    inv_category_id, item_name, added_by, unit, quantity, date_made, date_expiry
+)
+VALUES
+    (2, 'Cup G 22oz', 1, 'pcs', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'Cup M 16oz', 1, 'pcs', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'Hot Brew', 1, 'pcs', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'Straw', 1, 'pcs', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'Sealing Film', 1, 'pcs', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'Domelid', 1, 'pcs', 2000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+
+--       ============================
+--       = MATERIALS INV ENDS HERE  =
+--       ============================
+--
+-- ============================
+
 
 --       ==================================================================================================================================================================================================================================
 --       =                                                	                                             INSERTION OF Product Ingredients - Ends HERE                                                                                             =
