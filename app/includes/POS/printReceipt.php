@@ -88,22 +88,20 @@ try {
     die("Database error: " . $e->getMessage());
 }
 ?>
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Receipt</title>
     <style>
         header,
         footer {
             text-align: center;
-
         }
 
         body {
-            font-family: 'Courier New', monospace;
+            font-family: "Courier New", monospace;
             width: 80mm;
             margin: 0 auto;
             font-size: 12px;
@@ -137,45 +135,49 @@ try {
 </head>
 
 <body onload="window.print(); ">
-
     <header>
         <h1>BIG BREW POS</h1>
+        <p>Big Brew Franchising Corporation in the Philippines.</p>
         <p>BIG BREW STA. MESA MANILA BRANCH</p>
         <p>smartposBBstamesa@gmail.com</p>
         <p>TEL (02) 0000 0000</p>
-        <p>Transaction #: <?= str_pad($transaction_id, 6, '0', STR_PAD_LEFT) ?><br></p>
+        <p>
+            Transaction #: <?= str_pad($transaction_id, 6, '0', STR_PAD_LEFT) ?><br />
+        </p>
         <p>Date: <?= date('Y-m-d h:i A', strtotime($receipt['date_added'])) ?></p>
         <p>Cashier: <?= htmlspecialchars($receipt['cashier']) ?></p>
-        <p> Payment: <?= htmlspecialchars($receipt['payment_type']) ?></p>
+        <p>Payment: <?= htmlspecialchars($receipt['payment_type']) ?></p>
     </header>
-    <hr>
+    <hr />
 
     <table>
         <?php foreach ($items as $item): ?>
             <tr>
                 <td colspan="2">
-                    <?= $item['quantity'] ?>x <?= htmlspecialchars($item['product_name']) ?> (<?= htmlspecialchars($item['size']) ?>)
+                    <?= $item['quantity'] ?>x <?= htmlspecialchars($item['product_name'])
+                                                ?> (<?= htmlspecialchars($item['size']) ?>)
                 </td>
                 <td>₱<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
             </tr>
 
             <?php if (!empty($item['addons'])): ?>
                 <tr>
-                    <td colspan="3" style="padding-left: 10px; font-size: 12px;">
-                        *Add-ons:
-                        <?php foreach ($item['addons'] as $addon): ?>
-                            <div style="padding-left: 20px;">- <?= htmlspecialchars($addon['add_ons_name']) ?> (+₱<?= number_format($addon['price'], 2) ?>)</div>
+                    <td colspan="3" style="padding-left: 10px; font-size: 12px">
+                        *Add-ons: <?php foreach ($item['addons'] as $addon): ?>
+                            <div style="padding-left: 20px">
+                                - <?= htmlspecialchars($addon['add_ons_name']) ?> (+₱<?=
+                                                                                        number_format($addon['price'], 2) ?>)
+                            </div>
                         <?php endforeach; ?>
                     </td>
                 </tr>
-            <?php endif; ?>
-
-            <?php if (!empty($item['modifications'])): ?>
+            <?php endif; ?> <?php if (!empty($item['modifications'])): ?>
                 <tr>
-                    <td colspan="3" style="padding-left: 10px; font-size: 12px;">
-                        *Mods:
-                        <?php foreach ($item['modifications'] as $mod): ?>
-                            <div style="padding-left: 20px;">- <?= htmlspecialchars($mod['modification_name']) ?></div>
+                    <td colspan="3" style="padding-left: 10px; font-size: 12px">
+                        *Mods: <?php foreach ($item['modifications'] as $mod): ?>
+                            <div style="padding-left: 20px">
+                                - <?= htmlspecialchars($mod['modification_name']) ?>
+                            </div>
                         <?php endforeach; ?>
                     </td>
                 </tr>
@@ -183,23 +185,40 @@ try {
 
             <tr>
                 <td colspan="3">
-                    <hr>
+                    <hr />
                 </td>
             </tr>
         <?php endforeach; ?>
     </table>
 
-
     <p class="total">Total Items: <?= $total_items ?></p>
-    <p class="total">Subtotal: ₱<?= number_format($receipt['total_amount'] - $receipt['vat_amount'], 2) ?></p>
-    <p class="total">VAT (12%): ₱<?= number_format($receipt['vat_amount'], 2) ?></p>
-    <p class="total">Total: ₱<?= number_format($receipt['total_amount'], 2) ?></p>
+    <p class="total">
+        Vatable Sales : ₱<?= number_format($receipt['total_amount'] -
+                                $receipt['vat_amount'], 2) ?>
+    </p>
+    <p class="total">
+        VAT (12%): ₱<?= number_format($receipt['vat_amount'], 2) ?>
+    </p>
+    <p class="total">
+        Less Disc. : ₱<?= number_format($receipt['vat_amount'], 2) ?>
+    </p>
+    <p class="total">
+        Total: ₱<?= number_format($receipt['total_amount'], 2) ?>
+    </p>
 
-    <hr>
+    <hr />
     <footer>
-        <p>Thank you for your purchase! ☕</p>
+        <p>Customer: ______________________</p>
+        <p>Address: _______________________</p>
+        <p>TIN: ___________________________</p>
+        <p>Thank you for your purchase!</p>
+        <p>We value your feedback!</p>
+        <p>
+            Rate us on Facebook: <br />
+            fb.com/BigBrewStaMesaManila
+        </p>
+        <p>Or scan to rate us next visit!</p>
     </footer>
-
 </body>
 
 </html>

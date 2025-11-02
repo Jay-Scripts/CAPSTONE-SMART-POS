@@ -399,7 +399,7 @@ CREATE TABLE kiosk_item_modification (
     category_id INT NULL, -- only if tied to an actual POS category so for per category control
     unit ENUM('pcs','ml','g') NOT NULL,
     quantity DECIMAL(10,2) NOT NULL,
-    status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK', 'UNAVAILABLE') DEFAULT 'IN STOCK',
+    status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK', 'UNAVAILABLE', 'SOON TO EXPIRE') DEFAULT 'IN STOCK',
     date_made DATE NOT NULL,
     date_expiry DATE NOT NULL,
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
