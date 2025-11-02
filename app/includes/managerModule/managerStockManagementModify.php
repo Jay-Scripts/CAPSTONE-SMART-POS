@@ -63,7 +63,7 @@ if (strtotime($date_expiry) < strtotime($date_made)) {
 }
 
 try {
-    // 1️⃣ Get current quantity
+    // 1️ Get current quantity
     $stmt = $conn->prepare("SELECT quantity FROM inventory_item WHERE item_id = :item_id");
     $stmt->execute([':item_id' => $item_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -74,7 +74,7 @@ try {
     }
     $quantity_before = (float)$row['quantity'];
 
-    // 2️⃣ Update inventory_item
+    // 2️ Update inventory_item
     $stmt = $conn->prepare("
         UPDATE inventory_item SET
             item_name = :item_name,
@@ -93,7 +93,7 @@ try {
         ':item_id' => $item_id
     ]);
 
-    // 3️⃣ Insert log
+    // 3️ Insert log
     $quantity_adjusted = $quantity - $quantity_before;
     $stmt = $conn->prepare("
         INSERT INTO inventory_item_logs
