@@ -607,12 +607,12 @@ INSERT INTO inventory_item (
     inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
 )
 VALUES
-    (1, 'Cheese Cake Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Pearl Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Cream Cheese Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Coffee Jelly Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Crushed Oreo Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Chia Seed Add-On', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+    (1, 'Cheese Cake AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Pearl AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cream Cheese AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Coffee Jelly AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Crushed Oreo AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Chia Seed AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
 --       ============================
 --       = ADDONS INV ENDS HERE  =
 --       ============================

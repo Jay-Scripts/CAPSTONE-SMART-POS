@@ -13,6 +13,8 @@ function getStatusClass($status)
             return 'bg-orange-100 text-orange-800 border-orange-300';
         case 'UNAVAILABLE':
             return 'bg-gray-200 text-gray-700 border-gray-300';
+        case 'EXPIRED':
+            return 'bg-gray-200 text-black border-gray-400';
         default:
             return 'bg-gray-100 text-gray-800 border-gray-300';
     }
@@ -116,20 +118,20 @@ function getStatusClass($status)
                                         data-inv-category-id="<?= $item['inv_category_id'] ?>"
                                         data-product-id="<?= $item['product_id'] ?? '' ?>"
                                         data-category-id="<?= $item['category_id'] ?? '' ?>"
-                                        class="border-b border-[var(--border-color)] hover:bg-blue-400 hover:text-white hover:scale-[101%] transition-transform duration-150">
+                                        class="border-b border-[var(--border-color)] hover:bg-blue-400 hover:text-white hover:scale-[100.01%] transition-transform duration-150">
 
-                                        <td class="py-1 px-3 sm:px-4"><?= htmlspecialchars($item['item_name']) ?></td>
-                                        <td class="py-1 px-3 sm:px-4"><?= $item['quantity'] ?></td>
-                                        <td class="py-1 px-3 sm:px-4"><?= $item['unit'] ?></td>
+                                        <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                                        <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                                        <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
                                         <td class="py-1 px-3 sm:px-4 text-center">
                                             <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
                                                 <?= htmlspecialchars($item['status']) ?>
                                             </span>
                                         </td>
-                                        <td class="py-1 px-3 sm:px-4"><?= $item['date_made'] ?></td>
-                                        <td class="py-1 px-3 sm:px-4"><?= $item['date_expiry'] ?></td>
-                                        <td class="py-1 px-3 sm:px-4"><?= htmlspecialchars($item['staff_name']) ?></td>
-                                        <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1">
+                                        <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
+                                        <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                        <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
+                                        <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
                                             <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
                                             <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
                                             <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
@@ -173,20 +175,20 @@ function getStatusClass($status)
                                 data-inv-category-id="<?= $item['inv_category_id'] ?>"
                                 data-product-id="<?= $item['product_id'] ?? '' ?>"
                                 data-category-id="<?= $item['category_id'] ?? '' ?>"
-                                class="border-b border-[var(--border-color)] hover:bg-blue-400 hover:text-white hover:scale-[101%] transition-transform duration-150">
+                                class="border-b border-[var(--border-color)] hover:bg-blue-400 hover:text-white hover:scale-[100.01%] transition-transform duration-150">
 
-                                <td class="py-1 px-3 sm:px-4"><?= htmlspecialchars($item['item_name']) ?></td>
-                                <td class="py-1 px-3 sm:px-4"><?= $item['quantity'] ?></td>
-                                <td class="py-1 px-3 sm:px-4"><?= $item['unit'] ?></td>
-                                <td class="py-1 px-3 sm:px-4 text-center">
+                                <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                                <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                                <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
+                                <td class="py-1 px-3 sm:px-4 text-center border border-[var(--border-color)]">
                                     <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
                                         <?= htmlspecialchars($item['status']) ?>
                                     </span>
                                 </td>
-                                <td class="py-1 px-3 sm:px-4"><?= $item['date_made'] ?></td>
-                                <td class="py-1 px-3 sm:px-4"><?= $item['date_expiry'] ?></td>
-                                <td class="py-1 px-3 sm:px-4"><?= htmlspecialchars($item['staff_name']) ?></td>
-                                <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1">
+                                <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
+                                <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
+                                <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
                                     <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
                                     <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
                                     <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
