@@ -17,16 +17,16 @@
       ==========================================================================================================================================
     -->
       <div id="inventoryModal" class="fixed inset-0 bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-          <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md p-6 animate-[fadeIn_0.3s_ease]">
-              <h2 class="text-lg sm:text-xl font-bold mb-4 text-center text-gray-800">Receive Inventory</h2>
+          <div class="relative bg-[var(--background-color)] text-[var(--text-color)] border border-[var(--border-color)] rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md p-6 animate-[fadeIn_0.3s_ease]">
+              <h2 class="text-lg sm:text-xl font-bold mb-4 text-center ">Receive Inventory</h2>
               <form id="inventoryForm" class="space-y-4">
                   <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1" for="item_name">Item Name</label>
-                      <input type="text" id="item_name" required class="w-full p-2 border rounded-lg" />
+                      <label class="block text-sm font-medium mb-1" for="item_name">Item Name</label>
+                      <input type="text" id="item_name" required class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)" />
                   </div>
                   <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1" for="inv_category">Inventory Category</label>
-                      <select id="inv_category" required class="w-full p-2 border rounded-lg">
+                      <label class="block text-sm font-medium mb-1" for="inv_category">Inventory Category</label>
+                      <select id="inv_category" required class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)">
                           <option value="" disabled selected>Select inventory category</option>
                           <?php foreach ($invCategories as $cat): ?>
                               <option value="<?= $cat['inv_category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
@@ -34,8 +34,8 @@
                       </select>
                   </div>
                   <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1" for="prod_category">Product Category</label>
-                      <select id="prod_category" class="w-full p-2 border rounded-lg">
+                      <label class="block text-sm font-medium mb-1" for="prod_category">Product Category</label>
+                      <select id="prod_category" class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)">
                           <option value="" disabled selected>Select product category</option>
                           <?php foreach ($prodCategories as $cat): ?>
                               <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
@@ -43,8 +43,8 @@
                       </select>
                   </div>
                   <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1" for="product">Product</label>
-                      <select id="product" class="w-full p-2 border rounded-lg">
+                      <label class="block text-sm font-medium mb-1" for="product">Product</label>
+                      <select id="product" class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)">
                           <option value="" disabled selected>Select product</option>
                           <?php foreach ($products as $prod): ?>
                               <option value="<?= $prod['product_id'] ?>"><?= htmlspecialchars($prod['product_name']) ?></option>
@@ -53,12 +53,12 @@
                   </div>
                   <div class="grid grid-cols-2 gap-3">
                       <div>
-                          <label class="block text-sm font-medium text-gray-700 mb-1" for="quantity">Quantity</label>
-                          <input type="number" id="quantity" required min="1" class="w-full p-2 border rounded-lg" />
+                          <label class="block text-sm font-medium mb-1" for="quantity">Quantity</label>
+                          <input type="number" id="quantity" required min="1" class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)" />
                       </div>
                       <div>
-                          <label class="block text-sm font-medium text-gray-700 mb-1" for="unit">Unit</label>
-                          <select id="unit" class="w-full p-2 border rounded-lg">
+                          <label class="block text-sm font-medium mb-1" for="unit">Unit</label>
+                          <select id="unit" class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)">
                               <option value="pcs">Pieces (pcs)</option>
                               <option value="g">Grams (g)</option>
                               <option value="ml">Milliliters (ml)</option>
@@ -67,12 +67,12 @@
                   </div>
                   <div class="grid grid-cols-2 gap-3">
                       <div>
-                          <label class="block text-sm font-medium text-gray-700 mb-1" for="date_made">Date Made</label>
-                          <input type="date" id="date_made" required class="w-full p-2 border rounded-lg" />
+                          <label class="block text-sm font-medium mb-1" for="date_made">Date Made</label>
+                          <input type="date" id="date_made" required class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)" />
                       </div>
                       <div>
-                          <label class="block text-sm font-medium text-gray-700 mb-1" for="date_expiry">Expiry Date</label>
-                          <input type="date" id="date_expiry" required class="w-full p-2 border rounded-lg" />
+                          <label class="block text-sm font-medium mb-1" for="date_expiry">Expiry Date</label>
+                          <input type="date" id="date_expiry" required class="w-full p-2 border rounded-lg bg-[var(--background-color)] border border-[var(--border-color)" />
                       </div>
                   </div>
                   <div class="flex justify-end gap-3 pt-4">
