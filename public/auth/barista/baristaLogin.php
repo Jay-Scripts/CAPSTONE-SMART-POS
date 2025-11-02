@@ -16,81 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 
-    <style>
-      /* Milk tea fill animation for full screen */
-      @keyframes fillScreen {
-        0% {
-          height: 0%;
-        }
 
-        100% {
-          height: 100%;
-        }
-      }
-
-      /* Boba bouncing animation */
-      @keyframes bounce {
-
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-
-      /* Floating bubble animation */
-      @keyframes floatUp {
-        0% {
-          transform: translateY(0);
-          opacity: 0;
-        }
-
-        50% {
-          opacity: 0.6;
-        }
-
-        100% {
-          transform: translateY(-60px);
-          opacity: 0;
-        }
-      }
-
-      /* Fullscreen milk tea background */
-      .milk-tea-fill {
-        animation: fillScreen 5s ease-out forwards infinite alternate;
-        transform-origin: bottom;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 0%;
-        background: linear-gradient(180deg, #f3d6b3 0%, #dba77f 100%);
-        z-index: -1;
-      }
-
-      /* Boba style */
-      .boba {
-        animation: bounce 1.5s infinite ease-in-out;
-        width: 12px;
-        height: 12px;
-        background: #6b3e26;
-        border-radius: 50%;
-        position: absolute;
-      }
-
-      /* Floating bubble style */
-      .bubble {
-        width: 6px;
-        height: 6px;
-        background: rgba(107, 62, 38, 0.8);
-        border-radius: 50%;
-        position: absolute;
-        animation: floatUp 3s infinite ease-in-out;
-      }
-    </style>
   </head>
 
   <body class="relative min-h-screen overflow-hidden">
@@ -130,7 +56,7 @@
       id="loginModal"
       class="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div
-        class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 w-full max-w-md animate-fade-in">
+        class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 w-full max-w-md animate-fade-in border border-black">
         <!-- Logo -->
         <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
           <img
@@ -154,7 +80,7 @@
         <!-- Form -->
         <form method="POST" class="space-y-6">
           <!-- Input -->
-          <div class="relative group">
+          <div class="relative group ">
             <input
               class="w-full px-4 py-3 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 hover:border-gray-300 placeholder:text-gray-400 font-medium outline-none focus:-translate-y-0.5"
               placeholder="ID Number"
@@ -198,6 +124,30 @@
         ?>
       </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const qrInput = document.getElementById("qrInput");
+
+        // Keep focus for scanner input
+        const keepFocus = () => qrInput.focus();
+        document.addEventListener("click", keepFocus);
+        qrInput.focus();
+
+        // Allow only numeric input in real time
+        qrInput.addEventListener("input", (e) => {
+          e.target.value = e.target.value.replace(/\D/g, "");
+        });
+
+        // Handle Enter key (QR scan submission)
+        qrInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const form = qrInput.closest("form");
+            if (form) form.submit(); // submit the existing form
+          }
+        });
+      });
+    </script>
 
   </body>
 
