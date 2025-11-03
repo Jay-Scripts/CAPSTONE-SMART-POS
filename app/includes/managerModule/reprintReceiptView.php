@@ -58,7 +58,7 @@ try {
 
 <head>
     <meta charset="UTF-8">
-    <title>Receipt</title>
+    <title>Reprint Receipt</title>
     <style>
         header,
         footer {
@@ -99,16 +99,20 @@ try {
     </style>
 </head>
 
-<body onload="window.print();setTimeout(()=>window.close(),1500)">
+<body onload="window.print();">
+
     <header>
         <h3>BIG BREW POS</h3>
-        <p>Sta. Mesa Manila Branch<br>smartposBBstamesa@gmail.com</p>
+        <p>Big Brew Franchising Corporation</p>
+        <p>BIG BREW STA. MESA MANILA BRANCH</p>
+        <p>smartposBBstamesa@gmail.com</p>
+        <p>TEL (02) 0000 0000</p>
         <p>Txn#: <?= str_pad($transaction_id, 6, '0', STR_PAD_LEFT) ?><br>
             <?= date('Y-m-d h:i A', strtotime($receipt['date_added'])) ?><br>
             Cashier: <?= $receipt['cashier'] ?><br>Payment: <?= $type ?></p>
     </header>
-    <hr>
 
+    <hr>
     <table>
         <?php foreach ($rows as $r): ?>
             <tr>
@@ -130,19 +134,18 @@ try {
         <?php endforeach; ?>
     </table>
 
-    <hr>
-    <p class="total">Items: <?= $total_items ?></p>
-    <p class="total">Vatable: ₱<?= number_format($receipt['total_amount'] - $receipt['vat_amount'], 2) ?></p>
-    <p class="total">VAT (12%): ₱<?= number_format($receipt['vat_amount'], 2) ?></p>
-    <p class="total">Total: ₱<?= number_format($receipt['total_amount'], 2) ?></p>
-    <?php if ($disc_amt > 0): ?><p class="total">Less Disc: ₱<?= number_format($disc_amt, 2) ?></p><?php endif; ?>
-    <p class="total">Cash: ₱<?= number_format($tendered, 2) ?></p>
-    <p class="total">Change: ₱<?= number_format($change, 2) ?></p>
-
+    <hr />
     <footer>
-        <hr>
-        <?php if (!empty($d)): ?><p><?= htmlspecialchars($d['ID_TYPE']) ?>: <?= htmlspecialchars($d['FIRST_NAME'] . ' ' . $d['LAST_NAME']) ?></p><?php endif; ?>
-        <p>Thank you for purchasing!<br>fb.com/BigBrewStaMesaManila</p>
+        <?php if (!empty($discount)): ?>
+            <p class="total">Discount Applied (<?= htmlspecialchars($discount['ID_TYPE']) ?>): <?= htmlspecialchars($discount['FIRST_NAME'] . ' ' . $discount['LAST_NAME']) ?></p>
+        <?php endif; ?>
+        <p>Customer: ______________________</p>
+        <p>Address: _______________________</p>
+        <p>TIN: ___________________________</p>
+        <p>Thank you for your purchase!</p>
+        <p>We value your feedback!</p>
+        <p>Rate us on Facebook: fb.com/BigBrewStaMesaManila</p>
+        <p>Or scan to rate us next visit!</p>
     </footer>
 </body>
 

@@ -149,7 +149,7 @@ try {
 <body onload="window.print();">
     <header>
         <h1>BIG BREW POS</h1>
-        <p>Big Brew Franchising Corporation in the Philippines.</p>
+        <p>Big Brew Franchising Corporation</p>
         <p>BIG BREW STA. MESA MANILA BRANCH</p>
         <p>smartposBBstamesa@gmail.com</p>
         <p>TEL (02) 0000 0000</p>

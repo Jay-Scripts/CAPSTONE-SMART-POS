@@ -936,7 +936,7 @@ header('Content-Type: text/html');
         class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 ">
         <div
           id="calculator"
-          class="bg-[var(--background-color)] border rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-xl sm:max-h-xs p-4 sm:p-6 mx-2 animate-[fadeIn_0.3s_ease]">
+          class="bg-[var(--background-color)] border rounded-2xl  shadow-2xl w-full max-w-sm sm:max-w-xl sm:max-h-xs p-4 sm:p-6 mx-2 animate-[fadeIn_0.3s_ease]">
 
           <!-- Header -->
           <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -954,7 +954,7 @@ header('Content-Type: text/html');
             </div>
             <div class="flex justify-between">
               <span>Discount:</span>
-              <span id="discountAmount">0</span>
+              <span id="discountAmount" class="font-bold">0</span>
             </div>
             <div class="flex justify-between">
               <span>Tendered:</span><span id="tenderedAmount" class="font-bold">₱0</span>
@@ -965,7 +965,7 @@ header('Content-Type: text/html');
           </div>
 
           <!-- Action Buttons -->
-          <div class="grid grid-cols-4 gap-2 mb-5 text-xs sm:text-xs text-[var(--text-color)]">
+          <div class="grid grid-cols-3 gap-2 mb-5 text-xs sm:text-xs text-[var(--text-color)]">
 
             <!-- Brew Rewards -->
             <button onclick="openQrPopup()"
@@ -973,26 +973,21 @@ header('Content-Type: text/html');
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
                 <path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm10-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2z" />
               </svg>
-              <p class="text-[10px]">Brew Rewards</p>
+              <p class="text-md">Brew Rewards</p>
             </button>
 
-            <!-- PWD -->
+            <!-- Discountubbbbtgfujiyjb-->
             <button id="pwdBtn" onclick="openManagerQrModal(0.2)"
               class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)]  hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg ">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
-                <path fill="currentColor" d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
-              </svg>
-              <p class="text-[10px]">PWD</p>
+              <span class=" flex "> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+                  <path fill="currentColor"
+                    d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
+                </svg> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+                  <path fill="currentColor" d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
+                </svg></span>
+              <p class="text-md">SC & PWD Discount</p>
             </button>
 
-            <!-- SC -->
-            <button id="scBtn" onclick="openManagerQrModal(0.2)"
-              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg  hover:bg-gray-300 dark:hover:bg-gray-700  relative">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
-                <path fill="currentColor" d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
-              </svg>
-              <p class="text-[10px]">SC</p>
-            </button>
 
             <!-- E Payment -->
             <button onclick="openEPaymentPopup()"
@@ -1003,7 +998,7 @@ header('Content-Type: text/html');
                 <rect x="4" y="12" width="3" height="3" rx="0.5" ry="0.5" fill="currentColor" />
               </svg>
 
-              <p class="text-[10px]">E-Payment</p>
+              <p class="text-md">E-Payment</p>
             </button>
 
           </div>
@@ -1100,13 +1095,19 @@ header('Content-Type: text/html');
           =           Cart Calculator - Ends Here             =
             ================================================ -->
       <!-- Manager + Discount Modal -->
-      <div id="managerDiscountModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+      <div id="managerDiscountModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 animate-[fadeIn_0.3s_ease]">
+        <div class=" bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow-lg p-6 w-80">
 
           <!-- Manager Verification -->
           <div id="managerVerifySection">
             <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
-            <input type="text" id="managerInput" placeholder="Scan Manager ID" class="w-full p-2 border rounded">
+            <input
+              type="password"
+              id="managerInput"
+              placeholder="Scan Manager ID"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              class="w-full p-2 border rounded  border-[var(--border-color)] bg-[var(--background-color)]" />
             <div class="flex justify-end mt-4 gap-2">
               <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
               <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded">Verify</button>
@@ -1117,24 +1118,61 @@ header('Content-Type: text/html');
           <div id="discountFormSection" class="hidden">
             <h2 class="text-lg font-bold mb-4">Discount Details</h2>
 
-            <label>Discount Type:</label>
-            <select id="discountType" class="w-full mb-2">
-              <option value="">Select Type</option>
-              <option value="PWD">PWD</option>
-              <option value="SC">Senior Citizen</option>
-            </select>
+            <!-- Hidden field for database logic -->
+            <input type="hidden" id="discountType" name="discountType" />
+
+            <label class="block mb-1 font-medium">Discount Type:</label>
+            <div class="flex gap-3">
+              <!-- PWD -->
+              <label class="w-full">
+                <input type="radio" name="discountChoice" value="PWD" class="peer hidden" checked />
+                <div
+                  class="w-full aspect-square flex flex-col items-center justify-center gap-1 rounded-lg border border-[var(--border-color)] bg-[var(--calc-bg-btn)] 
+             hover:bg-gray-300 dark:hover:bg-gray-700 peer-checked:bg-blue-500 peer-checked:text-white transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+                    <path fill="currentColor"
+                      d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
+                  </svg>
+                  <p class="text-[10px] font-medium">PWD</p>
+                </div>
+              </label>
+
+              <!-- SC -->
+              <label class="w-full">
+                <input type="radio" name="discountChoice" value="SC" class="peer hidden" />
+                <div
+                  class="w-full aspect-square flex flex-col items-center justify-center gap-1 rounded-lg border border-[var(--border-color)] bg-[var(--calc-bg-btn)] 
+             hover:bg-gray-300 dark:hover:bg-gray-700 peer-checked:bg-blue-500 peer-checked:text-white transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+                    <path fill="currentColor"
+                      d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
+                  </svg>
+                  <p class="text-[10px] font-medium">SC</p>
+                </div>
+              </label>
+            </div>
+
+            <script>
+              // Sync selected radio button to hidden input (for DB + JS logic)
+              document.querySelectorAll('input[name="discountChoice"]').forEach(radio => {
+                radio.addEventListener("change", () => {
+                  document.getElementById("discountType").value = radio.value;
+                });
+              });
+
+              // Set initial default value
+              document.getElementById("discountType").value = document.querySelector('input[name="discountChoice"]:checked').value;
+            </script>
+
 
             <label>ID Number:</label>
-            <input type="text" id="discountId" placeholder="Enter ID Number" class="w-full mb-2">
+            <input type="number" id="discountId" placeholder="Enter ID Number" class="w-full mb-2  bg-[var(--background-color)] p-2 border border-[var(--border-color)] rounded">
 
             <label>First Name:</label>
-            <input type="text" id="discountFirstName" placeholder="First Name" class="w-full mb-2">
+            <input type="text" id="discountFirstName" placeholder="First Name" class="w-full mb-2  bg-[var(--background-color)] p-2 border border-[var(--border-color)] rounded">
 
             <label>Last Name:</label>
-            <input type="text" id="discountLastName" placeholder="Last Name" class="w-full mb-2">
-
-            <label>Discount Amount:</label>
-            <input type="number" id="discountAmount" class="w-full mb-4" readonly>
+            <input type="text" id="discountLastName" placeholder="Last Name" class="w-full mb-2  bg-[var(--background-color)] p-2 border border-[var(--border-color)] rounded">
 
             <div class="flex justify-end gap-2">
               <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
@@ -1150,29 +1188,43 @@ header('Content-Type: text/html');
         document.addEventListener("DOMContentLoaded", () => {
           let discountRateTemp = 0;
 
+          // Restrict to numeric input
+          const managerInput = document.getElementById("managerInput");
+          managerInput.addEventListener("input", () => {
+            managerInput.value = managerInput.value.replace(/\D/g, ""); // remove non-numbers
+          });
+
+          // ✅ Allow Enter key to trigger verification
+          managerInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              verifyManager(); // same function you already have
+            }
+          });
+
           // Open modal
           window.openManagerQrModal = function(rate) {
             discountRateTemp = rate;
             document.getElementById("managerDiscountModal").classList.remove("hidden");
             document.getElementById("managerVerifySection").classList.remove("hidden");
             document.getElementById("discountFormSection").classList.add("hidden");
-            document.getElementById("managerInput").focus();
+            managerInput.focus();
           }
 
           // Close modal
           window.closeManagerDiscountModal = function() {
             document.getElementById("managerDiscountModal").classList.add("hidden");
-            document.getElementById("managerInput").value = "";
+            managerInput.value = "";
           }
 
           // Manager verification
           window.verifyManager = async function() {
-            const staffId = document.getElementById("managerInput").value.trim();
+            const staffId = managerInput.value.trim();
             if (!staffId) {
               Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: "Please scan a manager ID."
+                text: "Please scan or enter a manager ID."
               });
               return;
             }
@@ -1223,7 +1275,7 @@ header('Content-Type: text/html');
           // Apply discount
           window.applyDiscount = function() {
             discountRate = discountRateTemp;
-            updateDisplay(); // your existing function to update totals/discounts
+            updateDisplay(); // your existing function
             closeManagerDiscountModal();
 
             Swal.fire({
@@ -1234,6 +1286,7 @@ header('Content-Type: text/html');
           }
         });
       </script>
+
 
 
   </main>
