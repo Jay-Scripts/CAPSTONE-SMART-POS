@@ -57,16 +57,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
     // Insert REG_TRANSACTION
     $stmt = $conn->prepare("
   INSERT INTO REG_TRANSACTION 
-  (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS, kiosk_transaction_id, ORDERED_BY)
-  VALUES (:staff_id, :total, :vat, 'PAID', :kiosk_id, :ordered_by)
+  (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, vatable_sales, amount_tendered, change_amount, STATUS, kiosk_transaction_id, ORDERED_BY)
+  VALUES (:staff_id, :total, :vat, :vatable, :tendered, :change, 'PAID', :kiosk_id, :ordered_by)
 ");
     $stmt->execute([
       ':staff_id' => $staff_id,
-      ':total' => $total_after_discount, // use discounted total
+      ':total' => $total_after_discount,      // discounted total
       ':vat' => $vat,
+      ':vatable' => $total_after_discount - $vat,  // vatable sales
+      ':tendered' => $tendered,               // amount received
+      ':change' => $change,                   // change to give back
       ':kiosk_id' => $kiosk_id,
       ':ordered_by' => $ordered_by
     ]);
+
 
     $transaction_id = $conn->lastInsertId();
     if (!empty($_POST['discount_data'])) {
