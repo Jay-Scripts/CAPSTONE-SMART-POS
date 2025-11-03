@@ -55,7 +55,7 @@
       id="loginModal"
       class="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div
-        class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 w-full max-w-md animate-fade-in border border-black">
+        class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10 w-full max-w-md animate-fade-in">
         <!-- Logo -->
         <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
           <img
@@ -121,30 +121,7 @@
         ?>
       </div>
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const qrInput = document.getElementById("qrInput");
 
-        // Keep focus for scanner input
-        const keepFocus = () => qrInput.focus();
-        document.addEventListener("click", keepFocus);
-        qrInput.focus();
-
-        // Allow only numeric input in real time
-        qrInput.addEventListener("input", (e) => {
-          e.target.value = e.target.value.replace(/\D/g, "");
-        });
-
-        // Handle Enter key (QR scan submission)
-        qrInput.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const form = qrInput.closest("form");
-            if (form) form.submit(); // submit the existing form
-          }
-        });
-      });
-    </script>
   </body>
 
   </html>

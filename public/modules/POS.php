@@ -897,111 +897,8 @@ header('Content-Type: text/html');
       <!-- ================================================
       =           Cart Calculator - Starts Here           =
       ================================================ -->
-      <!-- Discount Info Modal -->
-      <div id="discountModal" class="fixed inset-0 bg-black/70 hidden flex items-center justify-center z-[999]">
-        <div class="bg-[var(--background-color)] rounded-2xl shadow-2xl w-full max-w-sm p-6">
-          <h2 class="text-lg font-bold mb-4">Enter Discount Info</h2>
-          <form id="discountForm">
-            <input type="hidden" id="discountType" name="discountType" value="">
-            <div class="mb-3">
-              <label class="block mb-1">ID Number</label>
-              <input type="number" id="idNum" name="idNum" required class="w-full border p-2 rounded">
-            </div>
-            <div class="mb-3">
-              <label class="block mb-1">First Name</label>
-              <input type="text" id="firstName" name="firstName" required class="w-full border p-2 rounded">
-            </div>
-            <div class="mb-3">
-              <label class="block mb-1">Last Name</label>
-              <input type="text" id="lastName" name="lastName" required class="w-full border p-2 rounded">
-            </div>
-            <div class="flex justify-end gap-2">
-              <button type="button" onclick="closeDiscountModal()" class="px-4 py-2 bg-gray-400 rounded">Cancel</button>
-              <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Apply</button>
-            </div>
-          </form>
-        </div>
-      </div>
 
-      <script>
-        function applyDiscount(type) {
-          // Set discount type (PWD or SC)
-          document.getElementById('discountType').value = type;
 
-          // Hide calculator if you want to prevent overlap
-          document.getElementById('calculatorModal').classList.add('hidden');
-
-          // Show discount modal
-          document.getElementById('discountModal').classList.remove('hidden');
-        }
-
-        function closeDiscountModal() {
-          document.getElementById('discountModal').classList.add('hidden');
-
-          // Show calculator again
-          document.getElementById('calculatorModal').classList.remove('hidden');
-        }
-
-        // Handle discount form submission
-        document.getElementById('discountForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-
-          const discountData = {
-            type: document.getElementById('discountType').value, // PWD or SC
-            idNum: document.getElementById('idNum').value,
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value
-          };
-
-          // Save discount info globally or to order
-          window.discountInfo = discountData;
-
-          // Apply 20% discount if SC or PWD
-          let total = parseFloat(document.getElementById('totalAmount').innerText) || 0;
-          if (discountData.type === 'SC' || discountData.type === 'PWD') {
-            total = total * 0.8; // 20% off
-          }
-          document.getElementById('totalAmount').innerText = total.toFixed(2);
-
-          closeDiscountModal();
-        });
-
-        document.getElementById('discountForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-
-          const discountData = {
-            type: document.getElementById('discountType').value, // PWD or SC
-            idNum: document.getElementById('idNum').value,
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value
-          };
-
-          // Apply 20% discount locally
-          let total = parseFloat(document.getElementById('totalAmount').innerText) || 0;
-          if (discountData.type === 'SC' || discountData.type === 'PWD') {
-            total = total * 0.8;
-            document.getElementById('totalAmount').innerText = total.toFixed(2);
-          }
-
-          // Send data to PHP
-          fetch('discount_process.php', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(discountData)
-            })
-            .then(res => res.json())
-            .then(response => {
-              console.log('Server response:', response);
-              // Optionally show a success message
-            })
-            .catch(err => console.error('Error:', err));
-
-          // Close modal
-          closeDiscountModal();
-        });
-      </script>
 
       <!-- Calculator Modal -->
       <div
@@ -1026,6 +923,10 @@ header('Content-Type: text/html');
               <span>Total:</span><span id="totalAmount" class="font-bold">0</span>
             </div>
             <div class="flex justify-between">
+              <span>Discount:</span>
+              <span id="discountAmount">0</span>
+            </div>
+            <div class="flex justify-between">
               <span>Tendered:</span><span id="tenderedAmount" class="font-bold">₱0</span>
             </div>
             <div class="flex justify-between">
@@ -1046,7 +947,7 @@ header('Content-Type: text/html');
             </button>
 
             <!-- PWD -->
-            <button onclick="applyDiscount('PWD')"
+            <button id="pwdBtn" onclick="openManagerQrModal(0.2)"
               class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)]  hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg ">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
                 <path fill="currentColor" d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
@@ -1055,7 +956,7 @@ header('Content-Type: text/html');
             </button>
 
             <!-- SC -->
-            <button onclick="applyDiscount('SC')"
+            <button id="scBtn" onclick="openManagerQrModal(0.2)"
               class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg  hover:bg-gray-300 dark:hover:bg-gray-700  relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
                 <path fill="currentColor" d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
@@ -1168,9 +1069,61 @@ header('Content-Type: text/html');
       <!-- ================================================
           =           Cart Calculator - Ends Here             =
             ================================================ -->
+      <div id="managerQrModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-80">
+          <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
+          <input type="text" id="managerInput" placeholder="Scan Manager ID" class="w-full p-2 border rounded">
+          <div class="flex justify-end mt-4 gap-2">
+            <button onclick="closeManagerQrModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
+            <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded">Verify</button>
+          </div>
+        </div>
+      </div>
 
+      <script>
+        function openManagerQrModal(rate) {
+          discountRateTemp = rate; // store the intended discount temporarily
+          document.getElementById("managerQrModal").classList.remove("hidden");
+          document.getElementById("managerInput").focus();
+        }
 
+        function closeManagerQrModal() {
+          document.getElementById("managerQrModal").classList.add("hidden");
+          document.getElementById("managerInput").value = "";
+        }
 
+        async function verifyManager() {
+          const staffId = document.getElementById("managerInput").value.trim();
+          if (!staffId) {
+            Swal.fire("Error", "Please scan a manager ID.", "error");
+            return;
+          }
+
+          try {
+            const res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                staff_id: staffId
+              })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              discountRate = discountRateTemp; // apply discount
+              updateDisplay();
+              closeManagerQrModal();
+              Swal.fire("Success", "Discount applied!", "success");
+            } else {
+              Swal.fire("Denied", data.message || "Not authorized.", "error");
+            }
+          } catch (err) {
+            Swal.fire("Error", err.message, "error");
+          }
+        }
+      </script>
 
   </main>
 

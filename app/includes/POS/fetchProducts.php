@@ -47,8 +47,28 @@ foreach ($rows as $row) {
 </section>
 
 <script>
+    /* ================================
+   STATE VARIABLES
+   ================================ */
+    let selectedProduct = null;
+    let cart = [];
+    let quantityInput = null;
+    let subtotalEl = null;
+    let totalDisplay = null;
+    let originalTotal = 0;
+    let total = 0;
+    let tendered = 0;
+    let buffer = "";
+    let transType = null;
+    let currentPaymentType = 'CASH';
+    let discountRateTemp = 0;
+    let discountRate = 0;
+    let discountAmount = originalTotal * discountRate;
+
+    // Products & options from PHP
     const allProducts = <?= json_encode($allProducts) ?>;
-    const totalDisplay = document.querySelector('#totalAmount');
+    const addonsList = <?= json_encode($addons) ?>;
+    const modsList = <?= json_encode($modifications) ?>;
     let products = {};
     Object.values(allProducts).forEach(group => {
         Object.values(group).forEach(prod => {
@@ -56,28 +76,63 @@ foreach ($rows as $row) {
         });
     });
 
-    let selectedProduct = null;
-    let cart = [];
-    let quantityInput = document.getElementById('quantity');
-    let subtotalEl = document.getElementById('subtotal');
+    /* ================================
+       WAIT FOR DOM TO LOAD
+       ================================ */
+    document.addEventListener('DOMContentLoaded', () => {
+        quantityInput = document.getElementById('quantity');
+        subtotalEl = document.getElementById('subtotal');
+        totalDisplay = document.querySelector('#totalAmount');
 
+        // Qty buttons
+        document.getElementById('increaseQty').onclick = () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            updateTotal();
+        };
+        document.getElementById('decreaseQty').onclick = () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                updateTotal();
+            }
+        };
+
+        // Discount buttons now open manager QR modal instead of applying discount directly
+        document.getElementById('scBtn').onclick = () => openManagerQrModal(0.2); // 20% discount SC
+        document.getElementById('pwdBtn').onclick = () => openManagerQrModal(0.2); // 20% discount PWD
+        document.getElementById('clearDiscountBtn').onclick = () => {
+            discountRate = 0;
+            updateDisplay();
+        };
+
+    });
+
+    /* ================================
+       UTILITY FUNCTIONS
+       ================================ */
+    function safeParse(v) {
+        v = String(v || '').replace(/[^\d.]/g, '');
+        const n = parseFloat(v);
+        return isNaN(n) ? 0 : n;
+    }
+
+    /* ================================
+       MODAL FUNCTIONS
+       ================================ */
     function openModal(product) {
         selectedProduct = product;
         document.getElementById('modalThumb').src = product.thumbnail_path;
         document.getElementById('productName').textContent = product.product_name;
 
-        // build size options dynamically
         const sizesContainer = document.getElementById('sizesContainer');
         sizesContainer.innerHTML = '';
         product.sizes.forEach((s, i) => {
             const price = Number(s.price) || 0;
             sizesContainer.innerHTML += `
-      <label class="flex items-center gap-2 cursor-pointer z-50">
-        <input type="radio" name="size" data-id="${s.size_id}" data-price="${price}" 
-               ${i === 0 ? 'checked' : ''} onchange="updateTotal()">
-        <span class="ml-2">${s.size}</span>
-        <span class="ml-auto">₱${price.toFixed(2)}</span>
-      </label>`;
+        <label class="flex items-center gap-2 cursor-pointer z-50">
+          <input type="radio" name="size" data-id="${s.size_id}" data-price="${price}" ${i === 0 ? 'checked' : ''} onchange="updateTotal()">
+          <span class="ml-2">${s.size}</span>
+          <span class="ml-auto">₱${price.toFixed(2)}</span>
+        </label>`;
         });
 
         quantityInput.value = 1;
@@ -85,7 +140,6 @@ foreach ($rows as $row) {
         document.querySelectorAll('.mod-checkbox').forEach(c => c.checked = false);
 
         attachModalListeners();
-        originalTotal
         updateTotal();
         document.getElementById('productModal').classList.remove('hidden');
     }
@@ -94,15 +148,7 @@ foreach ($rows as $row) {
         document.querySelectorAll('input[name="size"]').forEach(radio => {
             radio.addEventListener('change', updateTotal);
         });
-        document.querySelectorAll('.addon-checkbox').forEach(cb => {
-            cb.addEventListener('change', updateTotal);
-        });
-    }
-
-    function safeParse(v) {
-        v = String(v || '').replace(/[^\d.]/g, '');
-        const n = parseFloat(v);
-        return isNaN(n) ? 0 : n;
+        document.querySelectorAll('.addon-checkbox').forEach(cb => cb.addEventListener('change', updateTotal));
     }
 
     function updateTotal() {
@@ -115,66 +161,23 @@ foreach ($rows as $row) {
         });
 
         const qty = parseInt(quantityInput.value) || 1;
-        const total = (base + addons) * qty;
+        const totalItem = (base + addons) * qty;
 
-        subtotalEl.textContent = total.toFixed(2);
+        if (subtotalEl) subtotalEl.textContent = totalItem.toFixed(2);
     }
-
-    // qty buttons
-    document.getElementById('increaseQty').onclick = () => {
-        quantityInput.value = parseInt(quantityInput.value) + 1;
-        updateTotal();
-    };
-    document.getElementById('decreaseQty').onclick = () => {
-        if (parseInt(quantityInput.value) > 1) {
-            quantityInput.value = parseInt(quantityInput.value) - 1;
-            updateTotal();
-        }
-    };
-
-
 
     function closeModal() {
         document.getElementById('productModal').classList.add('hidden');
     }
 
-
-    document.getElementById('increaseQty').onclick = () => {
-        quantityInput.value = parseInt(quantityInput.value) + 1;
-        updateTotal();
-    }
-    document.getElementById('decreaseQty').onclick = () => {
-        if (quantityInput.value > 1) quantityInput.value--;
-        updateTotal();
-    }
-
-    function addToOrder() {
-        const size = document.querySelector('input[name="size"]:checked');
-        if (!size) {
-            alert('Please select a size');
-            return;
-        }
-
-        const orderItem = {
-            product_id: selectedProduct.product_id,
-            size_id: parseInt(size.dataset.id),
-            quantity: parseInt(quantityInput.value),
-            price: parseFloat(size.dataset.price),
-            addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(a => parseInt(a.dataset.id)),
-            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value))
-        };
-
-        cart.push(orderItem);
-        closeModal();
-        renderCart();
-    }
-
+    /* ================================
+       CART FUNCTIONS
+       ================================ */
     function renderCart() {
         const container = document.getElementById('productList');
-        container.innerHTML = '';
+        if (!container) return;
 
-        const addonsList = <?= json_encode($addons) ?>;
-        const modsList = <?= json_encode($modifications) ?>;
+        container.innerHTML = '';
 
         const merged = [];
         cart.forEach((item, idx) => {
@@ -192,28 +195,25 @@ foreach ($rows as $row) {
             }
         });
 
-        let total = 0;
-
-        merged.forEach((item, index) => {
+        let cartTotal = 0;
+        merged.forEach(item => {
             const product = products[item.product_id];
             const sizeObj = product.sizes.find(s => s.size_id === item.size_id);
             const sizeLabel = sizeObj ? ` (${sizeObj.size})` : '';
             const subtotal = item.price * item.quantity;
-            total += subtotal;
+            cartTotal += subtotal;
 
             const addonsText = item.addons?.length ?
                 item.addons.map(id => {
                     const addon = addonsList.find(a => a.ADD_ONS_ID == id);
                     return addon ? `${addon.ADD_ONS_NAME.toUpperCase()} (+₱${parseFloat(addon.PRICE).toFixed(2)})` : '';
-                }).join(', ') :
-                'None';
+                }).join(', ') : 'None';
 
             const modsText = item.modifications?.length ?
                 item.modifications.map(id => {
                     const mod = modsList.find(m => m.MODIFICATION_ID == id);
                     return mod ? mod.MODIFICATION_NAME.toUpperCase() : '';
-                }).join(', ') :
-                'None';
+                }).join(', ') : 'None';
 
             container.innerHTML += `
       <div class="flex flex-col border-b border-gray-200 py-2 group">
@@ -221,75 +221,92 @@ foreach ($rows as $row) {
           <span class="text-sm">${item.quantity}x ${product.product_name}${sizeLabel}</span>
           <div class="flex items-center gap-3">
             <span class="font-semibold">₱${subtotal.toFixed(2)}</span>
-
-            <!-- Edit Button -->
-            <button onclick="editCartItem(${item.indexes[0]})" class="text-blue-500 hover:text-blue-700 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-blue-500">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.121 2.121 0 013 3L12 14l-4 1 1-4z" />
-              </svg>
-            </button>
-
-            <!-- Delete Button -->
-            <button onclick="removeFromCart(${item.indexes.join(',')})" class="text-red-500 hover:text-red-700 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-red-500">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m5-3v3" />
-              </svg>
-            </button>
+            <button onclick="editCartItem(${item.indexes[0]})" class="text-blue-500 hover:text-blue-700 transition">Edit</button>
+            <button onclick="removeFromCart(${item.indexes.join(',')})" class="text-red-500 hover:text-red-700 transition">Delete</button>
           </div>
         </div>
-
         <div class="text-xs ml-5 mt-1 space-y-0.5">
           <div><b>Add-ons:</b> ${addonsText}</div>
           <div><b>Mods:</b> ${modsText}</div>
         </div>
-      </div>
-    `;
+      </div>`;
         });
 
-        container.innerHTML += `
-    <div class="text-right font-semibold mt-2">Total: ₱${total.toFixed(2)}</div>
-  `;
+        container.innerHTML += `<div class="text-right font-semibold mt-2">Total: ₱${cartTotal.toFixed(2)}</div>`;
 
-        if (totalDisplay) {
-            totalDisplay.textContent = `₱${total.toFixed(2)}`;
-        } else {
-            console.warn('⚠️ totalAmount element not found in DOM');
-        }
-
-        originalTotal = total;
+        originalTotal = cartTotal;
         updateDisplay();
     }
 
-    /* ✏️ Edit item */
+    function addToOrder() {
+        const size = document.querySelector('input[name="size"]:checked');
+        if (!size) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Missing Size',
+                text: 'Please select a size first.',
+                timer: 1500,
+                showConfirmButton: false
+            });
+            return;
+        }
+
+        const basePrice = parseFloat(size.dataset.price);
+        let addonsPrice = 0;
+        document.querySelectorAll('.addon-checkbox:checked').forEach(a => addonsPrice += parseFloat(a.dataset.price));
+
+        const totalItemPrice = basePrice + addonsPrice;
+        const newItem = {
+            product_id: selectedProduct.product_id,
+            size_id: parseInt(size.dataset.id),
+            quantity: parseInt(quantityInput.value),
+            price: totalItemPrice,
+            addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(a => parseInt(a.dataset.id)),
+            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value))
+        };
+
+        if (selectedProduct.editingIndex !== undefined) {
+            cart[selectedProduct.editingIndex] = newItem;
+            delete selectedProduct.editingIndex;
+            Swal.fire({
+                icon: 'success',
+                title: 'Item Updated',
+                timer: 1000,
+                showConfirmButton: false
+            });
+        } else {
+            cart.push(newItem);
+            Swal.fire({
+                icon: 'success',
+                title: 'Added to Cart',
+                timer: 1000,
+                showConfirmButton: false
+            });
+        }
+
+        closeModal();
+        renderCart();
+    }
+
     function editCartItem(index) {
         const item = cart[index];
         if (!item) return;
-
-
 
         const product = products[item.product_id];
         openModal(product);
 
         document.querySelectorAll('input[name="size"]').forEach(radio => {
-            if (parseInt(radio.dataset.id) === item.size_id) radio.checked = true;
+            radio.checked = parseInt(radio.dataset.id) === item.size_id;
         });
 
-        document.querySelectorAll('.addon-checkbox').forEach(ch => {
-            ch.checked = item.addons.includes(parseInt(ch.dataset.id));
-        });
+        document.querySelectorAll('.addon-checkbox').forEach(ch => ch.checked = item.addons.includes(parseInt(ch.dataset.id)));
+        document.querySelectorAll('.mod-checkbox').forEach(ch => ch.checked = item.modifications.includes(parseInt(ch.value)));
 
-        document.querySelectorAll('.mod-checkbox').forEach(ch => {
-            ch.checked = item.modifications.includes(parseInt(ch.value));
-        });
-
-        document.getElementById('quantity').value = item.quantity;
+        quantityInput.value = item.quantity;
         updateTotal();
         selectedProduct.editingIndex = index;
     }
 
-    /* 🗑️ Delete item */
     function removeFromCart(...indexes) {
         Swal.fire({
             title: 'Remove Item?',
@@ -314,91 +331,33 @@ foreach ($rows as $row) {
         });
     }
 
-    /* ✅ Add or update item */
-    function addToOrder() {
-        const size = document.querySelector('input[name="size"]:checked');
-        if (!size) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Missing Size',
-                text: 'Please select a size first.',
-                timer: 1500,
-                showConfirmButton: false
-            });
-            return;
-        }
+    /* ================================
+       DISPLAY & CALCULATOR
+       ================================ */
+    function updateDisplay() {
+        const tenderedDisplay = document.getElementById("tenderedAmount");
+        const changeDisplay = document.getElementById("changeAmount");
+        const totalDisplayEl = document.getElementById("totalAmount");
+        const discountDisplayEl = document.getElementById("discountAmount"); // new element in modal
 
-        let basePrice = parseFloat(size.dataset.price);
-        let addonsPrice = 0;
+        // Calculate discount and total
+        const discountAmount = originalTotal * discountRate;
+        total = originalTotal - discountAmount;
 
-        // calculate total add-ons price
-        document.querySelectorAll('.addon-checkbox:checked').forEach(a => {
-            addonsPrice += parseFloat(a.dataset.price);
-        });
+        // Update modal elements
+        if (totalDisplayEl) totalDisplayEl.textContent = `₱${total.toFixed(2)}`;
+        if (tenderedDisplay) tenderedDisplay.textContent = `₱${tendered.toFixed(2)}`;
+        if (discountDisplayEl) discountDisplayEl.textContent = `₱${discountAmount.toFixed(2)}`;
 
-        const totalItemPrice = basePrice + addonsPrice;
-
-        const newItem = {
-            product_id: selectedProduct.product_id,
-            size_id: parseInt(size.dataset.id),
-            quantity: parseInt(document.getElementById('quantity').value),
-            price: totalItemPrice, // ✅ now includes add-ons
-            addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(a => parseInt(a.dataset.id)),
-            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value))
-        };
-
-        if (selectedProduct.editingIndex !== undefined) {
-            cart[selectedProduct.editingIndex] = newItem;
-            delete selectedProduct.editingIndex;
-            Swal.fire({
-                icon: 'success',
-                title: 'Item Updated',
-                text: 'The item was successfully updated.',
-                timer: 1000,
-                showConfirmButton: false
-            });
-        } else {
-            cart.push(newItem);
-            Swal.fire({
-                icon: 'success',
-                title: 'Added to Cart',
-                text: 'Item successfully added!',
-                timer: 1000,
-                showConfirmButton: false
-            });
-        }
-
-        closeModal();
-        renderCart();
+        const change = Math.max(0, tendered - total);
+        if (changeDisplay) changeDisplay.textContent = `₱${change.toFixed(2)}`;
     }
 
 
-
-
-    let currentPaymentType = 'CASH';
-
-    function openEPaymentPopup() {
-        currentPaymentType = 'E-PAYMENT';
-        document.getElementById('EPaymentPopup').classList.remove('hidden');
+    function applyDiscount(rate) {
+        discountRate = rate;
+        updateDisplay();
     }
-
-    function closeEPaymentPopup() {
-        document.getElementById('EPaymentPopup').classList.add('hidden');
-    }
-
-    function addCash(amount) {
-        tenderedAmount += amount;
-        updateCalculatorDisplay();
-    }
-
-
-
-    //calc
-    let originalTotal = 0;
-    let total = originalTotal;
-    let tendered = 0;
-    let buffer = "";
-    let transType = null;
 
     function openCalculator() {
         if (cart.length === 0) {
@@ -411,19 +370,12 @@ foreach ($rows as $row) {
             });
             return;
         }
-
         originalTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         document.getElementById("calculatorModal").classList.remove("hidden");
-        document.getElementById("totalAmount").textContent = `₱${originalTotal.toFixed(2)}`;
         tendered = 0;
         buffer = "";
         updateDisplay();
-
-
     }
-
-
-
 
     function closeCalculator() {
         document.getElementById("calculatorModal").classList.add("hidden");
@@ -433,7 +385,7 @@ foreach ($rows as $row) {
         total = originalTotal;
         updateDisplay();
     }
-    // 💰 Calculator input buttons
+
     function manualKey(num) {
         buffer += num;
         tendered = parseFloat(buffer) || 0;
@@ -451,7 +403,9 @@ foreach ($rows as $row) {
         updateDisplay();
     }
 
-    // ✅ Finalize payment and send to PHP
+    /* ================================
+       PAYMENT FINALIZATION
+       ================================ */
     function finalizePayment() {
         if (cart.length === 0) {
             Swal.fire({
@@ -462,7 +416,6 @@ foreach ($rows as $row) {
             return;
         }
 
-        // make sure the displayed total is used
         originalTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
         if (tendered < originalTotal) {
@@ -476,13 +429,6 @@ foreach ($rows as $row) {
 
         const change = tendered - originalTotal;
         const paymentType = currentPaymentType || "CASH";
-
-        console.log("🟢 Sending to PHP:", {
-            tendered,
-            change,
-            total: originalTotal,
-            paymentType
-        });
 
         const formData = new FormData();
         formData.append("order_data", JSON.stringify(cart));
@@ -499,28 +445,27 @@ foreach ($rows as $row) {
             .then(data => {
                 if (data.success) {
                     Swal.fire({
-                        icon: "success",
-                        title: "Payment Successful!",
-                        text: `Change: ₱${change.toFixed(2)}`,
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        // 🧾 Fetch and print receipt
-                        fetch(`../../app/includes/POS/printReceipt.php?id=${data.transaction_id}`)
-                            .then(res => res.text())
-                            .then(receiptHTML => {
-                                const printWindow = window.open('', '_blank', 'width=400,height=600');
-                                printWindow.document.write(receiptHTML);
-                                printWindow.document.close();
-                                printWindow.focus();
-                                printWindow.print();
-                            });
+                            icon: "success",
+                            title: "Payment Successful!",
+                            text: `Change: ₱${change.toFixed(2)}`,
+                            timer: 1500,
+                            showConfirmButton: false
+                        })
+                        .then(() => {
+                            fetch(`../../app/includes/POS/printReceipt.php?id=${data.transaction_id}`)
+                                .then(res => res.text())
+                                .then(receiptHTML => {
+                                    const printWindow = window.open('', '_blank', 'width=400,height=600');
+                                    printWindow.document.write(receiptHTML);
+                                    printWindow.document.close();
+                                    printWindow.focus();
+                                    printWindow.print();
+                                });
 
-                        // 🧹 Clear cart and close calculator after print
-                        cart = [];
-                        renderCart();
-                        closeCalculator();
-                    });
+                            cart = [];
+                            renderCart();
+                            closeCalculator();
+                        });
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -536,34 +481,21 @@ foreach ($rows as $row) {
                     text: err.message
                 });
             });
-
     }
 
-
-    // 🧾 Display update
-    function updateDisplay() {
-        const tenderedDisplay = document.getElementById("tenderedAmount");
-        const changeDisplay = document.getElementById("changeAmount");
-        const totalDisplayEl = document.getElementById("totalAmount");
-
-        if (totalDisplayEl) totalDisplayEl.textContent = `₱${originalTotal.toFixed(2)}`;
-        if (tenderedDisplay) tenderedDisplay.textContent = `₱${tendered.toFixed(2)}`;
-
-        const change = Math.max(0, tendered - originalTotal);
-        if (changeDisplay) changeDisplay.textContent = `₱${change.toFixed(2)}`;
-    }
-
-
+    /* ================================
+       KIOSK & QR FUNCTIONS
+       ================================ */
     function openQrPopup() {
         document.getElementById("qrPopup").classList.remove("hidden");
     }
 
-    function openEPaymentPopup() {
-        document.getElementById("EPaymentPopup").classList.remove("hidden");
-    }
-
     function closeQrPopup() {
         document.getElementById("qrPopup").classList.add("hidden");
+    }
+
+    function openEPaymentPopup() {
+        document.getElementById("EPaymentPopup").classList.remove("hidden");
     }
 
     function closeEPaymentPopup() {
@@ -574,13 +506,11 @@ foreach ($rows as $row) {
         try {
             const res = await fetch(`../../app/includes/POS/fetchKioskOrder.php?id=${transactionId}`);
             const data = await res.json();
-
             if (!data.success) {
                 Swal.fire("Error", data.message, "error");
                 return;
             }
 
-            // Convert fetched kiosk items into cart format
             cart = data.items.map(item => ({
                 product_id: parseInt(item.product_id),
                 size_id: parseInt(item.size_id),
@@ -626,8 +556,7 @@ foreach ($rows as $row) {
             return;
         }
 
-        const kioskId = match[1];
         closeKioskModal();
-        loadKioskOrder(kioskId);
+        loadKioskOrder(match[1]);
     }
 </script>
