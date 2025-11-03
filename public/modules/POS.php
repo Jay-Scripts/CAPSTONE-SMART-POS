@@ -37,32 +37,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
   try {
     $conn->beginTransaction();
 
-    // 🧮 Compute total and VAT
+    // 🧮 Compute total from cart
     $total = 0;
     foreach ($order_data as $item) {
       $total += $item['price'] * $item['quantity'];
     }
-    $vat = $total * 0.12;
+
+    // --- ADD THIS BLOCK BEFORE INSERTING REG_TRANSACTION ---
+    $disc = !empty($_POST['discount_data']) ? json_decode($_POST['discount_data'], true) : null;
+    $discountAmount = $disc['disc_total'] ?? 0;
+    $total_after_discount = max(0, $total - $discountAmount);
+    $vat = $total_after_discount * 0.12;
+    // --- END ADD ---
 
     $staff_id = $_SESSION['staff_id'] ?? 69;
-    $kiosk_id = $_SESSION['kiosk_transaction_id'] ?? null; // ✅ check if kiosk ID is stored
-    $ordered_by = $kiosk_id ? 'KIOSK' : 'POS'; // ✅ flag the source
+    $kiosk_id = $_SESSION['kiosk_transaction_id'] ?? null;
+    $ordered_by = $kiosk_id ? 'KIOSK' : 'POS';
 
-    // Insert REG_TRANSACTION (link kiosk_transaction if available)
+    // Insert REG_TRANSACTION
     $stmt = $conn->prepare("
-      INSERT INTO REG_TRANSACTION 
-      (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS, kiosk_transaction_id, ORDERED_BY)
-      VALUES (:staff_id, :total, :vat, 'PAID', :kiosk_id, :ordered_by)
-    ");
+  INSERT INTO REG_TRANSACTION 
+  (STAFF_ID, TOTAL_AMOUNT, VAT_AMOUNT, STATUS, kiosk_transaction_id, ORDERED_BY)
+  VALUES (:staff_id, :total, :vat, 'PAID', :kiosk_id, :ordered_by)
+");
     $stmt->execute([
       ':staff_id' => $staff_id,
-      ':total' => $total,
+      ':total' => $total_after_discount, // use discounted total
       ':vat' => $vat,
       ':kiosk_id' => $kiosk_id,
       ':ordered_by' => $ordered_by
     ]);
 
     $transaction_id = $conn->lastInsertId();
+    if (!empty($_POST['discount_data'])) {
+      $disc = json_decode($_POST['discount_data'], true); // ✅ decode JSON
+      if (!empty($disc['type']) && !empty($disc['id_num']) && !empty($disc['first_name']) && !empty($disc['last_name']) && isset($disc['disc_total'])) {
+        $stmtDisc = $conn->prepare("
+            INSERT INTO DISC_TRANSACTION 
+            (REG_TRANSACTION_ID, ID_TYPE, ID_NUM, FIRST_NAME, LAST_NAME, DISC_TOTAL_AMOUNT) 
+            VALUES (:reg_id, :id_type, :id_num, :first_name, :last_name, :disc_total)
+        ");
+        $stmtDisc->execute([
+          ':reg_id' => $transaction_id,
+          ':id_type' => $disc['type'],
+          ':id_num' => $disc['id_num'],
+          ':first_name' => $disc['first_name'],
+          ':last_name' => $disc['last_name'],
+          ':disc_total' => $disc['disc_total']
+        ]);
+      }
+    }
+
+
 
     //  Insert each item
     $stmtItem = $conn->prepare("
@@ -1069,61 +1095,142 @@ header('Content-Type: text/html');
       <!-- ================================================
           =           Cart Calculator - Ends Here             =
             ================================================ -->
-      <div id="managerQrModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <!-- Manager + Discount Modal -->
+      <div id="managerDiscountModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-80">
-          <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
-          <input type="text" id="managerInput" placeholder="Scan Manager ID" class="w-full p-2 border rounded">
-          <div class="flex justify-end mt-4 gap-2">
-            <button onclick="closeManagerQrModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
-            <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded">Verify</button>
+
+          <!-- Manager Verification -->
+          <div id="managerVerifySection">
+            <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
+            <input type="text" id="managerInput" placeholder="Scan Manager ID" class="w-full p-2 border rounded">
+            <div class="flex justify-end mt-4 gap-2">
+              <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
+              <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded">Verify</button>
+            </div>
           </div>
+
+          <!-- Discount Form -->
+          <div id="discountFormSection" class="hidden">
+            <h2 class="text-lg font-bold mb-4">Discount Details</h2>
+
+            <label>Discount Type:</label>
+            <select id="discountType" class="w-full mb-2">
+              <option value="">Select Type</option>
+              <option value="PWD">PWD</option>
+              <option value="SC">Senior Citizen</option>
+            </select>
+
+            <label>ID Number:</label>
+            <input type="text" id="discountId" placeholder="Enter ID Number" class="w-full mb-2">
+
+            <label>First Name:</label>
+            <input type="text" id="discountFirstName" placeholder="First Name" class="w-full mb-2">
+
+            <label>Last Name:</label>
+            <input type="text" id="discountLastName" placeholder="Last Name" class="w-full mb-2">
+
+            <label>Discount Amount:</label>
+            <input type="number" id="discountAmount" class="w-full mb-4" readonly>
+
+            <div class="flex justify-end gap-2">
+              <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
+              <button onclick="applyDiscount()" class="px-3 py-1 bg-green-500 text-white rounded">Apply</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
+
       <script>
-        function openManagerQrModal(rate) {
-          discountRateTemp = rate; // store the intended discount temporarily
-          document.getElementById("managerQrModal").classList.remove("hidden");
-          document.getElementById("managerInput").focus();
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+          let discountRateTemp = 0;
 
-        function closeManagerQrModal() {
-          document.getElementById("managerQrModal").classList.add("hidden");
-          document.getElementById("managerInput").value = "";
-        }
-
-        async function verifyManager() {
-          const staffId = document.getElementById("managerInput").value.trim();
-          if (!staffId) {
-            Swal.fire("Error", "Please scan a manager ID.", "error");
-            return;
+          // Open modal
+          window.openManagerQrModal = function(rate) {
+            discountRateTemp = rate;
+            document.getElementById("managerDiscountModal").classList.remove("hidden");
+            document.getElementById("managerVerifySection").classList.remove("hidden");
+            document.getElementById("discountFormSection").classList.add("hidden");
+            document.getElementById("managerInput").focus();
           }
 
-          try {
-            const res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                staff_id: staffId
-              })
-            });
-            const data = await res.json();
+          // Close modal
+          window.closeManagerDiscountModal = function() {
+            document.getElementById("managerDiscountModal").classList.add("hidden");
+            document.getElementById("managerInput").value = "";
+          }
 
-            if (data.success) {
-              discountRate = discountRateTemp; // apply discount
-              updateDisplay();
-              closeManagerQrModal();
-              Swal.fire("Success", "Discount applied!", "success");
-            } else {
-              Swal.fire("Denied", data.message || "Not authorized.", "error");
+          // Manager verification
+          window.verifyManager = async function() {
+            const staffId = document.getElementById("managerInput").value.trim();
+            if (!staffId) {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Please scan a manager ID."
+              });
+              return;
             }
-          } catch (err) {
-            Swal.fire("Error", err.message, "error");
+
+            try {
+              const res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  staff_id: staffId
+                })
+              });
+              const data = await res.json();
+
+              if (data.success) {
+                document.getElementById("managerVerifySection").classList.add("hidden");
+                document.getElementById("discountFormSection").classList.remove("hidden");
+
+                // Pre-fill discount type & amount
+                document.getElementById("discountType").value = data.type || "PWD";
+                const total = parseFloat(document.getElementById("totalAmount").innerText.replace(/[^0-9.-]+/g, "")) || 0;
+                document.getElementById("discountAmount").value = (total * discountRateTemp).toFixed(2);
+
+                Swal.fire({
+                  icon: "success",
+                  title: "Verified",
+                  text: "Manager approved discount!"
+                });
+
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Denied",
+                  text: data.message || "Not authorized."
+                });
+              }
+            } catch (err) {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: err.message
+              });
+            }
           }
-        }
+
+          // Apply discount
+          window.applyDiscount = function() {
+            discountRate = discountRateTemp;
+            updateDisplay(); // your existing function to update totals/discounts
+            closeManagerDiscountModal();
+
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Discount applied!"
+            });
+          }
+        });
       </script>
+
 
   </main>
 
@@ -1166,6 +1273,8 @@ header('Content-Type: text/html');
   <script src="../JS/pos/POSCartResponsiveScripts.js"></script>
   <!-- linked JS file below for Reltime product status check -->
   <script src="../JS/pos/POSRealTimeProductCheckStatus.js"></script>
+
+  <script src="../JS/pos/POSKioskModal.js"></script>
   <!-- linked JS file below for Manager refund transaction -->
 
 
@@ -1174,8 +1283,7 @@ header('Content-Type: text/html');
   <script src="../JS/shared/theme-toggle.js"></script>
   <!-- linked JS file below for checking DB status -->
 
-  <!-- <script src="../JS/shared/checkDBCon.js"></script> -->
-  <script src="../JS/pos/POSCalculatorScript.js"></script>
+
   <!-- linked JS file below for Logoutt BTN -->
   <script src="../JS/shared//dropDownLogout.js"></script>
   <!-- 

@@ -99,10 +99,7 @@ foreach ($rows as $row) {
         // Discount buttons now open manager QR modal instead of applying discount directly
         document.getElementById('scBtn').onclick = () => openManagerQrModal(0.2); // 20% discount SC
         document.getElementById('pwdBtn').onclick = () => openManagerQrModal(0.2); // 20% discount PWD
-        document.getElementById('clearDiscountBtn').onclick = () => {
-            discountRate = 0;
-            updateDisplay();
-        };
+
 
     });
 
@@ -416,9 +413,12 @@ foreach ($rows as $row) {
             return;
         }
 
-        originalTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        // Recalculate total with discount
+        const discountAmount = parseFloat(document.getElementById('discountAmount').value) || (originalTotal * discountRate);
+        total = originalTotal - discountAmount;
 
-        if (tendered < originalTotal) {
+
+        if (tendered < total) {
             Swal.fire({
                 icon: "warning",
                 title: "Insufficient Payment",
@@ -427,16 +427,31 @@ foreach ($rows as $row) {
             return;
         }
 
-        const change = tendered - originalTotal;
+        const change = tendered - total;
         const paymentType = currentPaymentType || "CASH";
 
+        // Build FormData
         const formData = new FormData();
         formData.append("order_data", JSON.stringify(cart));
         formData.append("payment_type", paymentType);
         formData.append("amount_sent", tendered);
         formData.append("change_amount", change);
-        formData.append("total", originalTotal);
+        formData.append("total", total);
 
+        // --- ADD DISCOUNT DATA ---
+        const discType = document.getElementById('discountType').value;
+        if (discType) {
+            const discountData = {
+                type: discType,
+                id_num: document.getElementById('discountId').value,
+                first_name: document.getElementById('discountFirstName').value,
+                last_name: document.getElementById('discountLastName').value,
+                disc_total: parseFloat(document.getElementById('discountAmount').value) || discountAmount
+            };
+            formData.append('discount_data', JSON.stringify(discountData));
+        }
+
+        // Send to PHP
         fetch('', {
                 method: "POST",
                 body: formData
@@ -445,27 +460,38 @@ foreach ($rows as $row) {
             .then(data => {
                 if (data.success) {
                     Swal.fire({
-                            icon: "success",
-                            title: "Payment Successful!",
-                            text: `Change: ₱${change.toFixed(2)}`,
-                            timer: 1500,
-                            showConfirmButton: false
-                        })
-                        .then(() => {
-                            fetch(`../../app/includes/POS/printReceipt.php?id=${data.transaction_id}`)
-                                .then(res => res.text())
-                                .then(receiptHTML => {
-                                    const printWindow = window.open('', '_blank', 'width=400,height=600');
-                                    printWindow.document.write(receiptHTML);
-                                    printWindow.document.close();
-                                    printWindow.focus();
-                                    printWindow.print();
-                                });
+                        icon: "success",
+                        title: "Payment Successful!",
+                        text: `Change: ₱${change.toFixed(2)}`,
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        // Print receipt
+                        fetch(`../../app/includes/POS/printReceipt.php?id=${data.transaction_id}`)
+                            .then(res => res.text())
+                            .then(receiptHTML => {
+                                const printWindow = window.open('', '_blank', 'width=400,height=600');
+                                printWindow.document.write(receiptHTML);
+                                printWindow.document.close();
+                                printWindow.focus();
+                                printWindow.print();
+                            });
 
-                            cart = [];
-                            renderCart();
-                            closeCalculator();
-                        });
+                        // Reset cart & calculator
+                        cart = [];
+                        renderCart();
+                        closeCalculator();
+
+                        // Reset discount
+                        discountRate = 0;
+                        discountRateTemp = 0;
+                        document.getElementById("discountSection").classList.add("hidden");
+                        document.getElementById("discountType").value = "";
+                        document.getElementById("discountId").value = "";
+                        document.getElementById("discountFirstName").value = "";
+                        document.getElementById("discountLastName").value = "";
+                        document.getElementById("discountAmount").value = "";
+                    });
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -481,82 +507,5 @@ foreach ($rows as $row) {
                     text: err.message
                 });
             });
-    }
-
-    /* ================================
-       KIOSK & QR FUNCTIONS
-       ================================ */
-    function openQrPopup() {
-        document.getElementById("qrPopup").classList.remove("hidden");
-    }
-
-    function closeQrPopup() {
-        document.getElementById("qrPopup").classList.add("hidden");
-    }
-
-    function openEPaymentPopup() {
-        document.getElementById("EPaymentPopup").classList.remove("hidden");
-    }
-
-    function closeEPaymentPopup() {
-        document.getElementById("EPaymentPopup").classList.add("hidden");
-    }
-
-    async function loadKioskOrder(transactionId) {
-        try {
-            const res = await fetch(`../../app/includes/POS/fetchKioskOrder.php?id=${transactionId}`);
-            const data = await res.json();
-            if (!data.success) {
-                Swal.fire("Error", data.message, "error");
-                return;
-            }
-
-            cart = data.items.map(item => ({
-                product_id: parseInt(item.product_id),
-                size_id: parseInt(item.size_id),
-                quantity: parseInt(item.quantity),
-                price: parseFloat(item.price),
-                addons: JSON.parse(item.addon_ids),
-                modifications: JSON.parse(item.modification_ids)
-            }));
-
-            renderCart();
-            Swal.fire({
-                icon: "success",
-                title: "Kiosk Order Loaded!",
-                text: `Transaction #${transactionId} added to cart.`,
-                timer: 1200,
-                showConfirmButton: false
-            });
-        } catch (err) {
-            Swal.fire("Error", err.message, "error");
-        }
-    }
-
-    function openKioskModal() {
-        document.getElementById("kioskModal").classList.remove("hidden");
-        document.getElementById("kioskInput").focus();
-    }
-
-    function closeKioskModal() {
-        document.getElementById("kioskModal").classList.add("hidden");
-        document.getElementById("kioskInput").value = "";
-    }
-
-    function submitKioskOrder() {
-        let input = document.getElementById("kioskInput").value.trim();
-        if (!input) {
-            Swal.fire("Input Required", "Please enter or scan a Kiosk QR code.", "warning");
-            return;
-        }
-
-        const match = input.match(/(\d+)/);
-        if (!match) {
-            Swal.fire("Invalid Code", "Please scan a valid Kiosk QR (TXN-xxxxx).", "error");
-            return;
-        }
-
-        closeKioskModal();
-        loadKioskOrder(match[1]);
     }
 </script>

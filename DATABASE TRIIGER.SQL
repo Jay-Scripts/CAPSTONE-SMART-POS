@@ -77,3 +77,22 @@ WHERE category_id IN (3,6);
 END$$
 
 DELIMITER ;
+
+
+
+
+-- For Tea (categories 1 & 2)
+UPDATE category
+SET status = CASE
+    WHEN (SELECT SUM(quantity) FROM inventory_item WHERE item_name = 'Tea') < 250 THEN 'INACTIVE'
+    ELSE 'ACTIVE'
+END
+WHERE category_id IN (1,2);
+
+-- For Coffee (categories 3 & 6)
+UPDATE category
+SET status = CASE
+    WHEN (SELECT SUM(quantity) FROM inventory_item WHERE item_name = 'Coffee') < 250 THEN 'INACTIVE'
+    ELSE 'ACTIVE'
+END
+WHERE category_id IN (3,6);
