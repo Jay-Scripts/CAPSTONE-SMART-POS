@@ -71,7 +71,7 @@ if (!isset($_SESSION['staff_name'])) {
       -                                                  Overview Start Here                                                                  -
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
-          <div class="px-4 py-3 mt-6">
+          <!-- <div class="px-4 py-3 mt-6">
             <h3
               class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider flex items-center">
               Dashboard
@@ -95,7 +95,7 @@ if (!isset($_SESSION['staff_name'])) {
               </svg>
               Overview
             </a>
-          </section>
+          </section> -->
           <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
       -                                                  Overview Ends Here                                                                   -
@@ -377,7 +377,7 @@ if (!isset($_SESSION['staff_name'])) {
                   d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
               </svg>
 
-              Performance Trends
+              Sales Dashboard
             </a>
             <a
               data-module="refund"
@@ -678,6 +678,280 @@ if (!isset($_SESSION['staff_name'])) {
           </header>
 
 
+
+        </section>
+        <!-- 
+      ==========================================================================================================================================
+      =                                                                                                                                        =
+      =                                                     Overview module Ends Here                                                          =
+      =                                                                                                                                        =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                                                                                                        =
+      =                                                     Sales Management Starts Here                                                       =
+      =                                                                                                                                        =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                    Sales Report Starts Here                                                            =
+      ==========================================================================================================================================
+    -->
+        <section id="salesReports" class="bg-[var(--background-color)] rounded-2xl  overflow-hidden">
+          <header class="border-b border-[var(--border-color)] px-6 py-5">
+            <h2 class="text-2xl font-bold text-[var(--text-color)] tracking-tight">Sales Reports</h2>
+            <p class="text-sm text-gray-500 mt-1">Generate and print your store’s summarized reports.</p>
+          </header>
+
+          <div class="p-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+            <!-- Daily Staff Sales Report -->
+            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition">
+              <h3 class="text-lg font-semibold mb-3 text-[var(--text-color)] flex items-center gap-2">
+                <i class="fa-solid fa-user-tie text-blue-500"></i> Daily Staff Sales Report
+              </h3>
+
+              <form id="staffSalesForm" class="grid sm:grid-cols-3 gap-3 items-center">
+                <!-- Cashier ID -->
+                <input type="text" id="cashierId" placeholder="Scan or Enter Cashier ID"
+                  class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full">
+
+                <!-- Date (default today) -->
+                <input type="date" id="reportDate"
+                  class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full">
+
+                <!-- Total Sales -->
+                <input type="text" id="totalSales" placeholder="₱ Total Sales" readonly
+                  class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full font-semibold text-center">
+
+                <!-- Generate Button -->
+                <button type="button" onclick="generateStaffReport()"
+                  class="sm:col-span-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 mt-2">
+                  Generate Report
+                </button>
+              </form>
+            </div>
+
+
+            <!-- Daily Summary Report -->
+            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
+              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
+                <i class="fa-solid fa-calendar-day text-green-500"></i> Daily Summary
+              </h3>
+              <input type="date" id="dailyDate" class="mt-3 border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] focus:ring-2 focus:ring-green-500 outline-none">
+              <button onclick="generateReport('daily')"
+                class="mt-4 bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
+                Generate
+              </button>
+            </div>
+
+            <!-- Weekly Summary Report -->
+            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
+              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
+                <i class="fa-solid fa-calendar-week text-green-500"></i> Weekly Summary
+              </h3>
+              <input type="week" id="weeklyDate"
+                class="mt-3 border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] focus:ring-2 focus:ring-green-500 outline-none">
+              <button onclick="generateReport('weekly')"
+                class="mt-4 bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
+                Generate
+              </button>
+            </div>
+
+
+            <!-- Monthly Summary Report -->
+            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
+              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
+                <i class="fa-solid fa-calendar-days text-green-500"></i> Monthly Summary
+              </h3>
+              <input type="month" id="monthlyDate" class="mt-3 border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] focus:ring-2 focus:ring-green-500 outline-none">
+              <button onclick="generateReport('monthly')"
+                class="mt-4 bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
+                Generate
+              </button>
+            </div>
+
+            <!-- Reprint Receipt -->
+            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
+              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-orange-500"></i> Reprint Receipt
+              </h3>
+              <button onclick="openReprintModal()"
+                class="mt-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
+                Reprint
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Staff Modal -->
+        <div id="staffModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div class="bg-[var(--calc-bg-btn)] rounded-xl p-6 w-11/12 sm:w-96 shadow-lg">
+            <h3 class="text-xl font-semibold text-[var(--text-color)] mb-4">Daily Staff Report</h3>
+            <input type="text" id="cashierId" placeholder="Scan or Enter Cashier ID"
+              class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 w-full text-[var(--text-color)] focus:ring-2 focus:ring-blue-500 outline-none mb-3">
+            <input type="date" id="staffDate"
+              class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 w-full text-[var(--text-color)] focus:ring-2 focus:ring-blue-500 outline-none mb-4">
+            <div class="flex justify-end gap-2">
+              <button onclick="closeStaffModal()" class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white">Cancel</button>
+              <button onclick="generateStaffReport()" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white">Generate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reprint Modal -->
+        <div id="reprintModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div class="bg-[var(--calc-bg-btn)] rounded-xl p-6 w-11/12 sm:w-96 shadow-lg">
+            <h3 class="text-xl font-semibold text-[var(--text-color)] mb-4">Reprint Receipt</h3>
+            <input type="text" id="regTransId" placeholder="Enter Transaction ID"
+              class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 w-full text-[var(--text-color)] focus:ring-2 focus:ring-orange-500 outline-none mb-4">
+            <div class="flex justify-end gap-2">
+              <button onclick="closeReprintModal()" class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white">Cancel</button>
+              <button onclick="reprintReceipt()" class="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white">Reprint</button>
+            </div>
+          </div>
+        </div>
+
+        <script src="https://kit.fontawesome.com/a2e0e6a84b.js" crossorigin="anonymous"></script>
+
+        <script>
+          // Modals
+          const openStaffModal = () => document.getElementById("staffModal").classList.remove("hidden");
+          const closeStaffModal = () => document.getElementById("staffModal").classList.add("hidden");
+          const openReprintModal = () => document.getElementById("reprintModal").classList.remove("hidden");
+          const closeReprintModal = () => document.getElementById("reprintModal").classList.add("hidden");
+
+          // Generate staff report
+          // Set today's date as default
+          document.getElementById("reportDate").valueAsDate = new Date();
+
+          function generateStaffReport() {
+            const id = document.getElementById("cashierId").value.trim();
+            const date = document.getElementById("reportDate").value;
+
+            if (!id)
+              return Swal.fire({
+                icon: "error",
+                title: "Missing ID",
+                text: "Please scan or enter a Cashier ID."
+              });
+
+            // Fetch staff total sales for that date
+            fetch(`../../app/includes/reports/getStaffSales.php?cashier_id=${id}&date=${date}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  document.getElementById("totalSales").value = `₱ ${parseFloat(data.total).toLocaleString()}`;
+                  // Open printable report
+                  window.open(`../../app/includes/reports/staffDailyReport.php?cashier_id=${id}&date=${date}`, '_blank');
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: data.message || "No sales found."
+                  });
+                }
+              })
+              .catch(err => Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: err.message
+              }));
+          }
+
+
+          // Generate summary reports
+          function generateReport(type) {
+            let dateParam = '';
+            if (type === 'daily') dateParam = document.getElementById("dailyDate").value;
+            if (type === 'weekly') dateParam = document.getElementById("weeklyDate").value; // now a week value (e.g., 2025-W45)
+            if (type === 'monthly') dateParam = document.getElementById("monthlyDate").value;
+
+            if (!dateParam)
+              return Swal.fire({
+                icon: "error",
+                title: "Select Date",
+                text: "Please choose a date."
+              });
+
+            const files = {
+              daily: "dailySummary.php",
+              weekly: "weeklySummary.php",
+              monthly: "monthlySummary.php"
+            };
+            window.open(`../../app/includes/POS/printReceipt.php${files[type]}?date=${dateParam}`, '_blank');
+          }
+
+
+          function reprintReceipt() {
+            const id = document.getElementById("regTransId").value.trim();
+            if (!id)
+              return Swal.fire({
+                icon: "error",
+                title: "Missing ID",
+                text: "Please enter a Transaction ID."
+              });
+
+            closeReprintModal();
+
+            fetch(`../../app/includes/managerModule/managerSalesManagementReprintReceipt.php?reg_trans_id=${id}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Printing...",
+                    text: "Receipt is being reprinted.",
+                    timer: 1200,
+                    showConfirmButton: false
+                  });
+                  // 🧾 open new tab for printing
+                  window.open(data.url, "_blank");
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: data.message || "Transaction not found."
+                  });
+                }
+              })
+              .catch(err => Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: err.message
+              }));
+          }
+        </script>
+
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                    Sales Report Ends Here                                                              =
+      ==========================================================================================================================================
+    -->
+
+        <!-- 
+      ==========================================================================================================================================
+      =                                                    Performance Trends Starts Here                                                      =
+      ==========================================================================================================================================
+    -->
+        <section id="performanceTrend" class="bg-white rounded-lg shadow">
+          <header
+            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-2xl font-bold">Sales Dashboard</h2>
+                <p class="text-sm text-gray-600">
+                  Welcome back, here's what's happening with your store today.
+
+                </p>
+              </div>
+            </div>
+          </header>
           <div
             class="p-6 space-y-8 bg-[var(--background-color)] min-h-screen">
             <!-- 
@@ -831,76 +1105,6 @@ if (!isset($_SESSION['staff_name'])) {
       ==========================================================================================================================================
     -->
           </div>
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                                                                                                        =
-      =                                                     Overview module Ends Here                                                          =
-      =                                                                                                                                        =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                                                                                                        =
-      =                                                     Sales Management Starts Here                                                       =
-      =                                                                                                                                        =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                    Sales Report Starts Here                                                            =
-      ==========================================================================================================================================
-    -->
-        <section
-          id="salesReports"
-          class=" bg-[var(--background-color)] rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] sm:px-6 py-4 rounded-t-lg">
-            <div
-              class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-600">
-                  Sales Reports
-                </h2>
-                <p class="text-sm sm:text-base text-gray-600 mt-1">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-
-
-        </section>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                    Sales Report Ends Here                                                              =
-      ==========================================================================================================================================
-    -->
-
-        <!-- 
-      ==========================================================================================================================================
-      =                                                    Performance Trends Starts Here                                                      =
-      ==========================================================================================================================================
-    -->
-        <section id="performanceTrend" class="bg-white rounded-lg shadow">
-          <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold">Performance Trends</h2>
-                <p class="text-sm text-gray-600">
-                  Welcome back, here's what's happening with your store today.
-                </p>
-              </div>
-            </div>
-          </header>
-          <h3 class="text-xl font-semibold mb-2">Performace Trends</h3>
-          <p>
-            // performance trend dito naman yung graph or charts ng sales per
-            day, week, month, and year
-          </p>
         </section>
         <!-- 
       ==========================================================================================================================================

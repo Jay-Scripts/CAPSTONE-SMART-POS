@@ -125,6 +125,7 @@
       size ENUM('medio', 'grande', 'promo') DEFAULT 'medio',
       regular_price DECIMAL(6,2) DEFAULT 0.00,
       promo_price DECIMAL(6,2) DEFAULT 0.00,
+      status ENUM('active', 'inactive') DEFAULT 'active',
       FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
     );
       
