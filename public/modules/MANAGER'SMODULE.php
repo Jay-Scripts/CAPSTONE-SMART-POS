@@ -709,45 +709,93 @@ if (!isset($_SESSION['staff_name'])) {
 
           <div class="p-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
-            <!-- Daily Staff Sales Report -->
+
+
+
+            <!-- 🧾 Daily Staff Sales Report -->
             <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition">
               <h3 class="text-lg font-semibold mb-3 text-[var(--text-color)] flex items-center gap-2">
                 <i class="fa-solid fa-user-tie text-blue-500"></i> Daily Staff Sales Report
               </h3>
 
-              <form id="staffSalesForm" class="grid sm:grid-cols-3 gap-3 items-center">
+              <form id="staffSalesForm" class="flex flex-col gap-3 items-center">
                 <!-- Cashier ID -->
-                <input type="text" id="cashierId" placeholder="Scan or Enter Cashier ID"
+                <label for="cashierId" class="text-[var(--text-color)]">Cashier ID:</label>
+                <input type="number" id="cashierId" placeholder="Scan or Enter Cashier ID"
                   class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full">
 
                 <!-- Date (default today) -->
+                <label for="reportDate" class="text-[var(--text-color)]">Report Date:</label>
                 <input type="date" id="reportDate"
                   class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full">
 
                 <!-- Total Sales -->
-                <input type="text" id="totalSales" placeholder="₱ Total Sales" readonly
+                <label for="totalSales" class="text-[var(--text-color)]">Total Sales:</label>
+                <input type="number" id="totalSales" placeholder="₱ Total Sales"
                   class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full font-semibold text-center">
 
                 <!-- Generate Button -->
                 <button type="button" onclick="generateStaffReport()"
-                  class="sm:col-span-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 mt-2">
+                  class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 mt-2 w-full">
                   Generate Report
                 </button>
               </form>
             </div>
 
+            <script>
+              // Default today's date
+              document.getElementById("reportDate").valueAsDate = new Date();
 
-            <!-- Daily Summary Report -->
-            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
-              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
-                <i class="fa-solid fa-calendar-day text-green-500"></i> Daily Summary
-              </h3>
-              <input type="date" id="dailyDate" class="mt-3 border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] focus:ring-2 focus:ring-green-500 outline-none">
-              <button onclick="generateReport('daily')"
-                class="mt-4 bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
-                Generate
-              </button>
-            </div>
+              async function generateStaffReport() {
+                const id = document.getElementById("cashierId").value.trim();
+                const date = document.getElementById("reportDate").value;
+
+                if (!id) {
+                  return Swal.fire({
+                    icon: "error",
+                    title: "Missing ID",
+                    text: "Please scan or enter a Cashier ID."
+                  });
+                }
+
+                if (!date) {
+                  return Swal.fire({
+                    icon: "error",
+                    title: "Missing Date",
+                    text: "Please select a report date."
+                  });
+                }
+
+                // Generate full-day range
+                const start_date = `${date} 00:00:00`;
+                const end_date = `${date} 23:59:59`;
+
+                try {
+                  const res = await fetch(`../../app/includes/managerModule/getStaffSales.php?cashier_id=${id}&start_date=${start_date}&end_date=${end_date}`);
+                  const data = await res.json();
+
+                  if (data.success) {
+                    document.getElementById("totalSales").value = `₱ ${parseFloat(data.total).toLocaleString()}`;
+
+                    // 🧾 Open printable detailed report
+                    window.open(`../../app/includes/managerModule/cashierSalesReport.php?cashier_id=${id}&start_date=${start_date}&end_date=${end_date}`, '_blank');
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Error",
+                      text: data.message || "No sales found."
+                    });
+                  }
+                } catch (err) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Network Error",
+                    text: err.message
+                  });
+                }
+              }
+            </script>
+
 
             <!-- Weekly Summary Report -->
             <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
@@ -807,7 +855,7 @@ if (!isset($_SESSION['staff_name'])) {
         <div id="reprintModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div class="bg-[var(--calc-bg-btn)] rounded-xl p-6 w-11/12 sm:w-96 shadow-lg">
             <h3 class="text-xl font-semibold text-[var(--text-color)] mb-4">Reprint Receipt</h3>
-            <input type="text" id="regTransId" placeholder="Enter Transaction ID"
+            <input type="number" id="regTransId" placeholder="Enter Transaction ID"
               class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 w-full text-[var(--text-color)] focus:ring-2 focus:ring-orange-500 outline-none mb-4">
             <div class="flex justify-end gap-2">
               <button onclick="closeReprintModal()" class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white">Cancel</button>
@@ -829,62 +877,6 @@ if (!isset($_SESSION['staff_name'])) {
           // Set today's date as default
           document.getElementById("reportDate").valueAsDate = new Date();
 
-          function generateStaffReport() {
-            const id = document.getElementById("cashierId").value.trim();
-            const date = document.getElementById("reportDate").value;
-
-            if (!id)
-              return Swal.fire({
-                icon: "error",
-                title: "Missing ID",
-                text: "Please scan or enter a Cashier ID."
-              });
-
-            // Fetch staff total sales for that date
-            fetch(`../../app/includes/reports/getStaffSales.php?cashier_id=${id}&date=${date}`)
-              .then(res => res.json())
-              .then(data => {
-                if (data.success) {
-                  document.getElementById("totalSales").value = `₱ ${parseFloat(data.total).toLocaleString()}`;
-                  // Open printable report
-                  window.open(`../../app/includes/reports/staffDailyReport.php?cashier_id=${id}&date=${date}`, '_blank');
-                } else {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: data.message || "No sales found."
-                  });
-                }
-              })
-              .catch(err => Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: err.message
-              }));
-          }
-
-
-          // Generate summary reports
-          function generateReport(type) {
-            let dateParam = '';
-            if (type === 'daily') dateParam = document.getElementById("dailyDate").value;
-            if (type === 'weekly') dateParam = document.getElementById("weeklyDate").value; // now a week value (e.g., 2025-W45)
-            if (type === 'monthly') dateParam = document.getElementById("monthlyDate").value;
-
-            if (!dateParam)
-              return Swal.fire({
-                icon: "error",
-                title: "Select Date",
-                text: "Please choose a date."
-              });
-
-            const files = {
-              daily: "dailySummary.php",
-              weekly: "weeklySummary.php",
-              monthly: "monthlySummary.php"
-            };
-            window.open(`../../app/includes/POS/printReceipt.php${files[type]}?date=${dateParam}`, '_blank');
-          }
 
 
           function reprintReceipt() {
