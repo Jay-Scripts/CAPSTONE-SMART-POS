@@ -23,7 +23,7 @@ if (!$transaction) {
         @media print {
             @page {
                 margin: 0;
-                size: 80mm auto;
+                size: 58mm auto;
             }
 
             body {

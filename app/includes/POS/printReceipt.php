@@ -114,7 +114,7 @@ try {
 
         body {
             font-family: "Courier New", monospace;
-            width: 80mm;
+            width: 58mm;
             margin: 0 auto;
             font-size: 12px;
         }

@@ -35,7 +35,7 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
     <style>
         @media print {
             @page {
-                size: 80mm auto;
+                size: 58mm auto;
                 /* ✅ Auto height */
                 margin: 0;
             }

@@ -15,7 +15,8 @@ VALUES
 ('Kean'),
 ('Jushua'),
 ('Jikuy'),
-('Reyn')
+('Reyn'),
+('Kornelyo')
 ;
 
 insert into staff_roles(staff_id, role)
@@ -23,7 +24,8 @@ values
 (1, 'BARISTA'),
 (2, 'MANAGER'),
 (3, 'CASHIER'),
-(4, 'CASHIER')
+(3, 'CASHIER'),
+(5, 'MANAGER')
 ;
 
 --          
@@ -655,9 +657,9 @@ VALUES
     inv_category_id, item_name, added_by, category_id, unit, quantity, date_made, date_expiry
 )
 VALUES
-    (3, 'Tea', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (3, 'Coffee', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-        (3, 'Fluctose', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (3, 'Tea', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)), -- 85g per 10 L.
+    (3, 'Coffee', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),-- around 200 g per 10 L.
+    (3, 'Fluctose', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (3, 'Creamer', 1, 1, 'ml', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
 
 
