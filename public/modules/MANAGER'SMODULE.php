@@ -731,6 +731,20 @@ if (!isset($_SESSION['staff_name'])) {
                 Generate
               </button>
             </div>
+            <script>
+              function generateReport(type) {
+                if (type === 'monthly') {
+                  const month = document.getElementById('monthlyDate').value;
+                  if (!month) {
+                    alert("Please select a month.");
+                    return;
+                  }
+                  // Open the monthly report in a new window/tab
+                  window.open(`../../app/includes/managerModule/monthlySalesReport.php?month=${month}`, '_blank');
+                }
+              }
+            </script>
+
 
             <!-- Reprint Receipt -->
             <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
