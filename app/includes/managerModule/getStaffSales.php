@@ -8,6 +8,7 @@ include "../../config/dbConnection.php";
 $cashier_id = $_GET['cashier_id'] ?? '';
 $start_date = $_GET['start_date'] ?? '';
 $end_date = $_GET['end_date'] ?? '';
+$handed_cash = $_GET['handed_cash'] ?? 0;
 
 if (!$cashier_id || !$start_date || !$end_date) {
     echo json_encode(["success" => false, "message" => "Missing parameters."]);

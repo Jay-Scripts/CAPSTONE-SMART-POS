@@ -712,7 +712,7 @@ if (!isset($_SESSION['staff_name'])) {
 
 
 
-            <!-- 🧾 Daily Staff Sales Report -->
+            <!--  Daily Staff Sales Report -->
             <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition">
               <h3 class="text-lg font-semibold mb-3 text-[var(--text-color)] flex items-center gap-2">
                 <i class="fa-solid fa-user-tie text-blue-500"></i> Daily Staff Sales Report
@@ -729,10 +729,11 @@ if (!isset($_SESSION['staff_name'])) {
                 <input type="date" id="reportDate"
                   class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full">
 
-                <!-- Total Sales -->
-                <label for="totalSales" class="text-[var(--text-color)]">Total Sales:</label>
-                <input type="number" id="totalSales" placeholder="₱ Total Sales"
+                <!-- Total handedd cash -->
+                <input type="number" id="handedCash" placeholder="₱ Total Sales"
                   class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] w-full font-semibold text-center">
+
+
 
                 <!-- Generate Button -->
                 <button type="button" onclick="generateStaffReport()"
@@ -741,14 +742,15 @@ if (!isset($_SESSION['staff_name'])) {
                 </button>
               </form>
             </div>
-
             <script>
-              // Default today's date
               document.getElementById("reportDate").valueAsDate = new Date();
 
               async function generateStaffReport() {
                 const id = document.getElementById("cashierId").value.trim();
                 const date = document.getElementById("reportDate").value;
+                const handedCash = document.getElementById("handedCash").value.trim();
+
+
 
                 if (!id) {
                   return Swal.fire({
@@ -766,7 +768,14 @@ if (!isset($_SESSION['staff_name'])) {
                   });
                 }
 
-                // Generate full-day range
+                if (!handedCash) {
+                  return Swal.fire({
+                    icon: "error",
+                    title: "Missing Cash",
+                    text: "Please input the total handed cash."
+                  });
+                }
+
                 const start_date = `${date} 00:00:00`;
                 const end_date = `${date} 23:59:59`;
 
@@ -775,10 +784,11 @@ if (!isset($_SESSION['staff_name'])) {
                   const data = await res.json();
 
                   if (data.success) {
-                    document.getElementById("totalSales").value = `₱ ${parseFloat(data.total).toLocaleString()}`;
-
-                    // 🧾 Open printable detailed report
-                    window.open(`../../app/includes/managerModule/cashierSalesReport.php?cashier_id=${id}&start_date=${start_date}&end_date=${end_date}`, '_blank');
+                    // 🧾 Pass handed cash to report
+                    window.open(
+                      `../../app/includes/managerModule/cashierSalesReport.php?cashier_id=${id}&start_date=${start_date}&end_date=${end_date}&handed_cash=${handedCash}`,
+                      "_blank"
+                    );
                   } else {
                     Swal.fire({
                       icon: "error",

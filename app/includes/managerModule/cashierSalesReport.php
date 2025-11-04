@@ -6,7 +6,7 @@ $manager_id = $_SESSION['staff_id'] ?? 'N/A';
 $manager_name = $_SESSION['staff_name'] ?? 'N/A';
 if (!isset($_GET['cashier_id'])) die("No cashier ID provided.");
 $cashier_id = $_GET['cashier_id'];
-
+$handed_cash = $_GET['handed_cash'] ?? 0; // ✅ add this
 // 🗓 Optional date range
 $start_date = $_GET['start_date'] ?? date('Y-m-d 00:00:00');
 $end_date   = $_GET['end_date'] ?? date('Y-m-d 23:59:59');
@@ -122,7 +122,7 @@ WHERE rt.staff_id = :id
     ]);
     $sales = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $difference = $sales['total_cash'] - $sales['total_sales'];
+    $difference = $handed_cash - $sales['total_sales'];
 } catch (PDOException $e) {
     die("DB Error: " . $e->getMessage());
 }
@@ -263,7 +263,8 @@ WHERE rt.staff_id = :id
         </tr>
         <tr>
             <td>Total Handed Cash</td>
-            <td class="right">₱<?= number_format($sales['total_cash'], 2) ?></td>
+            <td class="right">₱<?= number_format($handed_cash, 2) ?></td>
+
         </tr>
         <tr>
             <td>Result</td>
@@ -275,9 +276,9 @@ WHERE rt.staff_id = :id
                 if ($difference == 0)
                     echo "Balanced";
                 elseif ($difference < 0)
-                    echo "Short by ₱" . number_format(abs($difference), 2);
+                    echo "Short : ₱" . number_format(abs($difference), 2);
                 else
-                    echo "Over by ₱" . number_format($difference, 2);
+                    echo "Over : ₱" . number_format($difference, 2);
                 ?>
             </td>
         </tr>
