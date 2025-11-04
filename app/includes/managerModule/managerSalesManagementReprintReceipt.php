@@ -1,28 +1,48 @@
 <?php
+header("Content-Type: application/json; charset=UTF-8");
 include "../../config/dbConnection.php";
-header("Content-Type: application/json");
 
-if (!isset($_GET['reg_trans_id'])) {
-    echo json_encode(['success' => false, 'message' => '⚠️ No transaction ID provided']);
+// 1️ Sanitize input
+$transaction_id = isset($_GET['reg_trans_id']) ? trim($_GET['reg_trans_id']) : '';
+
+$response = [
+    "success" => false,
+    "message" => "",
+    "url" => ""
+];
+
+// 2️ Validate input
+if (empty($transaction_id)) {
+    $response["message"] = "Transaction ID is required.";
+    echo json_encode($response);
     exit;
 }
 
-$transaction_id = intval($_GET['reg_trans_id']);
+if (!filter_var($transaction_id, FILTER_VALIDATE_INT)) {
+    $response["message"] = "Invalid Transaction ID format.";
+    echo json_encode($response);
+    exit;
+}
 
+// 3️ Query database
 try {
-    $stmt = $conn->prepare("SELECT reg_transaction_id FROM reg_transaction WHERE reg_transaction_id = ?");
-    $stmt->execute([$transaction_id]);
+    $stmt = $conn->prepare("SELECT reg_transaction_id FROM reg_transaction WHERE reg_transaction_id = :id");
+    $stmt->execute([':id' => $transaction_id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($stmt->rowCount() === 0) {
-        echo json_encode(['success' => false, 'message' => 'Transaction not found']);
+    if (!$result) {
+        $response["message"] = "Transaction not found.";
+        echo json_encode($response);
         exit;
     }
 
-    // ✅ If found, return receipt view URL
-    $url = "../../app/includes/managerModule/reprintReceiptView.php?id=" . $transaction_id;
-    echo json_encode(['success' => true, 'url' => $url]);
-    exit; // 🚨 Stop here to prevent HTML output
+    // 4️ Success response
+    $response = [
+        "success" => true,
+        "url" => "../../app/includes/managerModule/reprintReceiptView.php?id=" . urlencode($transaction_id)
+    ];
+    echo json_encode($response);
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
-    exit;
+    $response["message"] = "Database error: " . $e->getMessage();
+    echo json_encode($response);
 }
