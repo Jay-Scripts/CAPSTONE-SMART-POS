@@ -919,10 +919,11 @@ if (!isset($_SESSION['staff_name'])) {
 
       <!-- Submit Button -->
       <div class="text-right">
-        <button type="submit"
+        <button type="button" id="submitInventory"
           class="bg-green-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-600 transition">
           Submit Inventory
         </button>
+
       </div>
       <!-- Printable Report Modal -->
       <div id="printReportModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-auto p-4">
@@ -953,15 +954,15 @@ if (!isset($_SESSION['staff_name'])) {
           items.forEach(item => sheetData.push([item.item_name || '', item.unit || '', '']));
           XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sheetData), sheetName.substring(0, 31));
         }
+
         createSheet(baseItems, 'Base Ingredients');
         Object.keys(ingredientsByCat).forEach(cat => createSheet(ingredientsByCat[cat], cat));
         createSheet(materials, 'Materials');
         XLSX.writeFile(wb, 'Inventory_Template.xlsx');
       });
 
-      // Submit inventory file & send tallied data to PHP
-      document.getElementById('inventoryForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+      // Handle inventory submission
+      document.getElementById('submitInventory').addEventListener('click', function() {
         const fileInput = document.getElementById('inventoryFile');
         if (!fileInput.files[0]) return alert('Please upload a file');
 
@@ -978,7 +979,6 @@ if (!isset($_SESSION['staff_name'])) {
             ...ingredientsByCat
           };
 
-          // Prepare tallied data
           const inventoryData = [];
           workbook.SheetNames.forEach(sheetName => {
             if (!categories[sheetName]) return;
@@ -1003,7 +1003,6 @@ if (!isset($_SESSION['staff_name'])) {
             });
           });
 
-          // Send data to PHP
           const formData = new FormData();
           formData.append('inventory_json', JSON.stringify(inventoryData));
 
