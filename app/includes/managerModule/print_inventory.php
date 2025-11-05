@@ -4,32 +4,68 @@ include "../../config/dbConnection.php";
 
 $inventoryData = json_decode($_POST['inventory_json'] ?? '[]', true);
 
-// ✅ Update inventory_item table
+// Staff info (moved above for use in logs)
+$staffName = $_SESSION['staff_name'] ?? 'Unknown';
+$staffID   = $_SESSION['staff_id'] ?? 'N/A';
+$monthName = date('F Y'); // e.g. "November 2025"
+
 if (!empty($inventoryData)) {
+    // Prepare your statements
     $updateStmt = $conn->prepare("
         UPDATE inventory_item 
         SET quantity = :actual_count 
         WHERE item_name = :item_name
     ");
 
+    $selectStmt = $conn->prepare("
+        SELECT item_id, quantity FROM inventory_item WHERE item_name = :item_name
+    ");
+
+    $logStmt = $conn->prepare("
+        INSERT INTO inventory_item_logs
+        (item_id, staff_id, action_type, last_quantity, quantity_adjusted, total_after, remarks)
+        VALUES (:item_id, :staff_id, :action_type, :last_quantity, :quantity_adjusted, :total_after, :remarks)
+    ");
+
     foreach ($inventoryData as $item) {
-        $updateStmt->execute([
-            ':actual_count' => $item['actual_count'],
-            ':item_name' => $item['item_name']
-        ]);
+        // 1️ Fetch current inventory details
+        $selectStmt->execute([':item_name' => $item['item_name']]);
+        $row = $selectStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $itemID = $row['item_id'];
+            $oldQty = (float)$row['quantity'];
+            $newQty = (float)$item['actual_count'];
+            $diff = $newQty - $oldQty;
+
+            // 2️ Determine action type
+            $actionType = 'INVENTORY';
+            $remarks = "Inventory updated via Excel upload ($monthName)";
+
+            // 3️ Update quantity
+            $updateStmt->execute([
+                ':actual_count' => $newQty,
+                ':item_name' => $item['item_name']
+            ]);
+
+            // 4️ Log to inventory_item_logs
+            $logStmt->execute([
+                ':item_id' => $itemID,
+                ':staff_id' => $staffID,
+                ':action_type' => $actionType,
+                ':last_quantity' => $oldQty,
+                ':quantity_adjusted' => abs($diff),
+                ':total_after' => $newQty,
+                ':remarks' => $remarks
+            ]);
+        }
     }
 }
 
-// ✅ Continue your grouping and HTML rendering
 $categories = [];
 foreach ($inventoryData as $item) {
     $categories[$item['sheet']][] = $item;
 }
-
-
-// Staff info
-$staffName = $_SESSION['staff_name'] ?? 'Unknown';
-$staffID   = $_SESSION['staff_id'] ?? 'N/A';
 
 // Week range (example: could be passed via hidden input or JS)
 $weekStart = $_POST['week_start'] ?? date('Y-m-d', strtotime('monday this week'));

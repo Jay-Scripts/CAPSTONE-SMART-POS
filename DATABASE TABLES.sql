@@ -422,7 +422,7 @@ CREATE TABLE inventory_item_logs (
     log_id INT AUTO_INCREMENT PRIMARY KEY,
     item_id INT NOT NULL,
     staff_id INT NOT NULL, -- who performed the action
-    action_type ENUM('RESTOCK', 'ADJUSTMENT', 'EXPIRED', 'DAMAGED') NOT NULL,
+    action_type ENUM('RESTOCK', 'ADJUSTMENT', 'EXPIRED', 'DAMAGED', 'INVENTORY') NOT NULL,
     last_quantity DECIMAL(10,2) NOT NULL,     -- 🔹 Quantity before the action
     quantity_adjusted DECIMAL(10,2) NOT NULL, -- 🔹 Quantity added or removed
     total_after DECIMAL(10,2) NOT NULL,       -- 🔹 Quantity after the action
