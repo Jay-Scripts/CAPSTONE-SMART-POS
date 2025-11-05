@@ -52,18 +52,21 @@
           // Show remove modal
           document.querySelectorAll('.remove-btn').forEach(btn => {
               btn.addEventListener('click', function() {
-                  const row = this.closest('tr');
                   const itemId = this.dataset.id;
-
-                  // Store the itemId in modal dataset
                   removeModal.dataset.itemId = itemId;
-
-                  // Show modal
                   removeModal.classList.remove('hidden');
               });
           });
 
-          // Cancel remove
+          // Hide modal on cancel
+          removeCancelBtn.addEventListener('click', () => {
+              removeModal.classList.add('hidden');
+
+              // Optional: reset form fields
+              removeForm.reset();
+          });
+
+          // Handle remove form submit
           removeForm.addEventListener('submit', async function(e) {
               e.preventDefault();
 
@@ -80,7 +83,6 @@
                   return;
               }
 
-              // ✅ Block special characters (allow letters, numbers, space, period, comma, and dash)
               const invalidChars = /[^a-zA-Z0-9 .,()-]/;
               if (invalidChars.test(remarks)) {
                   Swal.fire({

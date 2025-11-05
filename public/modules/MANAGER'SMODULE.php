@@ -305,7 +305,7 @@ if (!isset($_SESSION['staff_name'])) {
                   stroke-width="2"
                   d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
               </svg>
-              Low Stock Alerts
+              Stock Alerts
             </a>
             <a
               data-module="stocksMovementHistory"
@@ -914,24 +914,149 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Low Stock Alert Starts Here                                                        =
       ==========================================================================================================================================
     -->
-  <section id="lowStockAlerts" class="bg-white rounded-lg shadow">
-    <header
-      class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+  <section id="lowStockAlerts" class="bg-white rounded-lg shadow p-6">
+    <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-2xl font-bold">Low Stock Alert</h2>
+          <h2 class="text-2xl font-bold">Stock Alerts</h2>
           <p class="text-sm text-gray-600">
-            Welcome back, here's what's happening with your store today.
+            Welcome back, here’s what's happening with your store today.
           </p>
         </div>
       </div>
     </header>
-    <h3 class="text-xl font-semibold mb-2">Refund</h3>
-    <p>
-      // low stocks history lalabas lang rito charts for analytics views
-      ng mga critical stocks
-    </p>
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+      <input type="text" id="searchStock" placeholder="Search items..." class="p-2 border border-[var(--border-color)] rounded w-full sm:w-1/2 bg-[var(--background-color)] text-[var(--text-color)]">
+      <select id="filterStatus" class="p-2 border border-[var(--border-color)] rounded bg-[var(--background-color)] text-[var(--text-color)] w-full sm:w-1/3">
+        <option value="">All Statuses</option>
+        <option value="LOW STOCK">Low Stock</option>
+        <option value="SOON TO EXPIRE">Soon to Expire</option>
+        <option value="EXPIRED">Expired</option>
+      </select>
+    </div>
+
+    <?php
+    try {
+      $alertItems = $conn->query("
+      SELECT 
+          ii.item_id,
+          ii.item_name,
+          ii.quantity,
+          ii.unit,
+          ii.status,
+          ii.date_expiry,
+          s.staff_name
+      FROM inventory_item ii
+      LEFT JOIN staff_info s ON ii.added_by = s.staff_id
+      WHERE UPPER(ii.status) IN ('LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
+      ORDER BY FIELD(ii.status, 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED'), ii.item_name
+    ")->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      $alertItems = [];
+    }
+    ?>
+
+    <?php if (!empty($alertItems)): ?>
+      <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
+        <table id="stockTable" class="min-w-full border-collapse bg-[var(--background-color)]">
+          <thead class="bg-gray-100 sticky top-0 z-10">
+            <tr>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Quantity</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Unit</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Status</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Expiry</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Added By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($alertItems as $item): ?>
+              <tr class="hover:bg-blue-50 transition" data-status="<?= strtoupper($item['status']) ?>">
+                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
+                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
+                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
+                <td class="py-2 px-4 border border-[var(--border-color)]">
+                  <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
+                    <?= htmlspecialchars($item['status']) ?>
+                  </span>
+                </td>
+                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 flex justify-center gap-2" id="pagination"></div>
+
+    <?php else: ?>
+      <p class="text-gray-500 text-sm">No low stock, soon-to-expire, or expired items found.</p>
+    <?php endif; ?>
+
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const table = document.getElementById('stockTable');
+      const searchInput = document.getElementById('searchStock');
+      const filterSelect = document.getElementById('filterStatus');
+      const pagination = document.getElementById('pagination');
+      const rowsPerPage = 10;
+      let currentPage = 1;
+
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+      function renderTable() {
+        const filterText = searchInput.value.toLowerCase();
+        const filterStatus = filterSelect.value;
+
+        const filteredRows = rows.filter(row => {
+          const text = row.textContent.toLowerCase();
+          const status = row.dataset.status;
+          return text.includes(filterText) && (filterStatus === '' || status === filterStatus);
+        });
+
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        currentPage = Math.min(currentPage, totalPages) || 1;
+
+        rows.forEach(r => r.style.display = 'none');
+
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        filteredRows.slice(start, end).forEach(r => r.style.display = '');
+
+        pagination.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.textContent = i;
+          btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
+          btn.addEventListener('click', () => {
+            currentPage = i;
+            renderTable();
+          });
+          pagination.appendChild(btn);
+        }
+      }
+
+      searchInput.addEventListener('input', () => {
+        currentPage = 1;
+        renderTable();
+      });
+      filterSelect.addEventListener('change', () => {
+        currentPage = 1;
+        renderTable();
+      });
+
+      renderTable();
+    });
+  </script>
+
+
+
+
+
   <!-- 
       ==========================================================================================================================================
       =                                                     Low Stock Alert Ends Here                                                          =
