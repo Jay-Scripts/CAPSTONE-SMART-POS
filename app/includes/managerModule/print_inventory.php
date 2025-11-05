@@ -1,14 +1,31 @@
 <?php
 session_start();
+include "../../config/dbConnection.php";
 
-// Tallied data sent from JS
 $inventoryData = json_decode($_POST['inventory_json'] ?? '[]', true);
 
-// Group by sheet/category
+// ✅ Update inventory_item table
+if (!empty($inventoryData)) {
+    $updateStmt = $conn->prepare("
+        UPDATE inventory_item 
+        SET quantity = :actual_count 
+        WHERE item_name = :item_name
+    ");
+
+    foreach ($inventoryData as $item) {
+        $updateStmt->execute([
+            ':actual_count' => $item['actual_count'],
+            ':item_name' => $item['item_name']
+        ]);
+    }
+}
+
+// ✅ Continue your grouping and HTML rendering
 $categories = [];
 foreach ($inventoryData as $item) {
     $categories[$item['sheet']][] = $item;
 }
+
 
 // Staff info
 $staffName = $_SESSION['staff_name'] ?? 'Unknown';
