@@ -24,7 +24,7 @@ values
 (1, 'BARISTA'),
 (2, 'MANAGER'),
 (3, 'CASHIER'),
-(3, 'CASHIER'),
+(4, 'CASHIER'),
 (5, 'MANAGER')
 ;
 

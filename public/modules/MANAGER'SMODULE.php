@@ -839,21 +839,143 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Stock Reports Starts Here                                                            =
       ==========================================================================================================================================
     -->
-  <section id="stockEntry" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow">
-    <header
-      class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+  <section id="stockEntry" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow p-6">
+    <!-- Header -->
+    <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-6">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold">Stock Reports</h2>
-          <p class="text-sm text-gray-500">
-            Add newly received items to your inventory and set their initial stock levels.
-          </p>
-
+          <p class="text-sm text-gray-500">Mid-month and end-of-month inventory submissions</p>
         </div>
       </div>
     </header>
 
+    <?php
+    try {
+      // Base Ingredients
+      $baseItems = $conn->query("
+        SELECT ii.item_id, ii.item_name, ii.quantity, ii.unit, ii.status, ii.date_made, ii.date_expiry, s.staff_name AS added_by
+        FROM inventory_item ii
+        JOIN staff_info s ON ii.added_by = s.staff_id
+        WHERE ii.inv_category_id = 3
+        ORDER BY ii.item_name
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+      // Ingredients grouped by category
+      $rows = $conn->query("
+        SELECT ii.*, s.staff_name, c.category_name
+        FROM inventory_item ii
+        JOIN staff_info s ON ii.added_by = s.staff_id
+        LEFT JOIN category c ON ii.category_id = c.category_id
+        WHERE ii.inv_category_id = 1
+        ORDER BY c.category_name, ii.item_name
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+      $ingredientsByCat = [];
+      foreach ($rows as $row) {
+        $cat = $row['category_name'] ?? 'Uncategorized';
+        $ingredientsByCat[$cat][] = $row;
+      }
+
+      // Materials
+      $materials = $conn->query("
+        SELECT ii.*, s.staff_name
+        FROM inventory_item ii
+        JOIN staff_info s ON ii.added_by = s.staff_id
+        WHERE ii.inv_category_id = 2
+        ORDER BY ii.item_name
+    ")->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      $baseItems = $materials = $ingredientsByCat = [];
+    }
+
+    ?>
+
+    <!-- Inventory Form -->
+    <form action="upload_inventory.php" method="POST" enctype="multipart/form-data" class="space-y-6">
+      <!-- Inventory Type -->
+      <div>
+        <label for="inventoryType" class="block mb-2 font-medium">Inventory Type</label>
+        <select id="inventoryType" name="inventory_type" class="w-full border border-gray-300 rounded-md p-2">
+          <option value="mid_month">Mid-Month</option>
+          <option value="end_month">End of Month</option>
+        </select>
+      </div>
+
+      <!-- Staff Name -->
+      <div>
+        <label for="staffName" class="block mb-2 font-medium">Staff Name</label>
+        <input type="text" id="staffName" name="staff_name" value="<?php echo $_SESSION['staff_name'] ?? ''; ?>" readonly
+          class="w-full border border-gray-300 rounded-md p-2 bg-gray-100">
+      </div>
+
+      <!-- Upload Inventory File -->
+      <div>
+        <label for="inventoryFile" class="block mb-2 font-medium">Upload Inventory File (Excel/CSV)</label>
+        <input type="file" id="inventoryFile" name="inventory_file" accept=".xlsx,.xls,.csv"
+          class="w-full border border-gray-300 rounded-md p-2">
+      </div>
+
+      <!-- Generate Template Button -->
+      <div class="mb-4">
+        <button type="button" id="generateTemplate"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
+          Download Inventory Template
+        </button>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-right">
+        <button type="submit"
+          class="bg-green-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-600 transition">
+          Submit Inventory
+        </button>
+      </div>
+    </form>
+
+    <!-- SheetJS -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+    <script>
+      const baseItems = <?php echo json_encode($baseItems); ?>;
+      const ingredientsByCat = <?php echo json_encode($ingredientsByCat); ?>;
+      const materials = <?php echo json_encode($materials); ?>;
+
+      document.getElementById('generateTemplate').addEventListener('click', () => {
+        const wb = XLSX.utils.book_new();
+
+        // Function to create simple sheet: only Item Name, Unit, Quantity (blank)
+        function createSimpleSheet(items, sheetName) {
+          const sheetData = [
+            ['Item Name', 'Unit', 'Quantity'] // header
+          ];
+          items.forEach(item => {
+            sheetData.push([
+              item.item_name || '',
+              item.unit || '',
+              '' // Quantity left blank for staff
+            ]);
+          });
+          XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sheetData), sheetName.substring(0, 31));
+        }
+
+        // Base Ingredients
+        createSimpleSheet(baseItems, 'Base Ingredients');
+
+        // Ingredients by category
+        Object.keys(ingredientsByCat).forEach(cat => {
+          createSimpleSheet(ingredientsByCat[cat], cat);
+        });
+
+        // Materials
+        createSimpleSheet(materials, 'Materials');
+
+        XLSX.writeFile(wb, 'Inventory_Template.xlsx');
+      });
+    </script>
   </section>
+
+
 
 
 
