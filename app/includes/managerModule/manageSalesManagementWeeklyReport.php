@@ -15,14 +15,67 @@
 
 <script>
     document.getElementById('generateWeekly').addEventListener('click', () => {
-        const weekInput = document.getElementById('weeklyDate').value;
+        const weekInput = document.getElementById('weeklyDate').value.trim();
+
+        // Validation: empty input
         if (!weekInput) {
-            alert("Please select a week.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops!',
+                text: 'Please select a week before generating the report.',
+            });
             return;
         }
 
-        // Send week input as query parameter to PHP
-        const url = `../../app/includes/managerModule/weeklySalesReport.php?week=${weekInput}`;
+        // Parse year and week
+        const [year, week] = weekInput.split('-W').map(Number);
+
+        // Function to get the start date of an ISO week
+        function getISOWeekStartDate(y, w) {
+            const simple = new Date(y, 0, 1 + (w - 1) * 7);
+            const dow = simple.getDay();
+            const ISOWeekStart = simple;
+            if (dow <= 4) {
+                ISOWeekStart.setDate(simple.getDate() - simple.getDay() + 1); // Monday
+            } else {
+                ISOWeekStart.setDate(simple.getDate() + 8 - simple.getDay()); // next Monday
+            }
+            return ISOWeekStart;
+        }
+
+        const startDate = getISOWeekStartDate(year, week);
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Only block weeks that **start after the current week**
+        const thisWeekStart = getISOWeekStartDate(today.getFullYear(), getISOWeekNumber(today));
+
+        function getISOWeekNumber(date) {
+            const tmp = new Date(date.getTime());
+            tmp.setHours(0, 0, 0, 0);
+            tmp.setDate(tmp.getDate() + 4 - (tmp.getDay() || 7));
+            const yearStart = new Date(tmp.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((tmp - yearStart) / 86400000) + 1) / 7);
+            return weekNo;
+        }
+
+        if (startDate > thisWeekStart) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Week!',
+                text: 'You cannot generate a report for a future week.',
+            });
+            return;
+        }
+
+        // Sanitize input
+        const sanitizedWeek = encodeURIComponent(weekInput);
+
+        // Open PHP report
+        const url = `../../app/includes/managerModule/weeklySalesReport.php?week=${sanitizedWeek}`;
         window.open(url, "_blank");
     });
 </script>

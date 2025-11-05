@@ -6,19 +6,38 @@ session_start();
 $manager_id = $_SESSION['staff_id'] ?? 'N/A';
 $manager_name = $_SESSION['staff_name'] ?? 'N/A';
 
-// <<--- REPLACE THIS PART WITH WEEK LOGIC
-if (!isset($_GET['week'])) die("No week selected.");
-$weekInput = $_GET['week']; // e.g., 2025-W45
-list($year, $week) = explode('-W', $weekInput);
+// Sanitize and validate week input
+if (!isset($_GET['week']) || empty(trim($_GET['week']))) {
+    die("<script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'No week selected.',
+        }).then(() => { window.close(); });
+    </script>");
+}
 
-// PHP ISO week calculation
+$weekInput = htmlspecialchars(trim($_GET['week'])); // sanitize input
+
+// Validate format (YYYY-W##)
+if (!preg_match('/^\d{4}-W\d{2}$/', $weekInput)) {
+    die("<script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Format!',
+            text: 'Week input format is invalid.',
+        }).then(() => { window.close(); });
+    </script>");
+}
+
+// Parse week
+list($year, $week) = explode('-W', $weekInput);
 $dto = new DateTime();
 $dto->setISODate($year, $week);
 $start_date = $dto->format('Y-m-d 00:00:00');
 $dto->modify('+6 days');
 $end_date = $dto->format('Y-m-d 23:59:59');
 
-// ... rest of your try { ... } block
 
 try {
     // ===== SALES SUMMARY =====
