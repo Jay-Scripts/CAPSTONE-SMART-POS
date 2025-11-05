@@ -64,24 +64,33 @@
           });
 
           // Cancel remove
-          removeCancelBtn.addEventListener('click', () => {
-              removeModal.classList.add('hidden');
-          });
-
-          // Submit remove
           removeForm.addEventListener('submit', async function(e) {
               e.preventDefault();
 
               const itemId = removeModal.dataset.itemId;
               const actionType = document.getElementById('remove-action_type').value;
-              const remarks = document.getElementById('remove-remarks').value;
+              const remarks = document.getElementById('remove-remarks').value.trim();
 
               if (!actionType) {
-                  alert('Please select a reason');
+                  Swal.fire({
+                      icon: 'warning',
+                      title: 'Missing Reason',
+                      text: 'Please select a reason before proceeding.'
+                  });
                   return;
               }
 
-              // 🔹 Get current quantity from the table
+              // ✅ Block special characters (allow letters, numbers, space, period, comma, and dash)
+              const invalidChars = /[^a-zA-Z0-9 .,()-]/;
+              if (invalidChars.test(remarks)) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Invalid Remarks',
+                      text: 'Remarks should not contain special characters or symbols.'
+                  });
+                  return;
+              }
+
               const row = document.querySelector(`.remove-btn[data-id='${itemId}']`).closest('tr');
               const currentQuantity = parseFloat(row.children[1].textContent.trim()) || 0;
 
@@ -95,7 +104,7 @@
                           item_id: itemId,
                           action_type: actionType,
                           remarks,
-                          last_quantity: currentQuantity // 🔹 include quantity
+                          last_quantity: currentQuantity
                       })
                   });
 
@@ -103,7 +112,6 @@
 
                   if (result.success) {
                       removeModal.classList.add('hidden');
-
                       Swal.fire({
                           icon: 'success',
                           title: 'Item Removed!',
