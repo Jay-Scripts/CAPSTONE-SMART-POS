@@ -892,15 +892,8 @@ if (!isset($_SESSION['staff_name'])) {
     ?>
 
     <!-- Inventory Form -->
-    <form action="upload_inventory.php" method="POST" enctype="multipart/form-data" class="space-y-6">
-      <!-- Inventory Type -->
-      <div>
-        <label for="inventoryType" class="block mb-2 font-medium">Inventory Type</label>
-        <select id="inventoryType" name="inventory_type" class="w-full border border-gray-300 rounded-md p-2">
-          <option value="mid_month">Mid-Month</option>
-          <option value="end_month">End of Month</option>
-        </select>
-      </div>
+    <form id="inventoryForm" enctype="multipart/form-data" class="space-y-6">
+
 
       <!-- Staff Name -->
       <div>
@@ -931,48 +924,108 @@ if (!isset($_SESSION['staff_name'])) {
           Submit Inventory
         </button>
       </div>
+      <!-- Printable Report Modal -->
+      <div id="printReportModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-auto p-4">
+        <div class="bg-white p-6 rounded-lg w-full max-w-4xl shadow-lg">
+          <button onclick="closeReport()" class="mb-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Close</button>
+          <button onclick="printReport()" class="mb-4 ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Print</button>
+          <div id="reportContent"></div>
+        </div>
+      </div>
+
     </form>
 
     <!-- SheetJS -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-
     <script>
       const baseItems = <?php echo json_encode($baseItems); ?>;
       const ingredientsByCat = <?php echo json_encode($ingredientsByCat); ?>;
       const materials = <?php echo json_encode($materials); ?>;
 
+      // Generate Excel template
       document.getElementById('generateTemplate').addEventListener('click', () => {
         const wb = XLSX.utils.book_new();
 
-        // Function to create simple sheet: only Item Name, Unit, Quantity (blank)
-        function createSimpleSheet(items, sheetName) {
+        function createSheet(items, sheetName) {
           const sheetData = [
-            ['Item Name', 'Unit', 'Quantity'] // header
+            ['Item Name', 'Unit', 'Quantity']
           ];
-          items.forEach(item => {
-            sheetData.push([
-              item.item_name || '',
-              item.unit || '',
-              '' // Quantity left blank for staff
-            ]);
-          });
+          items.forEach(item => sheetData.push([item.item_name || '', item.unit || '', '']));
           XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sheetData), sheetName.substring(0, 31));
         }
-
-        // Base Ingredients
-        createSimpleSheet(baseItems, 'Base Ingredients');
-
-        // Ingredients by category
-        Object.keys(ingredientsByCat).forEach(cat => {
-          createSimpleSheet(ingredientsByCat[cat], cat);
-        });
-
-        // Materials
-        createSimpleSheet(materials, 'Materials');
-
+        createSheet(baseItems, 'Base Ingredients');
+        Object.keys(ingredientsByCat).forEach(cat => createSheet(ingredientsByCat[cat], cat));
+        createSheet(materials, 'Materials');
         XLSX.writeFile(wb, 'Inventory_Template.xlsx');
       });
+
+      // Submit inventory file & send tallied data to PHP
+      document.getElementById('inventoryForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('inventoryFile');
+        if (!fileInput.files[0]) return alert('Please upload a file');
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, {
+            type: 'array'
+          });
+
+          const categories = {
+            'Base Ingredients': baseItems,
+            'Materials': materials,
+            ...ingredientsByCat
+          };
+
+          // Prepare tallied data
+          const inventoryData = [];
+          workbook.SheetNames.forEach(sheetName => {
+            if (!categories[sheetName]) return;
+            const items = categories[sheetName];
+            const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+              header: 1
+            }).slice(1);
+
+            items.forEach(item => {
+              const row = rows.find(r => r[0] === item.item_name);
+              const actual = row ? parseFloat(row[2]) || 0 : 0;
+              const variance = actual - (item.quantity || 0);
+
+              inventoryData.push({
+                sheet: sheetName,
+                item_name: item.item_name,
+                unit: item.unit,
+                system_count: item.quantity || 0,
+                actual_count: actual,
+                variance: variance
+              });
+            });
+          });
+
+          // Send data to PHP
+          const formData = new FormData();
+          formData.append('inventory_json', JSON.stringify(inventoryData));
+
+          fetch('../../app/includes/managerModule/print_inventory.php', {
+              method: 'POST',
+              body: formData
+            })
+            .then(res => res.text())
+            .then(html => {
+              const printWindow = window.open('', '_blank');
+              printWindow.document.open();
+              printWindow.document.write(html);
+              printWindow.document.close();
+            })
+            .catch(err => alert('Error generating report: ' + err));
+        };
+        reader.readAsArrayBuffer(fileInput.files[0]);
+      });
     </script>
+
+
+
   </section>
 
 
