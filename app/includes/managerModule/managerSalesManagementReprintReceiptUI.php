@@ -1,3 +1,14 @@
+        <!-- Reprint Receipt -->
+        <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
+            <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-orange-500"></i> Reprint Receipt
+            </h3>
+            <button onclick="openReprintModal()"
+                class="mt-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
+                Reprint
+            </button>
+        </div>
+
         <!-- Reprint Modal -->
         <div id="reprintModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div class="bg-[var(--calc-bg-btn)] rounded-xl p-6 w-11/12 sm:w-96 shadow-lg">

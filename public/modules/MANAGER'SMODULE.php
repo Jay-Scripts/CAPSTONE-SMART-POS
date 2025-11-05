@@ -713,70 +713,33 @@ if (!isset($_SESSION['staff_name'])) {
 
 
             <?php
+            // ==========================================================================================================================================
+            // =                                                    Daily Cashier Sales Report                                                         =
+            // ==========================================================================================================================================
             include "../../app/includes/managerModule/manageSalesManagementDailySalesReport.php";
+            // ==========================================================================================================================================
+            // =                                                    Weekly Report                                                                     =
+            // ==========================================================================================================================================
             include "../../app/includes/managerModule/manageSalesManagementWeeklyReport.php";
+            // ==========================================================================================================================================
+            // =                                                    Monthly Report                                                                     =
+            // ==========================================================================================================================================
+            include "../../app/includes/managerModule/manageSalesManagementMonthlyReport.php";
+            // ==========================================================================================================================================
+            // =                                                    Reprint Receipt                                                                     =
+            // ==========================================================================================================================================
+            include "../../app/includes/managerModule/managerSalesManagementReprintReceiptUI.php";
             ?>
 
 
 
 
-            <!-- Monthly Summary Report -->
-            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
-              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
-                <i class="fa-solid fa-calendar-days text-green-500"></i> Monthly Summary
-              </h3>
-              <input type="month" id="monthlyDate" class="mt-3 border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 text-[var(--text-color)] focus:ring-2 focus:ring-green-500 outline-none">
-              <button onclick="generateReport('monthly')"
-                class="mt-4 bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
-                Generate
-              </button>
-            </div>
-            <script>
-              function generateReport(type) {
-                if (type === 'monthly') {
-                  const month = document.getElementById('monthlyDate').value;
-                  if (!month) {
-                    alert("Please select a month.");
-                    return;
-                  }
-                  // Open the monthly report in a new window/tab
-                  window.open(`../../app/includes/managerModule/monthlySalesReport.php?month=${month}`, '_blank');
-                }
-              }
-            </script>
 
 
-            <!-- Reprint Receipt -->
-            <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
-              <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
-                <i class="fa-solid fa-receipt text-orange-500"></i> Reprint Receipt
-              </h3>
-              <button onclick="openReprintModal()"
-                class="mt-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-4 py-2 transition-all duration-200">
-                Reprint
-              </button>
-            </div>
           </div>
         </section>
 
-        <!-- Staff Modal -->
-        <div id="staffModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div class="bg-[var(--calc-bg-btn)] rounded-xl p-6 w-11/12 sm:w-96 shadow-lg">
-            <h3 class="text-xl font-semibold text-[var(--text-color)] mb-4">Daily Staff Report</h3>
-            <input type="text" id="cashierId" placeholder="Scan or Enter Cashier ID"
-              class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 w-full text-[var(--text-color)] focus:ring-2 focus:ring-blue-500 outline-none mb-3">
-            <input type="date" id="staffDate"
-              class="border border-[var(--border-color)] bg-transparent rounded-lg px-3 py-2 w-full text-[var(--text-color)] focus:ring-2 focus:ring-blue-500 outline-none mb-4">
-            <div class="flex justify-end gap-2">
-              <button onclick="closeStaffModal()" class="px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white">Cancel</button>
-              <button onclick="generateStaffReport()" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white">Generate</button>
-            </div>
-          </div>
-        </div>
 
-        <?php
-        include "../../app/includes/managerModule/managerSalesManagementReprintReceiptUI.php";
-        ?>
 
 
         <!-- 

@@ -5,8 +5,20 @@ session_start();
 // Manager info
 $manager_id = $_SESSION['staff_id'] ?? 'N/A';
 $manager_name = $_SESSION['staff_name'] ?? 'N/A';
-$start_date = $_GET['start_date'] ?? date('Y-m-d 00:00:00', strtotime('-6 days'));
-$end_date   = $_GET['end_date'] ?? date('Y-m-d 23:59:59');
+
+// <<--- REPLACE THIS PART WITH WEEK LOGIC
+if (!isset($_GET['week'])) die("No week selected.");
+$weekInput = $_GET['week']; // e.g., 2025-W45
+list($year, $week) = explode('-W', $weekInput);
+
+// PHP ISO week calculation
+$dto = new DateTime();
+$dto->setISODate($year, $week);
+$start_date = $dto->format('Y-m-d 00:00:00');
+$dto->modify('+6 days');
+$end_date = $dto->format('Y-m-d 23:59:59');
+
+// ... rest of your try { ... } block
 
 try {
     // ===== SALES SUMMARY =====
