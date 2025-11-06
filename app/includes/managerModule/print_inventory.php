@@ -12,14 +12,15 @@ $monthName = date('F Y'); // e.g. "November 2025"
 if (!empty($inventoryData)) {
     // Prepare your statements
     $updateStmt = $conn->prepare("
-        UPDATE inventory_item 
-        SET quantity = :actual_count 
-        WHERE item_name = :item_name
-    ");
+    UPDATE inventory_item 
+    SET quantity = :actual_count 
+    WHERE item_id = :item_id
+");
 
     $selectStmt = $conn->prepare("
-        SELECT item_id, quantity FROM inventory_item WHERE item_name = :item_name
-    ");
+    SELECT item_id, quantity FROM inventory_item WHERE item_id = :item_id
+");
+
 
     $logStmt = $conn->prepare("
         INSERT INTO inventory_item_logs
@@ -29,7 +30,7 @@ if (!empty($inventoryData)) {
 
     foreach ($inventoryData as $item) {
         // 1️ Fetch current inventory details
-        $selectStmt->execute([':item_name' => $item['item_name']]);
+        $selectStmt->execute([':item_id' => $item['item_id']]);
         $row = $selectStmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
@@ -45,7 +46,7 @@ if (!empty($inventoryData)) {
             // 3️ Update quantity
             $updateStmt->execute([
                 ':actual_count' => $newQty,
-                ':item_name' => $item['item_name']
+                ':item_id' => $itemID
             ]);
 
             // 4️ Log to inventory_item_logs

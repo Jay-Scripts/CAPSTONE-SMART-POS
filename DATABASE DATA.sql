@@ -176,20 +176,20 @@ VALUES
   ('KAPE VANILLA', 6, '../assets/IMAGES/MENU IMAGES/ICEDCOFFEE_MENU/KAPE VANILLA.png');
   
 -- For medio (₱39.00)
-  INSERT INTO product_sizes (product_id, size, regular_price)
+INSERT INTO product_sizes (product_id, size, regular_price)
 VALUES
-  (19, 'medio', 49.00),
-  (20, 'medio', 49.00),
-  (21, 'medio', 49.00),
-  (22, 'medio', 49.00);
+  (19, 'medio', 39.00),
+  (20, 'medio', 39.00),
+  (21, 'medio', 39.00),
+  (22, 'medio', 39.00);
 
 -- For grande (₱49.00)
-  INSERT INTO product_sizes (product_id, size, regular_price)
+INSERT INTO product_sizes (product_id, size, regular_price)
 VALUES
-  (19, 'grande', 39.00),
-  (20, 'grande', 39.00),
-  (21, 'grande', 39.00),
-  (22, 'grande', 39.00);
+  (19, 'grande', 49.00),
+  (20, 'grande', 49.00),
+  (21, 'grande', 49.00),
+  (22, 'grande', 49.00);
 
 --    
 --       ============================
@@ -679,17 +679,3 @@ VALUES
 --       ==================================================================================================================================================================================================================================
 
 
-
--- Insert dummy customer
-INSERT INTO CUSTOMER_INFO (FIRST_NAME, LAST_NAME, EMAIL)
-VALUES ('Juswa', 'Zenatnom', 'juswa@example.com'); 
-
--- Insert dummy customer account
-INSERT INTO customer_account (CUSTOMER_ID, password, points, status, created_by)
-VALUES (
-    LAST_INSERT_ID(),   -- links to the customer just inserted
-    'juswa',            -- plain text password for now
-    100.00,             -- initial points
-    'ACTIVE',           -- account status
-    1                   -- staff_id who created the account
-);

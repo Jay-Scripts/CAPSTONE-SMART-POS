@@ -467,3 +467,5 @@ CREATE TABLE customer_feedback (
     FOREIGN KEY (reg_transaction_id) REFERENCES REG_TRANSACTION(REG_TRANSACTION_ID) 
         ON DELETE CASCADE
 );
+
+

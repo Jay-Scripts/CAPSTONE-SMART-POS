@@ -29,14 +29,20 @@ if ($row) {
   $customerName = "Guest";
 }
 
-
-// --------------------
 // Fetch only active products and categories
-// --------------------
 $stmt = $conn->prepare("
-   SELECT p.product_id, p.product_name, p.thumbnail_path, c.category_id, c.category_name
+   SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.thumbnail_path, 
+      c.category_id, 
+      c.category_name,
+      ps.regular_price AS medio_price
    FROM product_details p
    JOIN category c ON p.category_id = c.category_id
+   LEFT JOIN product_sizes ps 
+      ON p.product_id = ps.product_id 
+      AND ps.size = 'medio'
    WHERE p.status = 'active' AND c.status = 'ACTIVE'
 ");
 $stmt->execute();
@@ -47,15 +53,15 @@ $categories = [];
 foreach ($rows as $row) {
   $catId = $row['category_id'];
   $categories[$catId] = $row['category_name'];
-
   $products[$catId][] = [
     'product_id' => $row['product_id'],
     'product_name' => $row['product_name'],
-    'thumbnail_path' => $row['thumbnail_path']
+    'thumbnail_path' => $row['thumbnail_path'],
+    'medio_price' => (float)$row['medio_price']
   ];
 }
 
-// Map category names to SVG icons
+// Category icons
 $categoryIcons = [
   'MILK TEA' => '<svg class="w-5 h-5 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2l-4 2"/><path d="M12 2v3"/><path d="M5 7h14"/><path d="M6 7l1.2 11.2A2 2 0 0 0 9.19 20h5.62a2 2 0 0 0 1.99-1.8L18 7"/><path d="M7 12h10"/><circle cx="9" cy="16.5" r="1" fill="currentColor"/><circle cx="12" cy="17.5" r="1" fill="currentColor"/><circle cx="15" cy="16.5" r="1" fill="currentColor"/></svg>',
   'FRUIT TEA' => '<svg class="w-5 h-5 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7z"/><path d="M5 7h14"/><path d="M12 2v5"/><path d="M7 12h10"/><circle cx="16.5" cy="15.5" r="2"/><path d="M16.5 13.5v4"/><path d="M14.5 15.5h4"/></svg>',
@@ -66,7 +72,6 @@ $categoryIcons = [
   'BROSTY' => '<svg class="w-5 h-5 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10h10l-1.5 8.5a2 2 0 01-2 1.5h-3a2 2 0 01-2-1.5L7 10z"/><path d="M7.5 10a3.5 3.5 0 013-2 3.5 3.5 0 013 2 3.5 3.5 0 013-2 3.5 3.5 0 013 2"/><path d="M15 5l2 4"/></svg>'
 ];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,7 +85,6 @@ $categoryIcons = [
 </head>
 
 <body class="bg-gray-50 min-h-screen">
-
   <script>
     const customerId = <?= json_encode($customerId) ?>;
     const customerName = <?= json_encode($customerName) ?>;
@@ -117,9 +121,12 @@ $categoryIcons = [
         <div class="grid grid-cols-3 gap-3">
           <?php foreach ($prods as $p): ?>
             <div class="p-2 bg-white rounded-xl shadow hover:scale-105 transition cursor-pointer"
-              onclick="redeemProduct(<?= $p['product_id'] ?>,'<?= htmlspecialchars($p['product_name']) ?>',0)">
+              onclick="redeemProduct(<?= $p['product_id'] ?>,'<?= htmlspecialchars($p['product_name']) ?>',<?= $p['medio_price'] ?>)">
               <img src="<?= $p['thumbnail_path'] ?>" class="object-cover rounded-lg w-full" alt="">
               <p class="text-center text-xs font-semibold truncate"><?= htmlspecialchars($p['product_name']) ?></p>
+              <p class="text-center text-green-600 text-sm font-bold">
+                <?= number_format($p['medio_price'], 2) ?>
+              </p>
             </div>
           <?php endforeach; ?>
         </div>
@@ -162,7 +169,7 @@ $categoryIcons = [
         cancelButtonText: 'Cancel'
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch('redeem_ajax.php', {
+          fetch('../../app/includes/BREWREWARDS/redeem_ajax.php', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -203,7 +210,6 @@ $categoryIcons = [
       if (e.target === e.currentTarget) closeQR();
     });
   </script>
-
 </body>
 
 </html>

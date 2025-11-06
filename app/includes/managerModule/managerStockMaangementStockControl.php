@@ -115,11 +115,13 @@
         FROM inventory_item ii
         JOIN staff_info s ON ii.added_by = s.staff_id
         WHERE ii.inv_category_id = 3
+          AND ii.status IN ('IN STOCK', 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
         ORDER BY ii.item_name
     ");
                     $stmt->execute();
                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
                 }
+
 
                 $baseItems = getBaseItems($conn);
 
@@ -133,6 +135,7 @@
         JOIN staff_info s ON ii.added_by = s.staff_id
         LEFT JOIN category c ON ii.category_id = c.category_id
         WHERE ii.inv_category_id = 1
+          AND ii.status IN ('IN STOCK', 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
         ORDER BY c.category_name, ii.item_name
     ");
                     $stmt->execute();
@@ -146,6 +149,7 @@
                     return $grouped;
                 }
 
+
                 $ingredientsByCat = getIngredientsByCategory($conn);
 
                 // Materials (single table)
@@ -156,11 +160,13 @@
         FROM inventory_item ii
         JOIN staff_info s ON ii.added_by = s.staff_id
         WHERE ii.inv_category_id = 2
+          AND ii.status IN ('IN STOCK', 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
         ORDER BY ii.item_name
     ");
                     $stmt->execute();
                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
                 }
+
 
                 $materials = getMaterials($conn);
 
