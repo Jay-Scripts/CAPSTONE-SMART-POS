@@ -182,7 +182,7 @@ if (!isset($_SESSION['staff_name'])) {
     -->
         <section
           id="overview"
-          class="bg-[var(--background-color)] rounded-lg shadow portrait:px2 portrait:py-2">
+          class="bg-[var(--background-color)] rounded-lg shadow portrait:px2 portrait:py-2 hidden">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div
@@ -222,7 +222,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                    Sales Report Starts Here                                                            =
       ==========================================================================================================================================
     -->
-        <section id="salesReports" class="bg-[var(--background-color)] rounded-2xl  overflow-hidden">
+        <section id="salesReports" class="bg-[var(--background-color)] rounded-2xl  overflow-hidden hidden">
           <header class="border-b border-[var(--border-color)] px-6 py-5">
             <h2 class="text-2xl font-bold text-[var(--text-color)] tracking-tight">Sales Reports</h2>
             <p class="text-sm text-gray-500 mt-1">Generate and print your store’s summarized reports.</p>
@@ -274,7 +274,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                    Performance Trends Starts Here                                                      =
       ==========================================================================================================================================
     -->
-        <section id="performanceTrend" class="bg-white rounded-lg shadow">
+        <section id="performanceTrend" class="bg-white rounded-lg shadow hidden">
           <header
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
@@ -315,7 +315,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                    Refund Starts Here                                                                  =
       ==========================================================================================================================================
     -->
-  <section id="refund" class="rounded-lg shadow">
+  <section id="refund" class="rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -360,7 +360,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Stock Reports Starts Here                                                            =
       ==========================================================================================================================================
     -->
-  <section id="stockEntry" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow p-6">
+  <section id="stockEntry" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow p-6 hidden">
     <!-- Header -->
     <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-6">
       <div class="flex items-center justify-between">
@@ -404,7 +404,7 @@ if (!isset($_SESSION['staff_name'])) {
     -->
 
 
-  <section id="stockLevel" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow">
+  <section id="stockLevel" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
@@ -435,7 +435,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                      Stock Alert Starts Here                                                        =
       ==========================================================================================================================================
     -->
-  <section id="lowStockAlerts" class="bg-[var(--background-color)] rounded-lg shadow  text-[var(--text-color)]">
+  <section id="lowStockAlerts" class="bg-[var(--background-color)] rounded-lg shadow  text-[var(--text-color)] hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
@@ -468,7 +468,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                    Stock Movement History Starts Here                                                  =
       ==========================================================================================================================================
     -->
-  <section id="stocksMovementHistory" class="rounded-lg shadow bg-[var(--background-color)] text-[var(--text-color)]">
+  <section id="stocksMovementHistory" class="rounded-lg shadow bg-[var(--background-color)] text-[var(--text-color)] hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
@@ -516,7 +516,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Register Staff Starts Here                                                         =
       ==========================================================================================================================================
     -->
-  <section id="registerStaff" class="bg-[var(--background-color)] text-[var(--text-color)]">
+  <section id="registerStaff" class="bg-[var(--background-color)] text-[var(--text-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -545,7 +545,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Modify Position Starts Here                                                        =
       ==========================================================================================================================================
     -->
-  <section id="modifyPosition" class="bg-[var(--background-color)]">
+  <section id="modifyPosition" class="bg-[var(--background-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div
@@ -575,7 +575,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                      Update Status Starts Here                                                         =
       ==========================================================================================================================================
     -->
-  <section id="modifyStatus" class="bg-[var(--background-color)]">
+  <section id="modifyStatus" class="bg-[var(--background-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div
@@ -624,7 +624,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Log Waste Starts Here                                                                =
       ==========================================================================================================================================
     -->
-  <section id="logWaste" class="rounded-lg shadow">
+  <section id="logWaste" class="rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -655,7 +655,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Disable Product Starts Here                                                          =
       ==========================================================================================================================================
     -->
-  <section id="disableProduct" class="bg-[var(--background-color)] rounded-lg shadow">
+  <section id="disableProduct" class="bg-[var(--background-color)] rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -682,7 +682,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Enable Product Starts Here                                                           =
       ==========================================================================================================================================
     -->
-  <section id="enableProduct" class="bg-[var(background-color)] rounded-lg shadow">
+  <section id="enableProduct" class="bg-[var(background-color)] rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -712,7 +712,7 @@ if (!isset($_SESSION['staff_name'])) {
     -->
   <section
     id="productMovementHistory"
-    class="bg-[var(--background-color)] rounded-lg shadow text-[var(--text-color)]">
+    class="bg-[var(--background-color)] rounded-lg shadow text-[var(--text-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -754,7 +754,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Satisfaction Dashboard Starts Here                                                   =
       ==========================================================================================================================================
     -->
-  <section id="satisfactionDashboard" class="bg-white rounded-lg shadow p-4 md:p-6">
+  <section id="satisfactionDashboard" class="bg-white rounded-lg shadow p-4 md:p-6 hidden">
     <header class="shadow-sm border-b border-gray-200 px-4 py-3 mb-4 md:flex md:justify-between md:items-center">
       <h2 class="text-xl md:text-2xl font-bold">Satisfaction Dashboard</h2>
       <p class="text-sm text-gray-600 mt-2 md:mt-0">Overview of today's feedback</p>
@@ -777,7 +777,7 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                   Complaints Management Starts Here                                                    =
       ==========================================================================================================================================
     -->
-  <section id="complaintsManagement" class="bg-white rounded-lg shadow">
+  <section id="complaintsManagement" class="bg-white rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -808,7 +808,7 @@ if (!isset($_SESSION['staff_name'])) {
     -->
   <section
     id="rewards&LoyaltyProgram"
-    class="bg-white rounded-lg shadow">
+    class="bg-white rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -840,7 +840,7 @@ if (!isset($_SESSION['staff_name'])) {
 
 
 
-  <section id="discountDashboard" class="bg-white rounded-lg shadow p-4 sm:p-6">
+  <section id="discountDashboard" class="bg-white rounded-lg shadow p-4 sm:p-6 hidden">
 
 
     <?php

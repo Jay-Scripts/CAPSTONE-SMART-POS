@@ -278,7 +278,6 @@ CREATE TABLE kiosk_item_modification (
       add_ons_id INT NOT NULL,
       item_id INT NOT NULL,
       date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY(add_ons_id) REFERENCES product_add_ons(add_ons_id) ON DELETE CASCADE,
       FOREIGN KEY(item_id) REFERENCES transaction_item(item_id) ON DELETE CASCADE,
       FOREIGN KEY(ADD_ONS_ID) REFERENCES PRODUCT_ADD_ONS(ADD_ONS_ID) ON DELETE CASCADE
   );
@@ -450,3 +449,21 @@ CREATE TABLE inventory_item_logs (
   --       =                                                     Inventory Tables - Ends HERE                                                          =
   --       ================================================================================================================================================
   --    
+
+
+-- ========================================================================
+--                      CUSTOMER FEEDBACK / SURVEY TABLE
+-- ========================================================================
+CREATE TABLE customer_feedback (
+    feedback_id INT AUTO_INCREMENT PRIMARY KEY,
+    reg_transaction_id INT NOT NULL,       -- Link to a specific transaction
+    staff_attitude TINYINT NOT NULL,       -- Rating 1-5
+    product_accuracy TINYINT NOT NULL,     -- Rating 1-5
+    cleanliness TINYINT NOT NULL,          -- Rating 1-5
+    speed_of_service TINYINT NOT NULL,     -- Rating 1-5
+    overall_satisfaction TINYINT NOT NULL, -- Rating 1-5
+    feedback_text TEXT NULL,               -- Optional feedback
+    date_submitted DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (reg_transaction_id) REFERENCES REG_TRANSACTION(REG_TRANSACTION_ID) 
+        ON DELETE CASCADE
+);

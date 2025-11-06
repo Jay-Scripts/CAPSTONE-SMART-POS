@@ -35,12 +35,9 @@ function showModule(moduleId) {
 // ==========================================
 window.addEventListener("DOMContentLoaded", () => {
   const navItems = document.querySelectorAll(".navItem");
-
-  // Get ang last active module from localStorage then fallback to 'overview'
   const activeModule = localStorage.getItem("activeModule") || "overview";
   showModule(activeModule);
 
-  // Remove active class from all, then add to stored one
   navItems.forEach((el) => {
     el.classList.remove(
       "bg-[var(--background-color)]",
@@ -53,16 +50,20 @@ window.addEventListener("DOMContentLoaded", () => {
       );
     }
   });
+
   navItems.forEach((item) => {
     item.addEventListener("click", (e) => {
       e.preventDefault();
       const module = item.dataset.module;
+
+      // Hide current active module
+      document.querySelector(".module:not(.hidden)")?.classList.add("hidden");
+
+      // Show new one
       showModule(module);
 
-      // Store to localStorage
       localStorage.setItem("activeModule", module);
 
-      // Update active class
       navItems.forEach((el) =>
         el.classList.remove(
           "bg-[var(--background-color)]",
