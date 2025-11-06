@@ -324,23 +324,14 @@ VALUES
   ('HOT MATCHA', 3, '../assets/IMAGES/MENU IMAGES/HOT_BREW/HOT MATCHA.png'),
   ('HOT KARAMEL', 3, '../assets/IMAGES/MENU IMAGES/HOT_BREW/HOT KARAMEL.png');
 
--- For medio (₱39.00)  
-  INSERT INTO product_sizes (product_id, size, regular_price)
-VALUES
-  (44, 'medio', 39.00),
-  (45, 'medio', 39.00),
-  (46, 'medio', 39.00),
-  (47, 'medio', 39.00),
-  (48, 'medio', 39.00);
-
 -- For grande (₱49.00)
   INSERT INTO product_sizes (product_id, size, regular_price)
 VALUES
-  (44, 'grande', 39.00),
-  (45, 'grande', 39.00),
-  (46, 'grande', 39.00),
-  (47, 'grande', 39.00),
-  (48, 'grande', 39.00);
+  (44, 'grande', 49.00),
+  (45, 'grande', 49.00),
+  (46, 'grande', 49.00),
+  (47, 'grande', 49.00),
+  (48, 'grande', 49.00);
 --   
 --       ======================
 --       = HOT BREW ENDS HERE =
