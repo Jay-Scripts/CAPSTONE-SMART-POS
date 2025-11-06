@@ -911,147 +911,26 @@ if (!isset($_SESSION['staff_name'])) {
 
   <!-- 
       ==========================================================================================================================================
-      =                                                     Low Stock Alert Starts Here                                                        =
+      =                                                      Stock Alert Starts Here                                                        =
       ==========================================================================================================================================
     -->
-  <section id="lowStockAlerts" class="bg-white rounded-lg shadow p-6">
+  <section id="lowStockAlerts" class="bg-[var(--background-color)] rounded-lg shadow  text-[var(--text-color)]">
     <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold">Stock Alerts</h2>
-          <p class="text-sm text-gray-600">
+          <p class="text-sm ">
             Welcome back, here’s what's happening with your store today.
           </p>
         </div>
       </div>
     </header>
-
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-      <input type="text" id="searchStock" placeholder="Search items..." class="p-2 border border-[var(--border-color)] rounded w-full sm:w-1/2 bg-[var(--background-color)] text-[var(--text-color)]">
-      <select id="filterStatus" class="p-2 border border-[var(--border-color)] rounded bg-[var(--background-color)] text-[var(--text-color)] w-full sm:w-1/3">
-        <option value="">All Statuses</option>
-        <option value="LOW STOCK">Low Stock</option>
-        <option value="SOON TO EXPIRE">Soon to Expire</option>
-        <option value="EXPIRED">Expired</option>
-      </select>
-    </div>
-
-    <?php
-    try {
-      $alertItems = $conn->query("
-      SELECT 
-          ii.item_id,
-          ii.item_name,
-          ii.quantity,
-          ii.unit,
-          ii.status,
-          ii.date_expiry,
-          s.staff_name
-      FROM inventory_item ii
-      LEFT JOIN staff_info s ON ii.added_by = s.staff_id
-      WHERE UPPER(ii.status) IN ('LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
-      ORDER BY FIELD(ii.status, 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED'), ii.item_name
-    ")->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-      $alertItems = [];
-    }
-    ?>
-
-    <?php if (!empty($alertItems)): ?>
-      <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-        <table id="stockTable" class="min-w-full border-collapse bg-[var(--background-color)]">
-          <thead class="bg-gray-100 sticky top-0 z-10">
-            <tr>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Quantity</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Unit</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Status</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Expiry</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Added By</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($alertItems as $item): ?>
-              <tr class="hover:bg-blue-50 transition" data-status="<?= strtoupper($item['status']) ?>">
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]">
-                  <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getStatusClass($item['status']) ?>">
-                    <?= htmlspecialchars($item['status']) ?>
-                  </span>
-                </td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mt-4 flex justify-center gap-2" id="pagination"></div>
-
-    <?php else: ?>
-      <p class="text-gray-500 text-sm">No low stock, soon-to-expire, or expired items found.</p>
-    <?php endif; ?>
+    <div class="p-4"> <?php
+                      include "../../app/includes/managerModule/managerStockManagementStockALerts.php";
+                      ?></div>
 
   </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const table = document.getElementById('stockTable');
-      const searchInput = document.getElementById('searchStock');
-      const filterSelect = document.getElementById('filterStatus');
-      const pagination = document.getElementById('pagination');
-      const rowsPerPage = 10;
-      let currentPage = 1;
-
-      const rows = Array.from(table.querySelectorAll('tbody tr'));
-
-      function renderTable() {
-        const filterText = searchInput.value.toLowerCase();
-        const filterStatus = filterSelect.value;
-
-        const filteredRows = rows.filter(row => {
-          const text = row.textContent.toLowerCase();
-          const status = row.dataset.status;
-          return text.includes(filterText) && (filterStatus === '' || status === filterStatus);
-        });
-
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-        currentPage = Math.min(currentPage, totalPages) || 1;
-
-        rows.forEach(r => r.style.display = 'none');
-
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        filteredRows.slice(start, end).forEach(r => r.style.display = '');
-
-        pagination.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-          const btn = document.createElement('button');
-          btn.textContent = i;
-          btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
-          btn.addEventListener('click', () => {
-            currentPage = i;
-            renderTable();
-          });
-          pagination.appendChild(btn);
-        }
-      }
-
-      searchInput.addEventListener('input', () => {
-        currentPage = 1;
-        renderTable();
-      });
-      filterSelect.addEventListener('change', () => {
-        currentPage = 1;
-        renderTable();
-      });
-
-      renderTable();
-    });
-  </script>
 
 
 
@@ -1059,7 +938,7 @@ if (!isset($_SESSION['staff_name'])) {
 
   <!-- 
       ==========================================================================================================================================
-      =                                                     Low Stock Alert Ends Here                                                          =
+      =                                                      Stock Alert Ends Here                                                          =
       ==========================================================================================================================================
     -->
 
@@ -1068,142 +947,24 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                    Stock Movement History Starts Here                                                  =
       ==========================================================================================================================================
     -->
-  <section id="stocksMovementHistory" class="bg-white rounded-lg shadow p-6">
+  <section id="stocksMovementHistory" class="rounded-lg shadow bg-[var(--background-color)] text-[var(--text-color)]">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold">Stock History</h2>
-          <p class="text-sm text-gray-600">
+          <p class="text-sm ">
             Welcome back, here's what's happening with your store today.
           </p>
         </div>
       </div>
     </header>
-
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-      <input type="text" id="searchLogs" placeholder="Search logs..." class="p-2 border border-[var(--border-color)] rounded w-full sm:w-1/2 bg-[var(--background-color)] text-[var(--text-color)]">
-      <select id="filterActionType" class="p-2 border border-[var(--border-color)] rounded bg-[var(--background-color)] text-[var(--text-color)] w-full sm:w-1/3">
-        <option value="">All Actions</option>
-        <option value="RESTOCK">Restock</option>
-        <option value="ADJUSTMENT">Adjustment</option>
-        <option value="EXPIRED">Expired</option>
-        <option value="DAMAGED">Damaged</option>
-        <option value="INVENTORY">Inventory</option>
-      </select>
-    </div>
-
-    <?php
-    try {
-      $logs = $conn->query("
-            SELECT 
-                l.*,
-                ii.item_name,
-                s.staff_name
-            FROM inventory_item_logs l
-            LEFT JOIN inventory_item ii ON l.item_id = ii.item_id
-            LEFT JOIN staff_info s ON l.staff_id = s.staff_id
-            ORDER BY l.date_logged DESC
-        ")->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-      $logs = [];
-    }
-    ?>
-
-    <?php if (!empty($logs)): ?>
-      <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-        <table id="logsTable" class="min-w-full border-collapse bg-[var(--background-color)]">
-          <thead class="bg-gray-100 sticky top-0 z-10">
-            <tr>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Action</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">By</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Before</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Adjusted</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">After</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Remarks</th>
-              <th class="py-2 px-4 border border-[var(--border-color)]">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($logs as $log): ?>
-              <tr class="hover:bg-blue-50 transition" data-action="<?= $log['action_type'] ?>">
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['item_name']) ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['action_type'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['staff_name']) ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['last_quantity'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['quantity_adjusted'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['total_after'] ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['remarks']) ?></td>
-                <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['date_logged'] ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mt-4 flex justify-center gap-2" id="logsPagination"></div>
-
-    <?php else: ?>
-      <p class="text-gray-500 text-sm">No stock history found.</p>
-    <?php endif; ?>
+    <div class="p-4">
+      <?php
+      include "../../app/includes/managerModule/managerStockManagementStockHistory.php";
+      ?></div>
 
   </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const table = document.getElementById('logsTable');
-      const searchInput = document.getElementById('searchLogs');
-      const filterSelect = document.getElementById('filterActionType');
-      const pagination = document.getElementById('logsPagination');
-      const rowsPerPage = 10;
-      let currentPage = 1;
-
-      const rows = Array.from(table.querySelectorAll('tbody tr'));
-
-      function renderTable() {
-        const filterText = searchInput.value.toLowerCase();
-        const filterAction = filterSelect.value;
-
-        const filteredRows = rows.filter(row => {
-          const text = row.textContent.toLowerCase();
-          const action = row.dataset.action;
-          return text.includes(filterText) && (filterAction === '' || action === filterAction);
-        });
-
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-        currentPage = Math.min(currentPage, totalPages) || 1;
-
-        rows.forEach(r => r.style.display = 'none');
-
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        filteredRows.slice(start, end).forEach(r => r.style.display = '');
-
-        pagination.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-          const btn = document.createElement('button');
-          btn.textContent = i;
-          btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
-          btn.addEventListener('click', () => {
-            currentPage = i;
-            renderTable();
-          });
-          pagination.appendChild(btn);
-        }
-      }
-
-      searchInput.addEventListener('input', () => {
-        currentPage = 1;
-        renderTable();
-      });
-      filterSelect.addEventListener('change', () => {
-        currentPage = 1;
-        renderTable();
-      });
-
-      renderTable();
-    });
-  </script>
 
   <!-- 
       ==========================================================================================================================================
