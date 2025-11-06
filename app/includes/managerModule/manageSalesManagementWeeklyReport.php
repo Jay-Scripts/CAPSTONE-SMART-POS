@@ -1,5 +1,5 @@
 <!-- Weekly Summary Report -->
-<div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition flex flex-col justify-between">
+<div class="glass-card bg-[var(--glass-bg)] rounded-xl p-5 shadow hover:shadow-2xl transition flex flex-col justify-between">
     <h3 class="text-lg font-semibold text-[var(--text-color)] flex items-center gap-2">
         <i class="fa-solid fa-calendar-week text-green-500"></i> Weekly Summary
     </h3>

@@ -1,5 +1,5 @@
   <!--  Daily Staff Sales Report -->
-  <div class="bg-[var(--calc-bg-btn)] rounded-xl p-5 shadow hover:shadow-md transition">
+  <div class="glass-card bg-[var(--glass-bg)] rounded-xl shadow p-6 hover:shadow-2xl transition">
       <h3 class="text-lg font-semibold mb-3 text-[var(--text-color)] flex items-center gap-2">
           <i class="fa-solid fa-user-tie text-blue-500"></i> Daily Staff Sales Report
       </h3>
