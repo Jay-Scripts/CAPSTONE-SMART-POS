@@ -678,3 +678,18 @@ VALUES
 --       =                                                	                                             INSERTION OF Materials Inventory - Ends HERE                                                                                             =
 --       ==================================================================================================================================================================================================================================
 
+
+
+-- Insert dummy customer
+INSERT INTO CUSTOMER_INFO (FIRST_NAME, LAST_NAME, EMAIL)
+VALUES ('Juswa', 'Zenatnom', 'juswa@example.com'); 
+
+-- Insert dummy customer account
+INSERT INTO customer_account (CUSTOMER_ID, password, points, status, created_by)
+VALUES (
+    LAST_INSERT_ID(),   -- links to the customer just inserted
+    'juswa',            -- plain text password for now
+    100.00,             -- initial points
+    'ACTIVE',           -- account status
+    1                   -- staff_id who created the account
+);
