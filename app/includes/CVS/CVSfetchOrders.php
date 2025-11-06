@@ -12,7 +12,8 @@ $selectQueryForPaidOrders = "
   ORDER BY date_added DESC
 ";
 
-$stmt = $conn->query($selectQueryForPaidOrder);
+$stmt = $conn->query($selectQueryForPaidOrders);
+
 $response['preparing'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Now Serving [ Right side of the CVS Now Serving Column]
