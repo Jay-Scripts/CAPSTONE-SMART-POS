@@ -13,28 +13,32 @@
             Update or deactivate an employee account.
         </p>
 
-        <!-- Staff ID -->
+        <!-- Staff Dropdown -->
         <fieldset class="space-y-3">
             <legend class="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
                 <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                 Staff Identification
             </legend>
-            <p class="text-xs sm:text-sm text-gray-500">Provide the staff ID to locate their record.</p>
+            <p class="text-xs sm:text-sm text-gray-500">Select a staff member to update status.</p>
 
             <label class="block mt-1">
                 <span class="block text-sm font-medium text-gray-700">
-                    Staff ID <span class="text-red-500">*</span>
+                    Staff <span class="text-red-500">*</span>
                 </span>
-                <input
-                    type="text"
+                <select
                     name="staffID"
                     id="staffID"
-                    maxlength="30"
                     required
-                    placeholder="Enter Staff ID Number"
-                    class="w-full mt-1 border rounded-lg border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-gray-800 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" />
+                    class="w-full mt-1 border rounded-lg border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-gray-800 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    <option value="">-- Select Staff --</option>
+                    <?php foreach ($staffList as $staff): ?>
+                        <option value="<?= $staff['staff_id'] ?>">
+                            <?= htmlspecialchars($staff['staff_name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+
+                </select>
             </label>
-            <p id="staffIDFeedback" class="text-sm text-gray-500"></p>
         </fieldset>
 
         <!-- Status -->

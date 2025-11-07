@@ -545,25 +545,179 @@ if (!isset($_SESSION['staff_name'])) {
       =                                                     Modify Position Starts Here                                                        =
       ==========================================================================================================================================
     -->
-  <section id="modifyPosition" class="bg-[var(--background-color)] hidden">
-    <header
-      class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-      <div
-        class="flex items-center justify-between text-[var(--text-color)]">
-        <div>
-          <h2 class="text-2xl font-bold text[var(--text-color)]">
-            Modify Staff
-          </h2>
-          <p class="text-sm text[var(--text-color)]">
-            Update a staff member's position or promote them to a new
-            role.
-          </p>
-        </div>
-      </div>
+  <?php
+  include "../../app/config/dbConnection.php";
+
+  // Fetch staff with all roles
+  $staffList = $conn->query("
+    SELECT si.staff_id, si.staff_name, GROUP_CONCAT(sr.role ORDER BY sr.role SEPARATOR ', ') AS roles
+    FROM staff_info si
+    LEFT JOIN staff_roles sr ON si.staff_id = sr.staff_id
+    GROUP BY si.staff_id
+    ORDER BY si.staff_name
+")->fetchAll(PDO::FETCH_ASSOC);
+
+  $swalMessage = "";
+  $swalType = "";
+
+  // Handle role modification
+  if (isset($_POST['modifyRole'])) {
+    $staffId = $_POST['staffId'];
+    $newRole = strtoupper($_POST['newRole']);
+    $validRoles = ['BARISTA', 'CASHIER', 'MANAGER'];
+
+    if (!in_array($newRole, $validRoles)) {
+      $swalMessage = "Invalid role selected.";
+      $swalType = "error";
+    } else {
+      // Replace all roles with the selected one
+      $conn->beginTransaction();
+      $conn->exec("DELETE FROM staff_roles WHERE staff_id = $staffId");
+      $stmt = $conn->prepare("INSERT INTO staff_roles (staff_id, role) VALUES (:staff_id, :role)");
+      $stmt->execute([':staff_id' => $staffId, ':role' => $newRole]);
+      $conn->commit();
+
+      $swalMessage = "Role modified successfully!";
+      $swalType = "success";
+    }
+  }
+
+  // Handle adding role
+  if (isset($_POST['addRole'])) {
+    $staffId = $_POST['staffId'];
+    $newRole = strtoupper($_POST['newRole']);
+    $validRoles = ['BARISTA', 'CASHIER', 'MANAGER'];
+
+    if (!in_array($newRole, $validRoles)) {
+      $swalMessage = "Invalid role selected.";
+      $swalType = "error";
+    } else {
+      // Add role only if not already assigned
+      $stmt = $conn->prepare("SELECT COUNT(*) FROM staff_roles WHERE staff_id=:staff_id AND role=:role");
+      $stmt->execute([':staff_id' => $staffId, ':role' => $newRole]);
+      if ($stmt->fetchColumn() > 0) {
+        $swalMessage = "Staff already has this role.";
+        $swalType = "warning";
+      } else {
+        $stmt = $conn->prepare("INSERT INTO staff_roles (staff_id, role) VALUES (:staff_id, :role)");
+        $stmt->execute([':staff_id' => $staffId, ':role' => $newRole]);
+        $swalMessage = "Role added successfully!";
+        $swalType = "success";
+      }
+    }
+  }
+  ?>
+
+  <section id="modifyPosition" class="bg-[var(--background-color)] ">
+    <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 mb-4">
+      <h2 class="text-2xl font-bold text-[var(--text-color)]">Modify Staff</h2>
+      <p class="text-sm text-[var(--text-color)]">Update or assign a staff member's role.</p>
     </header>
 
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-[var(--background-color)] border border-gray-200 rounded-xl">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="py-3 px-4 text-left">Staff Name</th>
+            <th class="py-3 px-4 text-left">Roles</th>
+            <th class="py-3 px-4 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($staffList as $staff): ?>
+            <tr class="border-b">
+              <td class="py-3 px-4"><?= htmlspecialchars($staff['staff_name']) ?></td>
+              <td class="py-3 px-4"><?= $staff['roles'] ?? 'NONE' ?></td>
+              <td class="py-3 px-4 text-center flex justify-center gap-2">
+                <button onclick="modifyRole(<?= $staff['staff_id'] ?>,'<?= addslashes($staff['staff_name']) ?>')"
+                  class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">Modify Role</button>
+                <button onclick="addRole(<?= $staff['staff_id'] ?>,'<?= addslashes($staff['staff_name']) ?>')"
+                  class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">Add Role</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
 
   </section>
+
+  <script>
+    function modifyRole(staffId, staffName) {
+      Swal.fire({
+        title: `Modify Role for ${staffName}`,
+        input: 'select',
+        inputOptions: {
+          'BARISTA': 'Barista',
+          'CASHIER': 'Cashier',
+          'MANAGER': 'Manager'
+        },
+        inputPlaceholder: 'Select role',
+        showCancelButton: true,
+        confirmButtonText: 'Update Role',
+        preConfirm: role => {
+          if (!role) Swal.showValidationMessage('Select a role')
+          return role;
+        }
+      }).then(result => {
+        if (result.isConfirmed) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.innerHTML = `
+                <input type="hidden" name="staffId" value="${staffId}">
+                <input type="hidden" name="newRole" value="${result.value}">
+                <input type="hidden" name="modifyRole" value="1">
+            `;
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
+    }
+
+    function addRole(staffId, staffName) {
+      Swal.fire({
+        title: `Add Role for ${staffName}`,
+        input: 'select',
+        inputOptions: {
+          'BARISTA': 'Barista',
+          'CASHIER': 'Cashier',
+          'MANAGER': 'Manager'
+        },
+        inputPlaceholder: 'Select role',
+        showCancelButton: true,
+        confirmButtonText: 'Add Role',
+        preConfirm: role => {
+          if (!role) Swal.showValidationMessage('Select a role')
+          return role;
+        }
+      }).then(result => {
+        if (result.isConfirmed) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.innerHTML = `
+                <input type="hidden" name="staffId" value="${staffId}">
+                <input type="hidden" name="newRole" value="${result.value}">
+                <input type="hidden" name="addRole" value="1">
+            `;
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
+    }
+
+    // Trigger PHP SweetAlert messages
+    <?php if (!empty($swalMessage)): ?>
+      Swal.fire({
+        icon: '<?= $swalType ?>',
+        title: '<?= addslashes($swalMessage) ?>',
+        timer: 2500,
+        showConfirmButton: false
+      });
+    <?php endif; ?>
+  </script>
+
+
+
   <!-- 
       ==========================================================================================================================================
       =                                                     Modify Position Ends Here                                                           =
