@@ -608,27 +608,27 @@ if (!isset($_SESSION['staff_name'])) {
   }
   ?>
 
-  <section id="modifyPosition" class="bg-[var(--background-color)] ">
+  <section id="modifyPosition" class="bg-[var(--background-color)] text-[var(--text-color)]">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 mb-4">
       <h2 class="text-2xl font-bold text-[var(--text-color)]">Modify Staff</h2>
       <p class="text-sm text-[var(--text-color)]">Update or assign a staff member's role.</p>
     </header>
 
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-[var(--background-color)] border border-gray-200 rounded-xl">
-        <thead class="bg-gray-100">
+    <div class="overflow-x-auto p-5">
+      <table class="min-w-full bg-[var(--glass-bg)] border border-[var(--border-color)] rounded-xl">
+        <thead class="bg-gray-200 text-black">
           <tr>
-            <th class="py-3 px-4 text-left">Staff Name</th>
-            <th class="py-3 px-4 text-left">Roles</th>
-            <th class="py-3 px-4 text-center">Actions</th>
+            <th class="py-3 px-4  border border-[var(--border-color)] text-left">Staff Name</th>
+            <th class="py-3 px-4  border border-[var(--border-color)] text-left">Roles</th>
+            <th class="py-3 px-4  border border-[var(--border-color)] text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($staffList as $staff): ?>
             <tr class="border-b">
-              <td class="py-3 px-4"><?= htmlspecialchars($staff['staff_name']) ?></td>
-              <td class="py-3 px-4"><?= $staff['roles'] ?? 'NONE' ?></td>
-              <td class="py-3 px-4 text-center flex justify-center gap-2">
+              <td class="py-3 px-4  border border-[var(--border-color)]"><?= htmlspecialchars($staff['staff_name']) ?></td>
+              <td class="py-3 px-4  border border-[var(--border-color)]"><?= $staff['roles'] ?? 'NONE' ?></td>
+              <td class="py-3 px-4 text-center flex justify-center gap-2  border border-[var(--border-color)]">
                 <button onclick="modifyRole(<?= $staff['staff_id'] ?>,'<?= addslashes($staff['staff_name']) ?>')"
                   class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition">Modify Role</button>
                 <button onclick="addRole(<?= $staff['staff_id'] ?>,'<?= addslashes($staff['staff_name']) ?>')"
@@ -994,7 +994,7 @@ if (!isset($_SESSION['staff_name'])) {
 
 
 
-  <section id="discountDashboard" class="bg-white rounded-lg shadow p-4 sm:p-6 hidden">
+  <section id="discountDashboard" class="rounded-lg shadow hidden text-[var(--text-color)]">
 
 
     <?php

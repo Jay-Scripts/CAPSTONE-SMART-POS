@@ -181,8 +181,8 @@
                       placeholder="Search Base Ingredients...">
 
                   <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-                      <table class="min-w-full border-collapse bg-[var(--background-color)]">
-                          <thead class="sticky top-0 bg-[var(--background-color)] z-10">
+                      <table class="min-w-full border-collapse bg-[var(--glass-bg)]">
+                          <thead class="sticky top-0 bg-gray-200 text-black  z-10">
                               <tr>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Item</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Quantity</th>
@@ -241,8 +241,8 @@
                               placeholder="Search <?= htmlspecialchars($catName) ?>...">
 
                           <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-                              <table class="min-w-full border-collapse bg-[var(--background-color)]">
-                                  <thead class="sticky top-0 bg-[var(--background-color)] z-10">
+                              <table class="min-w-full border-collapse bg-[var(--glass-bg)]">
+                                  <thead class="sticky top-0 bg-gray-200 text-black  z-10">
                                       <tr>
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Item</th>
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Quantity</th>
@@ -298,8 +298,8 @@
                       placeholder="Search Materials...">
 
                   <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-                      <table class="min-w-full border-collapse bg-[var(--background-color)]">
-                          <thead class="sticky top-0 bg-[var(--background-color)] z-10">
+                      <table class="min-w-full border-collapse bg-[var(--glass-bg)]">
+                          <thead class="sticky top-0 bg-gray-200 text-black  z-10">
                               <tr>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Item</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Quantity</th>

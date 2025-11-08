@@ -32,7 +32,7 @@
  <?php if (!empty($alertItems)): ?>
      <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg ">
          <table id="stockTable" class="min-w-full border-collapse bg-[var(--glass-bg)] text-[var(--text-color)]">
-             <thead class=" sticky top-0 z-10">
+             <thead class=" sticky top-0 z-10 bg-gray-200 text-black ">
                  <tr>
                      <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
                      <th class="py-2 px-4 border border-[var(--border-color)]">Quantity</th>

@@ -31,26 +31,26 @@ try {
 }
 
 ?>
-<header class="mb-4">
+<header class="mb-4 p-5">
     <h2 class="text-2xl font-bold mb-2">Discount Dashboard</h2>
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <input type="text" id="searchDiscount" placeholder="Search customer..."
-            class="p-2 border border-gray-300 rounded w-full sm:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            class="p-2 border border-[var(--border-color)] bg-[var(--background-color)] rounded w-full sm:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400">
         <select id="filterDiscType"
-            class="p-2 border border-gray-300 rounded w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            class="p-2 border  bg-[var(--background-color)] rounded w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400">
             <option value="">All Types</option>
             <option value="PWD">PWD</option>
             <option value="SC">SC</option>
         </select>
         <input type="month" id="filterMonth" value="<?= htmlspecialchars($monthFilter ?? '') ?>"
-            class="p-2 border border-gray-300 rounded w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            class="p-2 border border-[var(--border-color)] bg-[var(--background-color)] rounded w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400">
         <button id="printDiscount"
             class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">Print</button>
     </div>
 </header>
-<div class="overflow-x-auto border border-gray-200 rounded-lg">
-    <table id="discountTable" class="min-w-full border-collapse text-gray-700">
-        <thead class="bg-gray-100 sticky top-0 z-10">
+<div class="overflow-x-auto rounded-lg p-5">
+    <table id="discountTable" class="min-w-full border-collapse  bg-[var(--glass-bg)]">
+        <thead class="bg-gray-100 text-black sticky top-0 z-10">
             <tr>
                 <th class="py-2 px-4 border">Customer</th>
                 <th class="py-2 px-4 border">Discount Type</th>

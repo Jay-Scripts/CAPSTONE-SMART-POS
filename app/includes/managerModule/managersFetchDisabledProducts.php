@@ -57,7 +57,7 @@ foreach ($rows as $row) {
         event.stopPropagation();
 
         Swal.fire({
-            title: "Disable Product?",
+            title: "Enable Product?",
             text: "Are you sure you want to Enable this product?",
             icon: "warning",
             showCancelButton: true,

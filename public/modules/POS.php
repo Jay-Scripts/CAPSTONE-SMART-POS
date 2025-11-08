@@ -965,16 +965,9 @@ header('Content-Type: text/html');
           </div>
 
           <!-- Action Buttons -->
-          <div class="grid grid-cols-3 gap-2 mb-5 text-xs sm:text-xs text-[var(--text-color)]">
+          <div class="grid grid-cols-2 gap-2 mb-5 text-xs sm:text-xs text-[var(--text-color)]">
 
-            <!-- Brew Rewards -->
-            <button onclick="openQrPopup()"
-              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)]  hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg ">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
-                <path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm10-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm4 0h2v2h-2v-2z" />
-              </svg>
-              <p class="text-md">Brew Rewards</p>
-            </button>
+
 
             <!-- Discountubbbbtgfujiyjb-->
             <button id="pwdBtn" onclick="openManagerQrModal(0.2)"

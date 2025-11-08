@@ -1,5 +1,5 @@
-<div class="flex justify-center p-4 sm:p-6 lg:p-10 bg-[var(--bg-color)]">
-    <form id="staffStatusForm" class="glass-card w-full sm:w-[90%] md:w-[70%] lg:w-[50%] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
+<div class="flex justify-center p-4 sm:p-6 lg:p-10 bg-[var(--bg-color)]  text-[var(--text-color)]">
+    <form id="staffStatusForm" class="glass-card w-full sm:w-[90%] md:w-[70%] lg:w-[50%] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all  border border-[var(--border-color)]">
         <!-- Logo -->
         <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
             <img src="../assets/SVG/LOGO/BLOGO.svg" alt="Logo Icon" class="h-16 w-auto theme-logo" />
@@ -15,21 +15,21 @@
 
         <!-- Staff Dropdown -->
         <fieldset class="space-y-3">
-            <legend class="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <legend class="text-base sm:text-lg font-semibold  flex items-center gap-2">
                 <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                 Staff Identification
             </legend>
-            <p class="text-xs sm:text-sm text-gray-500">Select a staff member to update status.</p>
+            <p class="text-xs sm:text-sm ">Select a staff member to update status.</p>
 
             <label class="block mt-1">
-                <span class="block text-sm font-medium text-gray-700">
+                <span class="block text-sm font-medium ">
                     Staff <span class="text-red-500">*</span>
                 </span>
                 <select
                     name="staffID"
                     id="staffID"
                     required
-                    class="w-full mt-1 border rounded-lg border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-gray-800 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    class="w-full mt-1 bg-[var(--background-color)] rounded-lg  border border-[var(--border-color)]px-3 sm:px-4 py-2 sm:py-2.5  text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
                     <option value="">-- Select Staff --</option>
                     <?php foreach ($staffList as $staff): ?>
                         <option value="<?= $staff['staff_id'] ?>">
@@ -43,17 +43,17 @@
 
         <!-- Status -->
         <fieldset class="space-y-3 mt-6">
-            <legend class="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <legend class="text-base sm:text-lg font-semibold  flex items-center gap-2">
                 <span class="h-4 w-1 bg-indigo-500 rounded"></span>
                 Update Staff Status
             </legend>
-            <p class="text-xs sm:text-sm text-gray-500">Choose the new status for this staff account.</p>
+            <p class="text-xs sm:text-sm ">Choose the new status for this staff account.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <!-- Active -->
                 <label class="cursor-pointer">
-                    <input type="radio" name="staffStatus" value="active" class="peer hidden" required />
-                    <div class="rounded-lg border border-gray-300 px-3 py-3 sm:py-4 text-gray-700 text-sm sm:text-base peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:bg-green-50 transition">
+                    <input type="radio" name="staffStatus" value="active" class="peer hidden " required />
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 sm:py-4  text-sm sm:text-base peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:bg-green-50 transition">
                         <div class="flex items-center gap-2 font-semibold">
                             Active
                         </div>
@@ -63,7 +63,7 @@
                 <!-- Inactive -->
                 <label class="cursor-pointer">
                     <input type="radio" name="staffStatus" value="inactive" class="peer hidden" />
-                    <div class="rounded-lg border border-gray-300 px-3 py-3 sm:py-4 text-gray-700 text-sm sm:text-base peer-checked:border-red-500 peer-checked:ring-2 peer-checked:ring-red-400 peer-checked:bg-red-50 transition">
+                    <div class="rounded-lg border border-gray-300 px-3 py-3 sm:py-4  text-sm sm:text-base peer-checked:border-red-500 peer-checked:ring-2 peer-checked:ring-red-400 peer-checked:bg-red-50 transition">
                         <div class="flex items-center gap-2 font-semibold">
                             Inactive
                         </div>

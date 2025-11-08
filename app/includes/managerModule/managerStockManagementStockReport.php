@@ -40,7 +40,7 @@ try {
 
 
 <!-- Inventory Form -->
-<form id="inventoryUploadForm" enctype="multipart/form-data" class="space-y-8 bg-[var(--background-color)] text-[var(--text-color)] border border-[var(--border-color)] p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
+<form id="inventoryUploadForm" enctype="multipart/form-data" class="space-y-8 bg-[var(--glass-bg)] text-[var(--text-color)] border border-[var(--border-color)] p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
 
     <!-- Form Title -->
     <h2 class="text-2xl font-bold  mb-4 text-center">Inventory Management</h2>

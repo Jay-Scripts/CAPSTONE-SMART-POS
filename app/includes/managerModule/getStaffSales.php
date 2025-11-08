@@ -41,7 +41,7 @@ try {
         FROM reg_transaction
         WHERE staff_id = :id
           AND date_added BETWEEN :start AND :end
-          AND status = 'PAID'
+          AND status = 'COMPLETED'
     ");
     $stmt->execute([
         ':id' => $cashier_id,

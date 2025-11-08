@@ -30,7 +30,7 @@
    <?php if (!empty($logs)): ?>
        <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
            <table id="logsTable" class="min-w-full border-collapse bg-[var(--glass-bg)] ">
-               <thead class=" sticky top-0 z-10">
+               <thead class=" sticky top-0 z-10 bg-gray-200 text-black ">
                    <tr>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Action</th>

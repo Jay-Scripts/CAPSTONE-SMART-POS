@@ -307,10 +307,10 @@
   --text-color: black;
   --icon-fill: black;
   --icon-fill-hover: gray;
-  --border-color: black;
+  --border-color: #d1d5db;
   --choice-name-color: black;
   --order-container: rgba(0, 0, 0, 0.1);
-  --container-border: rgba(0, 0, 0, 0.4);
+  --container-border: #d1d5db;
   --tool-tip-background-color: #111827;
   --tool-tip-text-color: white;
   --managers-nav-bg: #111827;
@@ -319,7 +319,7 @@
 
   /* Glassmorphism variables for light mode */
   --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-border: rgba(0, 0, 0.4);
+  --glass-border: #d1d5db;
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   --glass-backdrop-filter: blur(8px);
   --glass-card-bg: rgba(255, 255, 255, 0.25);
