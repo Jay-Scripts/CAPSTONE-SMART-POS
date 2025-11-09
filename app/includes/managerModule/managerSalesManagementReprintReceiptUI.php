@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <script src="https://kit.fontawesome.com/a2e0e6a84b.js" crossorigin="anonymous"></script>
+        <!-- <script src="https://kit.fontawesome.com/a2e0e6a84b.js" crossorigin="anonymous"></script> -->
 
         <script>
             // Allow Enter key to trigger reprint
