@@ -28,13 +28,15 @@
   foreign key(staff_id) references staff_info(staff_id)
   );
 
-  create table staff_logs(
-  logs_id int auto_increment primary key,
-  staff_id int not null,
-  login DATETIME DEFAULT CURRENT_TIMESTAMP,
-  logout DATETIME DEFAULT CURRENT_TIMESTAMP,
-  foreign key (staff_id) references staff_info(staff_id)
-  );
+CREATE TABLE staff_logs (
+  logs_id INT AUTO_INCREMENT PRIMARY KEY,
+  staff_id INT NOT NULL,
+  log_type ENUM('IN', 'OUT') DEFAULT 'OUT',
+  log_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (staff_id) REFERENCES staff_info(staff_id)
+);
+
+
   --       = STAFF TABLE - ENDS HERE   =
 
 

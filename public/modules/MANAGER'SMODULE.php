@@ -959,18 +959,153 @@ if (!isset($_SESSION['staff_name'])) {
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-2xl font-bold">Complaints Management</h2>
+          <h2 class="text-2xl font-bold">Staff Logs History</h2>
           <p class="text-sm text-gray-600">
             Welcome back, here's what's happening with your store today.
           </p>
         </div>
       </div>
     </header>
-    <h3 class="text-xl font-semibold mb-2">Refund</h3>
-    <p>
-      // rewards & loyalty program dito naman yung analytics view ng mga
-      registered customer na may rewarding card or app
-    </p>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+        <input type="text" id="searchStaffLogs" placeholder="Search staff name..."
+          class="p-2 border border-[var(--border-color)] rounded w-full sm:w-1/2 bg-[var(--background-color)] text-[var(--text-color)]">
+      </div>
+
+      <?php
+      include "../../app/config/dbConnection.php";
+
+      try {
+        $staffLogs = $conn->query("
+            SELECT 
+                sl.logs_id,
+                si.staff_id,
+                si.staff_name,
+                sl.login,
+                sl.logout
+            FROM staff_logs sl
+            LEFT JOIN staff_info si ON sl.staff_id = si.staff_id
+            ORDER BY sl.login DESC
+        ")->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+        $staffLogs = [];
+      }
+      ?>
+
+      <?php if (!empty($staffLogs)): ?>
+        <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
+          <table id="staffLogsTable" class="min-w-full border-collapse bg-[var(--glass-bg)]">
+            <thead class="sticky top-0 z-10 bg-gray-200 text-black">
+              <tr>
+                <th class="py-2 px-4 border border-[var(--border-color)]">Staff ID</th>
+                <th class="py-2 px-4 border border-[var(--border-color)]">Staff Name</th>
+                <th class="py-2 px-4 border border-[var(--border-color)]">Time In</th>
+                <th class="py-2 px-4 border border-[var(--border-color)]">Time Out</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($staffLogs as $log): ?>
+                <tr class="hover:bg-blue-400 hover:text-white transition">
+                  <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['staff_id'] ?></td>
+                  <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['staff_name']) ?></td>
+                  <td class="py-2 px-4 border border-[var(--border-color)]">
+                    <?= $log['login'] ? date('M d, Y • h:i A', strtotime($log['login'])) : '-' ?>
+                  </td>
+                  <td class="py-2 px-4 border border-[var(--border-color)]">
+                    <?= $log['logout'] ? date('M d, Y • h:i A', strtotime($log['logout'])) : '-' ?>
+                  </td>
+
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 flex justify-center gap-2" id="staffLogsPagination"></div>
+
+      <?php else: ?>
+        <p class="text-sm">No staff logs found.</p>
+      <?php endif; ?>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const tableBody = document.querySelector('#staffLogsTable tbody');
+        const searchInput = document.getElementById('searchStaffLogs');
+        const pagination = document.getElementById('staffLogsPagination');
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        let allRows = [];
+
+        async function fetchLogs() {
+          try {
+            const response = await fetch('../../app/includes/managerModule/fetchStaffLogs.php');
+            const data = await response.text();
+            tableBody.innerHTML = data;
+            allRows = Array.from(tableBody.querySelectorAll('tr'));
+            renderTable();
+          } catch (err) {
+            console.error('Error fetching logs:', err);
+          }
+        }
+
+        function renderTable() {
+          const filterText = searchInput.value.toLowerCase();
+          const filteredRows = allRows.filter(row => row.textContent.toLowerCase().includes(filterText));
+          const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+          currentPage = Math.min(currentPage, totalPages) || 1;
+
+          allRows.forEach(r => r.style.display = 'none');
+          const start = (currentPage - 1) * rowsPerPage;
+          filteredRows.slice(start, start + rowsPerPage).forEach(r => r.style.display = '');
+
+          pagination.innerHTML = '';
+
+          const prevBtn = document.createElement('button');
+          prevBtn.textContent = '<';
+          prevBtn.disabled = currentPage === 1;
+          prevBtn.className = `px-3 py-1 rounded ${prevBtn.disabled ? 'bg-gray-300' : 'bg-gray-200'}`;
+          prevBtn.onclick = () => {
+            currentPage--;
+            renderTable();
+          };
+          pagination.appendChild(prevBtn);
+
+          let startPage = Math.max(1, currentPage - 2);
+          let endPage = Math.min(totalPages, startPage + 4);
+          startPage = Math.max(1, endPage - 4);
+          for (let i = startPage; i <= endPage; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
+            btn.onclick = () => {
+              currentPage = i;
+              renderTable();
+            };
+            pagination.appendChild(btn);
+          }
+
+          const nextBtn = document.createElement('button');
+          nextBtn.textContent = '>';
+          nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+          nextBtn.className = `px-3 py-1 rounded ${nextBtn.disabled ? 'bg-gray-300' : 'bg-gray-200'}`;
+          nextBtn.onclick = () => {
+            currentPage++;
+            renderTable();
+          };
+          pagination.appendChild(nextBtn);
+        }
+
+        searchInput.addEventListener('input', () => {
+          currentPage = 1;
+          renderTable();
+        });
+
+        fetchLogs();
+        setInterval(fetchLogs, 1000); // Refresh every 1 second
+      });
+    </script>
+
   </section>
   <!-- 
       ==========================================================================================================================================

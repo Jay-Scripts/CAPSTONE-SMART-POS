@@ -128,6 +128,23 @@
                           </svg>
                           Modify Status
                       </a>
+                      <a
+                          data-module="complaintsManagement"
+                          href="#"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+                          <svg
+                              class="w-5 h-5 mr-3 text-amber-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                          </svg>
+                          Staff Logs History
+                      </a>
                   </section>
                   <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
@@ -208,6 +225,98 @@
       -                                                  Product Management Ends Here                                                         -
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
+                  <!-- 
+      -----------------------------------------------------------------------------------------------------------------------------------------
+      -                                                  Sales Management Starts Here                                                         -
+      -----------------------------------------------------------------------------------------------------------------------------------------
+    -->
+                  <div class="px-4 py-3 mt-2">
+                      <h3
+                          class="text-xs font-semibold text-[var(managers-nav-text)] uppercase tracking-wider">
+                          Sales Management
+                      </h3>
+                  </div>
+                  <section class="space-y-1 px-3 group">
+                      <a
+                          data-module="salesReports"
+                          href="#"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+                          <svg
+                              class="w-5 h-5 mr-3 text-purple-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                          </svg>
+
+                          Sales Reports
+                      </a>
+
+                      <a
+                          data-module="performanceTrend"
+                          href="#"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+                          <svg
+                              class="w-5 h-5 mr-3 text-orange-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                          </svg>
+
+                          Sales Dashboard
+                      </a>
+                      <a
+                          data-module="refund"
+                          href="#"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+                          <svg
+                              class="w-5 h-5 mr-3 text-red-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                          </svg>
+                          Refund
+                      </a>
+                      <a
+                          data-module="logWaste"
+                          href="#"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+                          <svg
+                              class="w-5 h-5 mr-3 text-red-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                          </svg>
+                          Log Waste
+                      </a>
+                  </section>
+                  <!-- 
+      -----------------------------------------------------------------------------------------------------------------------------------------
+      -                                                  Sales Management Ends Here                                                           -
+      -----------------------------------------------------------------------------------------------------------------------------------------
+    -->
+
+
+
                   <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
       -                                                  Inventory Management Starts Here                                                     -
@@ -291,115 +400,6 @@
       -                                                  Inventory Management Ends Here                                                       -
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
-
-                  <!-- 
-      -----------------------------------------------------------------------------------------------------------------------------------------
-      -                                                  Sales Management Starts Here                                                         -
-      -----------------------------------------------------------------------------------------------------------------------------------------
-    -->
-                  <div class="px-4 py-3 mt-2">
-                      <h3
-                          class="text-xs font-semibold text-[var(managers-nav-text)] uppercase tracking-wider">
-                          Sales Management
-                      </h3>
-                  </div>
-                  <section class="space-y-1 px-3 group">
-                      <a
-                          data-module="salesReports"
-                          href="#"
-                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-                          <svg
-                              class="w-5 h-5 mr-3 text-purple-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                          </svg>
-
-                          Sales Reports
-                      </a>
-                      <a
-                          data-module="discountDashboard"
-                          href="#"
-                          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200 group-hover:opacity-10 hover:!opacity-150 hover:bg-yellow-800 hover:text-white">
-                          <svg
-                              class="w-5 h-5 mr-3 text-rose-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                          </svg>
-
-                          Discount Dashboard
-                      </a>
-                      <a
-                          data-module="performanceTrend"
-                          href="#"
-                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-                          <svg
-                              class="w-5 h-5 mr-3 text-orange-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                          </svg>
-
-                          Sales Dashboard
-                      </a>
-                      <a
-                          data-module="refund"
-                          href="#"
-                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-                          <svg
-                              class="w-5 h-5 mr-3 text-red-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
-                          </svg>
-                          Refund
-                      </a>
-                      <a
-                          data-module="logWaste"
-                          href="#"
-                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-                          <svg
-                              class="w-5 h-5 mr-3 text-red-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                          </svg>
-                          Log Waste
-                      </a>
-                  </section>
-                  <!-- 
-      -----------------------------------------------------------------------------------------------------------------------------------------
-      -                                                  Sales Management Ends Here                                                           -
-      -----------------------------------------------------------------------------------------------------------------------------------------
-    -->
-
-
                   <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
       -                                                  Customer Management Starts Here                                                        -
@@ -430,11 +430,11 @@
                           Satisfaction Dashboard
                       </a>
                       <a
-                          data-module="complaintsManagement"
+                          data-module="discountDashboard"
                           href="#"
-                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+                          class="navItem flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-colors duration-200 group-hover:opacity-10 hover:!opacity-150 hover:bg-yellow-800 hover:text-white">
                           <svg
-                              class="w-5 h-5 mr-3 text-amber-400"
+                              class="w-5 h-5 mr-3 text-rose-400"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24">
@@ -442,11 +442,13 @@
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   stroke-width="2"
-                                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                           </svg>
-                          Complaint Management
+
+                          SC / PWD Monitoring
                       </a>
-                      <a
+
+                      <!-- <a
                           data-module="rewards&LoyaltyProgram"
                           href="#"
                           class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
@@ -462,7 +464,7 @@
                                   d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
                           </svg>
                           Rewards & Loyalty Program
-                      </a>
+                      </a> -->
 
                   </section>
                   <!-- 
@@ -470,6 +472,8 @@
       -                                                  Customer Management Ends Here                                                        -
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
+
+
               </nav>
           </div>
 

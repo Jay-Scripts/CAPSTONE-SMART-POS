@@ -1,5 +1,17 @@
 <?php
 session_start();
+include "../../../app/config/dbConnection.php";
+
+if (isset($_SESSION['staff_id'])) {
+  $staffId = $_SESSION['staff_id'];
+
+  // Log OUT in the database
+  $logStmt = $conn->prepare("
+        INSERT INTO staff_logs (staff_id, log_type, log_time)
+        VALUES (:staff_id, 'OUT', NOW())
+    ");
+  $logStmt->execute([':staff_id' => $staffId]);
+}
 
 // clear all session variables
 session_unset();
@@ -7,6 +19,7 @@ session_unset();
 // destroy the session
 session_destroy();
 ?>
+
 <!doctype html>
 <html lang="en">
 
