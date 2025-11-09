@@ -1130,19 +1130,26 @@ header('Content-Type: text/html');
           <!-- Manager Verification -->
           <div id="managerVerifySection">
             <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
-            <inputwindow.finalizeEPayment
+
+            <input
               type="password"
               id="managerInput"
               placeholder="Scan Manager ID"
               autocomplete="off"
               inputmode="numeric"
               pattern="[0-9]*"
-              class="w-full p-2 border rounded  border-[var(--border-color)] bg-[var(--background-color)]" />
+              class="w-full p-2 border rounded border-[var(--border-color)] bg-[var(--background-color)] focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
             <div class="flex justify-end mt-4 gap-2">
-              <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
-              <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded">Verify</button>
+              <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 transition">
+                Cancel
+              </button>
+              <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                Verify
+              </button>
             </div>
           </div>
+
 
           <!-- Discount Form -->
           <div id="discountFormSection" class="hidden">
