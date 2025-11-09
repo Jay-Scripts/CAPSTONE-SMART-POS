@@ -157,7 +157,7 @@ try {
     </style>
 </head>
 
-<body onload="window.print();">
+<body id="receiptBody" onload="window.print();">
     <header>
         <h1>BIG BREW POS</h1>
         <p>Big Brew Franchising Corporation</p>
@@ -170,7 +170,7 @@ try {
             Cashier: <?= htmlspecialchars($receipt['cashier']) ?><br />
             Payment:
             <?php
-            if (!empty($epay_amount) && !empty($tendered)) {
+            if (!empty($epay_amount) && $tendered > 0) {
                 echo 'CASH + E-PAY';
             } elseif (!empty($epay_amount)) {
                 echo 'E-PAY';
@@ -181,7 +181,7 @@ try {
 
         </p>
         <?php if ($epay_ref): ?>
-            <p>Reference No: <?= htmlspecialchars($epay_ref) ?></p>
+            <p>E-pay Reference No: <?= htmlspecialchars($epay_ref) ?></p>
         <?php endif; ?>
     </header>
     <hr />
@@ -255,3 +255,19 @@ try {
 </body>
 
 </html>
+<script>
+    window.onload = function() {
+        const epayAmount = <?= json_encode($epay_amount) ?>;
+        const tendered = <?= json_encode($tendered) ?>;
+
+        // determine type
+        if (epayAmount && epayAmount > 0) {
+            // e-pay or e-pay + cash → print 2 copies
+            window.print();
+            setTimeout(() => window.print(), 1500); // 2nd print after 1.5 sec (staff + customer)
+        } else {
+            // cash only → 1 copy
+            window.print();
+        }
+    };
+</script>

@@ -21,7 +21,6 @@ try {
     ");
     $stmt->execute([':id' => $transaction_id]);
     $receipt = $stmt->fetch(PDO::FETCH_ASSOC);
-
     if (!$receipt) die("Receipt not found.");
 
     // 🏷 Payment info
@@ -48,6 +47,18 @@ try {
     $stmtDisc->execute([':id' => $transaction_id]);
     $discount = $stmtDisc->fetch(PDO::FETCH_ASSOC);
     $discount_amount = $discount['DISC_TOTAL_AMOUNT'] ?? 0;
+
+    // 💳 E-Payment details
+    $stmtEpay = $conn->prepare("
+        SELECT REFERENCES_NUM, AMOUNT 
+        FROM EPAYMENT_TRANSACTION 
+        WHERE REG_TRANSACTION_ID = :id 
+        LIMIT 1
+    ");
+    $stmtEpay->execute([':id' => $transaction_id]);
+    $epay = $stmtEpay->fetch(PDO::FETCH_ASSOC);
+    $epay_ref = $epay['REFERENCES_NUM'] ?? null;
+    $epay_amount = $epay['AMOUNT'] ?? null;
 
     // 🧺 Fetch items
     $stmtItems = $conn->prepare("
@@ -146,18 +157,33 @@ try {
     </style>
 </head>
 
-<body onload="window.print();">
+<body id="receiptBody" onload="window.print();">
     <header>
-        <h1>**REPRINT RECEIPT**</h1>
+        <h1>**REPRINT**</h1>
         <h1>BIG BREW POS</h1>
         <p>Big Brew Franchising Corporation</p>
         <p>BIG BREW STA. MESA MANILA BRANCH</p>
         <p>smartposBBstamesa@gmail.com</p>
         <p>TEL (02) 0000 0000</p>
-        <p>Transaction #: <?= str_pad($transaction_id, 6, '0', STR_PAD_LEFT) ?><br />
+        <p>
+            Transaction #: <?= str_pad($transaction_id, 6, '0', STR_PAD_LEFT) ?><br />
             Date: <?= date('Y-m-d h:i A', strtotime($receipt['date_added'])) ?><br />
             Cashier: <?= htmlspecialchars($receipt['cashier']) ?><br />
-            Payment: <?= htmlspecialchars($receipt['payment_type']) ?></p>
+            Payment:
+            <?php
+            if (!empty($epay_amount) && $tendered > 0) {
+                echo 'CASH + E-PAY';
+            } elseif (!empty($epay_amount)) {
+                echo 'E-PAY';
+            } else {
+                echo 'CASH';
+            }
+            ?>
+
+        </p>
+        <?php if ($epay_ref): ?>
+            <p>E-pay Reference No: <?= htmlspecialchars($epay_ref) ?></p>
+        <?php endif; ?>
     </header>
     <hr />
 
@@ -171,7 +197,8 @@ try {
             <?php if (!empty($item['addons'])): ?>
                 <tr>
                     <td colspan="3" style="padding-left: 10px; font-size: 12px">
-                        *Add-ons: <?php foreach ($item['addons'] as $addon): ?>
+                        *Add-ons:
+                        <?php foreach ($item['addons'] as $addon): ?>
                             <div style="padding-left: 20px">- <?= htmlspecialchars($addon['add_ons_name']) ?> (+₱<?= number_format($addon['price'], 2) ?>)</div>
                         <?php endforeach; ?>
                     </td>
@@ -181,7 +208,8 @@ try {
             <?php if (!empty($item['modifications'])): ?>
                 <tr>
                     <td colspan="3" style="padding-left: 10px; font-size: 12px">
-                        *Mods: <?php foreach ($item['modifications'] as $mod): ?>
+                        *Mods:
+                        <?php foreach ($item['modifications'] as $mod): ?>
                             <div style="padding-left: 20px">- <?= htmlspecialchars($mod['modification_name']) ?></div>
                         <?php endforeach; ?>
                     </td>
@@ -205,6 +233,10 @@ try {
         <p class="total">Less Discount: ₱<?= number_format($discount_amount, 2) ?></p>
     <?php endif; ?>
 
+    <?php if ($epay_amount): ?>
+        <p class="total">E-Payment Amount: ₱<?= number_format($epay_amount, 2) ?></p>
+    <?php endif; ?>
+
     <p class="total">Cash Received: ₱<?= number_format($tendered, 2) ?></p>
     <p class="total">Change: ₱<?= number_format($change, 2) ?></p>
 
@@ -224,3 +256,19 @@ try {
 </body>
 
 </html>
+<script>
+    window.onload = function() {
+        const epayAmount = <?= json_encode($epay_amount) ?>;
+        const tendered = <?= json_encode($tendered) ?>;
+
+        // determine type
+        if (epayAmount && epayAmount > 0) {
+            // e-pay or e-pay + cash → print 2 copies
+            window.print();
+            setTimeout(() => window.print(), 1500); // 2nd print after 1.5 sec (staff + customer)
+        } else {
+            // cash only → 1 copy
+            window.print();
+        }
+    };
+</script>
