@@ -12,6 +12,62 @@ $start_date = date('Y-m-01 00:00:00', strtotime($month));
 $end_date   = date('Y-m-t 23:59:59', strtotime($month));
 
 try {
+    // ===== ITEMS SOLD PER CATEGORY =====
+    $stmt = $conn->prepare("
+        SELECT c.category_name, SUM(ti.quantity) AS total_items, SUM(ti.price * ti.quantity) AS total_amount
+        FROM transaction_item ti
+        JOIN product_details pd ON ti.product_id = pd.product_id
+        JOIN category c ON pd.category_id = c.category_id
+        JOIN reg_transaction rt ON ti.reg_transaction_id = rt.reg_transaction_id
+        WHERE rt.status='COMPLETED'
+          AND rt.date_added BETWEEN :start AND :end
+        GROUP BY c.category_name
+        ORDER BY c.category_name ASC
+    ");
+    $stmt->execute([':start' => $start_date, ':end' => $end_date]);
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // ===== TRANSACTION SUMMARY =====
+    $stmt = $conn->prepare("
+        SELECT 
+            -- Total E-Payment Transactions
+            (SELECT COUNT(*) FROM EPAYMENT_TRANSACTION et
+                JOIN REG_TRANSACTION rt2 ON et.REG_TRANSACTION_ID = rt2.REG_TRANSACTION_ID
+                WHERE rt2.status='COMPLETED' AND rt2.date_added BETWEEN :start AND :end
+            ) AS total_epayment,
+            -- Total Discounted Transactions
+            (SELECT COUNT(*) FROM disc_transaction d
+                JOIN reg_transaction rt2 ON d.REG_TRANSACTION_ID = rt2.REG_TRANSACTION_ID
+                WHERE rt2.status='COMPLETED' AND rt2.date_added BETWEEN :start AND :end
+            ) AS discounted,
+            -- Total Refunds
+            (SELECT COUNT(*) FROM refund_transactions r
+                JOIN reg_transaction rt2 ON r.REG_TRANSACTION_ID = rt2.REG_TRANSACTION_ID
+                WHERE rt2.status='REFUNDED' AND r.TRANSACTION_TIME BETWEEN :start AND :end
+            ) AS refund,
+            -- Total Waste
+            (SELECT COUNT(*) FROM waste_transactions w
+                JOIN reg_transaction rt2 ON w.REG_TRANSACTION_ID = rt2.REG_TRANSACTION_ID
+                WHERE rt2.status='WASTE' AND w.TRANSACTION_TIME BETWEEN :start AND :end
+            ) AS waste,
+            -- Pure Regular Transactions
+            (SELECT COUNT(*) FROM reg_transaction rt3
+                WHERE rt3.status='COMPLETED' 
+                AND rt3.date_added BETWEEN :start AND :end
+                AND rt3.reg_transaction_id NOT IN (SELECT reg_transaction_id FROM EPAYMENT_TRANSACTION)
+                AND rt3.reg_transaction_id NOT IN (SELECT reg_transaction_id FROM disc_transaction)
+                AND rt3.reg_transaction_id NOT IN (SELECT reg_transaction_id FROM refund_transactions)
+                AND rt3.reg_transaction_id NOT IN (SELECT reg_transaction_id FROM waste_transactions)
+            ) AS pure_regular,
+            -- Total Regular Transactions (Completed + Refunded + Waste)
+            (SELECT COUNT(*) FROM reg_transaction rt4
+                WHERE rt4.status IN ('COMPLETED','REFUNDED','WASTE') 
+                AND rt4.date_added BETWEEN :start AND :end
+            ) AS total_regular_transactions
+    ");
+    $stmt->execute([':start' => $start_date, ':end' => $end_date]);
+    $summary = $stmt->fetch(PDO::FETCH_ASSOC);
+
     // ===== SALES SUMMARY =====
     $stmt = $conn->prepare("
         SELECT IFNULL(SUM(vatable_sales),0) AS vatable,
@@ -26,51 +82,18 @@ try {
     $totalSales   = $sales['total'];
     $vat          = $vatableSales * 0.12;
 
-    // ===== DISCOUNT TRANSACTION COUNT =====
+    // ===== TOTAL E-PAYMENT AMOUNT =====
     $stmt = $conn->prepare("
-        SELECT 
-            COUNT(DISTINCT CASE WHEN d.ID_TYPE='PWD' THEN d.REG_TRANSACTION_ID END) AS total_pwd,
-            COUNT(DISTINCT CASE WHEN d.ID_TYPE='SC'  THEN d.REG_TRANSACTION_ID END) AS total_sc
-        FROM reg_transaction rt
-        LEFT JOIN disc_transaction d ON d.REG_TRANSACTION_ID = rt.REG_TRANSACTION_ID
-          AND d.ID_TYPE IN ('SC','PWD')
-          AND DATE(d.TRANSACTION_TIME) BETWEEN DATE(:start) AND DATE(:end)
-        WHERE rt.STATUS='COMPLETED'
-          AND rt.date_added BETWEEN :start AND :end
-    ");
-    $stmt->execute([':start' => $start_date, ':end' => $end_date]);
-    $discountCounts = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // ===== REFUND & WASTE COUNT =====
-    $stmt = $conn->prepare("
-        SELECT 
-            COUNT(DISTINCT r.REG_TRANSACTION_ID) AS total_refund,
-            COUNT(DISTINCT w.REG_TRANSACTION_ID) AS total_waste
-        FROM reg_transaction rt
-        LEFT JOIN refund_transactions r ON r.REG_TRANSACTION_ID = rt.REG_TRANSACTION_ID
-          AND DATE(r.TRANSACTION_TIME) BETWEEN DATE(:start) AND DATE(:end)
-        LEFT JOIN waste_transactions w ON w.REG_TRANSACTION_ID = rt.REG_TRANSACTION_ID
-          AND DATE(w.TRANSACTION_TIME) BETWEEN DATE(:start) AND DATE(:end)
-        WHERE rt.STATUS='COMPLETED'
-          AND rt.date_added BETWEEN :start AND :end
-    ");
-    $stmt->execute([':start' => $start_date, ':end' => $end_date]);
-    $refundWaste = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // ===== ITEMS SOLD PER CATEGORY =====
-    $stmt = $conn->prepare("
-        SELECT c.category_name, SUM(ti.quantity) AS total_sold
-        FROM transaction_item ti
-        JOIN product_details pd ON ti.product_id = pd.product_id
-        JOIN category c ON pd.category_id = c.category_id
-        JOIN reg_transaction rt ON ti.reg_transaction_id = rt.reg_transaction_id
+        SELECT IFNULL(SUM(et.amount),0) AS total_epayment_amount
+        FROM EPAYMENT_TRANSACTION et
+        JOIN REG_TRANSACTION rt ON et.REG_TRANSACTION_ID = rt.REG_TRANSACTION_ID
         WHERE rt.status='COMPLETED'
-          AND rt.date_added BETWEEN :start AND :end
-        GROUP BY c.category_name
-        ORDER BY total_sold DESC
+          AND et.TRANSACTION_TIME BETWEEN :start AND :end
     ");
     $stmt->execute([':start' => $start_date, ':end' => $end_date]);
-    $itemsPerCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $epay = $stmt->fetch(PDO::FETCH_ASSOC);
+    $totalEpayment = $epay['total_epayment_amount'];
+    $cashSales = $totalSales - $totalEpayment;
 } catch (PDOException $e) {
     die("DB Error: " . $e->getMessage());
 }
@@ -133,7 +156,7 @@ try {
     <p><strong>Month:</strong> <?= date('F Y', strtotime($month)) ?></p>
     <p><strong>Prepared By:</strong> <?= htmlspecialchars($manager_name) ?> (ID: <?= htmlspecialchars($manager_id) ?>)</p>
 
-    <!-- Items Sold -->
+    <!-- Items Sold Per Category -->
     <h2>Items Sold Per Category</h2>
     <table>
         <thead>
@@ -143,14 +166,11 @@ try {
             </tr>
         </thead>
         <tbody>
-            <?php
-            $sumItems = 0;
-            foreach ($itemsPerCategory as $cat):
-                $sumItems += $cat['total_sold'];
-            ?>
+            <?php $sumItems = 0;
+            foreach ($categories as $cat): $sumItems += $cat['total_items']; ?>
                 <tr>
                     <td><?= htmlspecialchars($cat['category_name']) ?></td>
-                    <td><?= $cat['total_sold'] ?></td>
+                    <td><?= $cat['total_items'] ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -165,25 +185,35 @@ try {
     <!-- Transaction Summary -->
     <h2>Transaction Summary</h2>
     <table>
+        <thead>
+            <tr>
+                <th>Transactions</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>Total Regular Transactions</td>
+            <td class="right"><?= $summary['pure_regular'] ?></td>
+        </tr>
+        <tr>
+            <td>Total E-Payment Transactions</td>
+            <td class="right"><?= $summary['total_epayment'] ?></td>
+        </tr>
+        <tr>
+            <td>Total Discounted</td>
+            <td class="right"><?= $summary['discounted'] ?></td>
+        </tr>
+        <tr>
+            <td>Total Refunds</td>
+            <td class="right"><?= $summary['refund'] ?></td>
+        </tr>
+        <tr>
+            <td>Total Waste</td>
+            <td class="right"><?= $summary['waste'] ?></td>
+        </tr>
         <tr>
             <td>Total Transactions</td>
-            <td class="right"><?= $sumItems ?></td>
-        </tr>
-        <tr>
-            <td>Total PWD Transactions</td>
-            <td class="right"><?= $discountCounts['total_pwd'] ?></td>
-        </tr>
-        <tr>
-            <td>Total SC Transactions</td>
-            <td class="right"><?= $discountCounts['total_sc'] ?></td>
-        </tr>
-        <tr>
-            <td>Total Refund Transactions</td>
-            <td class="right"><?= $refundWaste['total_refund'] ?></td>
-        </tr>
-        <tr>
-            <td>Total Waste Transactions</td>
-            <td class="right"><?= $refundWaste['total_waste'] ?></td>
+            <td class="right"><?= $summary['total_regular_transactions'] ?></td>
         </tr>
     </table>
 
@@ -193,6 +223,14 @@ try {
         <tr>
             <th>Description</th>
             <th class="right">Amount</th>
+        </tr>
+        <tr>
+            <td>Total E-Payment Sales</td>
+            <td class="right">₱<?= number_format($totalEpayment, 2) ?></td>
+        </tr>
+        <tr>
+            <td>Cash Sales</td>
+            <td class="right">₱<?= number_format($cashSales, 2) ?></td>
         </tr>
         <tr>
             <td>Vatable Sales</td>
