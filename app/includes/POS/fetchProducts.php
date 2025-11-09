@@ -335,20 +335,25 @@ foreach ($rows as $row) {
         const tenderedDisplay = document.getElementById("tenderedAmount");
         const changeDisplay = document.getElementById("changeAmount");
         const totalDisplayEl = document.getElementById("totalAmount");
-        const discountDisplayEl = document.getElementById("discountAmount"); // new element in modal
+        const discountDisplayEl = document.getElementById("discountAmount");
+        const epayDisplayEl = document.getElementById("epayAmount");
 
-        // Calculate discount and total
         const discountAmount = originalTotal * discountRate;
-        total = originalTotal - discountAmount;
+        let remainingTotal = originalTotal - discountAmount - epayAmount;
+        if (remainingTotal < 0) remainingTotal = 0;
 
-        // Update modal elements
-        if (totalDisplayEl) totalDisplayEl.textContent = `₱${total.toFixed(2)}`;
-        if (tenderedDisplay) tenderedDisplay.textContent = `₱${tendered.toFixed(2)}`;
+        // Update summary
+        if (totalDisplayEl) totalDisplayEl.textContent = `₱${(originalTotal - discountAmount).toFixed(2)}`;
         if (discountDisplayEl) discountDisplayEl.textContent = `₱${discountAmount.toFixed(2)}`;
+        if (epayDisplayEl) epayDisplayEl.textContent = `₱${epayAmount.toFixed(2)}`;
+        if (tenderedDisplay) tenderedDisplay.textContent = `₱${tendered.toFixed(2)}`;
 
-        const change = Math.max(0, tendered - total);
+        const change = Math.max(0, tendered - remainingTotal);
         if (changeDisplay) changeDisplay.textContent = `₱${change.toFixed(2)}`;
+
+        total = originalTotal - discountAmount; // send this to PHP as discounted total
     }
+
 
 
     function applyDiscount(rate) {
@@ -400,6 +405,8 @@ foreach ($rows as $row) {
         updateDisplay();
     }
 
+
+
     /* ================================
        PAYMENT FINALIZATION
        ================================ */
@@ -413,22 +420,26 @@ foreach ($rows as $row) {
             return;
         }
 
-        // Recalculate total with discount
-        const discountAmount = parseFloat(document.getElementById('discountAmount').value) || (originalTotal * discountRate);
-        total = originalTotal - discountAmount;
+        const epayAmount = parseFloat(document.getElementById('epayAmountHidden').value) || 0;
+        const refNumber = document.getElementById('refNumberHidden').value || '';
+        const discountAmount = parseFloat(document.getElementById('discountAmount').innerText.replace(/[^0-9.-]+/g, "")) || 0;
+        const totalAfterDiscount = originalTotal - discountAmount;
+        const remainingTotal = Math.max(0, totalAfterDiscount - epayAmount);
 
-
-        if (tendered < total) {
+        if (tendered < remainingTotal) {
             Swal.fire({
                 icon: "warning",
                 title: "Insufficient Payment",
-                text: "Tendered amount is less than total."
+                text: "Tendered amount is less than remaining total."
             });
             return;
         }
 
-        const change = tendered - total;
-        const paymentType = currentPaymentType || "CASH";
+        const change = tendered - remainingTotal;
+
+        // Automatically select payment type
+        let paymentType = "CASH";
+        if (epayAmount > 0) paymentType = "E-PAYMENT"; // ✅ Set to E-Payment if any epay value exists
 
         // Build FormData
         const formData = new FormData();
@@ -436,9 +447,10 @@ foreach ($rows as $row) {
         formData.append("payment_type", paymentType);
         formData.append("amount_sent", tendered);
         formData.append("change_amount", change);
-        formData.append("total", total);
+        formData.append("total", totalAfterDiscount);
+        formData.append("epay_amount", epayAmount);
+        formData.append("refNumber", refNumber);
 
-        // --- ADD DISCOUNT DATA ---
         const discType = document.getElementById('discountType').value;
         if (discType) {
             const discountData = {
@@ -446,7 +458,7 @@ foreach ($rows as $row) {
                 id_num: document.getElementById('discountId').value,
                 first_name: document.getElementById('discountFirstName').value,
                 last_name: document.getElementById('discountLastName').value,
-                disc_total: parseFloat(document.getElementById('discountAmount').value) || discountAmount
+                disc_total: discountAmount
             };
             formData.append('discount_data', JSON.stringify(discountData));
         }

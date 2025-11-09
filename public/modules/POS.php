@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
     ]);
 
 
+
     $transaction_id = $conn->lastInsertId();
     if (!empty($_POST['discount_data'])) {
       $disc = json_decode($_POST['discount_data'], true); // ✅ decode JSON
@@ -91,6 +92,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
         ]);
       }
     }
+
+
+    // --- Insert optional E-Payment record ---
+    if (!empty($_POST['epay_amount']) && floatval($_POST['epay_amount']) > 0) {
+      $epayAmount = floatval($_POST['epay_amount']);
+      $refNumber = !empty($_POST['refNumber']) ? intval($_POST['refNumber']) : 0;
+
+
+      $stmtEpay = $conn->prepare("
+        INSERT INTO EPAYMENT_TRANSACTION 
+        (REG_TRANSACTION_ID, AMOUNT, REFERENCES_NUM) 
+        VALUES (:reg_id, :amount, :ref_num)
+    ");
+      $stmtEpay->execute([
+        ':reg_id' => $transaction_id,
+        ':amount' => $epayAmount,
+        ':ref_num' => $refNumber
+      ]);
+    }
+
 
 
 
@@ -957,6 +978,10 @@ header('Content-Type: text/html');
               <span id="discountAmount" class="font-bold">0</span>
             </div>
             <div class="flex justify-between">
+              <span>Epay:</span><span id="epayAmount" class="font-bold">₱0</span>
+            </div>
+
+            <div class="flex justify-between">
               <span>Tendered:</span><span id="tenderedAmount" class="font-bold">₱0</span>
             </div>
             <div class="flex justify-between">
@@ -1063,25 +1088,36 @@ header('Content-Type: text/html');
           <!-- E-payment Popup -->
           <div
             id="EPaymentPopup"
-            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
+            class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
             <div
               class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
               id="EPayment">
               <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h2 class="text-lg font-bold">Insert reference number</h2>
-
+                <h2 class="text-lg font-bold">E-Payment Details</h2>
                 <button onclick="closeEPaymentPopup()" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
               </div>
-              <div class="flex flex-col items-center">
-                <form action="POST">
-                  <input type="text" name="refNumber" placeholder="Enter reference number" class="border bg-transparent">
-                </form>
-                <button onclick="closeEPaymentPopup()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
+              <div class="flex flex-col items-center gap-3">
+                <!-- Reference Number -->
+                <label class="w-full">Reference Number</label>
+                <input type="text" id="refNumber" name="refNumber" placeholder="Enter reference number" class="w-full border p-2 rounded bg-transparent">
+
+
+
+                <!-- Amount -->
+                <label class="w-full">Amount</label>
+                <input type="number" name="epayAmountInput" placeholder="Enter amount" class="w-full border p-2 rounded bg-transparent" min="0" step="0.01">
+                <input type="hidden" id="epayAmountHidden" name="epay_amount" value="0">
+                <input type="hidden" id="refNumberHidden" name="refNumber" value="">
+
+                <!-- Done Button -->
+                <button onclick="finalizeEPayment()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
                   Done
                 </button>
               </div>
             </div>
           </div>
+
+
         </div>
       </div>
       <!-- ================================================
@@ -1094,10 +1130,11 @@ header('Content-Type: text/html');
           <!-- Manager Verification -->
           <div id="managerVerifySection">
             <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
-            <input
+            <inputwindow.finalizeEPayment
               type="password"
               id="managerInput"
               placeholder="Scan Manager ID"
+              autocomplete="off"
               inputmode="numeric"
               pattern="[0-9]*"
               class="w-full p-2 border rounded  border-[var(--border-color)] bg-[var(--background-color)]" />
@@ -1178,6 +1215,57 @@ header('Content-Type: text/html');
 
 
       <script>
+        // Restrict Reference Number to letters and numbers only
+        const refInput = document.getElementById('refNumber');
+
+        refInput.addEventListener('input', () => {
+          refInput.value = refInput.value.replace(/[^a-zA-Z0-9]/g, ''); // remove anything that's not a letter or number
+        });
+
+        let epayAmount = 0; // new global
+        window.finalizeEPayment = function() {
+          const refNumber = document.getElementById('refNumber').value.trim();
+          const amountInput = parseFloat(document.querySelector('#EPayment input[name="epayAmountInput"]').value) || 0;
+
+          if (!refNumber || amountInput <= 0) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Enter valid E-Payment details.'
+            });
+            return;
+          }
+
+          // Store in hidden fields
+          document.getElementById('epayAmountHidden').value = amountInput;
+          document.getElementById('refNumberHidden').value = refNumber;
+
+          // Update global variable for display
+          epayAmount = amountInput;
+
+          // Update calculator summary
+          updateDisplay();
+
+          // Close popup
+          closeEPaymentPopup();
+
+          // ✅ SweetAlert confirmation
+          Swal.fire({
+            icon: 'success',
+            title: 'E-Payment Added',
+            html: `Reference: <b>${refNumber}</b><br>Amount: <b>₱${amountInput.toFixed(2)}</b>`,
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false
+          });
+        };
+
+
+
+
+
+
+
         document.addEventListener("DOMContentLoaded", () => {
           let discountRateTemp = 0;
 
