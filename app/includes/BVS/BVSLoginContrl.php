@@ -24,7 +24,10 @@ if (isset($_POST['BVSModuleLogin'])) {
             $_SESSION['staff_name'] = $staff['staff_name'];
             $_SESSION['role'] = $staff['role'];
 
-            $logStmt = $conn->prepare("INSERT INTO staff_logs (staff_id, login) VALUES (:staff_id, NOW())");
+            $logStmt = $conn->prepare("
+    INSERT INTO staff_logs (staff_id, log_type, log_time)
+    VALUES (:staff_id, 'IN', NOW())
+");
             $logStmt->execute([':staff_id' => $staff['staff_id']]);
 
             // Success alert with redirect
