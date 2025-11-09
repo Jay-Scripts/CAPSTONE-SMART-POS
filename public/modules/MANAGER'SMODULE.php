@@ -955,8 +955,7 @@ if (!isset($_SESSION['staff_name'])) {
       ==========================================================================================================================================
     -->
   <section id="complaintsManagement" class="bg-white rounded-lg shadow hidden">
-    <header
-      class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+    <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-2xl font-bold">Staff Logs History</h2>
@@ -972,60 +971,22 @@ if (!isset($_SESSION['staff_name'])) {
           class="p-2 border border-[var(--border-color)] rounded w-full sm:w-1/2 bg-[var(--background-color)] text-[var(--text-color)]">
       </div>
 
-      <?php
-      include "../../app/config/dbConnection.php";
+      <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
+        <table id="staffLogsTable" class="min-w-full border-collapse bg-[var(--glass-bg)]">
+          <thead class="sticky top-0 z-10 bg-gray-200 text-black">
+            <tr>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Staff ID</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Staff Name</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Role</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Log Type</th>
+              <th class="py-2 px-4 border border-[var(--border-color)]">Time</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-      try {
-        $staffLogs = $conn->query("
-            SELECT 
-                sl.logs_id,
-                si.staff_id,
-                si.staff_name,
-                sl.login,
-                sl.logout
-            FROM staff_logs sl
-            LEFT JOIN staff_info si ON sl.staff_id = si.staff_id
-            ORDER BY sl.login DESC
-        ")->fetchAll(PDO::FETCH_ASSOC);
-      } catch (PDOException $e) {
-        $staffLogs = [];
-      }
-      ?>
-
-      <?php if (!empty($staffLogs)): ?>
-        <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-          <table id="staffLogsTable" class="min-w-full border-collapse bg-[var(--glass-bg)]">
-            <thead class="sticky top-0 z-10 bg-gray-200 text-black">
-              <tr>
-                <th class="py-2 px-4 border border-[var(--border-color)]">Staff ID</th>
-                <th class="py-2 px-4 border border-[var(--border-color)]">Staff Name</th>
-                <th class="py-2 px-4 border border-[var(--border-color)]">Time In</th>
-                <th class="py-2 px-4 border border-[var(--border-color)]">Time Out</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($staffLogs as $log): ?>
-                <tr class="hover:bg-blue-400 hover:text-white transition">
-                  <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['staff_id'] ?></td>
-                  <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['staff_name']) ?></td>
-                  <td class="py-2 px-4 border border-[var(--border-color)]">
-                    <?= $log['login'] ? date('M d, Y • h:i A', strtotime($log['login'])) : '-' ?>
-                  </td>
-                  <td class="py-2 px-4 border border-[var(--border-color)]">
-                    <?= $log['logout'] ? date('M d, Y • h:i A', strtotime($log['logout'])) : '-' ?>
-                  </td>
-
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="mt-4 flex justify-center gap-2" id="staffLogsPagination"></div>
-
-      <?php else: ?>
-        <p class="text-sm">No staff logs found.</p>
-      <?php endif; ?>
+      <div class="mt-4 flex justify-center gap-2" id="staffLogsPagination"></div>
     </div>
 
     <script>
@@ -1040,8 +1001,24 @@ if (!isset($_SESSION['staff_name'])) {
         async function fetchLogs() {
           try {
             const response = await fetch('../../app/includes/managerModule/fetchStaffLogs.php');
-            const data = await response.text();
-            tableBody.innerHTML = data;
+            const data = await response.json(); // expecting JSON
+            tableBody.innerHTML = '';
+
+            data.forEach(log => {
+              const tr = document.createElement('tr');
+              tr.className = 'hover:bg-blue-400 hover:text-white transition';
+              tr.innerHTML = `
+              <td class="py-2 px-4 border border-[var(--border-color)]">${log.staff_id}</td>
+              <td class="py-2 px-4 border border-[var(--border-color)]">${log.staff_name}</td>
+              <td class="py-2 px-4 border border-[var(--border-color)]">${log.role}</td>
+              <td class="py-2 px-4 border border-[var(--border-color)] font-bold" style="color:${log.log_type === 'IN' ? 'green' : 'red'}">
+                ${log.log_type}
+              </td>
+              <td class="py-2 px-4 border border-[var(--border-color)]">${new Date(log.log_time).toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', hour12:true })}</td>
+            `;
+              tableBody.appendChild(tr);
+            });
+
             allRows = Array.from(tableBody.querySelectorAll('tr'));
             renderTable();
           } catch (err) {
@@ -1102,49 +1079,48 @@ if (!isset($_SESSION['staff_name'])) {
         });
 
         fetchLogs();
-        setInterval(fetchLogs, 1000); // Refresh every 1 second
+        setInterval(fetchLogs, 1000); // Real-time every 1 sec
       });
     </script>
 
-  </section>
-  <!-- 
+    <!-- 
       ==========================================================================================================================================
       =                                                   Complaints Management Ends Here                                                      =
       ==========================================================================================================================================
     -->
 
-  <!-- 
+    <!-- 
       ==========================================================================================================================================
       =                                                   Rewards Loyalty Program Starts Here                                                  =
       ==========================================================================================================================================
     -->
-  <section
-    id="rewards&LoyaltyProgram"
-    class="bg-white rounded-lg shadow hidden">
-    <header
-      class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
-          <p class="text-sm text-gray-600">
-            Welcome back, here's what's happening with your store today.
-          </p>
+    <section
+      id="rewards&LoyaltyProgram"
+      class="bg-white rounded-lg shadow hidden">
+      <header
+        class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
+            <p class="text-sm text-gray-600">
+              Welcome back, here's what's happening with your store today.
+            </p>
+          </div>
         </div>
-      </div>
-    </header>
-    <h3 class="text-xl font-semibold mb-2">Refund</h3>
-    <p>
-      // rewards & loyalty program dito naman yung analytics view ng mga
-      registered customer na may rewarding card or app
-    </p>
-  </section>
-  <!-- 
+      </header>
+      <h3 class="text-xl font-semibold mb-2">Refund</h3>
+      <p>
+        // rewards & loyalty program dito naman yung analytics view ng mga
+        registered customer na may rewarding card or app
+      </p>
+    </section>
+    <!-- 
       ==========================================================================================================================================
       =                                                   Rewards Loyalty Program Ends Here                                                    =
       ==========================================================================================================================================
     -->
 
-  <!-- 
+    <!-- 
       ==========================================================================================================================================
       =                                                   Discount Dashboard Starts Here                                                       =
       ==========================================================================================================================================
@@ -1152,16 +1128,16 @@ if (!isset($_SESSION['staff_name'])) {
 
 
 
-  <section id="discountDashboard" class="rounded-lg shadow hidden text-[var(--text-color)]">
+    <section id="discountDashboard" class="rounded-lg shadow hidden text-[var(--text-color)]">
 
 
-    <?php
-    include "../../app/includes/managerModule/manageSalesManagementDiscountDashboard.php";
-    ?>
-  </section>
+      <?php
+      include "../../app/includes/managerModule/manageSalesManagementDiscountDashboard.php";
+      ?>
+    </section>
 
 
-  <!-- 
+    <!-- 
       ==========================================================================================================================================
       =                                                   Discount Dashboard Ends Here                                                         =
       ==========================================================================================================================================
