@@ -3,7 +3,7 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 include "../../config/dbConnection.php";
 
-// 1️⃣ Sanitize input
+// Sanitize input
 $cashier_id  = isset($_GET['cashier_id']) ? trim($_GET['cashier_id']) : '';
 $start_date  = isset($_GET['start_date']) ? trim($_GET['start_date']) : '';
 $end_date    = isset($_GET['end_date']) ? trim($_GET['end_date']) : '';
@@ -15,7 +15,7 @@ $response = [
     "total"   => 0
 ];
 
-// 2️⃣ Validate input
+// Validate input
 if (empty($cashier_id)) {
     $response["message"] = "Cashier ID is required.";
     echo json_encode($response);
@@ -34,7 +34,7 @@ if (empty($start_date) || empty($end_date)) {
     exit;
 }
 
-// 3️⃣ Database query
+// Database query
 try {
     $stmt = $conn->prepare("
         SELECT IFNULL(SUM(total_amount), 0) AS total
@@ -43,6 +43,7 @@ try {
           AND date_added BETWEEN :start AND :end
           AND status = 'COMPLETED'
     ");
+
     $stmt->execute([
         ':id' => $cashier_id,
         ':start' => $start_date,
