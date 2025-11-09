@@ -643,6 +643,64 @@ if (!isset($_SESSION['staff_name'])) {
   </section>
 
   <script>
+    let lastStaffData = null;
+
+    // 🔹 Refresh staff table if data changes (roles or new staff)
+    async function refreshStaffTable() {
+      try {
+        const res = await fetch("../../app/includes/managerModule/managerStaffManagementFetchStaff.php");
+        const html = await res.text();
+
+        // Update only if content changed (new staff or role updates)
+        if (html !== lastStaffData) {
+          document.querySelector("tbody").innerHTML = html;
+          lastStaffData = html;
+        }
+      } catch (err) {
+        console.error("Failed to fetch staff data:", err);
+      }
+    }
+
+    // 🔹 Continuous async loop for real-time updates
+    async function startRealtimeSync(interval = 1000) {
+      while (true) {
+        await refreshStaffTable();
+        await new Promise(r => setTimeout(r, interval));
+      }
+    }
+
+    // 🔹 Start real-time loop
+    startRealtimeSync();
+
+    // 🔹 Send async request to update roles
+    async function sendRoleUpdate(action, staffId, role) {
+      const formData = new FormData();
+      formData.append("action", action);
+      formData.append("staffId", staffId);
+      formData.append("newRole", role);
+
+      try {
+        const res = await fetch("../../app/includes/managerModule/managerStaffManagementUpdateRoles.php", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+
+        Swal.fire({
+          icon: data.status,
+          title: data.message,
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        // Immediately refresh table after successful update
+        if (data.status === "success") await refreshStaffTable();
+      } catch (err) {
+        console.error("Failed to update role:", err);
+      }
+    }
+
+    // 🔹 Modify role popup
     function modifyRole(staffId, staffName) {
       Swal.fire({
         title: `Modify Role for ${staffName}`,
@@ -654,26 +712,13 @@ if (!isset($_SESSION['staff_name'])) {
         },
         inputPlaceholder: 'Select role',
         showCancelButton: true,
-        confirmButtonText: 'Update Role',
-        preConfirm: role => {
-          if (!role) Swal.showValidationMessage('Select a role')
-          return role;
-        }
+        confirmButtonText: 'Update Role'
       }).then(result => {
-        if (result.isConfirmed) {
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.innerHTML = `
-                <input type="hidden" name="staffId" value="${staffId}">
-                <input type="hidden" name="newRole" value="${result.value}">
-                <input type="hidden" name="modifyRole" value="1">
-            `;
-          document.body.appendChild(form);
-          form.submit();
-        }
+        if (result.isConfirmed) sendRoleUpdate("modifyRole", staffId, result.value);
       });
     }
 
+    // 🔹 Add role popup
     function addRole(staffId, staffName) {
       Swal.fire({
         title: `Add Role for ${staffName}`,
@@ -685,36 +730,14 @@ if (!isset($_SESSION['staff_name'])) {
         },
         inputPlaceholder: 'Select role',
         showCancelButton: true,
-        confirmButtonText: 'Add Role',
-        preConfirm: role => {
-          if (!role) Swal.showValidationMessage('Select a role')
-          return role;
-        }
+        confirmButtonText: 'Add Role'
       }).then(result => {
-        if (result.isConfirmed) {
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.innerHTML = `
-                <input type="hidden" name="staffId" value="${staffId}">
-                <input type="hidden" name="newRole" value="${result.value}">
-                <input type="hidden" name="addRole" value="1">
-            `;
-          document.body.appendChild(form);
-          form.submit();
-        }
+        if (result.isConfirmed) sendRoleUpdate("addRole", staffId, result.value);
       });
     }
-
-    // Trigger PHP SweetAlert messages
-    <?php if (!empty($swalMessage)): ?>
-      Swal.fire({
-        icon: '<?= $swalType ?>',
-        title: '<?= addslashes($swalMessage) ?>',
-        timer: 2500,
-        showConfirmButton: false
-      });
-    <?php endif; ?>
   </script>
+
+
 
 
 

@@ -559,7 +559,7 @@ header('Content-Type: text/html');
     -->
       <section
         id="cart"
-        class="animate-[fadeIn_0.3s_ease] hidden portraitmt-[-10%] mt-[-5%]  portrait:ml-[-2%] landscape:ml-[25%] absolute items-center justify-center rounded-lg portrait:p-0 w-[50%] h-screen portrait:m-0"
+        class="animate-[fadeIn_0.3s_ease] hidden portrait:mt-[-10%] mt-[-5%]  portrait:ml-[10%] landscape:ml-[50%] portrait:w-[80%] absolute items-center justify-center rounded-lg portrait:p-0 w-[50%] h-screen portrait:m-0"
         aria-label="Order Summary">
         <!-- Cart Box -->
         <modal
