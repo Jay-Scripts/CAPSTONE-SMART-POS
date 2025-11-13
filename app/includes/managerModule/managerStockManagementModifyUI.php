@@ -19,6 +19,8 @@
                       </select>
                       <input type="date" id="modal-date_made" class="w-full border border-[var(--border-color)] bg-[var(--background-color)] rounded px-3 py-2">
                       <input type="date" id="modal-date_expiry" class="w-full border border-[var(--border-color)] bg-[var(--background-color)] rounded px-3 py-2">
+                      <input type="text" id="modal-remarks" class="w-full border border-[var(--border-color)] bg-[var(--background-color)] rounded px-3 py-2" placeholder="Enter remarks">
+
                       <div class="flex justify-end space-x-2">
                           <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
                           <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save</button>
@@ -69,7 +71,8 @@
                               quantity: parseFloat(document.getElementById('modal-quantity').value),
                               unit: document.getElementById('modal-unit').value,
                               date_made: document.getElementById('modal-date_made').value,
-                              date_expiry: document.getElementById('modal-date_expiry').value
+                              date_expiry: document.getElementById('modal-date_expiry').value,
+                              remarks: document.getElementById('modal-remarks').value.trim() // <-- new
                           };
 
 

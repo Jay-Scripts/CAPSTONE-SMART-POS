@@ -1,17 +1,24 @@
 <?php
 include "../../app/config/dbConnection.php";
 
-$swalMessage = "";
-$swalType = "";
+// ────────────── Module-specific Variables ──────────────
+$regStaffName = $regStaffRoles = $regStaffManager = "";
+$regStaffSwalMessage = "";
+$regStaffSwalType = "";
 
+// ────────────── Form Submission ──────────────
 if (isset($_POST['submit'])) {
-    $staffName = trim($_POST['staffName']);
-    $roles = $_POST['roles'] ?? []; // array of selected roles
-    $managerAccount = $_POST['manager_account'] ?? null;
+    $regStaffName = trim($_POST['staffName']);
+    $regStaffRoles = $_POST['roles'] ?? []; // array of selected roles
+    $regStaffManager = $_POST['manager_account'] ?? null;
 
-    if (empty($staffName) || empty($roles)) {
-        $swalMessage = "Please enter staff name and select at least one role.";
-        $swalType = "error";
+    // ────────────── Validation ──────────────
+    if (empty($regStaffName) || empty($regStaffRoles)) {
+        $regStaffSwalMessage = "Please enter staff name and select at least one role.";
+        $regStaffSwalType = "error";
+    } elseif (!preg_match("/^[a-zA-Z\s]+$/", $regStaffName)) {
+        $regStaffSwalMessage = "Staff name can only contain letters and spaces.";
+        $regStaffSwalType = "error";
     } else {
         try {
             $conn->beginTransaction();
@@ -19,14 +26,14 @@ if (isset($_POST['submit'])) {
             // Insert staff
             $stmt = $conn->prepare("INSERT INTO staff_info (staff_name, added_by) VALUES (:staff_name, :added_by)");
             $stmt->execute([
-                ':staff_name' => $staffName,
-                ':added_by' => $managerAccount
+                ':staff_name' => htmlspecialchars($regStaffName),
+                ':added_by' => $regStaffManager
             ]);
             $staffId = $conn->lastInsertId();
 
             // Insert roles
             $stmtRole = $conn->prepare("INSERT INTO staff_roles (staff_id, role) VALUES (:staff_id, :role)");
-            foreach ($roles as $role) {
+            foreach ($regStaffRoles as $role) {
                 $stmtRole->execute([
                     ':staff_id' => $staffId,
                     ':role' => strtoupper($role)
@@ -34,12 +41,12 @@ if (isset($_POST['submit'])) {
             }
 
             $conn->commit();
-            $swalMessage = "Staff registered successfully!";
-            $swalType = "success";
+            $regStaffSwalMessage = "Staff registered successfully!";
+            $regStaffSwalType = "success";
         } catch (Exception $e) {
             $conn->rollBack();
-            $swalMessage = "Error: " . $e->getMessage();
-            $swalType = "error";
+            $regStaffSwalMessage = "Error: " . $e->getMessage();
+            $regStaffSwalType = "error";
         }
     }
 }
@@ -57,7 +64,7 @@ if (isset($_POST['submit'])) {
 
         <!-- Staff Name -->
         <label class="block mt-3">
-            <span class="block text-sm font-medium ">Staff Name <span class="text-red-500">*</span></span>
+            <span class="block text-sm font-medium">Staff Name <span class="text-red-500">*</span></span>
             <input type="text" name="staffName" required
                 class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                 placeholder="Enter staff name">
@@ -65,26 +72,23 @@ if (isset($_POST['submit'])) {
 
         <!-- Roles -->
         <fieldset class="mt-4 space-y-2 w-full">
-            <legend class="text-base sm:text-lg font-semibold ">
+            <legend class="text-base sm:text-lg font-semibold">
                 Select Roles <span class="text-red-500">*</span>
             </legend>
-
-            <!-- Make roles take full width -->
             <div class="flex flex-wrap gap-3 mt-2 w-full">
                 <?php $allRoles = ['BARISTA', 'CASHIER', 'MANAGER']; ?>
                 <?php foreach ($allRoles as $role): ?>
                     <label class="cursor-pointer flex-1 min-w-[120px] flex items-center justify-center">
                         <input type="checkbox" name="roles[]" value="<?= $role ?>" class="peer hidden" />
                         <div class="w-full text-center rounded-lg border border-gray-300 px-3 py-2  
-                    peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 
-                    peer-checked:bg-[var(--background-color)] transition font-semibold">
+                            peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-400 
+                            peer-checked:bg-[var(--background-color)] transition font-semibold">
                             <?= ucfirst(strtolower($role)) ?>
                         </div>
                     </label>
                 <?php endforeach; ?>
             </div>
         </fieldset>
-
 
         <!-- Hidden Manager -->
         <input type="hidden" name="manager_account" value="1" />
@@ -99,12 +103,12 @@ if (isset($_POST['submit'])) {
 </div>
 
 <!-- SweetAlert -->
-<?php if (!empty($swalMessage)): ?>
+<?php if (!empty($regStaffSwalMessage)): ?>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         Swal.fire({
-            icon: '<?= $swalType ?>',
-            title: '<?= addslashes($swalMessage) ?>',
+            icon: '<?= $regStaffSwalType ?>',
+            title: '<?= addslashes($regStaffSwalMessage) ?>',
             timer: 2500,
             showConfirmButton: false
         });

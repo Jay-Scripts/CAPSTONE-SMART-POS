@@ -617,8 +617,8 @@ header('Content-Type: text/html');
           </div>
 
           <script>
-            const kioskModal = document.getElementById("kioskModal");
-            const kioskInput = document.getElementById("kioskInput");
+            let kioskModal = document.getElementById("kioskModal");
+            let kioskInput = document.getElementById("kioskInput");
 
             function openKioskModal() {
               kioskModal.classList.remove("hidden");
@@ -659,7 +659,7 @@ header('Content-Type: text/html');
               }
 
               // Safe redirect
-              const encodedValue = encodeURIComponent(value);
+              let encodedValue = encodeURIComponent(value);
               window.location.href = `../pos/loadKioskOrder.php?id=${encodedValue}`;
             }
 
@@ -1007,17 +1007,17 @@ header('Content-Type: text/html');
             </button>
 
 
-            <!-- E Payment -->
-            <button onclick="openEPaymentPopup()"
-              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg  hover:bg-gray-300 dark:hover:bg-gray-700  relative">
+            <!-- E Payment Button -->
+            <button onclick="openManagerEPaymentModal()"
+              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
                 <rect x="2" y="6" width="20" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2" />
                 <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2" />
                 <rect x="4" y="12" width="3" height="3" rx="0.5" ry="0.5" fill="currentColor" />
               </svg>
-
               <p class="text-md">E-Payment</p>
             </button>
+
 
           </div>
 
@@ -1086,6 +1086,35 @@ header('Content-Type: text/html');
           </div>
 
           <!-- E-payment Popup -->
+          <!-- Manager Verification for E-Payment -->
+          <div id="managerEPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 animate-[fadeIn_0.3s_ease]">
+            <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow-lg p-6 w-80">
+
+              <!-- Manager Verification -->
+              <div id="managerEPayVerifySection">
+                <h2 class="text-lg font-bold mb-4">Manager Verification for E-Payment</h2>
+
+                <input
+                  type="password"
+                  id="managerEPayInput"
+                  placeholder="Scan Manager ID"
+                  autocomplete="off"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  class="w-full p-2 border rounded border-[var(--border-color)] bg-[var(--background-color)] focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+                <div class="flex justify-end mt-4 gap-2">
+                  <button onclick="closeManagerEPaymentModal()" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 transition">
+                    Cancel
+                  </button>
+                  <button onclick="verifyManagerEPayment()" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                    Verify
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div
             id="EPaymentPopup"
             class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
@@ -1222,17 +1251,101 @@ header('Content-Type: text/html');
 
 
       <script>
-        // Restrict Reference Number to letters and numbers only
-        const refInput = document.getElementById('refNumber');
+        /* ================================
+   STATE VARIABLES
+================================ */
+        let epayDiscountRateTemp = 0;
+        let epayAmount = 0; // stores finalized E-Payment amount
 
+        /* ================================
+           MODAL FUNCTIONS
+        ================================ */
+        window.openManagerEPaymentModal = function() {
+          document.getElementById("managerEPaymentModal").classList.remove("hidden");
+          document.getElementById("managerEPayVerifySection").classList.remove("hidden");
+          document.getElementById("managerEPayInput").value = "";
+          document.getElementById("managerEPayInput").focus();
+        }
+
+        window.closeManagerEPaymentModal = function() {
+          document.getElementById("managerEPaymentModal").classList.add("hidden");
+          document.getElementById("managerEPayInput").value = "";
+        }
+
+        window.openEPaymentPopup = function() {
+          document.getElementById("EPaymentPopup").classList.remove("hidden");
+          document.getElementById("refNumber").value = "";
+          document.querySelector('#EPayment input[name="epayAmountInput"]').value = "";
+        }
+
+        window.closeEPaymentPopup = function() {
+          document.getElementById("EPaymentPopup").classList.add("hidden");
+        }
+
+        /* ================================
+           MANAGER VERIFICATION
+        ================================ */
+        window.verifyManagerEPayment = async function() {
+          let staffId = document.getElementById("managerEPayInput").value.trim();
+          if (!staffId) {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Please scan or enter a manager ID."
+            });
+            return;
+          }
+
+          try {
+            let res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                staff_id: staffId
+              })
+            });
+            let data = await res.json();
+
+            if (data.success) {
+              closeManagerEPaymentModal();
+              openEPaymentPopup();
+              Swal.fire({
+                icon: "success",
+                title: "Verified",
+                text: "Manager approved E-Payment!"
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Denied",
+                text: data.message || "Not authorized."
+              });
+            }
+          } catch (err) {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: err.message
+            });
+          }
+        }
+
+        /* ================================
+           REFERENCE NUMBER INPUT RESTRICTION
+        ================================ */
+        let refInput = document.getElementById('refNumber');
         refInput.addEventListener('input', () => {
-          refInput.value = refInput.value.replace(/[^a-zA-Z0-9]/g, ''); // remove anything that's not a letter or number
+          refInput.value = refInput.value.replace(/[^a-zA-Z0-9]/g, '');
         });
 
-        let epayAmount = 0; // new global
+        /* ================================
+           FINALIZE E-PAYMENT
+        ================================ */
         window.finalizeEPayment = function() {
-          const refNumber = document.getElementById('refNumber').value.trim();
-          const amountInput = parseFloat(document.querySelector('#EPayment input[name="epayAmountInput"]').value) || 0;
+          let refNumber = document.getElementById('refNumber').value.trim();
+          let amountInput = parseFloat(document.querySelector('#EPayment input[name="epayAmountInput"]').value) || 0;
 
           if (!refNumber || amountInput <= 0) {
             Swal.fire({
@@ -1256,7 +1369,7 @@ header('Content-Type: text/html');
           // Close popup
           closeEPaymentPopup();
 
-          // ✅ SweetAlert confirmation
+          // SweetAlert confirmation
           Swal.fire({
             icon: 'success',
             title: 'E-Payment Added',
@@ -1265,9 +1378,22 @@ header('Content-Type: text/html');
             timerProgressBar: true,
             showConfirmButton: false
           });
-        };
+        }
 
+        /* ================================
+           RESET E-PAYMENT
+        ================================ */
+        window.resetEPayment = function() {
+          epayAmount = 0;
+          epayDiscountRateTemp = 0;
 
+          document.getElementById('epayAmountHidden').value = '';
+          document.getElementById('refNumberHidden').value = '';
+          document.getElementById('refNumber').value = '';
+          document.querySelector('#EPayment input[name="epayAmountInput"]').value = '';
+
+          updateDisplay(); // refresh calculator
+        }
 
 
 
@@ -1277,7 +1403,7 @@ header('Content-Type: text/html');
           let discountRateTemp = 0;
 
           // Restrict to numeric input
-          const managerInput = document.getElementById("managerInput");
+          let managerInput = document.getElementById("managerInput");
           managerInput.addEventListener("input", () => {
             managerInput.value = managerInput.value.replace(/\D/g, ""); // remove non-numbers
           });
@@ -1307,7 +1433,7 @@ header('Content-Type: text/html');
 
           // Manager verification
           window.verifyManager = async function() {
-            const staffId = managerInput.value.trim();
+            let staffId = managerInput.value.trim();
             if (!staffId) {
               Swal.fire({
                 icon: "error",
@@ -1318,7 +1444,7 @@ header('Content-Type: text/html');
             }
 
             try {
-              const res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
+              let res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json"
@@ -1327,7 +1453,7 @@ header('Content-Type: text/html');
                   staff_id: staffId
                 })
               });
-              const data = await res.json();
+              let data = await res.json();
 
               if (data.success) {
                 document.getElementById("managerVerifySection").classList.add("hidden");
@@ -1335,7 +1461,7 @@ header('Content-Type: text/html');
 
                 // Pre-fill discount type & amount
                 document.getElementById("discountType").value = data.type || "PWD";
-                const total = parseFloat(document.getElementById("totalAmount").innerText.replace(/[^0-9.-]+/g, "")) || 0;
+                let total = parseFloat(document.getElementById("totalAmount").innerText.replace(/[^0-9.-]+/g, "")) || 0;
                 document.getElementById("discountAmount").value = (total * discountRateTemp).toFixed(2);
 
                 Swal.fire({

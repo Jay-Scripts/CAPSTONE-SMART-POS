@@ -100,14 +100,11 @@ try {
             });
 
             if (filteredRows.length === 0) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'No Results',
-                    text: 'No discounted transactions match your search/filter.',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4">No discounted transactions found.</td></tr>`;
+                return;
             }
+
 
             const totalPages = Math.ceil(filteredRows.length / rowsPerPage) || 1;
             currentPage = Math.min(currentPage, totalPages);

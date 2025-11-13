@@ -486,6 +486,12 @@ foreach ($rows as $row) {
                                 printWindow.document.write(receiptHTML);
                                 printWindow.document.close();
                                 printWindow.focus();
+
+                                // Refresh page after printing
+                                printWindow.onafterprint = function() {
+                                    location.reload();
+                                };
+
                                 printWindow.print();
                             });
 
@@ -504,6 +510,7 @@ foreach ($rows as $row) {
                         document.getElementById("discountLastName").value = "";
                         document.getElementById("discountAmount").value = "";
                     });
+
                 } else {
                     Swal.fire({
                         icon: "error",

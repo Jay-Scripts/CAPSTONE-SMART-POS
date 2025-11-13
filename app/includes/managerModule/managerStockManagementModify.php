@@ -24,12 +24,19 @@ $quantity   = filter_var($data['quantity'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, F
 $unit       = sanitizeInput($data['unit'] ?? '');
 $date_made  = sanitizeInput($data['date_made'] ?? '');
 $date_expiry = sanitizeInput($data['date_expiry'] ?? '');
-
+$remarks = sanitizeInput($data['remarks'] ?? '');
 // Validation
 if (!$item_id || !$item_name || !$unit || !$quantity || !$date_made || !$date_expiry) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields']);
     exit;
 }
+
+
+if (!$remarks) {
+    echo json_encode(['success' => false, 'message' => 'Remarks are required']);
+    exit;
+}
+
 
 // Item name only letters, numbers, spaces
 if (!preg_match("/^[a-zA-Z0-9 ]+$/", $item_name)) {
@@ -96,20 +103,19 @@ try {
     // 3️ Insert log
     $quantity_adjusted = $quantity - $quantity_before;
     $stmt = $conn->prepare("
-        INSERT INTO inventory_item_logs
-        (item_id, staff_id, action_type, last_quantity, quantity_adjusted, total_after, remarks)
-        VALUES
-        (:item_id, :staff_id, 'ADJUSTMENT', :last_quantity, :quantity_adjusted, :total_after, :remarks)
-    ");
+    INSERT INTO inventory_item_logs
+    (item_id, staff_id, action_type, last_quantity, quantity_adjusted, total_after, remarks)
+    VALUES
+    (:item_id, :staff_id, 'ADJUSTMENT', :last_quantity, :quantity_adjusted, :total_after, :remarks)
+");
     $stmt->execute([
         ':item_id' => $item_id,
         ':staff_id' => $staff_id,
         ':last_quantity' => $quantity_before,
         ':quantity_adjusted' => $quantity_adjusted,
         ':total_after' => $quantity,
-        ':remarks' => 'Modified via manager UI'
+        ':remarks' => $remarks
     ]);
-
     echo json_encode(['success' => true, 'message' => 'Item updated successfully']);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'DB Error: ' . $e->getMessage()]);
