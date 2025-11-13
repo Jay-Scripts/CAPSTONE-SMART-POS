@@ -945,12 +945,12 @@ if (!isset($_SESSION['staff_name'])) {
     </header>
     <div class="p-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-        <input type="text" id="searchStaffLogs" placeholder="Search staff name..."
+        <input type="text" id="StaffLogsSearch" placeholder="Search staff name..."
           class="p-2 border border-[var(--border-color)] rounded w-full sm:w-1/2 bg-[var(--background-color)] text-[var(--text-color)]">
       </div>
 
       <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-        <table id="staffLogsTable" class="min-w-full border-collapse bg-[var(--glass-bg)]">
+        <table id="StaffLogsTable" class="min-w-full border-collapse bg-[var(--glass-bg)]">
           <thead class="sticky top-0 z-10 bg-gray-200 text-black">
             <tr>
               <th class="py-2 px-4 border border-[var(--border-color)]">Staff ID</th>
@@ -964,22 +964,22 @@ if (!isset($_SESSION['staff_name'])) {
         </table>
       </div>
 
-      <div class="mt-4 flex justify-center gap-2" id="staffLogsPagination"></div>
+      <div class="mt-4 flex justify-center gap-2" id="StaffLogsPagination"></div>
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const tableBody = document.querySelector('#staffLogsTable tbody');
-        const searchInput = document.getElementById('searchStaffLogs');
-        const pagination = document.getElementById('staffLogsPagination');
+      function initStaffLogsModule() {
+        const tableBody = document.querySelector('#StaffLogsTable tbody');
+        const searchInput = document.getElementById('StaffLogsSearch');
+        const pagination = document.getElementById('StaffLogsPagination');
         const rowsPerPage = 10;
         let currentPage = 1;
         let allRows = [];
 
-        async function fetchLogs() {
+        async function fetchStaffLogs() {
           try {
             const response = await fetch('../../app/includes/managerModule/fetchStaffLogs.php');
-            const data = await response.json(); // expecting JSON
+            const data = await response.json();
             tableBody.innerHTML = '';
 
             data.forEach(log => {
@@ -989,22 +989,20 @@ if (!isset($_SESSION['staff_name'])) {
               <td class="py-2 px-4 border border-[var(--border-color)]">${log.staff_id}</td>
               <td class="py-2 px-4 border border-[var(--border-color)]">${log.staff_name}</td>
               <td class="py-2 px-4 border border-[var(--border-color)]">${log.role}</td>
-              <td class="py-2 px-4 border border-[var(--border-color)] font-bold" style="color:${log.log_type === 'IN' ? 'green' : 'red'}">
-                ${log.log_type}
-              </td>
+              <td class="py-2 px-4 border border-[var(--border-color)] font-bold" style="color:${log.log_type === 'IN' ? 'green' : 'red'}">${log.log_type}</td>
               <td class="py-2 px-4 border border-[var(--border-color)]">${new Date(log.log_time).toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', hour12:true })}</td>
             `;
               tableBody.appendChild(tr);
             });
 
             allRows = Array.from(tableBody.querySelectorAll('tr'));
-            renderTable();
+            renderStaffLogsTable();
           } catch (err) {
             console.error('Error fetching logs:', err);
           }
         }
 
-        function renderTable() {
+        function renderStaffLogsTable() {
           const filterText = searchInput.value.toLowerCase();
           const filteredRows = allRows.filter(row => row.textContent.toLowerCase().includes(filterText));
           const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
@@ -1022,7 +1020,7 @@ if (!isset($_SESSION['staff_name'])) {
           prevBtn.className = `px-3 py-1 rounded ${prevBtn.disabled ? 'bg-gray-300' : 'bg-gray-200'}`;
           prevBtn.onclick = () => {
             currentPage--;
-            renderTable();
+            renderStaffLogsTable();
           };
           pagination.appendChild(prevBtn);
 
@@ -1035,7 +1033,7 @@ if (!isset($_SESSION['staff_name'])) {
             btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
             btn.onclick = () => {
               currentPage = i;
-              renderTable();
+              renderStaffLogsTable();
             };
             pagination.appendChild(btn);
           }
@@ -1046,59 +1044,64 @@ if (!isset($_SESSION['staff_name'])) {
           nextBtn.className = `px-3 py-1 rounded ${nextBtn.disabled ? 'bg-gray-300' : 'bg-gray-200'}`;
           nextBtn.onclick = () => {
             currentPage++;
-            renderTable();
+            renderStaffLogsTable();
           };
           pagination.appendChild(nextBtn);
         }
 
         searchInput.addEventListener('input', () => {
           currentPage = 1;
-          renderTable();
+          renderStaffLogsTable();
         });
 
-        fetchLogs();
-        setInterval(fetchLogs, 1000); // Real-time every 1 sec
-      });
-    </script>
+        fetchStaffLogs();
+        setInterval(fetchStaffLogs, 1000);
+      }
 
-    <!-- 
+      // ✅ Initialize immediately
+      initStaffLogsModule();
+    </script>
+  </section>
+
+
+  <!-- 
       ==========================================================================================================================================
       =                                                   Complaints Management Ends Here                                                      =
       ==========================================================================================================================================
     -->
 
-    <!-- 
+  <!-- 
       ==========================================================================================================================================
       =                                                   Rewards Loyalty Program Starts Here                                                  =
       ==========================================================================================================================================
     -->
-    <section
-      id="rewards&LoyaltyProgram"
-      class="bg-white rounded-lg shadow hidden">
-      <header
-        class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
-            <p class="text-sm text-gray-600">
-              Welcome back, here's what's happening with your store today.
-            </p>
-          </div>
+  <section
+    id="rewards&LoyaltyProgram"
+    class="bg-white rounded-lg shadow hidden">
+    <header
+      class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">Rewards & Loyalty Program</h2>
+          <p class="text-sm text-gray-600">
+            Welcome back, here's what's happening with your store today.
+          </p>
         </div>
-      </header>
-      <h3 class="text-xl font-semibold mb-2">Refund</h3>
-      <p>
-        // rewards & loyalty program dito naman yung analytics view ng mga
-        registered customer na may rewarding card or app
-      </p>
-    </section>
-    <!-- 
+      </div>
+    </header>
+    <h3 class="text-xl font-semibold mb-2">Refund</h3>
+    <p>
+      // rewards & loyalty program dito naman yung analytics view ng mga
+      registered customer na may rewarding card or app
+    </p>
+  </section>
+  <!-- 
       ==========================================================================================================================================
       =                                                   Rewards Loyalty Program Ends Here                                                    =
       ==========================================================================================================================================
     -->
 
-    <!-- 
+  <!-- 
       ==========================================================================================================================================
       =                                                   Discount Dashboard Starts Here                                                       =
       ==========================================================================================================================================
@@ -1106,16 +1109,16 @@ if (!isset($_SESSION['staff_name'])) {
 
 
 
-    <section id="discountDashboard" class="rounded-lg shadow hidden text-[var(--text-color)]">
+  <section id="discountDashboard" class="rounded-lg shadow hidden text-[var(--text-color)]">
 
 
-      <?php
-      include "../../app/includes/managerModule/manageSalesManagementDiscountDashboard.php";
-      ?>
-    </section>
+    <?php
+    include "../../app/includes/managerModule/manageSalesManagementDiscountDashboard.php";
+    ?>
+  </section>
 
 
-    <!-- 
+  <!-- 
       ==========================================================================================================================================
       =                                                   Discount Dashboard Ends Here                                                         =
       ==========================================================================================================================================

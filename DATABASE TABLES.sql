@@ -1,7 +1,4 @@
-    create database SMART_POS;
 
-    USE SMART_POS;
-      drop database smart_pos;
       
 
   --       ==================================================================================================================================================================================================================================
@@ -39,47 +36,6 @@ CREATE TABLE staff_logs (
 
   --       = STAFF TABLE - ENDS HERE   =
 
-
-
-
-
-  CREATE TABLE CUSTOMER_INFO (
-      CUSTOMER_ID INT AUTO_INCREMENT PRIMARY KEY,     
-      FIRST_NAME VARCHAR(100) NOT NULL,
-      LAST_NAME VARCHAR(100) NOT NULL,
-      EMAIL VARCHAR(100) UNIQUE,
-      date_added DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE customer_account (
-      cust_account_id INT AUTO_INCREMENT PRIMARY KEY,
-      CUSTOMER_ID INT NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      points DECIMAL(10,2) DEFAULT 0.00 CHECK (points >= 0),
-      status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE',
-      created_by INT NOT NULL,  -- MANAGER WHO CREATED THE ACCOUNT
-      date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-          FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID) 
-          ON DELETE CASCADE,
-  FOREIGN KEY (created_by) REFERENCES staff_info(staff_id) 
-      ON DELETE RESTRICT
-  );
-
-  -- -- History / audit log of point changes
-  CREATE TABLE customer_points_history (
-      history_id INT AUTO_INCREMENT PRIMARY KEY,
-      cust_account_id INT NOT NULL,
-      change_type ENUM('EARN', 'REDEEM') NOT NULL,
-      points_changed DECIMAL(10,2) NOT NULL,
-      balance_after DECIMAL(10,2) NOT NULL,
-      transact_by INT not null,  -- staff_id who made the change (nullable if auto system)
-      change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id)
-          ON DELETE CASCADE,
-      FOREIGN KEY (transact_by) REFERENCES staff_info(staff_id)
-              ON UPDATE CASCADE 
-      ON DELETE RESTRICT
-  ); 
 
   --        
   --       ==========================================================================================================================================
@@ -124,7 +80,7 @@ CREATE TABLE staff_logs (
     CREATE TABLE product_sizes (
       size_id INT AUTO_INCREMENT PRIMARY KEY,
       product_id INT NOT NULL,
-      size ENUM('medio', 'grande', 'promo') DEFAULT 'medio',
+      size ENUM('medio', 'grande', 'promo', 'hot brew') DEFAULT 'medio',
       regular_price DECIMAL(6,2) DEFAULT 0.00,
       promo_price DECIMAL(6,2) DEFAULT 0.00,
       status ENUM('active', 'inactive') DEFAULT 'active',
@@ -168,12 +124,10 @@ CREATE TABLE staff_logs (
 -- ========================================================================
 CREATE TABLE kiosk_transaction (
   kiosk_transaction_id INT AUTO_INCREMENT PRIMARY KEY,
-  cust_account_id INT NULL, -- can be null for walk-in customers
   total_amount DECIMAL(10,2) DEFAULT 0.00,
   vat_amount DECIMAL(10,2) DEFAULT 0.00,
  status ENUM('PENDING', 'PAID', 'VOID') DEFAULT 'PENDING',
-  date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (cust_account_id) REFERENCES customer_account(cust_account_id) ON DELETE SET NULL
+  date_added DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -236,7 +190,6 @@ CREATE TABLE kiosk_item_modification (
         CREATE TABLE REG_TRANSACTION (
         REG_TRANSACTION_ID INT AUTO_INCREMENT PRIMARY KEY,
         kiosk_transaction_id int null, -- add id if comes from kiosk
-        cust_account_id INT NULL, -- CAN BE NULL FOR WAILK IN CUST AND WE THE CASHHIER WILL SCAN THE BREW REWARDS CARD QR TO STORE THE CUST ACCOUNT ID HERE, IF THEY HAVE ONE 
         STAFF_ID INT NOT NULL,
         ORDERED_BY ENUM('KIOSK', 'POS', 'REWARDS APP') DEFAULT 'POS',
         vatable_sales DECIMAL(10,2) NOT NULL DEFAULT 0.00,
@@ -247,7 +200,6 @@ CREATE TABLE kiosk_item_modification (
         STATUS ENUM('PENDING', 'PAID', 'NOW SERVING', 'COMPLETED', 'REFUNDED', 'WASTE', 'VOID') DEFAULT 'PENDING',
         date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (kiosk_transaction_id) REFERENCES kiosk_transaction(kiosk_transaction_id) ON DELETE SET NULL,
-        FOREIGN KEY (cust_account_id) REFERENCES CUSTOMER_ACCOUNT(cust_account_id) ON DELETE SET NULL,
         FOREIGN KEY (STAFF_ID) REFERENCES STAFF_INFO(STAFF_ID) ON DELETE CASCADE
       );
 

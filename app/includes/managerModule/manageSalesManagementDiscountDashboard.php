@@ -1,13 +1,13 @@
 <?php
-$monthFilter = $_GET['month'] ?? null;
-$whereMonth = '';
+$DiscDashMonthFilter = $_GET['month'] ?? null;
+$DiscDashWhereMonth = '';
 
-if ($monthFilter) {
-    $whereMonth = " AND DATE_FORMAT(dt.TRANSACTION_TIME, '%Y-%m') = :month";
+if ($DiscDashMonthFilter) {
+    $DiscDashWhereMonth = " AND DATE_FORMAT(dt.TRANSACTION_TIME, '%Y-%m') = :month";
 }
 
 try {
-    $stmt = $conn->prepare("
+    $DiscDashStmt = $conn->prepare("
         SELECT 
             dt.FIRST_NAME,
             dt.LAST_NAME,
@@ -19,37 +19,38 @@ try {
         FROM DISC_TRANSACTION dt
         INNER JOIN REG_TRANSACTION rt 
             ON dt.REG_TRANSACTION_ID = rt.REG_TRANSACTION_ID
-        WHERE 1=1 $whereMonth
+        WHERE 1=1 $DiscDashWhereMonth
         ORDER BY dt.TRANSACTION_TIME DESC
     ");
 
-    if ($monthFilter) $stmt->bindValue(':month', $monthFilter);
-    $stmt->execute();
-    $discounts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($DiscDashMonthFilter) $DiscDashStmt->bindValue(':month', $DiscDashMonthFilter);
+    $DiscDashStmt->execute();
+    $DiscDashData = $DiscDashStmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    $discounts = [];
+    $DiscDashData = [];
 }
-
 ?>
+
 <header class="mb-4 p-5">
     <h2 class="text-2xl font-bold mb-2">Discount Dashboard</h2>
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <input type="text" id="searchDiscount" placeholder="Search customer..."
+        <input type="text" id="DiscDashSearch" placeholder="Search customer..."
             class="p-2 border border-[var(--border-color)] bg-[var(--background-color)] rounded w-full sm:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400">
-        <select id="filterDiscType"
-            class="p-2 border  bg-[var(--background-color)] rounded w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <select id="DiscDashType"
+            class="p-2 border bg-[var(--background-color)] rounded w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400">
             <option value="">All Types</option>
             <option value="PWD">PWD</option>
             <option value="SC">SC</option>
         </select>
-        <input type="month" id="filterMonth" value="<?= htmlspecialchars($monthFilter ?? '') ?>"
+        <input type="month" id="DiscDashMonth" value="<?= htmlspecialchars($DiscDashMonthFilter ?? '') ?>"
             class="p-2 border border-[var(--border-color)] bg-[var(--background-color)] rounded w-full sm:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400">
-        <button id="printDiscount"
+        <button id="DiscDashPrint"
             class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all">Print</button>
     </div>
 </header>
+
 <div class="overflow-x-auto rounded-lg p-5">
-    <table id="discountTable" class="min-w-full border-collapse  bg-[var(--glass-bg)]">
+    <table id="DiscDashTable" class="min-w-full border-collapse bg-[var(--glass-bg)]">
         <thead class="bg-gray-100 text-black sticky top-0 z-10">
             <tr>
                 <th class="py-2 px-4 border">Customer</th>
@@ -61,34 +62,34 @@ try {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($discounts as $d): ?>
-                <tr class="hover:bg-blue-400 hover:text-white transition" data-type="<?= $d['ID_TYPE'] ?>">
-                    <td class="py-2 px-4 border"><?= htmlspecialchars($d['FIRST_NAME'] . ' ' . $d['LAST_NAME']) ?></td>
-                    <td class="py-2 px-4 border"><?= $d['ID_TYPE'] ?></td>
-                    <td class="py-2 px-4 border"><?= number_format($d['DISC_TOTAL_AMOUNT'], 2) ?></td>
-                    <td class="py-2 px-4 border"><?= number_format($d['amount_paid'], 2) ?></td>
-                    <td class="py-2 px-4 border"><?= number_format($d['total_before_disc'], 2) ?></td>
-                    <td class="py-2 px-4 border"><?= $d['TRANSACTION_TIME'] ?></td>
+            <?php foreach ($DiscDashData as $DiscDashRow): ?>
+                <tr class="hover:bg-blue-400 hover:text-white transition" data-type="<?= $DiscDashRow['ID_TYPE'] ?>">
+                    <td class="py-2 px-4 border"><?= htmlspecialchars($DiscDashRow['FIRST_NAME'] . ' ' . $DiscDashRow['LAST_NAME']) ?></td>
+                    <td class="py-2 px-4 border"><?= $DiscDashRow['ID_TYPE'] ?></td>
+                    <td class="py-2 px-4 border"><?= number_format($DiscDashRow['DISC_TOTAL_AMOUNT'], 2) ?></td>
+                    <td class="py-2 px-4 border"><?= number_format($DiscDashRow['amount_paid'], 2) ?></td>
+                    <td class="py-2 px-4 border"><?= number_format($DiscDashRow['total_before_disc'], 2) ?></td>
+                    <td class="py-2 px-4 border"><?= $DiscDashRow['TRANSACTION_TIME'] ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
 
-<div class="mt-4 flex justify-center gap-2" id="discountPagination"></div>
+<div class="mt-4 flex justify-center gap-2" id="DiscDashPagination"></div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const table = document.getElementById('discountTable');
-        const searchInput = document.getElementById('searchDiscount');
-        const filterSelect = document.getElementById('filterDiscType');
-        const pagination = document.getElementById('discountPagination');
+        const table = document.getElementById('DiscDashTable');
+        const searchInput = document.getElementById('DiscDashSearch');
+        const filterSelect = document.getElementById('DiscDashType');
+        const pagination = document.getElementById('DiscDashPagination');
         const rowsPerPage = 10;
         let currentPage = 1;
 
         const rows = Array.from(table.querySelectorAll('tbody tr'));
 
-        function renderTable() {
+        function renderDiscDashTable() {
             const filterText = searchInput.value.toLowerCase();
             const filterType = filterSelect.value;
 
@@ -115,7 +116,6 @@ try {
             filteredRows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
                 .forEach(r => r.style.display = '');
 
-            // Pagination
             pagination.innerHTML = '';
             if (totalPages <= 1) return;
 
@@ -125,17 +125,17 @@ try {
             prevBtn.className = `px-3 py-1 rounded ${prevBtn.disabled ? 'bg-gray-200' : 'bg-gray-300'}`;
             prevBtn.addEventListener('click', () => {
                 currentPage--;
-                renderTable();
+                renderDiscDashTable();
             });
             pagination.appendChild(prevBtn);
 
             for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.textContent = i;
-                btn.className = `px-3 py-1 rounded ${i===currentPage?'bg-blue-500 text-white':'bg-gray-200'}`;
+                btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`;
                 btn.addEventListener('click', () => {
                     currentPage = i;
-                    renderTable();
+                    renderDiscDashTable();
                 });
                 pagination.appendChild(btn);
             }
@@ -146,25 +146,26 @@ try {
             nextBtn.className = `px-3 py-1 rounded ${nextBtn.disabled ? 'bg-gray-200' : 'bg-gray-300'}`;
             nextBtn.addEventListener('click', () => {
                 currentPage++;
-                renderTable();
+                renderDiscDashTable();
             });
             pagination.appendChild(nextBtn);
         }
 
         searchInput.addEventListener('input', () => {
             currentPage = 1;
-            renderTable();
-        });
-        filterSelect.addEventListener('change', () => {
-            currentPage = 1;
-            renderTable();
+            renderDiscDashTable();
         });
 
-        renderTable();
+        filterSelect.addEventListener('change', () => {
+            currentPage = 1;
+            renderDiscDashTable();
+        });
+
+        renderDiscDashTable();
     });
 
     // Month filter reload
-    document.getElementById('filterMonth').addEventListener('change', e => {
+    document.getElementById('DiscDashMonth').addEventListener('change', e => {
         const month = e.target.value;
         if (!month) {
             Swal.fire({
@@ -177,9 +178,9 @@ try {
         window.location.href = `?month=${month}`;
     });
 
-    // Print in new window
-    document.getElementById('printDiscount').addEventListener('click', () => {
-        const month = document.getElementById('filterMonth').value || '';
+    // Print
+    document.getElementById('DiscDashPrint').addEventListener('click', () => {
+        const month = document.getElementById('DiscDashMonth').value || '';
         if (!month) {
             Swal.fire({
                 icon: 'warning',
@@ -188,7 +189,6 @@ try {
             });
             return;
         }
-        // Open dedicated print page
         const url = `../../app/includes/managerModule/printDiscounts.php?month=${encodeURIComponent(month)}`;
         window.open(url, "_blank");
     });

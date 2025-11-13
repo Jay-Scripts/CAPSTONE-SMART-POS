@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $port = 3307;
-$dbName = "sampol";
+$dbName = "dede";
 $username = "root";
 $password = "";
 

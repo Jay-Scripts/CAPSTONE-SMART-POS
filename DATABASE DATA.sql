@@ -327,11 +327,11 @@ VALUES
 -- For grande (₱49.00)
   INSERT INTO product_sizes (product_id, size, regular_price)
 VALUES
-  (44, 'grande', 49.00),
-  (45, 'grande', 49.00),
-  (46, 'grande', 49.00),
-  (47, 'grande', 49.00),
-  (48, 'grande', 49.00);
+  (44, 'medio', 39.00),
+  (45, 'medio', 39.00),
+  (46, 'medio', 39.00),
+  (47, 'medio', 39.00),
+  (48, 'medio', 39.00);
 --   
 --       ======================
 --       = HOT BREW ENDS HERE =
@@ -386,7 +386,8 @@ VALUES
 (8, 'CREAM CHEESE', 10.00),
 (8, 'COFFEE JELLY', 10.00),
 (8, 'CRUSHED OREO', 10.00),
-(8, 'CHIA SEED', 10.00);
+(8, 'CHIA SEED', 10.00),
+(8, 'Crystal', 10.00);
 
 --   
 --       ======================
@@ -608,7 +609,8 @@ VALUES
     (1, 'Cream Cheese AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (1, 'Coffee Jelly AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (1, 'Crushed Oreo AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Chia Seed AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
+    (1, 'Chia Seed AddOn', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+      (1, 'Crystal', 1, NULL, 8, 'g', 1000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
 --       ============================
 --       = ADDONS INV ENDS HERE  =
 --       ============================
