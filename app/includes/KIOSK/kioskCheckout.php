@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_data'])) {
 
         // ✅ Insert main transaction
         $stmt = $conn->prepare("
-            INSERT INTO kiosk_transaction (cust_account_id, total_amount, status)
-            VALUES (NULL, ?, 'PENDING')
+            INSERT INTO kiosk_transaction (total_amount, status)
+            VALUES ( ?, 'PENDING')
         ");
         $stmt->execute([$total]);
         $kioskId = $conn->lastInsertId();

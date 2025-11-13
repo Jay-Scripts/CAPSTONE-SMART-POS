@@ -2,20 +2,20 @@
 include "../../config/dbConnection.php";
 session_start();
 
-// ✅ Fetch session user name
+// Fetch session user name
 $staffName = $_SESSION['staff_name'] ?? 'Unknown User';
 
-// ✅ Validate transaction ID
+// Validate transaction ID
 $regId = intval($_GET['id'] ?? 0);
 if (!$regId) die("Invalid transaction ID");
 
-// ✅ Fetch transaction details
+// Fetch transaction details
 $stmt = $conn->prepare("SELECT * FROM REG_TRANSACTION WHERE REG_TRANSACTION_ID = ?");
 $stmt->execute([$regId]);
 $trans = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$trans) die("Transaction not found");
 
-// ✅ Fetch items
+// Fetch transaction items
 $itemStmt = $conn->prepare("
   SELECT ti.QUANTITY, pd.product_name, ps.SIZE
   FROM TRANSACTION_ITEM ti
@@ -36,7 +36,6 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
         @media print {
             @page {
                 size: 58mm auto;
-                /* ✅ Auto height */
                 margin: 0;
             }
 
@@ -47,9 +46,12 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
 
         body {
             font-family: 'Courier New', monospace;
-            width: 80mm;
             margin: 0 auto;
             font-size: 12px;
+        }
+
+        .center {
+            text-align: center;
         }
 
         .divider {
@@ -58,8 +60,6 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         table {
-            width: 100%;
-            text-align: left;
             border-collapse: collapse;
         }
 
@@ -68,16 +68,29 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .footer {
-            margin-top: 8px;
+            margin-top: 10px;
+        }
+
+        .qr-code {
+            display: block;
+            margin: 10px auto;
         }
     </style>
 </head>
 
 <body>
-    <h2>PICK SLIP</h2>
+
+    <h2 class="center">PICK SLIP</h2>
     <div class="divider"></div>
+
     <p><strong>Transaction #<?= $regId ?></strong></p>
-    <canvas id="qrCanvas" class="qr-code" style="margin:10px auto; display:block;"></canvas>
+
+    <!-- QR Code -->
+    <canvas id="qrCanvas" class="qr-code"></canvas>
+
+    <!-- Barcode -->
+    <svg id="barcode" class="qr-code"></svg>
+
     <div class="divider"></div>
 
     <table>
@@ -90,6 +103,7 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
     </table>
 
     <div class="divider"></div>
+
     <p><strong>Total:</strong> ₱<?= number_format($trans['TOTAL_AMOUNT'], 2) ?></p>
     <p><?= date('M d, Y h:i A', strtotime($trans['date_added'])) ?></p>
 
@@ -98,16 +112,35 @@ $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
         <p>Prepared by: <strong><?= htmlspecialchars($staffName) ?></strong></p>
     </div>
 
+    <!-- QR + Barcode Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></script>
+
     <script>
+        // QR
         const qr = new QRious({
-            element: document.getElementById('qrCanvas'),
-            value: '<?= $regId ?>',
-            size: 130,
-            level: 'H'
+            element: document.getElementById("qrCanvas"),
+            value: "<?= $regId ?>",
+            size: 120,
+            level: "H"
         });
-        window.onload = () => window.print();
+
+        // Barcode
+        JsBarcode("#barcode", "<?= $regId ?>", {
+            format: "CODE128",
+            width: 2,
+            height: 45,
+            displayValue: true,
+            fontSize: 12,
+            textMargin: 2
+        });
+
+        // Delay printing so QR + barcode finish drawing
+        setTimeout(() => {
+            window.print();
+        }, 300);
     </script>
+
 </body>
 
 </html>

@@ -118,41 +118,112 @@ try {
     <meta charset="UTF-8" />
     <title>Receipt</title>
     <style>
-        header,
-        footer {
-            text-align: center;
+        /* ======== PRINT SETUP ======== */
+        @media print {
+            @page {
+                size: 58mm auto;
+                /* thermal printer width */
+                margin: 0;
+                /* no default browser margin */
+            }
+
+            body {
+                margin: 0;
+                padding: 10mm;
+                /* spacing around content */
+            }
         }
 
+        /* ======== BODY ======== */
         body {
             font-family: "Courier New", monospace;
             width: 58mm;
+            /* match printer width */
             margin: 0 auto;
+            padding: 10px;
+            /* space from edges */
+            font-size: 12px;
+            /* base font */
+            line-height: 1.5;
+            /* space between lines */
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* ======== HEADER ======== */
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+            /* space after header */
+        }
+
+        header h1 {
+            margin: 2px 0;
+            font-size: 14px;
+        }
+
+        header p {
+            margin: 2px 0;
             font-size: 12px;
         }
 
+        /* ======== TABLE ======== */
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 10px;
+            /* space after table */
         }
 
         td {
             font-size: 13px;
             vertical-align: top;
+            padding: 4px 0;
+            /* spacing for rows */
         }
 
+        /* Total / Bold text */
         .total {
             font-weight: bold;
             text-align: right;
+            margin: 4px 0;
         }
 
+        /* Add-ons and modifications */
         .addons,
         .mods {
             text-align: left;
             white-space: pre-line;
+            /* line breaks */
+            padding-left: 10px;
+            font-size: 12px;
         }
 
+        /* ======== HR / DIVIDERS ======== */
         hr {
             border: 1px dashed black;
+            margin: 6px 0;
+        }
+
+        /* ======== FOOTER ======== */
+        footer {
+            text-align: center;
+            margin-top: 10px;
+            /* spacing from content above */
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        /* ======== QR / Barcode (if needed) ======== */
+        .qr-code {
+            display: block;
+            margin: 10px auto;
+            /* centered with space */
+        }
+
+        /* Optional: extra space at the bottom to feed paper */
+        .print-buffer {
+            height: 20-30mm;
         }
     </style>
 </head>

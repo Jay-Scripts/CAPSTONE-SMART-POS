@@ -1,6 +1,40 @@
 <?php
 include "../../config/dbConnection.php";
 
+function getLocalIPv4()
+{
+    $ips = [];
+    if (PHP_OS_FAMILY === 'Windows') {
+        // Windows
+        exec('ipconfig', $output);
+        foreach ($output as $line) {
+            if (preg_match('/IPv4 Address[. ]*: ([0-9.]+)/', $line, $matches)) {
+                $ips[] = $matches[1];
+            }
+        }
+    } else {
+        // Linux / macOS
+        exec('hostname -I', $output);
+        if (!empty($output[0])) {
+            $ips = explode(' ', trim($output[0]));
+        }
+    }
+    // Return first private IPv4
+    foreach ($ips as $ip) {
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE) === false) {
+            // It's a private IPv4
+            return $ip;
+        }
+    }
+    return '127.0.0.1'; // fallback
+}
+
+$serverIP = getLocalIPv4();
+
+
+$posPath = "/SmartPOS1/public/modules/SATISFACTIONRating.php";
+$posLink = "http://$serverIP$posPath";
+
 if (!isset($_GET['id'])) {
     die("No transaction ID provided.");
 }
@@ -118,41 +152,120 @@ try {
     <meta charset="UTF-8" />
     <title>Receipt</title>
     <style>
-        header,
-        footer {
-            text-align: center;
+        /* ======== PRINT SETUP ======== */
+        @media print {
+            @page {
+                size: 58mm auto;
+                /* thermal printer width */
+                margin: 0;
+                /* no default browser margin */
+            }
+
+            body {
+                margin: 0;
+                padding: 10mm;
+                /* spacing around content */
+            }
         }
 
+        /* ======== BODY ======== */
         body {
             font-family: "Courier New", monospace;
             width: 58mm;
+            /* match printer width */
             margin: 0 auto;
+            padding: 10px;
+            /* space from edges */
+            font-size: 12px;
+            /* base font */
+            line-height: 1.5;
+            /* space between lines */
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* ======== HEADER ======== */
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+            /* space after header */
+        }
+
+        header h1 {
+            margin: 2px 0;
+            font-size: 14px;
+        }
+
+        header p {
+            margin: 2px 0;
             font-size: 12px;
         }
 
+        /* ======== TABLE ======== */
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 10px;
+            /* space after table */
         }
 
         td {
             font-size: 13px;
             vertical-align: top;
+            padding: 4px 0;
+            /* spacing for rows */
         }
 
+        /* Total / Bold text */
         .total {
             font-weight: bold;
             text-align: right;
+            margin: 4px 0;
         }
 
+        /* Add-ons and modifications */
         .addons,
         .mods {
             text-align: left;
             white-space: pre-line;
+            /* line breaks */
+            padding-left: 10px;
+            font-size: 12px;
         }
 
+        /* ======== HR / DIVIDERS ======== */
         hr {
             border: 1px dashed black;
+            margin: 6px 0;
+        }
+
+        /* ======== FOOTER ======== */
+        footer {
+            text-align: center;
+            margin-top: 10px;
+            /* spacing from content above */
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .qr-code-container {
+            display: flex;
+            justify-content: center;
+            /* horizontal center */
+            align-items: center;
+            /* vertical center if needed */
+            margin: 10px 0;
+        }
+
+        /* ======== QR / Barcode (if needed) ======== */
+        .qr-code {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* Optional: extra space at the bottom to feed paper */
+        .print-buffer {
+            height: 20-30mm;
         }
     </style>
 </head>
@@ -240,6 +353,8 @@ try {
     <p class="total">Change: ₱<?= number_format($change, 2) ?></p>
 
     <hr />
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
     <footer>
         <?php if (!empty($discount)): ?>
             <p class="total">Discount Applied (<?= htmlspecialchars($discount['ID_TYPE']) ?>): <?= htmlspecialchars($discount['FIRST_NAME'] . ' ' . $discount['LAST_NAME']) ?></p>
@@ -251,22 +366,41 @@ try {
         <p>We value your feedback!</p>
         <p>Rate us on Facebook: fb.com/BigBrewStaMesaManila</p>
         <p>Or scan to rate us next visit!</p>
+        <p>Scan here:</p>
+        <div class="qr-code-container">
+            <div id="qrCode" class="qr-code"></div>
+        </div>
+
+
     </footer>
+
+
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
     window.onload = function() {
+        // --- Generate QR code ---
+        const posPath = "/SmartPOS1/public/modules/SATISFACTIONRating.php";
+
+        const serverIP = '<?= $serverIP ?>';
+        const posLink = `http://${serverIP}/SmartPOS1/public/modules/SATISFACTIONRating.php`;
+        new QRCode(document.getElementById("qrCode"), {
+            text: posLink,
+            width: 100,
+            height: 100
+        });
+
+
+        // --- Print logic ---
         const epayAmount = <?= json_encode($epay_amount) ?>;
         const tendered = <?= json_encode($tendered) ?>;
 
-        // determine type
         if (epayAmount && epayAmount > 0) {
-            // e-pay or e-pay + cash → print 2 copies
             window.print();
-            setTimeout(() => window.print(), 1500); // 2nd print after 1.5 sec (staff + customer)
+            setTimeout(() => window.print(), 1500);
         } else {
-            // cash only → 1 copy
             window.print();
         }
     };

@@ -1115,36 +1115,31 @@ header('Content-Type: text/html');
             </div>
           </div>
 
-          <div
-            id="EPaymentPopup"
-            class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
-            <div
-              class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
-              id="EPayment">
+          <div id="EPaymentPopup" class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
+            <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2" id="EPayment">
               <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h2 class="text-lg font-bold">E-Payment Details</h2>
                 <button onclick="closeEPaymentPopup()" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
               </div>
-              <div class="flex flex-col items-center gap-3">
+
+              <form onsubmit="finalizeEPayment(); return false;" class="flex flex-col items-center gap-3">
                 <!-- Reference Number -->
                 <label class="w-full">Reference Number</label>
                 <input type="text" id="refNumber" name="refNumber" placeholder="Enter reference number" class="w-full border p-2 rounded bg-transparent">
 
-
-
                 <!-- Amount -->
                 <label class="w-full">Amount</label>
                 <input type="number" name="epayAmountInput" placeholder="Enter amount" class="w-full border p-2 rounded bg-transparent" min="0" step="0.01">
+
                 <input type="hidden" id="epayAmountHidden" name="epay_amount" value="0">
                 <input type="hidden" id="refNumberHidden" name="refNumber" value="">
 
                 <!-- Done Button -->
-                <button onclick="finalizeEPayment()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
-                  Done
-                </button>
-              </div>
+                <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">Done</button>
+              </form>
             </div>
           </div>
+
 
 
         </div>

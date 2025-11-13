@@ -18,12 +18,12 @@ if (!$transaction) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Kiosk Order Receipt</title>
+    <title>Kiosk Order Receipt #<?= $transactionId ?></title>
     <style>
         @media print {
             @page {
-                margin: 0;
                 size: 58mm auto;
+                margin: 0;
             }
 
             body {
@@ -33,7 +33,6 @@ if (!$transaction) {
 
         body {
             font-family: 'Courier New', monospace;
-            width: 80mm;
             margin: 0 auto;
             font-size: 12px;
         }
@@ -42,62 +41,98 @@ if (!$transaction) {
             text-align: center;
         }
 
-        .qr-code {
-            margin: 15px auto;
-            display: block;
-        }
-
-        .transaction-number {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
         .divider {
             border-top: 1px dashed #000;
-            margin: 10px 0;
+            margin: 6px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            padding: 2px 0;
+        }
+
+        .footer {
+            margin-top: 10px;
+        }
+
+        .qr-code {
+            display: block;
+            margin: 10px auto;
         }
     </style>
 </head>
 
 <body>
-    <div class="center">
-        <h2>ORDER RECEIPT</h2>
-        <p>Kiosk Order - Pending Payment</p>
-        <div class="divider"></div>
+    <h2 class="center">ORDER RECEIPT</h2>
+    <div class="divider"></div>
 
-        <div class="transaction-number">
-            #<?= str_pad($transactionId, 6, '0', STR_PAD_LEFT) ?>
-        </div>
+    <p class="center"><strong>Kiosk Order - Pending Payment</strong></p>
 
-        <!-- Canvas for JS QR -->
-        <canvas id="qrCanvas" class="qr-code"></canvas>
+    <div class="divider"></div>
 
-        <p>Scan at POS to complete payment</p>
+    <p><strong>Transaction #<?= str_pad($transactionId, 6, '0', STR_PAD_LEFT) ?></strong></p>
 
-        <div class="divider"></div>
+    <!-- QR Code -->
+    <canvas id="qrCanvas" class="qr-code"></canvas>
 
-        <p><strong>Total Amount:</strong> ₱<?= number_format($transaction['total_amount'], 2) ?></p>
-        <p><strong>Date:</strong> <?= date('M d, Y h:i A', strtotime($transaction['date_added'])) ?></p>
+    <!-- Barcode -->
+    <svg id="barcode" class="qr-code"></svg>
 
-        <div class="divider"></div>
+    <div class="divider"></div>
+
+    <table>
+        <tr>
+            <td><strong>Total Amount:</strong></td>
+            <td style="text-align:right">₱<?= number_format($transaction['total_amount'], 2) ?></td>
+        </tr>
+        <tr>
+            <td><strong>Date:</strong></td>
+            <td style="text-align:right"><?= date('M d, Y h:i A', strtotime($transaction['date_added'])) ?></td>
+        </tr>
+    </table>
+
+    <div class="divider"></div>
+
+    <div class="footer center">
         <p style="font-size: 10px;">
             Please proceed to the counter<br>
             to complete your payment
         </p>
     </div>
 
-    <!-- ✅ Qrious QR generator -->
+    <!-- QR + Barcode Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode/dist/JsBarcode.all.min.js"></script>
+
     <script>
-        // Generate QR dynamically
+        // QR
         const qr = new QRious({
-            element: document.getElementById('qrCanvas'),
-            value: '<?= $transactionId ?>',
-            size: 150, // adjust size for 80mm paper
-            level: 'H' // high error correction for better scanning
+            element: document.getElementById("qrCanvas"),
+            value: "<?= $transactionId ?>",
+            size: 120,
+            level: "H"
         });
+
+        // Barcode
+        JsBarcode("#barcode", "<?= $transactionId ?>", {
+            format: "CODE128",
+            width: 2,
+            height: 45,
+            displayValue: true,
+            fontSize: 12,
+            textMargin: 2
+        });
+
+        // Delay printing so QR + barcode finish drawing
+        setTimeout(() => {
+            window.print();
+        }, 300);
     </script>
+
 </body>
 
 </html>
