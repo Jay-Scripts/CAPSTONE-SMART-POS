@@ -121,6 +121,11 @@
                           timer: 2000,
                           showConfirmButton: false
                       });
+
+                      // 🔥 Auto refresh page after success
+                      setTimeout(() => {
+                          location.reload();
+                      }, 2000);
                   } else {
                       Swal.fire('Error!', result.message || 'Failed to remove item.', 'error');
                   }

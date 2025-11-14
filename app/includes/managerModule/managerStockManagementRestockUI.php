@@ -136,7 +136,13 @@
                           timer: 2000,
                           showConfirmButton: false
                       });
+
                       restockModal.classList.add('hidden');
+
+                      // 🔥 Auto refresh page after Swal closes
+                      setTimeout(() => {
+                          location.reload();
+                      }, 2000);
                   } else {
                       Swal.fire('Error!', result.message || 'Failed to restock item.', 'error');
                   }
