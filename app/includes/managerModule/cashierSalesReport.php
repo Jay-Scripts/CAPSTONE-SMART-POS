@@ -186,7 +186,7 @@ try {
 
     <p><strong>Cashier Name:</strong> <?= htmlspecialchars($cashier['staff_name']) ?></p>
     <p><strong>Cashier ID:</strong> <?= $cashier_id ?></p>
-    <p><strong>Witnessed By:</strong> <?= htmlspecialchars($manager_name) ?> (ID: <?= htmlspecialchars($manager_id) ?>)</p>
+    <p><strong>Manager On Duty:</strong> <?= htmlspecialchars($manager_name) ?> (ID: <?= htmlspecialchars($manager_id) ?>)</p>
     <p><strong>Date of Report:</strong> <?= date('F d, Y h:i A') ?></p>
     <p><strong>Report Range:</strong> <?= date('M d, Y h:i A', strtotime($start_date)) ?> - <?= date('M d, Y h:i A', strtotime($end_date)) ?></p>
 

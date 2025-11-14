@@ -12,20 +12,20 @@
 --    
 insert INTO STAFF_INFO(STAFF_NAME) 
 VALUES
-('Kean'),
-('Jushua'),
-('Jikuy'),
-('Reyn'),
-('Kornelyo')
+('Bautista'),
+('Montanez'),
+('Tolentino'),
+('Lastra'),
+('Gatbonton')
 ;
 
 insert into staff_roles(staff_id, role)
 values
-(1, 'BARISTA'),
-(2, 'MANAGER'),
-(3, 'CASHIER'),
-(4, 'CASHIER'),
-(5, 'MANAGER')
+(1, 'MANAGER'), -- KIAN
+(2, 'BARISTA'), -- JOSH
+(3, 'CASHIER'), -- JEKOY
+(4, 'CASHIER'), -- REIGN
+(5, 'MANAGER') -- CORNETO
 ;
 
 --          

@@ -34,12 +34,12 @@
                    <tr>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Action</th>
-                       <th class="py-2 px-4 border border-[var(--border-color)]">By</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Before</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Adjusted</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">After</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Remarks</th>
                        <th class="py-2 px-4 border border-[var(--border-color)]">Date</th>
+                       <th class="py-2 px-4 border border-[var(--border-color)]">Manager</th>
                    </tr>
                </thead>
                <tbody>
@@ -47,12 +47,12 @@
                        <tr class="hover:bg-blue-400 hover:text-white transition" data-action="<?= $log['action_type'] ?>">
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['item_name']) ?></td>
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['action_type'] ?></td>
-                           <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['staff_name']) ?></td>
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['last_quantity'] ?></td>
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['quantity_adjusted'] ?></td>
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['total_after'] ?></td>
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['remarks']) ?></td>
                            <td class="py-2 px-4 border border-[var(--border-color)]"><?= $log['date_logged'] ?></td>
+                           <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($log['staff_name']) ?></td>
                        </tr>
                    <?php endforeach; ?>
                </tbody>

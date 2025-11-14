@@ -32,31 +32,33 @@
       -                                                  Overview Start Here                                                                  -
       -----------------------------------------------------------------------------------------------------------------------------------------
     -->
-                  <!-- <div class="px-4 py-3 mt-6">
-            <h3
-              class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider flex items-center">
-              Dashboard
-            </h3>
-          </div>
-          <section class="space-y-1 px-3 group">
-            <a
-              href=""
-              data-module="overview"
-              class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-              <svg
-                class="w-5 h-5 mr-3 text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-              </svg>
-              Overview
-            </a>
-          </section> -->
+                  <div class="px-4 py-3 mt-6">
+                      <h3
+                          class="text-xs font-semibold text-[var(--managers-nav-text)] uppercase tracking-wider flex items-center">
+                          Dashboard
+                      </h3>
+                  </div>
+                  <section class="space-y-1 px-3 group">
+
+
+                      <a
+                          data-module="performanceTrend"
+                          href="#"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 hover:opacity-100 group-hover:opacity-20">
+                          <svg
+                              class="w-5 h-5 mr-3 text-blue-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                          </svg>
+                          Overview
+                      </a>
+                  </section>
                   <!-- 
       -----------------------------------------------------------------------------------------------------------------------------------------
       -                                                  Overview Ends Here                                                                   -
@@ -166,6 +168,27 @@
                   <section class="space-y-1 px-3 group">
 
                       <a
+                          href=""
+                          data-module="overview"
+                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
+
+                          <!-- Plus Icon SVG -->
+                          <svg
+                              class="w-5 h-5 mr-3 text-green-400 flex-shrink-0"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M12 4v16m8-8H4"></path>
+                          </svg>
+
+                          Add Product
+                      </a>
+                      <a
                           data-module="enableProduct"
                           href="#"
                           class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
@@ -256,24 +279,7 @@
                           Sales Reports
                       </a>
 
-                      <a
-                          data-module="performanceTrend"
-                          href="#"
-                          class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
-                          <svg
-                              class="w-5 h-5 mr-3 text-orange-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                          </svg>
 
-                          Sales Dashboard
-                      </a>
                       <a
                           data-module="refund"
                           href="#"

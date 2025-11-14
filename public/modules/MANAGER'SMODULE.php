@@ -279,7 +279,7 @@ if (!isset($_SESSION['staff_name'])) {
             class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
-                <h2 class="text-2xl font-bold">Sales Dashboard</h2>
+                <h2 class="text-2xl font-bold">Overview</h2>
                 <p class="text-sm text-gray-600">
                   Welcome back, here's what's happening with your store today.
 

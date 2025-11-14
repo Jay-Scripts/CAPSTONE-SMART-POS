@@ -215,9 +215,35 @@
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                                       <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
-                                          <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
-                                          <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
-                                          <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
+                                          <div class="flex flex-wrap gap-2">
+                                              <!-- Restock Button -->
+                                              <button class="restock-btn flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                  <!-- Plus Icon -->
+                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                                  </svg>
+                                                  Restock
+                                              </button>
+
+                                              <!-- Modify Button -->
+                                              <button class="modify-btn flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                  <!-- Pencil Icon -->
+                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                                  </svg>
+                                                  Edit
+                                              </button>
+
+                                              <!-- Remove Button -->
+                                              <button class="remove-btn flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                  <!-- Trash Icon -->
+                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a2 2 0 012 2v0H8V5a2 2 0 012-2z" />
+                                                  </svg>
+                                                  Delete
+                                              </button>
+                                          </div>
+
                                       </td>
                                   </tr>
                               <?php endforeach; ?>
@@ -275,9 +301,35 @@
                                               <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
                                               <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                                               <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
-                                                  <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
-                                                  <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
-                                                  <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
+                                                  <div class="flex flex-wrap gap-2">
+                                                      <!-- Restock Button -->
+                                                      <button class="restock-btn flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                          <!-- Plus Icon -->
+                                                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                                          </svg>
+                                                          Restock
+                                                      </button>
+
+                                                      <!-- Modify Button -->
+                                                      <button class="modify-btn flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                          <!-- Pencil Icon -->
+                                                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                                          </svg>
+                                                          Edit
+                                                      </button>
+
+                                                      <!-- Remove Button -->
+                                                      <button class="remove-btn flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                          <!-- Trash Icon -->
+                                                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a2 2 0 012 2v0H8V5a2 2 0 012-2z" />
+                                                          </svg>
+                                                          Delete
+                                                      </button>
+                                                  </div>
+
                                               </td>
                                           </tr>
                                       <?php endforeach; ?>
@@ -332,9 +384,35 @@
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                                       <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
-                                          <button class="restock-btn bg-green-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Restock</button>
-                                          <button class="modify-btn bg-blue-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Modify</button>
-                                          <button class="remove-btn bg-red-500 text-white px-2 py-1 rounded text-xs sm:text-sm" data-id="<?= $item['item_id'] ?>">Remove</button>
+                                          <div class="flex flex-wrap gap-2">
+                                              <!-- Restock Button -->
+                                              <button class="restock-btn flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                  <!-- Plus Icon -->
+                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                                  </svg>
+                                                  Restock
+                                              </button>
+
+                                              <!-- Modify Button -->
+                                              <button class="modify-btn flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                  <!-- Pencil Icon -->
+                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                                  </svg>
+                                                  Edit
+                                              </button>
+
+                                              <!-- Remove Button -->
+                                              <button class="remove-btn flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-medium transition duration-200 shadow-sm" data-id="<?= $item['item_id'] ?>">
+                                                  <!-- Trash Icon -->
+                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a2 2 0 012 2v0H8V5a2 2 0 012-2z" />
+                                                  </svg>
+                                                  Delete
+                                              </button>
+                                          </div>
+
                                       </td>
                                   </tr>
                               <?php endforeach; ?>

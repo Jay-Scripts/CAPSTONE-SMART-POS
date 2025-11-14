@@ -33,7 +33,8 @@ $serverIP = getLocalIPv4();
 
 
 $posPath = "/SmartPOS1/public/modules/SATISFACTIONRating.php";
-$posLink = "http://$serverIP$posPath";
+$posLink = "http://$serverIP:8080$posPath";
+
 
 if (!isset($_GET['id'])) {
     die("No transaction ID provided.");
@@ -385,7 +386,7 @@ try {
         const posPath = "/SmartPOS1/public/modules/SATISFACTIONRating.php";
 
         const serverIP = '<?= $serverIP ?>';
-        const posLink = `http://${serverIP}/SmartPOS1/public/modules/SATISFACTIONRating.php`;
+        const posLink = `http://${serverIP}:8080/SmartPOS1/public/modules/SATISFACTIONRating.php`;
         new QRCode(document.getElementById("qrCode"), {
             text: posLink,
             width: 100,
