@@ -9,6 +9,105 @@ if (!isset($_SESSION['staff_name'])) {
   header("Location: ../auth/manager/managerLogin.php");
   exit;
 }
+$alerts = [];
+
+$today = date('Y-m-d');
+$soonExpireDate = date('Y-m-d', strtotime('+7 days')); // 7-day notice
+
+$sql = "SELECT item_name, quantity, date_expiry
+        FROM inventory_item
+        WHERE quantity <= 2000
+           OR date_expiry <= :soonExpireDate
+           OR date_expiry < :today";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+  ':soonExpireDate' => $soonExpireDate,
+  ':today' => $today
+]);
+
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$alerts = [];
+
+$today = date('Y-m-d');
+$soonExpireDate = date('Y-m-d', strtotime('+7 days')); // 7-day notice
+
+$sql = "SELECT item_name, quantity, date_expiry
+        FROM inventory_item
+        WHERE quantity <= 2000
+           OR date_expiry <= :soonExpireDate
+           OR date_expiry < :today";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+  ':soonExpireDate' => $soonExpireDate,
+  ':today' => $today
+]);
+
+$alerts = [];
+
+$today = date('Y-m-d');
+$soonExpireDate = date('Y-m-d', strtotime('+7 days')); // 7-day notice
+
+$sql = "SELECT item_name, quantity, date_expiry
+        FROM inventory_item
+        WHERE quantity <= 2000
+           OR date_expiry <= :soonExpireDate
+           OR date_expiry < :today";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+  ':soonExpireDate' => $soonExpireDate,
+  ':today' => $today
+]);
+
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Step 1: Aggregate quantities and expiry dates by item name
+$itemMap = [];
+
+foreach ($rows as $row) {
+  $nameKey = strtolower($row['item_name']); // case-insensitive key
+
+  if (!isset($itemMap[$nameKey])) {
+    $itemMap[$nameKey] = [
+      'total_quantity' => 0,
+      'earliest_expiry' => $row['date_expiry'] // keep the earliest expiry
+    ];
+  }
+
+  $itemMap[$nameKey]['total_quantity'] += $row['quantity'];
+
+  // Keep the earliest expiry date
+  if ($row['date_expiry'] < $itemMap[$nameKey]['earliest_expiry']) {
+    $itemMap[$nameKey]['earliest_expiry'] = $row['date_expiry'];
+  }
+}
+
+// Step 2: Determine alert based on aggregated data
+$priority = ['Out of stock' => 4, 'Expired' => 3, 'Soon to expire' => 2, 'Low stock' => 1, '' => 0];
+
+foreach ($itemMap as $name => $data) {
+  $status = '';
+
+  if ($data['total_quantity'] <= 0) {
+    $status = 'Out of stock';
+  } elseif ($data['earliest_expiry'] < $today) {
+    $status = 'Expired';
+  } elseif ($data['earliest_expiry'] <= $soonExpireDate) {
+    $status = 'Soon to expire';
+  } elseif ($data['total_quantity'] <= 2000) {
+    $status = 'Low stock';
+  }
+
+  if ($status !== '') {
+    $alerts[] = ucfirst($name) . " (" . $status . ")";
+  }
+}
+
+json_encode($alerts);
+
+
 ?>
 
 <!doctype html>
@@ -1381,6 +1480,19 @@ if (!isset($_SESSION['staff_name'])) {
   <!-- Flowbite JS -->
   <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      <?php if (!empty($alerts)): ?>
+        Swal.fire({
+          title: 'Inventory Alerts',
+          html: '<?= implode('<br>', $alerts) ?>',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+          width: 500
+        });
+      <?php endif; ?>
+    });
+  </script>
 
 </body>
 
