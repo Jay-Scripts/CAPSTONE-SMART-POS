@@ -559,16 +559,18 @@ header('Content-Type: text/html');
     -->
       <section
         id="cart"
-        class="animate-[fadeIn_0.3s_ease] hidden portrait:mt-[-10%] mt-[-5%]  portrait:ml-[10%] landscape:ml-[50%] portrait:w-[80%] absolute items-center justify-center rounded-lg portrait:p-0 w-[50%] h-screen portrait:m-0"
+        class="animate-[fadeIn_0.3s_ease] hidden fixed inset-0 flex items-center justify-center z-10"
         aria-label="Order Summary">
+
         <!-- Cart Box -->
         <modal
           id="cartBox"
-          class="animate-[animate-[fadeIn_0.3s_ease]_0.3s_ease] bg-[var(--background-color)] p-4 portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
-          <!-- Close button (only visible on portrait) -->
+          class="animate-[fadeIn_0.3s_ease] bg-[var(--background-color)] p-4 rounded-lg shadow-xl w-[90%] max-w-lg h-[80vh] flex flex-col items-center justify-between relative">
+
+          <!-- Close button -->
           <button
             onclick="toggleCart()"
-            class=" absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition">
+            class="absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition">
             &times;
           </button>
 
@@ -578,25 +580,26 @@ header('Content-Type: text/html');
           </h2>
 
           <!-- Scrollable list -->
-          <div class="flex-1 overflow-y-auto mb-16  px-2 space-y-3 w-full text-[var(--text-color)]">
+          <div class="flex-1 overflow-y-auto mb-16 px-2 space-y-3 w-full text-[var(--text-color)]">
             <div id="productList">
               <!-- items -->
             </div>
-
           </div>
 
-          <!-- Checkout button (fixed at bottom) -->
+          <!-- Checkout button -->
           <button
-            class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-lg border shadow-lg transition-all duration-200"
+            class="w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-lg border shadow-lg transition-all duration-200"
             onclick="kioskCheckout()">
             <img
               src="../assets/SVG/ACTION BTN/CART.svg"
               alt="CART ICON"
-              class="w-5 h-5" />
+              class="w-5 h-5 mr-2" />
             Checkout
           </button>
+
         </modal>
       </section>
+
 
       <!-- CART BUTTON (Only on Portrait) -->
       <section class="fixed bottom-5 right-5">

@@ -1561,7 +1561,19 @@ header('Content-Type: text/html');
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+  <script>
+    async function autoStockCheck() {
+      try {
+        const res = await fetch('../../app/includes/events/stockStatusChecker.php');
+        const data = await res.json();
+        console.log("Auto Stock Status:", data);
+      } catch (err) {
+        console.error("Auto Stock Error:", err);
+      }
+    }
 
+    setInterval(autoStockCheck, 1000);
+  </script>
 </body>
 
 </html>
