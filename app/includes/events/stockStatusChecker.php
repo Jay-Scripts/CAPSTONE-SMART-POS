@@ -134,6 +134,18 @@ $conn->query("
     WHERE add_ons_name = 'CHIA SEED'
 ");
 
+// -----------------------------------------------------------
+// 7️⃣ UPDATE EXPIRY STATUS
+// -----------------------------------------------------------
+$conn->query("
+    UPDATE inventory_item
+    SET expiry_status = CASE
+        WHEN DATEDIFF(date_expiry, CURDATE()) <= 0 THEN 'EXPIRED'
+        WHEN DATEDIFF(date_expiry, CURDATE()) <= 60 THEN 'SOON TO EXPIRE'
+        ELSE 'FRESH'
+    END
+");
+
 
 // -----------------------------------------------------------
 echo json_encode(["status" => "success"]);

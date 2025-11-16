@@ -367,9 +367,10 @@ CREATE TABLE EPAYMENT_TRANSACTION (
     category_id INT NULL, -- only if tied to an actual POS category so for per category control
     unit ENUM('pcs','ml','g') NOT NULL,
     quantity DECIMAL(10,2) NOT NULL,
-    status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK', 'SOON TO EXPIRE', 'EXPIRED', 'UNAVAILABLE') DEFAULT 'IN STOCK',
+   status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK', 'UNAVAILABLE') DEFAULT 'IN STOCK',
     date_made DATE NOT NULL,
     date_expiry DATE NOT NULL,
+    expiry_status ENUM('FRESH', 'SOON TO EXPIRE', 'EXPIRED') DEFAULT "FRESH",
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (inv_category_id) REFERENCES inventory_category(inv_category_id) ON DELETE CASCADE,
     FOREIGN KEY (added_by) REFERENCES staff_info(staff_id) ON DELETE CASCADE,

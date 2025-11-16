@@ -169,6 +169,19 @@
 
 
                 $materials = getMaterials($conn);
+                function getExpiryStatusClass($status)
+                {
+                    switch (strtoupper($status)) {
+                        case 'FRESH':
+                            return 'bg-green-100 text-green-800 border-green-300';
+                        case 'SOON TO EXPIRE':
+                            return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+                        case 'EXPIRED':
+                            return 'bg-red-100 text-red-800 border-red-300';
+                        default:
+                            return 'bg-gray-100 text-gray-800 border-gray-300';
+                    }
+                }
 
                 ?>
               <!-- Base Ingredients Section -->
@@ -190,6 +203,7 @@
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Status</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Mfg. Date</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Expiry</th>
+                                  <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Expiry Status</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Added By</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Actions</th>
                               </tr>
@@ -213,6 +227,12 @@
                                       </td>
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                      <td class="py-1 px-3 sm:px-4 text-center border border-[var(--border-color)]">
+                                          <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getExpiryStatusClass($item['expiry_status']) ?>">
+                                              <?= htmlspecialchars($item['expiry_status']) ?>
+                                          </span>
+                                      </td>
+
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                                       <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
                                           <div class="flex flex-wrap gap-2">
@@ -276,6 +296,7 @@
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Status</th>
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Mfg. Date</th>
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Expiry</th>
+                                          <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Expiry Status</th>
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Added By</th>
                                           <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Actions</th>
                                       </tr>
@@ -299,6 +320,12 @@
                                               </td>
                                               <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
                                               <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                              <td class="py-1 px-3 sm:px-4 text-center border border-[var(--border-color)]">
+                                                  <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getExpiryStatusClass($item['expiry_status']) ?>">
+                                                      <?= htmlspecialchars($item['expiry_status']) ?>
+                                                  </span>
+                                              </td>
+
                                               <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                                               <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
                                                   <div class="flex flex-wrap gap-2">
@@ -359,6 +386,7 @@
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Status</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Mfg. Date</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Expiry</th>
+                                  <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Expiry Status</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Added By</th>
                                   <th class="py-2 px-3 sm:px-4 border border-[var(--border-color)]">Actions</th>
                               </tr>
@@ -382,6 +410,12 @@
                                       </td>
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_made'] ?></td>
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                                      <td class="py-1 px-3 sm:px-4 text-center border border-[var(--border-color)]">
+                                          <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getExpiryStatusClass($item['expiry_status']) ?>">
+                                              <?= htmlspecialchars($item['expiry_status']) ?>
+                                          </span>
+                                      </td>
+
                                       <td class="py-1 px-3 sm:px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                                       <td class="py-1 px-3 sm:px-4 flex flex-wrap gap-1 border border-[var(--border-color)]">
                                           <div class="flex flex-wrap gap-2">

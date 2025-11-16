@@ -11,19 +11,21 @@
  <?php
     try {
         $alertItems = $conn->query("
-      SELECT 
-          ii.item_id,
-          ii.item_name,
-          ii.quantity,
-          ii.unit,
-          ii.status,
-          ii.date_expiry,
-          s.staff_name
-      FROM inventory_item ii
-      LEFT JOIN staff_info s ON ii.added_by = s.staff_id
-      WHERE UPPER(ii.status) IN ('LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
-      ORDER BY FIELD(ii.status, 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED'), ii.item_name
-    ")->fetchAll(PDO::FETCH_ASSOC);
+    SELECT 
+        ii.item_id,
+        ii.item_name,
+        ii.quantity,
+        ii.unit,
+        ii.status,
+        ii.date_expiry,
+        ii.expiry_status,
+        s.staff_name
+    FROM inventory_item ii
+    LEFT JOIN staff_info s ON ii.added_by = s.staff_id
+    WHERE UPPER(ii.status) IN ('LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED')
+       OR UPPER(ii.expiry_status) IN ('SOON TO EXPIRE', 'EXPIRED')
+    ORDER BY FIELD(ii.status, 'LOW STOCK', 'SOON TO EXPIRE', 'EXPIRED'), ii.item_name
+")->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         $alertItems = [];
     }
@@ -32,19 +34,20 @@
  <?php if (!empty($alertItems)): ?>
      <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg ">
          <table id="stockTable" class="min-w-full border-collapse bg-[var(--glass-bg)] text-[var(--text-color)]">
-             <thead class=" sticky top-0 z-10 bg-gray-200 text-black ">
+             <thead class="sticky top-0 z-10 bg-gray-200 text-black">
                  <tr>
                      <th class="py-2 px-4 border border-[var(--border-color)]">Item</th>
                      <th class="py-2 px-4 border border-[var(--border-color)]">Quantity</th>
                      <th class="py-2 px-4 border border-[var(--border-color)]">Unit</th>
-                     <th class="py-2 px-4 border border-[var(--border-color)]">Status</th>
+                     <th class="py-2 px-4 border border-[var(--border-color)]">Stock Status</th>
                      <th class="py-2 px-4 border border-[var(--border-color)]">Expiry</th>
+                     <th class="py-2 px-4 border border-[var(--border-color)]">Expiry Status</th> <!-- NEW -->
                      <th class="py-2 px-4 border border-[var(--border-color)]">Added By</th>
                  </tr>
              </thead>
              <tbody>
                  <?php foreach ($alertItems as $item): ?>
-                     <tr class="hover:bg-blue-400 hover:text-white transition" data-status="<?= strtoupper($item['status']) ?>">
+                     <tr class="hover:bg-blue-400 hover:text-white transition" data-status="<?= strtoupper($item['status']) ?>" data-expiry="<?= strtoupper($item['expiry_status']) ?>">
                          <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['item_name']) ?></td>
                          <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['quantity'] ?></td>
                          <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['unit'] ?></td>
@@ -54,10 +57,16 @@
                              </span>
                          </td>
                          <td class="py-2 px-4 border border-[var(--border-color)]"><?= $item['date_expiry'] ?></td>
+                         <td class="py-2 px-4 border border-[var(--border-color)]">
+                             <span class="px-2 py-1 rounded-lg text-xs font-semibold border <?= getExpiryStatusClass($item['expiry_status']) ?>">
+                                 <?= htmlspecialchars($item['expiry_status']) ?>
+                             </span>
+                         </td>
                          <td class="py-2 px-4 border border-[var(--border-color)]"><?= htmlspecialchars($item['staff_name']) ?></td>
                      </tr>
                  <?php endforeach; ?>
              </tbody>
+
          </table>
      </div>
 
@@ -85,8 +94,12 @@
              const filteredRows = rows.filter(row => {
                  const text = row.textContent.toLowerCase();
                  const status = row.dataset.status;
-                 return text.includes(filterText) && (filterStatus === '' || status === filterStatus);
+                 const expiry = row.dataset.expiry;
+                 return text.includes(filterText) &&
+                     (filterStatus === '' || status === filterStatus || expiry === filterStatus);
              });
+
+
 
              const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
              currentPage = Math.min(currentPage, totalPages) || 1;
