@@ -370,7 +370,7 @@ CREATE TABLE EPAYMENT_TRANSACTION (
    status ENUM('IN STOCK', 'LOW STOCK', 'OUT OF STOCK', 'UNAVAILABLE') DEFAULT 'IN STOCK',
     date_made DATE NOT NULL,
     date_expiry DATE NOT NULL,
-    expiry_status ENUM('FRESH', 'SOON TO EXPIRE', 'EXPIRED') DEFAULT "FRESH",
+    expiry_status ENUM('FRESH', 'SOON TO EXPIRE', 'EXPIRED' , 'UNAVAILABLE') DEFAULT "FRESH",
     date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (inv_category_id) REFERENCES inventory_category(inv_category_id) ON DELETE CASCADE,
     FOREIGN KEY (added_by) REFERENCES staff_info(staff_id) ON DELETE CASCADE,

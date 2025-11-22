@@ -27,67 +27,39 @@ $stmt->execute([
 ]);
 
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$alerts = [];
 
-$today = date('Y-m-d');
-$soonExpireDate = date('Y-m-d', strtotime('+7 days')); // 7-day notice
-
-$sql = "SELECT item_name, quantity, date_expiry
-        FROM inventory_item
-        WHERE quantity <= 2000
-           OR date_expiry <= :soonExpireDate
-           OR date_expiry < :today";
-
-$stmt = $conn->prepare($sql);
-$stmt->execute([
-  ':soonExpireDate' => $soonExpireDate,
-  ':today' => $today
-]);
-
-$alerts = [];
-
-$today = date('Y-m-d');
-$soonExpireDate = date('Y-m-d', strtotime('+7 days')); // 7-day notice
-
-$sql = "SELECT item_name, quantity, date_expiry
-        FROM inventory_item
-        WHERE quantity <= 2000
-           OR date_expiry <= :soonExpireDate
-           OR date_expiry < :today";
-
-$stmt = $conn->prepare($sql);
-$stmt->execute([
-  ':soonExpireDate' => $soonExpireDate,
-  ':today' => $today
-]);
-
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Step 1: Aggregate quantities and expiry dates by item name
+// -------------------------------------------------------------------
+// Step 1: Aggregate by item_name (skip zero-qty duplicates)
+// -------------------------------------------------------------------
 $itemMap = [];
 
 foreach ($rows as $row) {
-  $nameKey = strtolower($row['item_name']); // case-insensitive key
+
+  // 🚫 Skip duplicates with 0 stock
+  if ($row['quantity'] <= 0) continue;
+
+  $nameKey = strtolower($row['item_name']); // case-insensitive
 
   if (!isset($itemMap[$nameKey])) {
     $itemMap[$nameKey] = [
       'total_quantity' => 0,
-      'earliest_expiry' => $row['date_expiry'] // keep the earliest expiry
+      'earliest_expiry' => $row['date_expiry']
     ];
   }
 
   $itemMap[$nameKey]['total_quantity'] += $row['quantity'];
 
-  // Keep the earliest expiry date
+  // Keep earliest expiry
   if ($row['date_expiry'] < $itemMap[$nameKey]['earliest_expiry']) {
     $itemMap[$nameKey]['earliest_expiry'] = $row['date_expiry'];
   }
 }
 
-// Step 2: Determine alert based on aggregated data
-$priority = ['Out of stock' => 4, 'Expired' => 3, 'Soon to expire' => 2, 'Low stock' => 1, '' => 0];
-
+// -------------------------------------------------------------------
+// Step 2: Determine final alert status
+// -------------------------------------------------------------------
 foreach ($itemMap as $name => $data) {
+
   $status = '';
 
   if ($data['total_quantity'] <= 0) {

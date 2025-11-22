@@ -3,7 +3,7 @@ include "../../config/dbConnection.php";
 header('Content-Type: application/json');
 
 // -----------------------------------------------------------
-// 1️⃣ UPDATE INVENTORY STATUS
+// 1️⃣ UPDATE INVENTORY STATUS (IGNORE ZERO-DUPLICATES FOR NOW)
 // -----------------------------------------------------------
 $conn->query("
     UPDATE inventory_item
@@ -15,6 +15,33 @@ $conn->query("
 ");
 
 // -----------------------------------------------------------
+// 1B️⃣ MARK ZERO-QTY DUPLICATES AS UNAVAILABLE
+// -----------------------------------------------------------
+// Find item names that have:
+//   - at least 1 qty > 0
+//   - at least 1 qty = 0
+$dupSql = "
+    SELECT LOWER(item_name) AS item_name
+    FROM inventory_item
+    GROUP BY LOWER(item_name)
+    HAVING SUM(quantity > 0) > 0
+       AND SUM(quantity = 0) > 0
+";
+$stmt = $conn->query($dupSql);
+$itemsToFix = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+if (!empty($itemsToFix)) {
+    $inList = "'" . implode("','", array_map('strtolower', $itemsToFix)) . "'";
+    $conn->query("
+        UPDATE inventory_item
+        SET status = 'UNAVAILABLE',
+            expiry_status = 'UNAVAILABLE'
+        WHERE quantity = 0
+          AND LOWER(item_name) IN ($inList)
+    ");
+}
+
+// -----------------------------------------------------------
 // 2️⃣ CATEGORY 1 & 2 — TEA RULE
 // -----------------------------------------------------------
 $conn->query("
@@ -22,7 +49,7 @@ $conn->query("
     SET status = CASE 
             WHEN (SELECT SUM(quantity) 
                   FROM inventory_item 
-                  WHERE item_name = 'Tea') > 250
+                  WHERE LOWER(item_name) = 'tea') > 250
             THEN 'ACTIVE'
             ELSE 'INACTIVE'
         END
@@ -37,7 +64,7 @@ $conn->query("
     SET status = CASE 
             WHEN (SELECT SUM(quantity) 
                   FROM inventory_item 
-                  WHERE item_name = 'Coffee') > 250
+                  WHERE LOWER(item_name) = 'coffee') > 250
             THEN 'ACTIVE'
             ELSE 'INACTIVE'
         END
@@ -138,12 +165,14 @@ $conn->query("
 // 7️⃣ UPDATE EXPIRY STATUS
 // -----------------------------------------------------------
 $conn->query("
-    UPDATE inventory_item
-    SET expiry_status = CASE
-        WHEN DATEDIFF(date_expiry, CURDATE()) <= 0 THEN 'EXPIRED'
-        WHEN DATEDIFF(date_expiry, CURDATE()) <= 60 THEN 'SOON TO EXPIRE'
-        ELSE 'FRESH'
-    END
+UPDATE inventory_item
+SET expiry_status = CASE
+    WHEN DATEDIFF(date_expiry, CURDATE()) <= 0 THEN 'EXPIRED'
+    WHEN DATEDIFF(date_expiry, CURDATE()) <= 60 THEN 'SOON TO EXPIRE'
+    ELSE 'FRESH'
+END
+WHERE status != 'UNAVAILABLE';
+
 ");
 
 
