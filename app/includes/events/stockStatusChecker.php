@@ -42,14 +42,14 @@ if (!empty($itemsToFix)) {
 }
 
 // -----------------------------------------------------------
-// 2️⃣ CATEGORY 1 & 2 — TEA RULE
+// 2️⃣ CATEGORY 1 & 2 — TEA RULE BASE
 // -----------------------------------------------------------
 $conn->query("
     UPDATE category
     SET status = CASE 
             WHEN (SELECT SUM(quantity) 
                   FROM inventory_item 
-                  WHERE LOWER(item_name) = 'tea') > 250
+                  WHERE LOWER(item_name) = 'tea') >= 250
             THEN 'ACTIVE'
             ELSE 'INACTIVE'
         END
@@ -57,14 +57,14 @@ $conn->query("
 ");
 
 // -----------------------------------------------------------
-// 3️⃣ CATEGORY 3 & 6 — COFFEE RULE
+// 3️⃣ CATEGORY 3 & 6 — COFFEE RULE BASE
 // -----------------------------------------------------------
 $conn->query("
     UPDATE category
     SET status = CASE 
             WHEN (SELECT SUM(quantity) 
                   FROM inventory_item 
-                  WHERE LOWER(item_name) = 'coffee') > 250
+                  WHERE LOWER(item_name) = 'coffee') >= 250
             THEN 'ACTIVE'
             ELSE 'INACTIVE'
         END
@@ -72,94 +72,47 @@ $conn->query("
 ");
 
 // -----------------------------------------------------------
-// 4️⃣ SYNC PRODUCT STATUS BASED ON CATEGORY
+// 4️⃣ SYNC PRODUCT STATUS BASED ON CATEGORY + LINKED INVENTORY ≥ 40
 // -----------------------------------------------------------
 $conn->query("
     UPDATE product_details pd
     JOIN category c ON pd.category_id = c.category_id
+    LEFT JOIN (
+        SELECT product_id, SUM(quantity) AS total_quantity
+        FROM inventory_item
+        WHERE product_id IS NOT NULL
+        GROUP BY product_id
+    ) li ON li.product_id = pd.product_id
     SET pd.status = CASE 
-        WHEN c.status = 'ACTIVE' THEN 'active'
+        WHEN c.status = 'ACTIVE' AND IFNULL(li.total_quantity,0) >= 40 THEN 'active'
         ELSE 'inactive'
     END
 ");
+
+
 
 // -----------------------------------------------------------
 // 5️⃣ SYNC PRODUCT SIZES WITH PRODUCT STATUS
 // -----------------------------------------------------------
-$conn->query("
-    UPDATE product_sizes ps
-    JOIN product_details pd ON ps.product_id = pd.product_id
-    SET ps.status = pd.status
-");
+// $conn->query("
+//     UPDATE product_sizes ps
+//     JOIN product_details pd ON ps.product_id = pd.product_id
+//     SET ps.status = pd.status
+// ");
 
 // -----------------------------------------------------------
 // 6️⃣ SYNC ADD-ONS BASED ON CATEGORY STATUS
 // -----------------------------------------------------------
-// Cheese Cake AddOn
 $conn->query("
-    UPDATE product_add_ons
-    SET status = CASE 
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Cheese Cake AddOn') >= 20
-        THEN 'active'
+    UPDATE product_add_ons pa
+    LEFT JOIN inventory_item ii 
+        ON LOWER(pa.add_ons_name) = LOWER(REPLACE(ii.item_name, ' AddOn', ''))
+    SET pa.status = CASE
+        WHEN ii.quantity >= 20 THEN 'active'
         ELSE 'inactive'
     END
-    WHERE add_ons_name = 'CHEESE CAKE'
 ");
 
-// Pearl AddOn
-$conn->query("
-    UPDATE product_add_ons
-    SET status = CASE 
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Pearl AddOn') >= 20
-        THEN 'active'
-        ELSE 'inactive'
-    END
-    WHERE add_ons_name = 'PEARL'
-");
-
-// Cream Cheese AddOn
-$conn->query("
-    UPDATE product_add_ons
-    SET status = CASE 
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Cream Cheese AddOn') >= 20
-        THEN 'active'
-        ELSE 'inactive'
-    END
-    WHERE add_ons_name = 'CREAM CHEESE'
-");
-
-// Coffee Jelly AddOn
-$conn->query("
-    UPDATE product_add_ons
-    SET status = CASE 
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Coffee Jelly AddOn') >= 20
-        THEN 'active'
-        ELSE 'inactive'
-    END
-    WHERE add_ons_name = 'COFFEE JELLY'
-");
-
-// Crushed Oreo AddOn
-$conn->query("
-    UPDATE product_add_ons
-    SET status = CASE 
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Crushed Oreo AddOn') >= 20
-        THEN 'active'
-        ELSE 'inactive'
-    END
-    WHERE add_ons_name = 'CRUSHED OREO'
-");
-
-// Chia Seed AddOn
-$conn->query("
-    UPDATE product_add_ons
-    SET status = CASE 
-        WHEN (SELECT quantity FROM inventory_item WHERE item_name = 'Chia Seed AddOn') >= 20
-        THEN 'active'
-        ELSE 'inactive'
-    END
-    WHERE add_ons_name = 'CHIA SEED'
-");
 
 // -----------------------------------------------------------
 // 7️⃣ UPDATE EXPIRY STATUS

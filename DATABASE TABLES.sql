@@ -426,3 +426,13 @@ CREATE TABLE customer_feedback (
 );
 
 
+
+
+  CREATE TABLE product_ingredient_ratio ( 
+    ratio_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    item_id INT NOT NULL,
+    quantity_needed DECIMAL(10,2) NOT NULL, -- ratio per serving
+    FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES inventory_item(item_id) ON DELETE CASCADE
+  );

@@ -1566,7 +1566,7 @@ header('Content-Type: text/html');
       try {
         const res = await fetch('../../app/includes/events/stockStatusChecker.php');
         const data = await res.json();
-        console.log("Auto Stock Status:", data);
+        console.log("Auto Stock Status Checker :", data);
       } catch (err) {
         console.error("Auto Stock Error:", err);
       }
@@ -1574,6 +1574,20 @@ header('Content-Type: text/html');
 
     setInterval(autoStockCheck, 1000);
   </script>
+
+  <!-- <script>
+    async function milkteaStockCheck() {
+      try {
+        const res = await fetch('../../app/includes/events/milkteaStatusChecker.php');
+        const data = await res.json();
+        console.log("Milktea Status Checker :", data);
+      } catch (err) {
+        console.error("Milktea Stock Error:", err);
+      }
+    }
+
+    setInterval(milkteaStockCheck, 1000);
+  </script> -->
 </body>
 
 </html>
