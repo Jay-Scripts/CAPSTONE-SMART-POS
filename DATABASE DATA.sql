@@ -495,7 +495,7 @@ VALUES
 
 
 --       ============================
---       = ICED COFFEE INV ENDS HERE  =
+--       = ICED COFFEE INV STARTS HERE  =
 --       ============================
 --  
 INSERT INTO inventory_item (
@@ -1015,3 +1015,22 @@ VALUES
     (48, 'coffee', 350),
     (48, 'hot karamel syrup', 80),
     (48, 'hot brew cup', 1);
+
+
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
+VALUES
+  -- Milk Tea medio
+  (1, 'tea', 250, 'medio'),
+  (1, 'syrup', 40, 'medio'),
+  (1, 'pearl', 10, 'medio'),
+  (1, 'cup', 1, 'medio'),
+  (1, 'straw', 1, 'medio'),
+  (1, 'sealing film', 1, 'medio'),
+
+  -- Milk Tea grande
+  (1, 'tea', 350, 'grande'),
+  (1, 'syrup', 80, 'grande'),
+  (1, 'pearl', 15, 'grande'),
+  (1, 'cup', 1, 'grande'),
+  (1, 'straw', 1, 'grande'),
+  (1, 'sealing film', 1, 'grande');

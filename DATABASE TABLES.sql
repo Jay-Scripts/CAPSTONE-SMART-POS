@@ -428,10 +428,11 @@
 
 
 
-CREATE TABLE product_ingredient_ratio ( 
-  ratio_id INT AUTO_INCREMENT PRIMARY KEY,
-  product_id INT NOT NULL,
-  ingredient_name VARCHAR(150) NOT NULL,
-  ingredient_ratio DECIMAL(10,2) NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
-);
+  CREATE TABLE product_ingredient_ratio ( 
+    ratio_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    ingredient_name VARCHAR(150) NOT NULL,
+    ingredient_ratio DECIMAL(10,2) NOT NULL,
+    size ENUM('medio', 'grande', 'promo', 'hot brew') DEFAULT 'medio',
+    FOREIGN KEY (product_id) REFERENCES product_details(product_id) ON DELETE CASCADE
+  );
