@@ -982,3 +982,36 @@ VALUES
     (18, 'cup g 22oz', 1),
     (18, 'sealing film', 1),
     (18, 'straw', 1);
+
+
+
+-- =========================
+-- = HOT BREW INGREDIENT RATIOS =
+-- =========================
+
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio)
+VALUES
+    -- Hot Brusko
+    (44, 'coffee', 350),
+    (44, 'hot brusko syrup', 80),
+    (44, 'hot brew cup', 1),
+
+    -- Hot Choco
+    (45, 'coffee', 350),
+    (45, 'hot choco syrup', 80),
+    (45, 'hot brew cup', 1),
+
+    -- Hot Moca
+    (46, 'coffee', 350),
+    (46, 'hot moca syrup', 80),
+    (46, 'hot brew cup', 1),
+
+    -- Hot Matcha
+    (47, 'coffee', 350),
+    (47, 'hot matcha syrup', 80),
+    (47, 'hot brew cup', 1),
+
+    -- Hot Karamel
+    (48, 'coffee', 350),
+    (48, 'hot karamel syrup', 80),
+    (48, 'hot brew cup', 1);
