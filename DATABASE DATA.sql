@@ -672,209 +672,207 @@ VALUES
 --       ==================================================================================================================================================================================================================================
 
 
-
-
 -- =========================
 -- = MILK TEA INGREDIENT RATIOS =
 -- =========================
 
 -- MEDIO SIZE
-INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio)
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
 VALUES
-    -- Winter (medio)
-    (1, 'tea', 250),
-    (1, 'wintermelon syrup', 40),
-    (1, 'pearl', 10),
-    (1, 'cup m 16oz', 1),
-    (1, 'sealing film', 1),
-    (1, 'straw', 1),
+    -- Winter
+    (1, 'tea', 250, 'medio'),
+    (1, 'wintermelon syrup', 40, 'medio'),
+    (1, 'pearl', 10, 'medio'),
+    (1, 'cup', 1, 'medio'),
+    (1, 'sealing film', 1, 'medio'),
+    (1, 'straw', 1, 'medio'),
 
-    -- Taro (medio)
-    (2, 'tea', 250),
-    (2, 'taro syrup', 40),
-    (2, 'pearl', 10),
-    (2, 'cup m 16oz', 1),
-    (2, 'sealing film', 1),
-    (2, 'straw', 1),
+    -- Taro
+    (2, 'tea', 250, 'medio'),
+    (2, 'taro syrup', 40, 'medio'),
+    (2, 'pearl', 10, 'medio'),
+    (2, 'cup', 1, 'medio'),
+    (2, 'sealing film', 1, 'medio'),
+    (2, 'straw', 1, 'medio'),
 
-    -- Strawberry (medio)
-    (3, 'tea', 250),
-    (3, 'strawberry syrup', 40),
-    (3, 'pearl', 10),
-    (3, 'cup m 16oz', 1),
-    (3, 'sealing film', 1),
-    (3, 'straw', 1),
+    -- Strawberry
+    (3, 'tea', 250, 'medio'),
+    (3, 'strawberry syrup', 40, 'medio'),
+    (3, 'pearl', 10, 'medio'),
+    (3, 'cup', 1, 'medio'),
+    (3, 'sealing film', 1, 'medio'),
+    (3, 'straw', 1, 'medio'),
 
-    -- Salted Caramel (medio)
-    (4, 'tea', 250),
-    (4, 'salted caramel syrup', 40),
-    (4, 'pearl', 10),
-    (4, 'cup m 16oz', 1),
-    (4, 'sealing film', 1),
-    (4, 'straw', 1),
+    -- Salted Caramel
+    (4, 'tea', 250, 'medio'),
+    (4, 'salted caramel syrup', 40, 'medio'),
+    (4, 'pearl', 10, 'medio'),
+    (4, 'cup', 1, 'medio'),
+    (4, 'sealing film', 1, 'medio'),
+    (4, 'straw', 1, 'medio'),
 
-    -- Red Velvet (medio)
-    (5, 'tea', 250),
-    (5, 'red velvet syrup', 40),
-    (5, 'pearl', 10),
-    (5, 'cup m 16oz', 1),
-    (5, 'sealing film', 1),
-    (5, 'straw', 1),
+    -- Red Velvet
+    (5, 'tea', 250, 'medio'),
+    (5, 'red velvet syrup', 40, 'medio'),
+    (5, 'pearl', 10, 'medio'),
+    (5, 'cup', 1, 'medio'),
+    (5, 'sealing film', 1, 'medio'),
+    (5, 'straw', 1, 'medio'),
 
-    -- Matcha (medio)
-    (6, 'tea', 250),
-    (6, 'matcha syrup', 40),
-    (6, 'pearl', 10),
-    (6, 'cup m 16oz', 1),
-    (6, 'sealing film', 1),
-    (6, 'straw', 1),
+    -- Matcha
+    (6, 'tea', 250, 'medio'),
+    (6, 'matcha syrup', 40, 'medio'),
+    (6, 'pearl', 10, 'medio'),
+    (6, 'cup', 1, 'medio'),
+    (6, 'sealing film', 1, 'medio'),
+    (6, 'straw', 1, 'medio'),
 
-    -- Double Dutch (medio)
-    (7, 'tea', 250),
-    (7, 'double dutch syrup', 40),
-    (7, 'pearl', 10),
-    (7, 'cup m 16oz', 1),
-    (7, 'sealing film', 1),
-    (7, 'straw', 1),
+    -- Double Dutch
+    (7, 'tea', 250, 'medio'),
+    (7, 'double dutch syrup', 40, 'medio'),
+    (7, 'pearl', 10, 'medio'),
+    (7, 'cup', 1, 'medio'),
+    (7, 'sealing film', 1, 'medio'),
+    (7, 'straw', 1, 'medio'),
 
-    -- Dark Choco (medio)
-    (8, 'tea', 250),
-    (8, 'dark choco syrup', 40),
-    (8, 'pearl', 10),
-    (8, 'cup m 16oz', 1),
-    (8, 'sealing film', 1),
-    (8, 'straw', 1),
+    -- Dark Choco
+    (8, 'tea', 250, 'medio'),
+    (8, 'dark choco syrup', 40, 'medio'),
+    (8, 'pearl', 10, 'medio'),
+    (8, 'cup', 1, 'medio'),
+    (8, 'sealing film', 1, 'medio'),
+    (8, 'straw', 1, 'medio'),
 
-    -- Choco Hazelnut (medio)
-    (9, 'tea', 250),
-    (9, 'choco hazelnut syrup', 40),
-    (9, 'pearl', 10),
-    (9, 'cup m 16oz', 1),
-    (9, 'sealing film', 1),
-    (9, 'straw', 1),
+    -- Choco Hazelnut
+    (9, 'tea', 250, 'medio'),
+    (9, 'choco hazelnut syrup', 40, 'medio'),
+    (9, 'pearl', 10, 'medio'),
+    (9, 'cup', 1, 'medio'),
+    (9, 'sealing film', 1, 'medio'),
+    (9, 'straw', 1, 'medio'),
 
-    -- Cookies & Cream (medio)
-    (10, 'tea', 250),
-    (10, 'cookies & cream syrup', 40),
-    (10, 'pearl', 10),
-    (10, 'cup m 16oz', 1),
-    (10, 'sealing film', 1),
-    (10, 'straw', 1),
+    -- Cookies & Cream
+    (10, 'tea', 250, 'medio'),
+    (10, 'cookies & cream syrup', 40, 'medio'),
+    (10, 'pearl', 10, 'medio'),
+    (10, 'cup', 1, 'medio'),
+    (10, 'sealing film', 1, 'medio'),
+    (10, 'straw', 1, 'medio'),
 
-    -- Choco Kisses (medio)
-    (11, 'tea', 250),
-    (11, 'choco kisses syrup', 40),
-    (11, 'pearl', 10),
-    (11, 'cup m 16oz', 1),
-    (11, 'sealing film', 1),
-    (11, 'straw', 1),
+    -- Choco Kisses
+    (11, 'tea', 250, 'medio'),
+    (11, 'choco kisses syrup', 40, 'medio'),
+    (11, 'pearl', 10, 'medio'),
+    (11, 'cup', 1, 'medio'),
+    (11, 'sealing film', 1, 'medio'),
+    (11, 'straw', 1, 'medio'),
 
-    -- Brown Sugar (medio)
-    (12, 'tea', 250),
-    (12, 'brown sugar syrup', 40),
-    (12, 'pearl', 10),
-    (12, 'cup m 16oz', 1),
-    (12, 'sealing film', 1),
-    (12, 'straw', 1);
+    -- Brown Sugar
+    (12, 'tea', 250, 'medio'),
+    (12, 'brown sugar syrup', 40, 'medio'),
+    (12, 'pearl', 10, 'medio'),
+    (12, 'cup', 1, 'medio'),
+    (12, 'sealing film', 1, 'medio'),
+    (12, 'straw', 1, 'medio');
 
 -- GRANDE SIZE
-INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio)
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
 VALUES
-    -- Winter (grande)
-    (1, 'tea', 350),
-    (1, 'wintermelon syrup', 80),
-    (1, 'pearl', 15),
-    (1, 'cup g 22oz', 1),
-    (1, 'sealing film', 1),
-    (1, 'straw', 1),
+    -- Winter
+    (1, 'tea', 350, 'grande'),
+    (1, 'wintermelon syrup', 80, 'grande'),
+    (1, 'pearl', 15, 'grande'),
+    (1, 'cup', 1, 'grande'),
+    (1, 'sealing film', 1, 'grande'),
+    (1, 'straw', 1, 'grande'),
 
-    -- Taro (grande)
-    (2, 'tea', 350),
-    (2, 'taro syrup', 80),
-    (2, 'pearl', 15),
-    (2, 'cup g 22oz', 1),
-    (2, 'sealing film', 1),
-    (2, 'straw', 1),
+    -- Taro
+    (2, 'tea', 350, 'grande'),
+    (2, 'taro syrup', 80, 'grande'),
+    (2, 'pearl', 15, 'grande'),
+    (2, 'cup', 1, 'grande'),
+    (2, 'sealing film', 1, 'grande'),
+    (2, 'straw', 1, 'grande'),
 
-    -- Strawberry (grande)
-    (3, 'tea', 350),
-    (3, 'strawberry syrup', 80),
-    (3, 'pearl', 15),
-    (3, 'cup g 22oz', 1),
-    (3, 'sealing film', 1),
-    (3, 'straw', 1),
+    -- Strawberry
+    (3, 'tea', 350, 'grande'),
+    (3, 'strawberry syrup', 80, 'grande'),
+    (3, 'pearl', 15, 'grande'),
+    (3, 'cup', 1, 'grande'),
+    (3, 'sealing film', 1, 'grande'),
+    (3, 'straw', 1, 'grande'),
 
-    -- Salted Caramel (grande)
-    (4, 'tea', 350),
-    (4, 'salted caramel syrup', 80),
-    (4, 'pearl', 15),
-    (4, 'cup g 22oz', 1),
-    (4, 'sealing film', 1),
-    (4, 'straw', 1),
+    -- Salted Caramel
+    (4, 'tea', 350, 'grande'),
+    (4, 'salted caramel syrup', 80, 'grande'),
+    (4, 'pearl', 15, 'grande'),
+    (4, 'cup', 1, 'grande'),
+    (4, 'sealing film', 1, 'grande'),
+    (4, 'straw', 1, 'grande'),
 
-    -- Red Velvet (grande)
-    (5, 'tea', 350),
-    (5, 'red velvet syrup', 80),
-    (5, 'pearl', 15),
-    (5, 'cup g 22oz', 1),
-    (5, 'sealing film', 1),
-    (5, 'straw', 1),
+    -- Red Velvet
+    (5, 'tea', 350, 'grande'),
+    (5, 'red velvet syrup', 80, 'grande'),
+    (5, 'pearl', 15, 'grande'),
+    (5, 'cup', 1, 'grande'),
+    (5, 'sealing film', 1, 'grande'),
+    (5, 'straw', 1, 'grande'),
 
-    -- Matcha (grande)
-    (6, 'tea', 350),
-    (6, 'matcha syrup', 80),
-    (6, 'pearl', 15),
-    (6, 'cup g 22oz', 1),
-    (6, 'sealing film', 1),
-    (6, 'straw', 1),
+    -- Matcha
+    (6, 'tea', 350, 'grande'),
+    (6, 'matcha syrup', 80, 'grande'),
+    (6, 'pearl', 15, 'grande'),
+    (6, 'cup', 1, 'grande'),
+    (6, 'sealing film', 1, 'grande'),
+    (6, 'straw', 1, 'grande'),
 
-    -- Double Dutch (grande)
-    (7, 'tea', 350),
-    (7, 'double dutch syrup', 80),
-    (7, 'pearl', 15),
-    (7, 'cup g 22oz', 1),
-    (7, 'sealing film', 1),
-    (7, 'straw', 1),
+    -- Double Dutch
+    (7, 'tea', 350, 'grande'),
+    (7, 'double dutch syrup', 80, 'grande'),
+    (7, 'pearl', 15, 'grande'),
+    (7, 'cup', 1, 'grande'),
+    (7, 'sealing film', 1, 'grande'),
+    (7, 'straw', 1, 'grande'),
 
-    -- Dark Choco (grande)
-    (8, 'tea', 350),
-    (8, 'dark choco syrup', 80),
-    (8, 'pearl', 15),
-    (8, 'cup g 22oz', 1),
-    (8, 'sealing film', 1),
-    (8, 'straw', 1),
+    -- Dark Choco
+    (8, 'tea', 350, 'grande'),
+    (8, 'dark choco syrup', 80, 'grande'),
+    (8, 'pearl', 15, 'grande'),
+    (8, 'cup', 1, 'grande'),
+    (8, 'sealing film', 1, 'grande'),
+    (8, 'straw', 1, 'grande'),
 
-    -- Choco Hazelnut (grande)
-    (9, 'tea', 350),
-    (9, 'choco hazelnut syrup', 80),
-    (9, 'pearl', 15),
-    (9, 'cup g 22oz', 1),
-    (9, 'sealing film', 1),
-    (9, 'straw', 1),
+    -- Choco Hazelnut
+    (9, 'tea', 350, 'grande'),
+    (9, 'choco hazelnut syrup', 80, 'grande'),
+    (9, 'pearl', 15, 'grande'),
+    (9, 'cup', 1, 'grande'),
+    (9, 'sealing film', 1, 'grande'),
+    (9, 'straw', 1, 'grande'),
 
-    -- Cookies & Cream (grande)
-    (10, 'tea', 350),
-    (10, 'cookies & cream syrup', 80),
-    (10, 'pearl', 15),
-    (10, 'cup g 22oz', 1),
-    (10, 'sealing film', 1),
-    (10, 'straw', 1),
+    -- Cookies & Cream
+    (10, 'tea', 350, 'grande'),
+    (10, 'cookies & cream syrup', 80, 'grande'),
+    (10, 'pearl', 15, 'grande'),
+    (10, 'cup', 1, 'grande'),
+    (10, 'sealing film', 1, 'grande'),
+    (10, 'straw', 1, 'grande'),
 
-    -- Choco Kisses (grande)
-    (11, 'tea', 350),
-    (11, 'choco kisses syrup', 80),
-    (11, 'pearl', 15),
-    (11, 'cup g 22oz', 1),
-    (11, 'sealing film', 1),
-    (11, 'straw', 1),
+    -- Choco Kisses
+    (11, 'tea', 350, 'grande'),
+    (11, 'choco kisses syrup', 80, 'grande'),
+    (11, 'pearl', 15, 'grande'),
+    (11, 'cup', 1, 'grande'),
+    (11, 'sealing film', 1, 'grande'),
+    (11, 'straw', 1, 'grande'),
 
-    -- Brown Sugar (grande)
-    (12, 'tea', 350),
-    (12, 'brown sugar syrup', 80),
-    (12, 'pearl', 15),
-    (12, 'cup g 22oz', 1),
-    (12, 'sealing film', 1),
-    (12, 'straw', 1);
+    -- Brown Sugar
+    (12, 'tea', 350, 'grande'),
+    (12, 'brown sugar syrup', 80, 'grande'),
+    (12, 'pearl', 15, 'grande'),
+    (12, 'cup', 1, 'grande'),
+    (12, 'sealing film', 1, 'grande'),
+    (12, 'straw', 1, 'grande');
 
 
 -- =========================
@@ -882,139 +880,139 @@ VALUES
 -- =========================
 
 -- MEDIO SIZE
-INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio)
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
 VALUES
-    -- Green Apple (medio)
-    (13, 'tea', 250),
-    (13, 'green apple syrup', 40),
-    (13, 'pearl', 10),
-    (13, 'cup m 16oz', 1),
-    (13, 'sealing film', 1),
-    (13, 'straw', 1),
+    -- Green Apple
+    (13, 'tea', 250, 'medio'),
+    (13, 'green apple syrup', 40, 'medio'),
+    (13, 'pearl', 10, 'medio'),
+    (13, 'cup', 1, 'medio'),
+    (13, 'sealing film', 1, 'medio'),
+    (13, 'straw', 1, 'medio'),
 
-    -- Kiwi (medio)
-    (14, 'tea', 250),
-    (14, 'kiwi syrup', 40),
-    (14, 'pearl', 10),
-    (14, 'cup m 16oz', 1),
-    (14, 'sealing film', 1),
-    (14, 'straw', 1),
+    -- Kiwi
+    (14, 'tea', 250, 'medio'),
+    (14, 'kiwi syrup', 40, 'medio'),
+    (14, 'pearl', 10, 'medio'),
+    (14, 'cup', 1, 'medio'),
+    (14, 'sealing film', 1, 'medio'),
+    (14, 'straw', 1, 'medio'),
 
-    -- Lemon (medio)
-    (15, 'tea', 250),
-    (15, 'lemon syrup', 40),
-    (15, 'pearl', 10),
-    (15, 'cup m 16oz', 1),
-    (15, 'sealing film', 1),
-    (15, 'straw', 1),
+    -- Lemon
+    (15, 'tea', 250, 'medio'),
+    (15, 'lemon syrup', 40, 'medio'),
+    (15, 'pearl', 10, 'medio'),
+    (15, 'cup', 1, 'medio'),
+    (15, 'sealing film', 1, 'medio'),
+    (15, 'straw', 1, 'medio'),
 
-    -- Passion Fruit (medio)
-    (16, 'tea', 250),
-    (16, 'passion fruit syrup', 40),
-    (16, 'pearl', 10),
-    (16, 'cup m 16oz', 1),
-    (16, 'sealing film', 1),
-    (16, 'straw', 1),
+    -- Passion Fruit
+    (16, 'tea', 250, 'medio'),
+    (16, 'passion fruit syrup', 40, 'medio'),
+    (16, 'pearl', 10, 'medio'),
+    (16, 'cup', 1, 'medio'),
+    (16, 'sealing film', 1, 'medio'),
+    (16, 'straw', 1, 'medio'),
 
-    -- Strawberry (medio)
-    (17, 'tea', 250),
-    (17, 'strawberry syrup', 40),
-    (17, 'pearl', 10),
-    (17, 'cup m 16oz', 1),
-    (17, 'sealing film', 1),
-    (17, 'straw', 1),
+    -- Strawberry
+    (17, 'tea', 250, 'medio'),
+    (17, 'strawberry syrup', 40, 'medio'),
+    (17, 'pearl', 10, 'medio'),
+    (17, 'cup', 1, 'medio'),
+    (17, 'sealing film', 1, 'medio'),
+    (17, 'straw', 1, 'medio'),
 
-    -- Watermelon (medio)
-    (18, 'tea', 250),
-    (18, 'watermelon syrup', 40),
-    (18, 'pearl', 10),
-    (18, 'cup m 16oz', 1),
-    (18, 'sealing film', 1),
-    (18, 'straw', 1);
+    -- Watermelon
+    (18, 'tea', 250, 'medio'),
+    (18, 'watermelon syrup', 40, 'medio'),
+    (18, 'pearl', 10, 'medio'),
+    (18, 'cup', 1, 'medio'),
+    (18, 'sealing film', 1, 'medio'),
+    (18, 'straw', 1, 'medio');
 
 -- GRANDE SIZE
-INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio)
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
 VALUES
-    -- Green Apple (grande)
-    (13, 'tea', 350),
-    (13, 'green apple syrup', 80),
-    (13, 'pearl', 15),
-    (13, 'cup g 22oz', 1),
-    (13, 'sealing film', 1),
-    (13, 'straw', 1),
+    -- Green Apple
+    (13, 'tea', 350, 'grande'),
+    (13, 'green apple syrup', 80, 'grande'),
+    (13, 'pearl', 15, 'grande'),
+    (13, 'cup', 1, 'grande'),
+    (13, 'sealing film', 1, 'grande'),
+    (13, 'straw', 1, 'grande'),
 
-    -- Kiwi (grande)
-    (14, 'tea', 350),
-    (14, 'kiwi syrup', 80),
-    (14, 'pearl', 15),
-    (14, 'cup g 22oz', 1),
-    (14, 'sealing film', 1),
-    (14, 'straw', 1),
+    -- Kiwi
+    (14, 'tea', 350, 'grande'),
+    (14, 'kiwi syrup', 80, 'grande'),
+    (14, 'pearl', 15, 'grande'),
+    (14, 'cup', 1, 'grande'),
+    (14, 'sealing film', 1, 'grande'),
+    (14, 'straw', 1, 'grande'),
 
-    -- Lemon (grande)
-    (15, 'tea', 350),
-    (15, 'lemon syrup', 80),
-    (15, 'pearl', 15),
-    (15, 'cup g 22oz', 1),
-    (15, 'sealing film', 1),
-    (15, 'straw', 1),
+    -- Lemon
+    (15, 'tea', 350, 'grande'),
+    (15, 'lemon syrup', 80, 'grande'),
+    (15, 'pearl', 15, 'grande'),
+    (15, 'cup', 1, 'grande'),
+    (15, 'sealing film', 1, 'grande'),
+    (15, 'straw', 1, 'grande'),
 
-    -- Passion Fruit (grande)
-    (16, 'tea', 350),
-    (16, 'passion fruit syrup', 80),
-    (16, 'pearl', 15),
-    (16, 'cup g 22oz', 1),
-    (16, 'sealing film', 1),
-    (16, 'straw', 1),
+    -- Passion Fruit
+    (16, 'tea', 350, 'grande'),
+    (16, 'passion fruit syrup', 80, 'grande'),
+    (16, 'pearl', 15, 'grande'),
+    (16, 'cup', 1, 'grande'),
+    (16, 'sealing film', 1, 'grande'),
+    (16, 'straw', 1, 'grande'),
 
-    -- Strawberry (grande)
-    (17, 'tea', 350),
-    (17, 'strawberry syrup', 80),
-    (17, 'pearl', 15),
-    (17, 'cup g 22oz', 1),
-    (17, 'sealing film', 1),
-    (17, 'straw', 1),
+    -- Strawberry
+    (17, 'tea', 350, 'grande'),
+    (17, 'strawberry syrup', 80, 'grande'),
+    (17, 'pearl', 15, 'grande'),
+    (17, 'cup', 1, 'grande'),
+    (17, 'sealing film', 1, 'grande'),
+    (17, 'straw', 1, 'grande'),
 
-    -- Watermelon (grande)
-    (18, 'tea', 350),
-    (18, 'watermelon syrup', 80),
-    (18, 'pearl', 15),
-    (18, 'cup g 22oz', 1),
-    (18, 'sealing film', 1),
-    (18, 'straw', 1);
-
+    -- Watermelon
+    (18, 'tea', 350, 'grande'),
+    (18, 'watermelon syrup', 80, 'grande'),
+    (18, 'pearl', 15, 'grande'),
+    (18, 'cup', 1, 'grande'),
+    (18, 'sealing film', 1, 'grande'),
+    (18, 'straw', 1, 'grande');
 
 
 -- =========================
 -- = HOT BREW INGREDIENT RATIOS =
 -- =========================
 
-INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio)
+INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
 VALUES
     -- Hot Brusko
-    (44, 'coffee', 350),
-    (44, 'hot brusko syrup', 80),
-    (44, 'hot brew cup', 1),
+    (44, 'coffee', 350, 'hot brew'),
+    (44, 'hot brusko syrup', 80, 'hot brew'),
+    (44, 'cup', 1, 'hot brew'),
 
     -- Hot Choco
-    (45, 'coffee', 350),
-    (45, 'hot choco syrup', 80),
-    (45, 'hot brew cup', 1),
+    (45, 'coffee', 350, 'hot brew'),
+    (45, 'hot choco syrup', 80, 'hot brew'),
+    (45, 'cup', 1, 'hot brew'),
 
     -- Hot Moca
-    (46, 'coffee', 350),
-    (46, 'hot moca syrup', 80),
-    (46, 'hot brew cup', 1),
+    (46, 'coffee', 350, 'hot brew'),
+    (46, 'hot moca syrup', 80, 'hot brew'),
+    (46, 'cup', 1, 'hot brew'),
 
     -- Hot Matcha
-    (47, 'coffee', 350),
-    (47, 'hot matcha syrup', 80),
-    (47, 'hot brew cup', 1),
+    (47, 'coffee', 350, 'hot brew'),
+    (47, 'hot matcha syrup', 80, 'hot brew'),
+    (47, 'cup', 1, 'hot brew'),
 
     -- Hot Karamel
-    (48, 'coffee', 350),
-    (48, 'hot karamel syrup', 80),
-    (48, 'hot brew cup', 1);
+    (48, 'coffee', 350, 'hot brew'),
+    (48, 'hot karamel syrup', 80, 'hot brew'),
+    (48, 'cup', 1, 'hot brew');
+
 
 
 -- =========================
