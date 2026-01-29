@@ -1017,20 +1017,60 @@ VALUES
     (48, 'hot brew cup', 1);
 
 
+-- =========================
+-- = ICED COFFEE INGREDIENT RATIOS =
+-- =========================
+
 INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
 VALUES
-  -- Milk Tea medio
-  (1, 'tea', 250, 'medio'),
-  (1, 'syrup', 40, 'medio'),
-  (1, 'pearl', 10, 'medio'),
-  (1, 'cup', 1, 'medio'),
-  (1, 'straw', 1, 'medio'),
-  (1, 'sealing film', 1, 'medio'),
+    -- Kape Brusko
+    (19, 'coffee', 250, 'medio'),
+    (19, 'kape brusko syrup', 40, 'medio'),
+    (19, 'cup', 1, 'medio'),
+    (19, 'straw', 1, 'medio'),
+    (19, 'sealing film', 1, 'medio'),
 
-  -- Milk Tea grande
-  (1, 'tea', 350, 'grande'),
-  (1, 'syrup', 80, 'grande'),
-  (1, 'pearl', 15, 'grande'),
-  (1, 'cup', 1, 'grande'),
-  (1, 'straw', 1, 'grande'),
-  (1, 'sealing film', 1, 'grande');
+    (19, 'coffee', 350, 'grande'),
+    (19, 'kape brusko syrup', 80, 'grande'),
+    (19, 'cup', 1, 'grande'),
+    (19, 'straw', 1, 'grande'),
+    (19, 'sealing film', 1, 'grande'),
+
+    -- Kape Karamel
+    (20, 'coffee', 250, 'medio'),
+    (20, 'kape karamel syrup', 40, 'medio'),
+    (20, 'cup', 1, 'medio'),
+    (20, 'straw', 1, 'medio'),
+    (20, 'sealing film', 1, 'medio'),
+
+    (20, 'coffee', 350, 'grande'),
+    (20, 'kape karamel syrup', 80, 'grande'),
+    (20, 'cup', 1, 'grande'),
+    (20, 'straw', 1, 'grande'),
+    (20, 'sealing film', 1, 'grande'),
+
+    -- Kape Macch
+    (21, 'coffee', 250, 'medio'),
+    (21, 'kape macch syrup', 40, 'medio'),
+    (21, 'cup', 1, 'medio'),
+    (21, 'straw', 1, 'medio'),
+    (21, 'sealing film', 1, 'medio'),
+
+    (21, 'coffee', 350, 'grande'),
+    (21, 'kape macch syrup', 80, 'grande'),
+    (21, 'cup', 1, 'grande'),
+    (21, 'straw', 1, 'grande'),
+    (21, 'sealing film', 1, 'grande'),
+
+    -- Kape Vanilla
+    (22, 'coffee', 250, 'medio'),
+    (22, 'kape vanilla syrup', 40, 'medio'),
+    (22, 'cup', 1, 'medio'),
+    (22, 'straw', 1, 'medio'),
+    (22, 'sealing film', 1, 'medio'),
+
+    (22, 'coffee', 350, 'grande'),
+    (22, 'kape vanilla syrup', 80, 'grande'),
+    (22, 'cup', 1, 'grande'),
+    (22, 'straw', 1, 'grande'),
+    (22, 'sealing film', 1, 'grande');
