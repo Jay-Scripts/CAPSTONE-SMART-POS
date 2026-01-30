@@ -1560,7 +1560,11 @@ header('Content-Type: text/html');
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
+  <!-- 
+      =====================================
+      =   API TO CHECK THE STOCKS STATUS  =
+      =====================================
+    -->
   <script>
     async function autoStockCheck() {
       try {
@@ -1574,6 +1578,28 @@ header('Content-Type: text/html');
 
     setInterval(autoStockCheck, 1000);
   </script>
+
+  <!-- 
+      ==================================================
+      =   API TO MAP EACH TRANS THEN DEDUCT TO INV QTY =
+      ==================================================
+    -->
+
+  <script>
+    async function autoInventoryDeduct() {
+      try {
+        const res = await fetch('../../app/includes/events/inventoryDeduct.php');
+        const data = await res.json();
+        console.log("Inventory Deduction:", data);
+      } catch (err) {
+        console.error("Auto Inventory Deduction Error:", err);
+      }
+    }
+
+    // Run every 1 second
+    setInterval(autoInventoryDeduct, 1000);
+  </script>
+
 
   <!-- <script>
     async function milkteaStockCheck() {

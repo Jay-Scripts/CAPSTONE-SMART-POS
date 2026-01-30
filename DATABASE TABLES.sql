@@ -198,6 +198,7 @@
           amount_tendered DECIMAL(10,2) NOT NULL DEFAULT 0.00,
           change_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
           STATUS ENUM('PENDING', 'PAID', 'NOW SERVING', 'COMPLETED', 'REFUNDED', 'WASTE', 'VOID') DEFAULT 'PENDING',
+          is_deducted TINYINT(1) DEFAULT 0,
           date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (kiosk_transaction_id) REFERENCES kiosk_transaction(kiosk_transaction_id) ON DELETE SET NULL,
           FOREIGN KEY (STAFF_ID) REFERENCES STAFF_INFO(STAFF_ID) ON DELETE CASCADE
@@ -426,6 +427,9 @@
   );
 
 
+  -- ========================================================================
+  --                     RATIO PER ORDER TO BE DEDUCT EACH ORDER
+  -- ========================================================================
 
 
   CREATE TABLE product_ingredient_ratio ( 
