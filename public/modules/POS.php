@@ -1600,6 +1600,21 @@ header('Content-Type: text/html');
     setInterval(autoInventoryDeduct, 1000);
   </script>
 
+  <script>
+    async function autoInventoryDeduct() {
+      try {
+        const res = await fetch('../../app/includes/events/inventoryDeductCoffee.php');
+        const data = await res.json();
+        console.log("Inventory Deduction:", data);
+      } catch (err) {
+        console.error("Auto Inventory Deduction Error:", err);
+      }
+    }
+
+    // Run every 1 second
+    setInterval(autoInventoryDeduct, 1000);
+  </script>
+
 
   <!-- <script>
     async function milkteaStockCheck() {
