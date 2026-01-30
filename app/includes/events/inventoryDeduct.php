@@ -6,10 +6,8 @@ try {
     $conn->beginTransaction();
 
     // =========================
-    // 1️⃣ ICED COFFEE INVENTORY DEDUCTION
+    // 1️⃣ FETCH ALL TRANSACTION ITEMS NOT YET DEDUCTED
     // =========================
-
-    // Fetch all transaction items not yet deducted
     $stmt = $conn->prepare("
         SELECT ti.ITEM_ID, ti.PRODUCT_ID, ti.SIZE_ID, ti.QUANTITY, ps.size AS size_name
         FROM TRANSACTION_ITEM ti
@@ -21,24 +19,35 @@ try {
     $stmt->execute();
     $transaction_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Iced Coffee ingredient → inventory mapping
+    // =========================
+    // 2️⃣ INGREDIENT TO INVENTORY MAPPING
+    // =========================
     $ingredientMap = [
         'cup' => ['medio' => 'cup_m', 'grande' => 'cup_g'],
         'straw' => 'Straw',
         'sealing film' => 'Sealing Film',
+        'coffee' => 'coffee',
+        // Milk Tea / Fruit Tea Syrups
         'kape brusko syrup' => 'Kape Brusko Syrup',
         'kape karamel syrup' => 'Kape Karamel Syrup',
         'kape macch syrup' => 'Kape Macch Syrup',
         'kape vanilla syrup' => 'Kape Vanilla Syrup',
-        'coffee' => 'coffee'
+        'hot brusko syrup' => 'Hot Brusko Syrup',
+        'hot choco syrup' => 'Hot Choco Syrup',
+        'hot moca syrup' => 'Hot Moca Syrup',
+        'hot matcha syrup' => 'Hot Matcha Syrup',
+        'hot karamel syrup' => 'Hot Karamel Syrup'
     ];
 
+    // =========================
+    // 3️⃣ DEDUCT INVENTORY
+    // =========================
     foreach ($transaction_items as $item) {
         $productId = $item['PRODUCT_ID'];
         $quantityOrdered = $item['QUANTITY'];
-        $size = strtolower($item['size_name']);
+        $size = strtolower($item['size_name']); // medio / grande
 
-        // Fetch ingredient ratios
+        // Fetch ingredient ratios for this product & size
         $stmt2 = $conn->prepare("
             SELECT ingredient_name, ingredient_ratio
             FROM product_ingredient_ratio
@@ -55,6 +64,7 @@ try {
             $ingredientName = strtolower($ing['ingredient_name']);
             $deductQty = $ing['ingredient_ratio'] * $quantityOrdered;
 
+            // Map ingredient to inventory item
             if (isset($ingredientMap[$ingredientName])) {
                 $ingredientName = is_array($ingredientMap[$ingredientName])
                     ? $ingredientMap[$ingredientName][$size]
@@ -85,7 +95,7 @@ try {
         }
     }
 
-    // Mark transactions as deducted
+    // Mark all transactions as deducted
     $conn->prepare("
         UPDATE REG_TRANSACTION
         SET is_deducted = 1
@@ -94,14 +104,9 @@ try {
     ")->execute();
 
     // =========================
-    // 2️⃣ STOCK CHECK & PRODUCT SIZE STATUS
+    // 4️⃣ UPDATE PRODUCT SIZE STATUS BASED ON INVENTORY
     // =========================
-
-    $categoryId = 1; // Milk Tea category
-
-    // Get all products in this category
-    $stmt = $conn->prepare("SELECT product_id FROM product_details WHERE category_id = :categoryId");
-    $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
+    $stmt = $conn->prepare("SELECT product_id, category_id FROM product_details");
     $stmt->execute();
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -115,11 +120,11 @@ try {
         $row = $stmt2->fetch(PDO::FETCH_ASSOC);
         $total_stock = floatval($row['total_stock'] ?? 0);
 
-        // Default: set all sizes inactive
+        // Set sizes inactive by default
         $conn->prepare("UPDATE product_sizes SET status = 'inactive' WHERE product_id = :productId AND size IN ('medio','grande')")
             ->execute([':productId' => $productId]);
 
-        // Logic based on stock
+        // Activate sizes based on stock
         if ($total_stock >= 60) {
             $conn->prepare("UPDATE product_sizes SET status = 'active' WHERE product_id = :productId AND size IN ('medio','grande')")
                 ->execute([':productId' => $productId]);

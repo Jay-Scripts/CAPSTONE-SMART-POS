@@ -632,9 +632,8 @@ INSERT INTO inventory_item (
     inv_category_id, item_name, added_by, unit, quantity, date_made, date_expiry
 )
 VALUES
-    (2, 'Cup G 22oz', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (2, 'Cup M 16oz', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (2, 'Hot Brew', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'cup_g', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (2, 'cup_m', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (2, 'Sealing Film', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (2, 'Domelid', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
     (2, 'Straw', 1, 'pcs', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
@@ -990,28 +989,28 @@ INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ra
 VALUES
     -- Hot Brusko
     (44, 'coffee', 350, 'hot brew'),
-    (44, 'hot brusko syrup', 80, 'hot brew'),
-    (44, 'cup', 1, 'hot brew'),
+    (44, 'hot brusko syrup', 80, 'medio'),
+    (44, 'cup', 1, 'medio'),
 
     -- Hot Choco
-    (45, 'coffee', 350, 'hot brew'),
-    (45, 'hot choco syrup', 80, 'hot brew'),
-    (45, 'cup', 1, 'hot brew'),
+    (45, 'coffee', 350, 'medio'),
+    (45, 'hot choco syrup', 80, 'medio'),
+    (45, 'cup', 1, 'medio'),
 
     -- Hot Moca
-    (46, 'coffee', 350, 'hot brew'),
-    (46, 'hot moca syrup', 80, 'hot brew'),
-    (46, 'cup', 1, 'hot brew'),
+    (46, 'coffee', 350, 'medio'),
+    (46, 'hot moca syrup', 80, 'medio'),
+    (46, 'cup', 1, 'medio'),
 
     -- Hot Matcha
-    (47, 'coffee', 350, 'hot brew'),
-    (47, 'hot matcha syrup', 80, 'hot brew'),
-    (47, 'cup', 1, 'hot brew'),
+    (47, 'coffee', 350, 'medio'),
+    (47, 'hot matcha syrup', 80, 'medio'),
+    (47, 'cup', 1, 'medio'),
 
     -- Hot Karamel
-    (48, 'coffee', 350, 'hot brew'),
-    (48, 'hot karamel syrup', 80, 'hot brew'),
-    (48, 'cup', 1, 'hot brew');
+    (48, 'coffee', 350, 'medio'),
+    (48, 'hot karamel syrup', 80, 'medio'),
+    (48, 'cup', 1, 'medio');
 
 
 
