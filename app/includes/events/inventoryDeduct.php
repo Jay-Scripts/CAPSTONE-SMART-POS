@@ -70,28 +70,56 @@ try {
                     ? $ingredientMap[$ingredientName][$size]
                     : $ingredientMap[$ingredientName];
             }
+            // =========================
+            // FEFO INVENTORY DEDUCTION
+            // =========================
+            $remaining = $deductQty;
 
-            // Deduct inventory
-            $updateInv = $conn->prepare("
-                UPDATE inventory_item
-                SET quantity = GREATEST(quantity - :deductQty, 0)
-                WHERE LOWER(item_name) = LOWER(:ingredientName)
-            ");
-            $updateInv->execute([
-                ':deductQty' => $deductQty,
-                ':ingredientName' => $ingredientName
-            ]);
+            // Get inventory batches ordered by nearest expiry
+            $stmtInv = $conn->prepare("
+    SELECT item_id, quantity
+    FROM inventory_item
+    WHERE LOWER(item_name) = LOWER(:ingredientName)
+      AND quantity > 0
+      AND expiry_status != 'EXPIRED'
+    ORDER BY date_expiry ASC, date_added ASC
+    FOR UPDATE
+");
+            $stmtInv->execute([':ingredientName' => $ingredientName]);
+            $inventoryRows = $stmtInv->fetchAll(PDO::FETCH_ASSOC);
 
-            // Log deduction
-            $conn->prepare("
-                INSERT INTO inventory_item_logs(item_id, staff_id, action_type, last_quantity, quantity_adjusted, total_after, remarks)
-                SELECT ii.item_id, 1, 'AUTO DEDUCTION', ii.quantity + :deductQty, :deductQty, ii.quantity, 'Auto Deduction'
-                FROM inventory_item ii
-                WHERE LOWER(ii.item_name) = LOWER(:ingredientName)
-            ")->execute([
-                ':deductQty' => $deductQty,
-                ':ingredientName' => $ingredientName
-            ]);
+            foreach ($inventoryRows as $inv) {
+                if ($remaining <= 0) break;
+
+                $deductNow = min($inv['quantity'], $remaining);
+
+                // Update inventory batch
+                $conn->prepare("
+        UPDATE inventory_item
+        SET quantity = quantity - :deduct
+        WHERE item_id = :item_id
+    ")->execute([
+                    ':deduct' => $deductNow,
+                    ':item_id' => $inv['item_id']
+                ]);
+
+                // Log deduction per batch
+                $conn->prepare("
+        INSERT INTO inventory_item_logs
+        (item_id, staff_id, action_type, last_quantity, quantity_adjusted, total_after, remarks)
+        VALUES
+        (:item_id, 1, 'AUTO DEDUCTION',
+         :last_qty, :deduct, :after_qty,
+         'FEFO Auto Deduction')
+    ")->execute([
+                    ':item_id'   => $inv['item_id'],
+                    ':last_qty'  => $inv['quantity'],
+                    ':deduct'    => $deductNow,
+                    ':after_qty' => $inv['quantity'] - $deductNow
+                ]);
+
+                $remaining -= $deductNow;
+            }
         }
     }
 
