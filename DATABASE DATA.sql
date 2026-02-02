@@ -605,12 +605,12 @@ INSERT INTO inventory_item (
     inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry
 )
 VALUES
-    (1, 'Cheese Cake AddOn', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Pearl AddOn', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Cream Cheese AddOn', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Coffee Jelly AddOn', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Crushed Oreo AddOn', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
-    (1, 'Chia Seed AddOn', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cheese Cake', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Pearl', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Cream Cheese', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Coffee Jelly', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Crushed Oreo', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
+    (1, 'Chia Seed', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
       (1, 'Crystal', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR)),
           (1, 'Cream Puff', 1, NULL, 8, 'g', 5000, CURRENT_DATE, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR));
 --       ============================
