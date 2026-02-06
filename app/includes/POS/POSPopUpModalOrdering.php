@@ -114,12 +114,27 @@ $modifications = $mods_stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Quantity -->
         <div class="flex items-center justify-between mt-2">
             <span class="text-sm font-medium text-gray-700">Quantity:</span>
-            <div class="flex items-center space-x-2">
-                <button id="decreaseQty" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 rounded">−</button>
-                <input id="quantity" type="number" value="1" min="1" class="w-12 text-center border rounded" readonly>
-                <button id="increaseQty" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 rounded">+</button>
+            <div class="flex items-center gap-3">
+                <button id="decreaseQty"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded flex items-center justify-center">−</button>
+
+                <input id="quantity" type="number" value="1" min="1" max="99"
+                    class="w-16 text-center border border-gray-300 rounded py-1">
+
+                <button id="increaseQty"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded flex items-center justify-center">+</button>
             </div>
         </div>
+
+        <script>
+            const qty = document.getElementById("quantity");
+
+            qty.addEventListener("input", () => {
+                qty.value = qty.value.slice(0, 2);
+            });
+        </script>
+
+
 
         <!-- Total -->
         <div class="mt-2 text-right text-sm font-semibold text-gray-800">

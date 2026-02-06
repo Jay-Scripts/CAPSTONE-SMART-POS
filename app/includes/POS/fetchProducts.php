@@ -234,8 +234,24 @@ foreach ($rows as $row) {
         originalTotal = cartTotal;
         updateDisplay();
     }
+    async function checkStockBeforeAdd(productId, sizeId, qty) {
+        const res = await fetch(`../../app/includes/POS/checkStock.php?product_id=${productId}&size_id=${sizeId}&qty=${qty}`);
+        const data = await res.json();
 
-    function addToOrder() {
+        if (!data.ok) {
+            Swal.fire({
+                icon: "error",
+                title: "Insufficient Stock",
+                text: data.message
+            });
+            return false;
+        }
+
+        return true;
+    }
+
+
+    async function addToOrder() {
         const size = document.querySelector('input[name="size"]:checked');
         if (!size) {
             Swal.fire({
@@ -252,15 +268,19 @@ foreach ($rows as $row) {
         let addonsPrice = 0;
         document.querySelectorAll('.addon-checkbox:checked').forEach(a => addonsPrice += parseFloat(a.dataset.price));
 
-        const totalItemPrice = basePrice + addonsPrice;
         const newItem = {
             product_id: selectedProduct.product_id,
             size_id: parseInt(size.dataset.id),
             quantity: parseInt(quantityInput.value),
-            price: totalItemPrice,
+            price: basePrice + addonsPrice,
             addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(a => parseInt(a.dataset.id)),
-            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value))
+            modifications: Array.from(document.querySelectorAll('.mod-checkbox:checked')).map(m => parseInt(m.value)),
+            category: selectedProduct.category // make sure category is set for each product
         };
+
+        // ✅ Check stock with cart quantities included
+        const ok = await checkStockBeforeAdd(newItem.product_id, newItem.size_id, newItem.quantity);
+        if (!ok) return;
 
         if (selectedProduct.editingIndex !== undefined) {
             cart[selectedProduct.editingIndex] = newItem;
@@ -284,6 +304,7 @@ foreach ($rows as $row) {
         closeModal();
         renderCart();
     }
+
 
     function editCartItem(index) {
         const item = cart[index];
