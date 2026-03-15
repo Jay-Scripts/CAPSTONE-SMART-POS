@@ -40,7 +40,7 @@ async function updateWeeklySalesChart() {
 
   try {
     const res = await fetch(
-      "../../app/includes/managerModule/managerOverviewSalesOverview.php"
+      "../../app/includes/managerModule/managerOverviewSalesOverview.php",
     );
     if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
     const data = await res.json();
@@ -112,7 +112,7 @@ async function updateTopProductsChart() {
 
   try {
     const res = await fetch(
-      "../../app/includes/managerModule/managerOverviewTopSellingProduct.php"
+      "../../app/includes/managerModule/managerOverviewTopSellingProduct.php",
     );
     const data = await res.json();
 
@@ -155,7 +155,7 @@ async function updatePaymentBreakdownChart() {
 
   try {
     const res = await fetch(
-      "../../app/includes/managerModule/managerOverviewPaymentBreakdown.php"
+      "../../app/includes/managerModule/managerOverviewPaymentBreakdown.php",
     );
     const data = await res.json();
 

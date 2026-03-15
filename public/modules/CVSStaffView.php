@@ -92,11 +92,11 @@
       =============================
     -->
 
-  <main class="flex flex-col items-center justify-center min-h-[calc(100vh-150px)] px-4 py-8 sm:px-6 lg:px-10">
+  <main class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 min-h-[calc(100vh-150px)]">
 
-    <!-- Scanner Card -->
+    <!-- COLUMN 1 : SCANNER -->
     <section
-      class="w-full max-w-sm sm:max-w-md lg:max-w-xl bg-white/10 backdrop-blur-md border border-gray-400/30 rounded-2xl shadow-lg p-6 sm:p-8 text-center transition hover:scale-[1.01] duration-200">
+      class="w-full bg-white/10 backdrop-blur-md border border-gray-400/30 rounded-2xl shadow-lg p-6 sm:p-8 text-center">
 
       <h2 class="text-xl sm:text-2xl font-semibold text-[var(--text-color)] mb-5">
         Scan Pick Slip to Mark as <span class="text-green-400">Completed</span>
@@ -112,10 +112,24 @@
         class="w-full text-center text-lg p-3 border-2 text-[var(--text-color)] placeholder-[var(--text-color)] rounded-md focus:ring-2 bg-[var(--background-color)] focus:ring-blue-400"
         placeholder="Scan or enter QR code..." />
 
-      <p class="text-xs sm:text-sm text-[var(--text-color)]  mt-3">
+      <p class="text-xs sm:text-sm text-[var(--text-color)] mt-3">
         Connect your scanner and scan the QR code. It will automatically update the status.
       </p>
     </section>
+
+
+    <!-- COLUMN 2 : NOW SERVING -->
+    <section class="border rounded-2xl shadow-md p-6 flex flex-col">
+
+      <h2 class="text-2xl font-bold text-center mb-4 text-[var(--text-color)]">
+        Now Serving Orders
+      </h2>
+
+      <div id="nowServing" class="text-center space-y-3 overflow-y-auto max-h-[60vh]">
+      </div>
+
+    </section>
+
   </main>
 
   <script>
@@ -328,8 +342,60 @@
   </script>
 
 
+  <script>
+    async function loadNowServing() {
+      try {
+        const res = await fetch("../../app/includes/CVS/CVSfetchOrdersStaffView.php");
+        const data = await res.json();
 
+        const container = document.getElementById("nowServing");
 
+        if (!container) return;
+
+        if (data.length > 0) {
+          container.innerHTML = data.map(id => `
+  <div class="bg-green-600 rounded-lg p-3 shadow flex justify-between items-center">
+    <p class="text-white font-bold text-3xl">#${id}</p>
+    <button onclick="speakOrder(${id})" class="text-white hover:text-yellow-300">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1-3.29-2.5-4.03v8.06c1.5-.74 2.5-2.26 2.5-4.03zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+    </button>
+  </div>
+`).join("");
+        } else {
+          container.innerHTML =
+            `<p class="text-gray-400 italic">No orders serving now</p>`;
+        }
+
+      } catch (error) {
+        console.error("Error loading now serving:", error);
+      }
+    }
+
+    // initial load
+    loadNowServing();
+
+    // refresh every 2 seconds
+    setInterval(loadNowServing, 2000);
+  </script>
+
+  <script>
+    function speakOrder(orderNumber) {
+      const msg = new SpeechSynthesisUtterance(`Now serving customer number ${orderNumber}`);
+      msg.lang = "en-US";
+      msg.rate = 0.9;
+      msg.pitch = 1;
+
+      // Optional: choose a specific voice
+      const voices = speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        msg.voice = voices.find(v => v.lang === "en-US") || voices[0];
+      }
+
+      speechSynthesis.speak(msg);
+    }
+  </script>
 </body>
 
 </html>
