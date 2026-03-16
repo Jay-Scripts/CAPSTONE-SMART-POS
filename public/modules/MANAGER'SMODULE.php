@@ -790,7 +790,17 @@ json_encode($alerts);
     -->
   <?php
   include "../../app/config/dbConnection.php";
-
+  $activeStaffList = $conn->query("
+    SELECT 
+        si.staff_id,
+        si.staff_name,
+        GROUP_CONCAT(sr.role ORDER BY sr.role SEPARATOR ', ') AS roles
+    FROM staff_info si
+    LEFT JOIN staff_roles sr ON si.staff_id = sr.staff_id
+    WHERE si.status = 'ACTIVE'
+    GROUP BY si.staff_id, si.staff_name
+    ORDER BY si.staff_name
+")->fetchAll(PDO::FETCH_ASSOC);
   // Fetch staff with all roles
   $staffList = $conn->query("
     SELECT si.staff_id, si.staff_name, GROUP_CONCAT(sr.role ORDER BY sr.role SEPARATOR ', ') AS roles
@@ -867,7 +877,7 @@ json_encode($alerts);
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($staffList as $staff): ?>
+          <?php foreach ($activeStaffList as $staff): ?>
             <tr class="border-b">
               <td class="py-3 px-4  border border-[var(--border-color)]"><?= htmlspecialchars($staff['staff_name']) ?></td>
               <td class="py-3 px-4  border border-[var(--border-color)]"><?= $staff['roles'] ?? 'NONE' ?></td>
