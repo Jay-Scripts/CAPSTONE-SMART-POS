@@ -57,13 +57,13 @@ header('Content-Type: text/html');
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 10px;
       padding: 10px 6px;
       border-radius: 12px;
       cursor: pointer;
       border: 1.5px solid transparent;
       transition: all .15s ease;
-      min-height: 74px;
+      min-height: 104px;
       width: 100%;
       background: transparent;
       user-select: none;
@@ -315,7 +315,7 @@ header('Content-Type: text/html');
   <div style="display:flex; flex:1; overflow:hidden;">
 
     <!-- ── LEFT SIDEBAR — category radio buttons ── -->
-    <nav style="width:98px; flex-shrink:0; background:var(--nav-bg);
+    <nav style="width:110px; flex-shrink:0; background:var(--nav-bg);
       border-right:1px solid var(--container-border);
       display:flex; flex-direction:column; gap:4px;
       padding:10px 6px; overflow-y:auto; scrollbar-width:none;">
@@ -513,7 +513,7 @@ header('Content-Type: text/html');
   <!-- Backdrop for cart drawer -->
   <div id="cartBackdrop"
     onclick="toggleCartDrawer()"
-    style="display:none; position:fixed; inset:0; background:white; z-index:99;"></div>
+    style="display:none; position:fixed; inset:0; background:var(--background-color); z-index:99;"></div>
 
   <!-- ══ SCRIPTS — all unchanged ══ -->
   <?php include_once "../../app/includes/POS/POSOrderingScript.php"; ?>

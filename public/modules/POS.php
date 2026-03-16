@@ -349,269 +349,220 @@ header('Content-Type: text/html');
     Profile Dropdown Ends Here
     ======================= -->
   <main class="flex justify-center items-center h-full portrait:items-start">
-    <!-- 
-      ==========================================================================================================================================
-      =                                                                                                                                        =
-      =                                                  Main Menu Container - Starts Here                                                       =
-      =                                                                                                                                        =
-      ==========================================================================================================================================
-    -->
-    <section
-      class="grid grid-cols-4 gap-1 w-full h-[85vh] m-2">
 
+    <section class="grid grid-cols-4 gap-2 w-full h-[85vh] m-2">
+
+      <!-- ============================================================
+         MENU CONTAINER
+    ============================================================ -->
       <section
         id="menuContainer"
-        class="border-2 border-[var(--container-border)] p-4 rounded-lg col-span-4 landscape:col-span-3">
-        <!-- Categories Section -->
-        <fieldset
-          id="orderCategory"
-          class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3"
-          aria-label="Order Categories">
-          <div class="categoryButtons ">
-            <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
-            <label for="milktea_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
+        class="col-span-4 landscape:col-span-3 flex flex-col gap-0 rounded-2xl border border-[var(--container-border)] overflow-hidden bg-[var(--background-color)] shadow-lg">
 
-              <!-- Icon -->
-              <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2l-4 2" />
-                <path d="M12 2v3" />
-                <path d="M5 7h14" />
-                <path d="M6 7l1.2 11.2A2 2 0 0 0 9.19 20h5.62a2 2 0 0 0 1.99-1.8L18 7" />
-                <path d="M7 12h10" />
-                <circle cx="9" cy="16.5" r="1" fill="currentColor" stroke="none" />
-                <circle cx="12" cy="17.5" r="1" fill="currentColor" stroke="none" />
-                <circle cx="15" cy="16.5" r="1" fill="currentColor" stroke="none" />
+        <!-- ── TOP BAR: Category Nav ── -->
+        <div class="px-3 pt-3 pb-2 border-b border-[var(--container-border)] bg-[var(--background-color)]">
+          <fieldset
+            id="orderCategory"
+            class="flex flex-wrap gap-2"
+            aria-label="Order Categories">
+
+            <!-- MILK TEA -->
+            <div class="categoryButtons">
+              <input type="radio" id="milktea_module" name="module" class="hidden peer" checked onclick="showModule('milktea')" />
+              <label for="milktea_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2l-4 2" />
+                  <path d="M12 2v3" />
+                  <path d="M5 7h14" />
+                  <path d="M6 7l1.2 11.2A2 2 0 0 0 9.19 20h5.62a2 2 0 0 0 1.99-1.8L18 7" />
+                  <path d="M7 12h10" />
+                  <circle cx="9" cy="16.5" r="1" fill="currentColor" stroke="none" />
+                  <circle cx="12" cy="17.5" r="1" fill="currentColor" stroke="none" />
+                  <circle cx="15" cy="16.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Milk Tea</span>
+              </label>
+            </div>
+
+            <!-- FRUIT TEA -->
+            <div class="categoryButtons">
+              <input type="radio" id="fruittea_module" name="module" class="hidden peer" onclick="showModule('fruittea')" />
+              <label for="fruittea_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 7h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7z" />
+                  <path d="M5 7h14" />
+                  <path d="M12 2v5" />
+                  <path d="M7 12h10" />
+                  <circle cx="16.5" cy="15.5" r="2" />
+                  <path d="M16.5 13.5v4" />
+                  <path d="M14.5 15.5h4" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Fruit Tea</span>
+              </label>
+            </div>
+
+            <!-- HOT BREW -->
+            <div class="categoryButtons">
+              <input type="radio" id="hotbrew_module" name="module" class="hidden peer" onclick="showModule('hotbrew')" />
+              <label for="hotbrew_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 8h12v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z" />
+                  <path d="M16 10h1a3 3 0 0 1 0 6h-1" />
+                  <path d="M9 2v3" />
+                  <path d="M13 2v3" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Hot Brew</span>
+              </label>
+            </div>
+
+            <!-- ICED COFFEE -->
+            <div class="categoryButtons">
+              <input type="radio" id="icedcoffee_module" name="module" class="hidden peer" onclick="showModule('icedcoffee')" />
+              <label for="icedcoffee_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 7h10l-1.2 11.2A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z" />
+                  <path d="M6 7h12" />
+                  <path d="M12 2v5" />
+                  <rect x="9" y="11" width="2.5" height="2.5" />
+                  <rect x="12.5" y="14" width="2.5" height="2.5" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Iced Coffee</span>
+              </label>
+            </div>
+
+            <!-- PRAF -->
+            <div class="categoryButtons">
+              <input type="radio" id="praf_module" name="module" class="hidden peer" onclick="showModule('praf')" />
+              <label for="praf_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 9h12l-1.2 9.2A2 2 0 0 1 14.8 20H9.2a2 2 0 0 1-2-1.8L6 9z" />
+                  <path d="M6 9c0-3 3-5 6-5s6 2 6 5" />
+                  <path d="M12 4V2" />
+                  <path d="M9 9c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Praf</span>
+              </label>
+            </div>
+
+            <!-- PROMOS -->
+            <div class="categoryButtons">
+              <input type="radio" id="promos_module" name="module" class="hidden peer" onclick="showModule('promos')" />
+              <label for="promos_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 7h10l-1.2 10.5A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z" />
+                  <path d="M6 7h12" />
+                  <path d="M12 2v5" />
+                  <polygon points="16 10 17 12 19 12 17.5 13.5 18 15.5 16 14.5 14 15.5 14.5 13.5 13 12 15 12 16 10" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Promos</span>
+              </label>
+            </div>
+
+            <!-- BROSTY -->
+            <div class="categoryButtons">
+              <input type="radio" id="brosty_module" name="module" class="hidden peer" onclick="showModule('brosty')" />
+              <label for="brosty_module"
+                class="group flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                     bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                     transition-all duration-200 select-none
+                     peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                     peer-checked:border-[var(--text-color)] peer-checked:shadow-md
+                     hover:border-[var(--text-color)] active:scale-95">
+                <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 10h10l-1.5 8.5a2 2 0 01-2 1.5h-3a2 2 0 01-2-1.5L7 10z" />
+                  <path d="M7.5 10a3.5 3.5 0 013-2 3.5 3.5 0 013 2 3.5 3.5 0 013-2 3.5 3.5 0 013 2" />
+                  <path d="M15 5l2 4" />
+                </svg>
+                <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Brosty</span>
+              </label>
+            </div>
+
+            <!-- RECALL ORDER -->
+            <button
+              onclick="openKioskModal()"
+              class="flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--container-border)]
+                   bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer
+                   transition-all duration-200 select-none
+                   hover:border-[var(--text-color)] active:scale-95">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                <path d="M120-520v-320h320v320H120Zm80-80h160v-160H200v160Zm-80 480v-320h320v320H120Zm80-80h160v-160H200v160Zm320-320v-320h320v320H520Zm80-80h160v-160H600v160Zm160 480v-80h80v80h-80ZM520-360v-80h80v80h-80Zm80 80v-80h80v80h-80Zm-80 80v-80h80v80h-80Zm80 80v-80h80v80h-80Zm80-80v-80h80v80h-80Zm0-160v-80h80v80h-80Zm80 80v-80h80v80h-80Z" />
               </svg>
+              <span class="text-xs font-semibold tracking-wide whitespace-nowrap">Recall Order</span>
+            </button>
 
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">MILK TEA</p>
-            </label>
-          </div>
+          </fieldset>
+        </div>
+        <!-- ── END TOP BAR ── -->
 
-          <div class="categoryButtons ">
-            <input type="radio" id="fruittea_module" name="module" class="hidden peer" onclick="showModule('fruittea')" />
-            <label for="fruittea_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-
-              <!-- Icon -->
-              <!-- Fruit Tea SVG -->
-              <svg
-                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <!-- Cup -->
-                <path d="M6 7h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7z" />
-                <!-- Lid -->
-                <path d="M5 7h14" />
-                <!-- Straw -->
-                <path d="M12 2v5" />
-                <!-- Liquid line -->
-                <path d="M7 12h10" />
-                <!-- Fruit slice (circle + wedge) -->
-                <circle cx="16.5" cy="15.5" r="2" />
-                <path d="M16.5 13.5v4" />
-                <path d="M14.5 15.5h4" />
-              </svg>
-
-
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">FRUIT TEA</p>
-            </label>
-          </div>
-
-          <div class="categoryButtons ">
-            <input type="radio" id="hotbrew_module" name="module" class="hidden peer" onclick="showModule('hotbrew')" />
-            <label for="hotbrew_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-
-              <!-- Hot Brew SVG -->
-              <svg
-                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <!-- Mug -->
-                <path d="M4 8h12v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z" />
-                <!-- Handle -->
-                <path d="M16 10h1a3 3 0 0 1 0 6h-1" />
-                <!-- Steam lines -->
-                <path d="M9 2v3" />
-                <path d="M13 2v3" />
-              </svg>
-
-
-
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">HOT BREW</p>
-            </label>
-          </div>
-
-
-          <div class="categoryButtons ">
-            <input type="radio" id="icedcoffee_module" name="module" class="hidden peer" onclick="showModule('icedcoffee')" />
-            <label for="icedcoffee_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-
-              <!-- Iced Coffee SVG -->
-              <svg
-                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <!-- Glass -->
-                <path d="M7 7h10l-1.2 11.2A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z" />
-                <!-- Lid -->
-                <path d="M6 7h12" />
-                <!-- Straw -->
-                <path d="M12 2v5" />
-                <!-- Ice cubes -->
-                <rect x="9" y="11" width="2.5" height="2.5" />
-                <rect x="12.5" y="14" width="2.5" height="2.5" />
-              </svg>
-
-
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">ICED COFFEE</p>
-            </label>
-          </div>
-
-          <div class="categoryButtons ">
-            <input type="radio" id="praf_module" name="module" class="hidden peer" onclick="showModule('praf')" />
-            <label for="praf_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-
-
-              <!-- Praf SVG -->
-              <svg
-                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <!-- Cup -->
-                <path d="M6 9h12l-1.2 9.2A2 2 0 0 1 14.8 20H9.2a2 2 0 0 1-2-1.8L6 9z" />
-                <!-- Dome lid -->
-                <path d="M6 9c0-3 3-5 6-5s6 2 6 5" />
-                <!-- Straw -->
-                <path d="M12 4V2" />
-                <!-- Topping detail (whipped cream swirl) -->
-                <path d="M9 9c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5" />
-              </svg>
-
-
-
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">PRAF</p>
-            </label>
-          </div>
-
-
-          <div class="categoryButtons ">
-            <input type="radio" id="promos_module" name="module" class="hidden peer" onclick="showModule('promos')" />
-            <label for="promos_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-
-              <!-- Promos (Drink Special) SVG -->
-              <svg
-                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <!-- Cup -->
-                <path d="M7 7h10l-1.2 10.5A2 2 0 0 1 13.8 20H10.2a2 2 0 0 1-2-1.8L7 7z" />
-                <!-- Lid -->
-                <path d="M6 7h12" />
-                <!-- Straw -->
-                <path d="M12 2v5" />
-                <!-- Star badge (promo highlight) -->
-                <polygon points="16 10 17 12 19 12 17.5 13.5 18 15.5 16 14.5 14 15.5 14.5 13.5 13 12 15 12 16 10" />
-              </svg>
-
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">PROMOS</p>
-            </label>
-          </div>
-
-          <div class="categoryButtons ">
-            <input type="radio" id="brosty_module" name="module" class="hidden peer" onclick="showModule('brosty')" />
-            <label for="brosty_module"
-              class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-
-
-              <svg xmlns="http://www.w3.org/2000/svg"
-                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <!-- Cup/Bowl -->
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 10h10l-1.5 8.5a2 2 0 01-2 1.5h-3a2 2 0 01-2-1.5L7 10z" />
-                <!-- Shaved Ice (cloudy top) -->
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7.5 10a3.5 3.5 0 013-2 3.5 3.5 0 013 2 3.5 3.5 0 013-2 3.5 3.5 0 013 2" />
-                <!-- Straw/Stick -->
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 5l2 4" />
-              </svg>
-
-
-              <!-- Label -->
-              <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">BROSTY</p>
-            </label>
-
-
-
-          </div>
-
-          <!-- Recall Order Button -->
-          <button
-            onclick="openKioskModal()"
-            class="w-full aspect-[4/3] flex flex-col items-center justify-center border-2 border-[var(--container-border)] rounded-xl bg-[var(--background-color)] text-[var(--text-color)] cursor-pointer shadow-sm transition-all peer-checked:bg-black peer-checked:text-white peer-checked:border-white peer-checked:shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 mb-1"
-              viewBox="0 -960 960 960"
-              fill="currentColor">
-              <path d="M120-520v-320h320v320H120Zm80-80h160v-160H200v160Zm-80 480v-320h320v320H120Zm80-80h160v-160H200v160Zm320-320v-320h320v320H520Zm80-80h160v-160H600v160Zm160 480v-80h80v80h-80ZM520-360v-80h80v80h-80Zm80 80v-80h80v80h-80Zm-80 80v-80h80v80h-80Zm80 80v-80h80v80h-80Zm80-80v-80h80v80h-80Zm0-160v-80h80v80h-80Zm80 80v-80h80v80h-80Z" />
-            </svg>
-            <p class="font-semibold text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-center">Recall Order</p>
-          </button>
+        <!-- ── MENU CONTENT AREA ── -->
+        <div class="flex-1 overflow-y-auto px-3 py-3">
 
           <!-- Kiosk Order Modal -->
           <div id="kioskModal"
             class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-            <div class="bg-[var(--background-color)] text-[var(--text-color)] border-2 border-[var(--container-border)] p-6 rounded-2xl shadow-xl w-[300px] text-center">
-              <h2 class="text-lg font-semibold mb-3">Load Kiosk Order</h2>
+            <div class="bg-[var(--background-color)] text-[var(--text-color)] border border-[var(--container-border)] p-6 rounded-2xl shadow-2xl w-[320px] text-center">
+              <div class="flex items-center justify-between mb-4 pb-3 border-b border-[var(--container-border)]">
+                <h2 class="text-base font-bold tracking-tight">Recall Order</h2>
+                <button onclick="closeKioskModal()" class="text-[var(--text-color)] opacity-50 hover:opacity-100 text-2xl leading-none">&times;</button>
+              </div>
+              <p class="text-xs opacity-60 mb-3">Scan QR code or enter order number</p>
               <input id="kioskInput"
                 type="text"
                 inputmode="numeric"
                 pattern="[0-9]*"
                 autofocus
-                placeholder="Scan or enter QR code"
-                class="w-full border rounded-lg p-2 mb-4 placeholder-[var(--text-color)] text-[var(--text-color)] bg-[var(--background-color)] focus:outline-none focus:ring-2 focus:ring-black/40">
-
-              <div class="flex justify-between">
-                <button onclick="closeKioskModal()" class="bg-red-600 text-white hover:bg-red-400 px-4 py-2 rounded-lg transition">Cancel</button>
-                <button onclick="submitKioskOrder()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-400 transition">Load</button>
+                placeholder="e.g. 00123"
+                class="w-full border border-[var(--container-border)] rounded-xl p-3 mb-5 text-center text-lg font-mono
+                     placeholder-[var(--text-color)] placeholder-opacity-30
+                     text-[var(--text-color)] bg-[var(--background-color)]
+                     focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30">
+              <div class="flex gap-2">
+                <button onclick="closeKioskModal()"
+                  class="flex-1 py-3 rounded-xl border border-[var(--container-border)] text-sm font-semibold
+                       text-[var(--text-color)] hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200">
+                  Cancel
+                </button>
+                <button onclick="submitKioskOrder()"
+                  class="flex-1 py-3 rounded-xl bg-[var(--text-color)] text-[var(--background-color)] text-sm font-semibold
+                       hover:opacity-80 transition-all duration-200">
+                  Load Order
+                </button>
               </div>
             </div>
           </div>
@@ -631,43 +582,34 @@ header('Content-Type: text/html');
             }
 
             function sanitizeInput(input) {
-              // Remove anything that isn’t a number
               return input.replace(/[^0-9]/g, "");
             }
 
             function submitKioskOrder() {
               let value = kioskInput.value.trim();
               value = sanitizeInput(value);
-
               if (!value) {
                 Swal.fire({
                   icon: "warning",
                   title: "Invalid Input",
-                  text: "Please enter a valid numeric QR code.",
+                  text: "Please enter a valid numeric QR code."
                 });
                 return;
               }
-
-              // Apply basic numeric validation
               if (!/^\d+$/.test(value)) {
                 Swal.fire({
                   icon: "error",
                   title: "Invalid Code",
-                  text: "Only numbers are allowed in the QR input.",
+                  text: "Only numbers are allowed in the QR input."
                 });
                 return;
               }
-
-              // Safe redirect
               let encodedValue = encodeURIComponent(value);
               window.location.href = `../pos/loadKioskOrder.php?id=${encodedValue}`;
             }
-
             kioskInput.addEventListener("input", () => {
               kioskInput.value = sanitizeInput(kioskInput.value);
             });
-
-            // Auto-submit when scanner presses Enter
             kioskInput.addEventListener("keydown", (e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -676,438 +618,376 @@ header('Content-Type: text/html');
             });
           </script>
 
+          <!-- POP-UP MODAL FOR ORDERING -->
+          <?php include_once "../../app/includes/POS/POSPopUpModalOrdering.php"; ?>
 
-        </fieldset>
+          <!-- ── CATEGORY SECTIONS ── -->
 
+          <!-- Milk Tea -->
+          <section id="milktea" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Milk Tea</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="milkteaMenu">
+              <?php $category_id = 1;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
-        <!-- 
-      ==========================================================================================================================================
-      =                                                  Popup Modal for Ordering Starts Here                                                  =
-      ==========================================================================================================================================
-    -->
-        <?php
-        include_once "../../app/includes/POS/POSPopUpModalOrdering.php";
-        ?>
-        <!-- 
-      ==========================================================================================================================================
-      =                                                  Popup Modal for Ordering Ends Here                                                    =
-      ==========================================================================================================================================
-    -->
+          <!-- Fruit Tea -->
+          <section id="fruittea" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Fruit Tea</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="fruitTeaMenu">
+              <?php $category_id = 2;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
+          <!-- Hot Brew -->
+          <section id="hotbrew" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Hot Brew</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="hotBrewMenu">
+              <?php $category_id = 3;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
-        <section id="milktea" class="hidden">
-          <div class="titleContainer">
-            <hr class="border border-[var(--border-color)] my-3" />
+          <!-- Praf -->
+          <section id="praf" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Praf</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="prafMenu">
+              <?php $category_id = 4;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Milk Tea Menu
-            </h1>
-            <hr class="border border-[var(--border-color)] my-3" />
-          </div>
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="milkteaMenu">
-            <?php
-            $category_id = 1; // Milk Tea
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
+          <!-- Iced Coffee -->
+          <section id="icedcoffee" class="hidden" aria-labelledby="icedcoffeeTitle">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Iced Coffee</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="icedCoffeeMenu">
+              <?php $category_id = 6;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
-          </div>
-        </section>
-        <section id="fruittea" class="hidden">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
+          <!-- Promos -->
+          <section id="promos" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Promos</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="promosMenu">
+              <?php $category_id = 7;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Fruit Tea Menu
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="fruitTeaMenu">
-            <?php
-            $category_id = 2; // Fruit Tea
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
+          <!-- Brosty -->
+          <section id="brosty" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Brosty</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+            <div class="gap-2 mt-1 justify-center items-center text-black" id="brostyMenu">
+              <?php $category_id = 5;
+              include "../../app/includes/POS/fetchProducts.php"; ?>
+            </div>
+          </section>
 
-          </div>
-        </section>
-        <section id="hotbrew" class="hidden">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
+          <section id="modify" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Modify</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+          </section>
 
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Hot Brew Menu
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="hotBrewMenu">
-            <?php
-            $category_id = 3; // Hot Brew
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
+          <section id="addOns" class="hidden">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+              <h1 class="text-sm font-bold tracking-widest uppercase text-[var(--text-color)] opacity-60">Add-ons</h1>
+              <div class="h-px flex-1 bg-[var(--container-border)]"></div>
+            </div>
+          </section>
 
-          </div>
-        </section>
-        <section id="praf" class="hidden">
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-
-          <h1
-            id="menuTitle"
-            class="text-center text-[1.5rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-            Praf Menu
-          </h1>
-          <hr class="border-2 border-[var(--border-color)] my-5" />
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="prafMenu">
-            <?php
-            $category_id = 4; // Praf
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
-
-          </div>
-        </section>
-        <!-- 
-      ================================================
-      =      Iced Coffee Section - Starts Here       =
-      ================================================
-    -->
-        <section
-          id="icedcoffee"
-          class="hidden"
-          aria-labelledby="icedcoffeeTitle">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Iced Coffee Menu
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="icedCoffeeMenu">
-            <?php
-            $category_id = 6; // Iced Coffee
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
-
-          </div>
-        </section>
-        <!-- 
-      ==============================================
-      =      Iced Coffee Section - Ends Here       =
-      ==============================================
-    -->
-
-        <section id="promos" class="hidden">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Promo Menu
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="promosMenu">
-            <?php
-            $category_id = 7; // Promos
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
-
-          </div>
-        </section>
-
-        <section id="brosty" class="hidden">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Brosty Menu
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-          <div
-            class="gap-1 mt-2 justify-center items-center text-black"
-            id="brostyMenu">
-            <?php
-            $category_id = 5; // Brosty
-            include "../../app/includes/POS/fetchProducts.php";
-            ?>
-
-          </div>
-        </section>
-
-        <section id="modify" class="hidden">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Modify
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-        </section>
-
-        <section id="addOns" class="hidden">
-          <div class="titleContainer">
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-
-            <h1
-              id="menuTitle"
-              class="text-center text-[1rem] md:text-2xl lg:text-3xl font-bold text-[var(--text-color)]">
-              Add-ons
-            </h1>
-            <hr class="border-2 border-[var(--border-color)] my-5" />
-          </div>
-        </section>
+        </div>
+        <!-- ── END MENU CONTENT AREA ── -->
 
       </section>
-      <!-- 
-      ================================================
-      =     Cart on Desktop View - Starts Here       =
-      ================================================
-    -->
+      <!-- ── END MENU CONTAINER ── -->
+
+
+      <!-- ============================================================
+         CART PANEL — Desktop/landscape side panel + portrait overlay
+    ============================================================ -->
       <section
         id="cart"
-        class="animate-[fadeIn_0.3s_ease] hidden portrait:mt-[-10%] portrait:ml-[-2%] portrait:absolute portrait:items-center portrait:justify-center landscape:block landscape:relative landscape:col-span-1 rounded-lg portrait:p-0 portrait:w-screen portrait:h-screen portrait:m-0"
+        class="animate-[fadeIn_0.3s_ease]
+             hidden
+             portrait:fixed portrait:inset-0 portrait:z-40 portrait:bg-black/50 portrait:backdrop-blur-sm
+             portrait:flex portrait:items-end
+             landscape:block landscape:relative landscape:col-span-1"
         aria-label="Order Summary">
-        <!-- Cart Box -->
-        <modal
+
+        <div
           id="cartBox"
-          class="animate-[animate-[fadeIn_0.3s_ease]_0.3s_ease] bg-[var(--background-color)] p-4 portrait:p-6 portrait:rounded-2xl portrait:w-[90%] portrait:h-[80vh] portrait:z-50 portrait:shadow-2xl landscape:h-[85vh] landscape:w-full border-2 border-[var(--container-border)] rounded-lg shadow-xl relative flex flex-col portrait:mx-auto portrait:my-auto portrait:flex portrait:items-center portrait:justify-center">
-          <!-- Close button (only visible on portrait) -->
-          <button
-            onclick="toggleCart()"
-            class="portrait:block landscape:hidden absolute top-3 right-3 text-red-600 font-bold text-2xl hover:scale-110 transition">
-            &times;
-          </button>
+          class="bg-[var(--background-color)]
+               portrait:rounded-t-3xl portrait:w-full portrait:max-h-[85vh]
+               landscape:rounded-2xl landscape:h-[85vh] landscape:w-full
+               border border-[var(--container-border)] shadow-2xl
+               flex flex-col overflow-hidden
+               portrait:animate-[slideUp_0.3s_ease]">
 
-          <!-- Cart content -->
-          <h2 class="text-center font-bold text-lg text-[var(--text-color)] m-4">
-            Orders
-          </h2>
-
-          <!-- Scrollable list -->
-          <div class="flex-1 overflow-y-auto mb-16  px-2 space-y-3 w-full text-[var(--text-color)]">
-            <div id="productList">
-              <!-- items -->
+          <!-- Cart Header -->
+          <div class="flex items-center justify-between px-5 py-4 border-b border-[var(--container-border)]">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5 text-[var(--text-color)]">
+                <path fill="currentColor" d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
+              </svg>
+              <h2 class="font-bold text-base text-[var(--text-color)] tracking-tight">Current Order</h2>
             </div>
-
+            <button
+              onclick="toggleCart()"
+              class="portrait:flex landscape:hidden w-8 h-8 rounded-full border border-[var(--container-border)]
+                   items-center justify-center text-[var(--text-color)] hover:bg-red-500 hover:text-white hover:border-red-500
+                   transition-all duration-200 text-lg font-bold">
+              &times;
+            </button>
           </div>
 
-          <!-- Checkout button (fixed at bottom) -->
-          <button
-            class=" fixed right-0 bottom-0 w-full h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-lg border shadow-lg transition-all duration-200"
-            onclick="openCalculator()">
-            <img
-              src="../assets/SVG/ACTION BTN/CART.svg"
-              alt="CART ICON"
-              class="w-5 h-5" />
-            Checkout
-          </button>
-        </modal>
+          <!-- Scrollable order list -->
+          <div class="flex-1 overflow-y-auto px-4 py-3 space-y-2 text-[var(--text-color)]">
+            <div id="productList">
+              <!-- items injected here -->
+            </div>
+          </div>
+
+          <!-- Checkout Button -->
+          <div class="px-4 py-3 border-t border-[var(--container-border)]">
+            <button
+              onclick="openCalculator()"
+              class="w-full py-4 rounded-2xl bg-green-600 hover:bg-green-500 active:scale-[0.98]
+                   text-white font-bold text-base tracking-wide
+                   flex items-center justify-center gap-2 transition-all duration-200 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5">
+                <path fill="currentColor" d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
+              </svg>
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
       </section>
 
-      <!-- CART BUTTON (Only on Portrait) -->
-      <section class="landscape:hidden fixed bottom-5 right-5">
+      <!-- FLOATING CART BUTTON (portrait only) -->
+      <section class="landscape:hidden fixed bottom-5 right-5 z-30">
         <button
           onclick="toggleCart()"
-          class="actionBtn relative w-[150px] h-[50px] bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center rounded-xl shadow-xl transition-all duration-200 overflow-hidden group">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+          class="relative h-14 px-5 bg-green-600 hover:bg-green-500 active:scale-95
+               text-white font-bold flex items-center gap-2 rounded-2xl shadow-xl
+               transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5">
             <path fill="currentColor" d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z" />
           </svg>
-          CART
+          <span class="text-sm">Cart</span>
+          <!-- Badge slot — populate via JS if needed -->
         </button>
       </section>
-      <!-- 
-      ================================================
-      =       Cart on Desktop View - Ends Here       =
-      ================================================
-    -->
-      <!-- ================================================
-      =           Cart Calculator - Starts Here           =
-      ================================================ -->
 
 
-
-      <!-- Calculator Modal -->
-      <div
-        id="calculatorModal"
-        class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 ">
-        <div
-          id="calculator"
-          class="bg-[var(--background-color)] border rounded-2xl  shadow-2xl w-full max-w-sm sm:max-w-xl sm:max-h-xs p-4 sm:p-6 mx-2 animate-[fadeIn_0.3s_ease]">
+      <!-- ============================================================
+         PAYMENT CALCULATOR MODAL
+    ============================================================ -->
+      <div id="calculatorModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center z-50">
+        <div id="calculator"
+          class="bg-[var(--background-color)] border border-[var(--container-border)] rounded-3xl shadow-2xl
+               w-full max-w-sm mx-4 p-5 animate-[fadeIn_0.25s_ease]">
 
           <!-- Header -->
-          <div class="flex justify-between items-center mb-4 border-b pb-2">
-            <h2 class="text-lg sm:text-xl font-bold text-[var(--text-color)]">
-              Payment
-            </h2>
+          <div class="flex items-center justify-between mb-5 pb-3 border-b border-[var(--container-border)]">
+            <h2 class="text-lg font-bold text-[var(--text-color)] tracking-tight">Payment</h2>
             <button onclick="closeCalculator()"
-              class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+              class="w-8 h-8 flex items-center justify-center rounded-full border border-[var(--container-border)]
+                   text-[var(--text-color)] hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 text-xl">
+              &times;
+            </button>
           </div>
 
-          <!-- Summary -->
-          <div class="space-y-2 mb-5 text-base sm:text-lg text-[var(--text-color)]">
-            <div class="flex justify-between">
-              <span>Total:</span><span id="totalAmount" class="font-bold">0</span>
+          <!-- Summary Card -->
+          <div class="rounded-2xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)] p-4 mb-4 space-y-2 text-[var(--text-color)]">
+            <div class="flex justify-between text-sm">
+              <span class="opacity-60">Subtotal</span>
+              <span id="totalAmount" class="font-bold">₱0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="opacity-60">Discount</span>
+              <span id="discountAmount" class="font-bold text-amber-500">₱0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="opacity-60">E-Pay</span>
+              <span id="epayAmount" class="font-bold text-blue-500">₱0</span>
+            </div>
+            <div class="border-t border-[var(--container-border)] pt-2 flex justify-between text-sm">
+              <span class="opacity-60">Tendered</span>
+              <span id="tenderedAmount" class="font-bold">₱0</span>
             </div>
             <div class="flex justify-between">
-              <span>Discount:</span>
-              <span id="discountAmount" class="font-bold">0</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Epay:</span><span id="epayAmount" class="font-bold">₱0</span>
-            </div>
-
-            <div class="flex justify-between">
-              <span>Tendered:</span><span id="tenderedAmount" class="font-bold">₱0</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Change:</span><span id="changeAmount" class="font-bold text-green-600">₱0</span>
+              <span class="font-semibold text-[var(--text-color)]">Change</span>
+              <span id="changeAmount" class="font-bold text-green-500 text-lg">₱0</span>
             </div>
           </div>
 
           <!-- Action Buttons -->
-          <div class="grid grid-cols-2 gap-2 mb-5 text-xs sm:text-xs text-[var(--text-color)]">
-
-
-
-            <!-- Discountubbbbtgfujiyjb-->
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <!-- SC & PWD Discount -->
             <button id="pwdBtn" onclick="openManagerQrModal(0.2)"
-              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)]  hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg ">
-              <span class=" flex "> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
-                  <path fill="currentColor"
-                    d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
-                </svg> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
+              class="flex items-center gap-2 px-3 py-3 rounded-xl border border-[var(--container-border)]
+                   bg-[var(--calc-bg-btn)] text-[var(--text-color)]
+                   hover:border-[var(--text-color)] active:scale-95 transition-all duration-200">
+              <span class="flex gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5">
+                  <path fill="currentColor" d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5">
                   <path fill="currentColor" d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
-                </svg></span>
-              <p class="text-md">SC & PWD Discount</p>
+                </svg>
+              </span>
+              <span class="text-xs font-semibold">SC & PWD</span>
             </button>
 
-
-            <!-- E Payment Button -->
+            <!-- E-Payment -->
             <button onclick="openManagerEPaymentModal()"
-              class="w-full aspect-square flex flex-col items-center justify-center gap-1 bg-[var(--calc-bg-btn)] rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 relative">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
+              class="flex items-center gap-2 px-3 py-3 rounded-xl border border-[var(--container-border)]
+                   bg-[var(--calc-bg-btn)] text-[var(--text-color)]
+                   hover:border-[var(--text-color)] active:scale-95 transition-all duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 shrink-0">
                 <rect x="2" y="6" width="20" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2" />
                 <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2" />
                 <rect x="4" y="12" width="3" height="3" rx="0.5" ry="0.5" fill="currentColor" />
               </svg>
-              <p class="text-md">E-Payment</p>
+              <span class="text-xs font-semibold">E-Payment</span>
             </button>
-
-
           </div>
 
-
-
           <!-- Quick Bills -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5 text-[var(--text-color)]">
-            <button onclick="addCash(500)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱500</button>
-            <button onclick="addCash(200)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱200</button>
-            <button onclick="addCash(100)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱100</button>
-            <button onclick="addCash(50)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱50</button>
-            <button onclick="addCash(20)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱20</button>
-            <button onclick="addCash(10)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱10</button>
-            <button onclick="addCash(5)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">₱5</button>
+          <div class="grid grid-cols-4 gap-2 mb-4">
+            <?php foreach ([500, 200, 100, 50, 20, 10, 5] as $bill): ?>
+              <button onclick="addCash(<?= $bill ?>)"
+                class="py-2.5 rounded-xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                   text-[var(--text-color)] text-sm font-semibold
+                   hover:bg-[var(--text-color)] hover:text-[var(--background-color)]
+                   active:scale-95 transition-all duration-150">
+                ₱<?= $bill ?>
+              </button>
+            <?php endforeach; ?>
             <button onclick="addCash(0)"
-              class="p-2 sm:p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg">.00</button>
+              class="py-2.5 rounded-xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                   text-[var(--text-color)] text-sm font-semibold
+                   hover:bg-[var(--text-color)] hover:text-[var(--background-color)]
+                   active:scale-95 transition-all duration-150">
+              .00
+            </button>
           </div>
 
           <!-- Numeric Keypad -->
-          <div class="grid grid-cols-3 gap-2 text-base sm:text-lg text-[var(--text-color)]">
-            <button onclick="manualKey(1)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">1</button>
-            <button onclick="manualKey(2)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">2</button>
-            <button onclick="manualKey(3)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">3</button>
-            <button onclick="manualKey(4)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">4</button>
-            <button onclick="manualKey(5)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">5</button>
-            <button onclick="manualKey(6)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">6</button>
-            <button onclick="manualKey(7)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">7</button>
-            <button onclick="manualKey(8)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">8</button>
-            <button onclick="manualKey(9)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">9</button>
-            <button onclick="clearCash()" class="p-3 bg-red-500 hover:bg-red-600 text-white rounded-lg">Clear</button>
-            <button onclick="manualKey(0)" class="p-3 bg-[var(--calc-bg-btn)] hover:bg-gray-400 dark:hover:bg-gray-600 rounded-lg">0</button>
-            <button onclick="finalizePayment()" class=" p-3 bg-green-500 hover:bg-green-600 text-white rounded-lg">
+          <div class="grid grid-cols-3 gap-2">
+            <?php foreach ([1, 2, 3, 4, 5, 6, 7, 8, 9] as $n): ?>
+              <button onclick="manualKey(<?= $n ?>)"
+                class="py-4 rounded-xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                   text-[var(--text-color)] text-lg font-semibold
+                   hover:bg-[var(--text-color)] hover:text-[var(--background-color)]
+                   active:scale-95 transition-all duration-150">
+                <?= $n ?>
+              </button>
+            <?php endforeach; ?>
+            <button onclick="clearCash()"
+              class="py-4 rounded-xl bg-red-500 hover:bg-red-400 active:scale-95 text-white text-sm font-bold transition-all duration-150">
+              Clear
+            </button>
+            <button onclick="manualKey(0)"
+              class="py-4 rounded-xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                   text-[var(--text-color)] text-lg font-semibold
+                   hover:bg-[var(--text-color)] hover:text-[var(--background-color)]
+                   active:scale-95 transition-all duration-150">
+              0
+            </button>
+            <button onclick="finalizePayment()"
+              class="py-4 rounded-xl bg-green-500 hover:bg-green-400 active:scale-95 text-white font-bold text-sm tracking-wide transition-all duration-150">
               Enter
             </button>
           </div>
 
 
           <!-- QR Popup -->
-          <div
-            id="qrPopup"
-            class="fixed inset-0  hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
-            <div
-              class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2"
-              id="rewardingQR">
-              <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h2 class="text-lg font-bold">Scan QR</h2>
-
-                <button onclick="closeQrPopup()" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
-              </div>
-              <div class="flex flex-col items-center">
-                <form action="POST">
-                  <input type="text" name="rewardingCustQR" placeholder="Scan QR" class="border bg-transparent">
-                </form>
-                <button onclick="closeQrPopup()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">
-                  Done
+          <div id="qrPopup"
+            class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
+            <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-5 mx-4 border border-[var(--container-border)]">
+              <div class="flex justify-between items-center mb-4 pb-3 border-b border-[var(--container-border)]">
+                <h2 class="text-base font-bold">Scan QR</h2>
+                <button onclick="closeQrPopup()"
+                  class="w-7 h-7 flex items-center justify-center rounded-full border border-[var(--container-border)]
+                       hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 text-lg">
+                  &times;
                 </button>
               </div>
+              <form action="POST" class="flex flex-col gap-3">
+                <input type="text" name="rewardingCustQR" placeholder="Scan QR"
+                  class="w-full border border-[var(--container-border)] rounded-xl p-3 bg-transparent text-[var(--text-color)]
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30">
+              </form>
+              <button onclick="closeQrPopup()"
+                class="mt-4 w-full py-3 bg-[var(--text-color)] text-[var(--background-color)] rounded-xl font-semibold hover:opacity-80 transition-all duration-200">
+                Done
+              </button>
             </div>
           </div>
 
-          <!-- E-payment Popup -->
           <!-- Manager Verification for E-Payment -->
-          <div id="managerEPaymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 animate-[fadeIn_0.3s_ease]">
-            <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow-lg p-6 w-80">
-
-              <!-- Manager Verification -->
+          <div id="managerEPaymentModal"
+            class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50 animate-[fadeIn_0.3s_ease]">
+            <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl p-5 w-[300px] border border-[var(--container-border)]">
               <div id="managerEPayVerifySection">
-                <h2 class="text-lg font-bold mb-4">Manager Verification for E-Payment</h2>
-
-                <input
-                  type="password"
-                  id="managerEPayInput"
-                  placeholder="Scan Manager ID"
-                  autocomplete="off"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  class="w-full p-2 border rounded border-[var(--border-color)] bg-[var(--background-color)] focus:outline-none focus:ring-2 focus:ring-blue-400" />
-
-                <div class="flex justify-end mt-4 gap-2">
-                  <button onclick="closeManagerEPaymentModal()" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 transition">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-[var(--container-border)]">
+                  <h2 class="text-base font-bold">Manager Verification</h2>
+                  <button onclick="closeManagerEPaymentModal()"
+                    class="w-7 h-7 flex items-center justify-center rounded-full border border-[var(--container-border)]
+                         hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 text-lg">
+                    &times;
+                  </button>
+                </div>
+                <p class="text-xs opacity-60 mb-3">Required to process e-payment</p>
+                <input type="password" id="managerEPayInput" placeholder="Scan Manager ID"
+                  autocomplete="off" inputmode="numeric" pattern="[0-9]*"
+                  class="w-full p-3 border border-[var(--container-border)] rounded-xl
+                       bg-[var(--background-color)] text-[var(--text-color)]
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30 mb-4" />
+                <div class="flex gap-2">
+                  <button onclick="closeManagerEPaymentModal()"
+                    class="flex-1 py-3 rounded-xl border border-[var(--container-border)] text-sm font-semibold
+                         hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200">
                     Cancel
                   </button>
-                  <button onclick="verifyManagerEPayment()" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                  <button onclick="verifyManagerEPayment()"
+                    class="flex-1 py-3 rounded-xl bg-[var(--text-color)] text-[var(--background-color)] text-sm font-semibold hover:opacity-80 transition-all duration-200">
                     Verify
                   </button>
                 </div>
@@ -1115,386 +995,446 @@ header('Content-Type: text/html');
             </div>
           </div>
 
-          <div id="EPaymentPopup" class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
-            <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-4 sm:p-6 mx-2" id="EPayment">
-              <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h2 class="text-lg font-bold">E-Payment Details</h2>
-                <button onclick="closeEPaymentPopup()" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+          <!-- E-Payment Details Popup -->
+          <div id="EPaymentPopup"
+            class="fixed inset-0 hidden flex items-center justify-center z-50 text-[var(--text-color)] animate-[fadeIn_0.3s_ease]">
+            <div id="EPayment" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl w-full max-w-xs p-5 mx-4 border border-[var(--container-border)]">
+              <div class="flex justify-between items-center mb-4 pb-3 border-b border-[var(--container-border)]">
+                <h2 class="text-base font-bold">E-Payment Details</h2>
+                <button onclick="closeEPaymentPopup()"
+                  class="w-7 h-7 flex items-center justify-center rounded-full border border-[var(--container-border)]
+                       hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 text-lg">
+                  &times;
+                </button>
               </div>
-
-              <form onsubmit="finalizeEPayment(); return false;" class="flex flex-col items-center gap-3">
-                <!-- Reference Number -->
-                <label class="w-full">Reference Number</label>
-                <input type="text" id="refNumber" name="refNumber" placeholder="Enter reference number" class="w-full border p-2 rounded bg-transparent">
-
-                <!-- Amount -->
-                <label class="w-full">Amount</label>
-                <input type="number" name="epayAmountInput" placeholder="Enter amount" class="w-full border p-2 rounded bg-transparent" min="0" step="0.01">
-
+              <form onsubmit="finalizeEPayment(); return false;" class="flex flex-col gap-3">
+                <label class="text-xs font-semibold opacity-60 uppercase tracking-wide">Reference Number</label>
+                <input type="text" id="refNumber" name="refNumber" placeholder="Enter reference number"
+                  class="w-full border border-[var(--container-border)] rounded-xl p-3 bg-transparent
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30">
+                <label class="text-xs font-semibold opacity-60 uppercase tracking-wide">Amount</label>
+                <input type="number" name="epayAmountInput" placeholder="0.00"
+                  class="w-full border border-[var(--container-border)] rounded-xl p-3 bg-transparent
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30" min="0" step="0.01">
                 <input type="hidden" id="epayAmountHidden" name="epay_amount" value="0">
                 <input type="hidden" id="refNumberHidden" name="refNumber" value="">
-
-                <!-- Done Button -->
-                <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto">Done</button>
+                <button type="submit"
+                  class="mt-1 w-full py-3 bg-[var(--text-color)] text-[var(--background-color)] rounded-xl font-semibold hover:opacity-80 transition-all duration-200">
+                  Confirm Payment
+                </button>
               </form>
             </div>
           </div>
 
-
-
         </div>
       </div>
-      <!-- ================================================
-          =           Cart Calculator - Ends Here             =
-            ================================================ -->
-      <!-- Manager + Discount Modal -->
-      <div id="managerDiscountModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 animate-[fadeIn_0.3s_ease]">
-        <div class=" bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow-lg p-6 w-80">
+      <!-- ── END CALCULATOR MODAL ── -->
 
-          <!-- Manager Verification -->
+
+      <!-- ============================================================
+         MANAGER DISCOUNT MODAL
+    ============================================================ -->
+      <div id="managerDiscountModal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden z-50 animate-[fadeIn_0.3s_ease]">
+        <div class="bg-[var(--background-color)] text-[var(--text-color)] rounded-2xl shadow-2xl p-5 w-[320px] border border-[var(--container-border)]">
+
+          <!-- Manager Verify -->
           <div id="managerVerifySection">
-            <h2 class="text-lg font-bold mb-4">Manager Verification</h2>
-
-            <input
-              type="password"
-              id="managerInput"
-              placeholder="Scan Manager ID"
-              autocomplete="off"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              class="w-full p-2 border rounded border-[var(--border-color)] bg-[var(--background-color)] focus:outline-none focus:ring-2 focus:ring-blue-400" />
-
-            <div class="flex justify-end mt-4 gap-2">
-              <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 transition">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-[var(--container-border)]">
+              <h2 class="text-base font-bold">Manager Verification</h2>
+              <button onclick="closeManagerDiscountModal()"
+                class="w-7 h-7 flex items-center justify-center rounded-full border border-[var(--container-border)]
+                     hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200 text-lg">
+                &times;
+              </button>
+            </div>
+            <p class="text-xs opacity-60 mb-3">Discount requires manager approval</p>
+            <input type="password" id="managerInput" placeholder="Scan Manager ID"
+              autocomplete="off" inputmode="numeric" pattern="[0-9]*"
+              class="w-full p-3 border border-[var(--container-border)] rounded-xl
+                   bg-[var(--background-color)] text-[var(--text-color)]
+                   focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30 mb-4" />
+            <div class="flex gap-2">
+              <button onclick="closeManagerDiscountModal()"
+                class="flex-1 py-3 rounded-xl border border-[var(--container-border)] text-sm font-semibold
+                     hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200">
                 Cancel
               </button>
-              <button onclick="verifyManager()" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+              <button onclick="verifyManager()"
+                class="flex-1 py-3 rounded-xl bg-[var(--text-color)] text-[var(--background-color)] text-sm font-semibold hover:opacity-80 transition-all duration-200">
                 Verify
               </button>
             </div>
           </div>
 
-
           <!-- Discount Form -->
           <div id="discountFormSection" class="hidden">
-            <h2 class="text-lg font-bold mb-4">Discount Details</h2>
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-[var(--container-border)]">
+              <h2 class="text-base font-bold">Discount Details</h2>
+            </div>
 
-            <!-- Hidden field for database logic -->
             <input type="hidden" id="discountType" name="discountType" />
 
-            <label class="block mb-1 font-medium">Discount Type:</label>
-            <div class="flex gap-3">
+            <p class="text-xs font-semibold opacity-60 uppercase tracking-wide mb-2">Discount Type</p>
+            <div class="flex gap-2 mb-4">
               <!-- PWD -->
-              <label class="w-full">
+              <label class="flex-1">
                 <input type="radio" name="discountChoice" value="PWD" class="peer hidden" checked />
-                <div
-                  class="w-full aspect-square flex flex-col items-center justify-center gap-1 rounded-lg border border-[var(--border-color)] bg-[var(--calc-bg-btn)] 
-             hover:bg-gray-300 dark:hover:bg-gray-700 peer-checked:bg-blue-500 peer-checked:text-white transition">
+                <div class="flex flex-col items-center gap-1 py-3 rounded-xl border border-[var(--container-border)]
+                          bg-[var(--calc-bg-btn)] cursor-pointer
+                          peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                          peer-checked:border-[var(--text-color)] transition-all duration-200 hover:opacity-80">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
-                    <path fill="currentColor"
-                      d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
+                    <path fill="currentColor" d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM680-80v-200H480q-33 0-56.5-23.5T400-360v-240q0-33 23.5-56.5T480-680q24 0 41.5 10.5T559-636q55 66 99.5 90.5T760-520v80q-53 0-107-23t-93-55v138h120q33 0 56.5 23.5T760-300v220h-80Zm-280 0q-83 0-141.5-58.5T200-280q0-72 45.5-127T360-476v82q-35 14-57.5 44.5T280-280q0 50 35 85t85 35q39 0 69.5-22.5T514-240h82q-14 69-69 114.5T400-80Z" />
                   </svg>
-                  <p class="text-[10px] font-medium">PWD</p>
+                  <span class="text-xs font-bold">PWD</span>
                 </div>
               </label>
-
               <!-- SC -->
-              <label class="w-full">
+              <label class="flex-1">
                 <input type="radio" name="discountChoice" value="SC" class="peer hidden" />
-                <div
-                  class="w-full aspect-square flex flex-col items-center justify-center gap-1 rounded-lg border border-[var(--border-color)] bg-[var(--calc-bg-btn)] 
-             hover:bg-gray-300 dark:hover:bg-gray-700 peer-checked:bg-blue-500 peer-checked:text-white transition">
+                <div class="flex flex-col items-center gap-1 py-3 rounded-xl border border-[var(--container-border)]
+                          bg-[var(--calc-bg-btn)] cursor-pointer
+                          peer-checked:bg-[var(--text-color)] peer-checked:text-[var(--background-color)]
+                          peer-checked:border-[var(--text-color)] transition-all duration-200 hover:opacity-80">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6">
-                    <path fill="currentColor"
-                      d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
+                    <path fill="currentColor" d="m320-40-64-48 104-139v-213q0-31 5-67.5t15-67.5l-60 33v142h-80v-188l176-100q25-14 43.5-21.5T494-717q25 0 45.5 21.5T587-628q32 54 58 81t56 41q11-8 19-11t19-3q25 0 43 18t18 42v420h-40v-420q0-8-6-14t-14-6q-8 0-14 6t-6 14v50h-40v-19q-54-23-84-51.5T543-557q-11 28-17.5 68.5T521-412l79 112v260h-80v-200l-71-102-9 142L320-40Zm220-700q-33 0-56.5-23.5T460-820q0-33 23.5-56.5T540-900q33 0 56.5 23.5T620-820q0 33-23.5 56.5T540-740Z" />
                   </svg>
-                  <p class="text-[10px] font-medium">SC</p>
+                  <span class="text-xs font-bold">SC</span>
                 </div>
               </label>
             </div>
 
             <script>
-              // Sync selected radio button to hidden input (for DB + JS logic)
               document.querySelectorAll('input[name="discountChoice"]').forEach(radio => {
                 radio.addEventListener("change", () => {
                   document.getElementById("discountType").value = radio.value;
                 });
               });
-
-              // Set initial default value
               document.getElementById("discountType").value = document.querySelector('input[name="discountChoice"]:checked').value;
             </script>
 
+            <div class="flex flex-col gap-3 mb-4">
+              <div>
+                <label class="text-xs font-semibold opacity-60 uppercase tracking-wide block mb-1">ID Number</label>
+                <input type="number" id="discountId" placeholder="Enter ID Number"
+                  class="w-full p-3 border border-[var(--container-border)] rounded-xl
+                       bg-[var(--background-color)] text-[var(--text-color)]
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold opacity-60 uppercase tracking-wide block mb-1">First Name</label>
+                <input type="text" id="discountFirstName" placeholder="First Name"
+                  class="w-full p-3 border border-[var(--container-border)] rounded-xl
+                       bg-[var(--background-color)] text-[var(--text-color)]
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold opacity-60 uppercase tracking-wide block mb-1">Last Name</label>
+                <input type="text" id="discountLastName" placeholder="Last Name"
+                  class="w-full p-3 border border-[var(--container-border)] rounded-xl
+                       bg-[var(--background-color)] text-[var(--text-color)]
+                       focus:outline-none focus:ring-2 focus:ring-[var(--text-color)]/30" />
+              </div>
+            </div>
 
-            <label>ID Number:</label>
-            <input type="number" id="discountId" placeholder="Enter ID Number" class="w-full mb-2  bg-[var(--background-color)] p-2 border border-[var(--border-color)] rounded">
-
-            <label>First Name:</label>
-            <input type="text" id="discountFirstName" placeholder="First Name" class="w-full mb-2  bg-[var(--background-color)] p-2 border border-[var(--border-color)] rounded">
-
-            <label>Last Name:</label>
-            <input type="text" id="discountLastName" placeholder="Last Name" class="w-full mb-2  bg-[var(--background-color)] p-2 border border-[var(--border-color)] rounded">
-
-            <div class="flex justify-end gap-2">
-              <button onclick="closeManagerDiscountModal()" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
-              <button onclick="applyDiscount()" class="px-3 py-1 bg-green-500 text-white rounded">Apply</button>
+            <div class="flex gap-2">
+              <button onclick="closeManagerDiscountModal()"
+                class="flex-1 py-3 rounded-xl border border-[var(--container-border)] text-sm font-semibold
+                     hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-200">
+                Cancel
+              </button>
+              <button onclick="applyDiscount()"
+                class="flex-1 py-3 rounded-xl bg-green-600 hover:bg-green-500 text-white text-sm font-bold transition-all duration-200">
+                Apply Discount
+              </button>
             </div>
           </div>
 
         </div>
       </div>
+      <!-- ── END MANAGER DISCOUNT MODAL ── -->
 
+    </section>
 
-      <script>
-        /* ================================
+  </main>
+
+  <!-- Slide-up animation for portrait cart -->
+  <style>
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+  <script>
+    /* ================================
    STATE VARIABLES
 ================================ */
-        let epayDiscountRateTemp = 0;
-        let epayAmount = 0; // stores finalized E-Payment amount
+    let epayDiscountRateTemp = 0;
+    let epayAmount = 0; // stores finalized E-Payment amount
 
-        /* ================================
-           MODAL FUNCTIONS
-        ================================ */
-        window.openManagerEPaymentModal = function() {
-          document.getElementById("managerEPaymentModal").classList.remove("hidden");
-          document.getElementById("managerEPayVerifySection").classList.remove("hidden");
-          document.getElementById("managerEPayInput").value = "";
-          document.getElementById("managerEPayInput").focus();
-        }
+    /* ================================
+       MODAL FUNCTIONS
+    ================================ */
+    window.openManagerEPaymentModal = function() {
+      document.getElementById("managerEPaymentModal").classList.remove("hidden");
+      document.getElementById("managerEPayVerifySection").classList.remove("hidden");
+      document.getElementById("managerEPayInput").value = "";
+      document.getElementById("managerEPayInput").focus();
+    }
 
-        window.closeManagerEPaymentModal = function() {
-          document.getElementById("managerEPaymentModal").classList.add("hidden");
-          document.getElementById("managerEPayInput").value = "";
-        }
+    window.closeManagerEPaymentModal = function() {
+      document.getElementById("managerEPaymentModal").classList.add("hidden");
+      document.getElementById("managerEPayInput").value = "";
+    }
 
-        window.openEPaymentPopup = function() {
-          document.getElementById("EPaymentPopup").classList.remove("hidden");
-          document.getElementById("refNumber").value = "";
-          document.querySelector('#EPayment input[name="epayAmountInput"]').value = "";
-        }
+    window.openEPaymentPopup = function() {
+      document.getElementById("EPaymentPopup").classList.remove("hidden");
+      document.getElementById("refNumber").value = "";
+      document.querySelector('#EPayment input[name="epayAmountInput"]').value = "";
+    }
 
-        window.closeEPaymentPopup = function() {
-          document.getElementById("EPaymentPopup").classList.add("hidden");
-        }
+    window.closeEPaymentPopup = function() {
+      document.getElementById("EPaymentPopup").classList.add("hidden");
+    }
 
-        /* ================================
-           MANAGER VERIFICATION
-        ================================ */
-        window.verifyManagerEPayment = async function() {
-          let staffId = document.getElementById("managerEPayInput").value.trim();
-          if (!staffId) {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Please scan or enter a manager ID."
-            });
-            return;
-          }
-
-          try {
-            let res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                staff_id: staffId
-              })
-            });
-            let data = await res.json();
-
-            if (data.success) {
-              closeManagerEPaymentModal();
-              openEPaymentPopup();
-              Swal.fire({
-                icon: "success",
-                title: "Verified",
-                text: "Manager approved E-Payment!"
-              });
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Denied",
-                text: data.message || "Not authorized."
-              });
-            }
-          } catch (err) {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: err.message
-            });
-          }
-        }
-
-        /* ================================
-           REFERENCE NUMBER INPUT RESTRICTION
-        ================================ */
-        let refInput = document.getElementById('refNumber');
-        refInput.addEventListener('input', () => {
-          refInput.value = refInput.value.replace(/[^a-zA-Z0-9]/g, '');
+    /* ================================
+       MANAGER VERIFICATION
+    ================================ */
+    window.verifyManagerEPayment = async function() {
+      let staffId = document.getElementById("managerEPayInput").value.trim();
+      if (!staffId) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Please scan or enter a manager ID."
         });
+        return;
+      }
 
-        /* ================================
-           FINALIZE E-PAYMENT
-        ================================ */
-        window.finalizeEPayment = function() {
-          let refNumber = document.getElementById('refNumber').value.trim();
-          let amountInput = parseFloat(document.querySelector('#EPayment input[name="epayAmountInput"]').value) || 0;
+      try {
+        let res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            staff_id: staffId
+          })
+        });
+        let data = await res.json();
 
-          if (!refNumber || amountInput <= 0) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Enter valid E-Payment details.'
-            });
-            return;
-          }
-
-          // Store in hidden fields
-          document.getElementById('epayAmountHidden').value = amountInput;
-          document.getElementById('refNumberHidden').value = refNumber;
-
-          // Update global variable for display
-          epayAmount = amountInput;
-
-          // Update calculator summary
-          updateDisplay();
-
-          // Close popup
-          closeEPaymentPopup();
-
-          // SweetAlert confirmation
+        if (data.success) {
+          closeManagerEPaymentModal();
+          openEPaymentPopup();
           Swal.fire({
-            icon: 'success',
-            title: 'E-Payment Added',
-            html: `Reference: <b>${refNumber}</b><br>Amount: <b>₱${amountInput.toFixed(2)}</b>`,
-            timer: 2000,
-            timerProgressBar: true,
-            showConfirmButton: false
+            icon: "success",
+            title: "Verified",
+            text: "Manager approved E-Payment!"
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Denied",
+            text: data.message || "Not authorized."
           });
         }
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: err.message
+        });
+      }
+    }
 
-        /* ================================
-           RESET E-PAYMENT
-        ================================ */
-        window.resetEPayment = function() {
-          epayAmount = 0;
-          epayDiscountRateTemp = 0;
+    /* ================================
+       REFERENCE NUMBER INPUT RESTRICTION
+    ================================ */
+    let refInput = document.getElementById('refNumber');
+    refInput.addEventListener('input', () => {
+      refInput.value = refInput.value.replace(/[^a-zA-Z0-9]/g, '');
+    });
 
-          document.getElementById('epayAmountHidden').value = '';
-          document.getElementById('refNumberHidden').value = '';
-          document.getElementById('refNumber').value = '';
-          document.querySelector('#EPayment input[name="epayAmountInput"]').value = '';
+    /* ================================
+       FINALIZE E-PAYMENT
+    ================================ */
+    window.finalizeEPayment = function() {
+      let refNumber = document.getElementById('refNumber').value.trim();
+      let amountInput = parseFloat(document.querySelector('#EPayment input[name="epayAmountInput"]').value) || 0;
 
-          updateDisplay(); // refresh calculator
+      if (!refNumber || amountInput <= 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Enter valid E-Payment details.'
+        });
+        return;
+      }
+
+      // Store in hidden fields
+      document.getElementById('epayAmountHidden').value = amountInput;
+      document.getElementById('refNumberHidden').value = refNumber;
+
+      // Update global variable for display
+      epayAmount = amountInput;
+
+      // Update calculator summary
+      updateDisplay();
+
+      // Close popup
+      closeEPaymentPopup();
+
+      // SweetAlert confirmation
+      Swal.fire({
+        icon: 'success',
+        title: 'E-Payment Added',
+        html: `Reference: <b>${refNumber}</b><br>Amount: <b>₱${amountInput.toFixed(2)}</b>`,
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false
+      });
+    }
+
+    /* ================================
+       RESET E-PAYMENT
+    ================================ */
+    window.resetEPayment = function() {
+      epayAmount = 0;
+      epayDiscountRateTemp = 0;
+
+      document.getElementById('epayAmountHidden').value = '';
+      document.getElementById('refNumberHidden').value = '';
+      document.getElementById('refNumber').value = '';
+      document.querySelector('#EPayment input[name="epayAmountInput"]').value = '';
+
+      updateDisplay(); // refresh calculator
+    }
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let discountRateTemp = 0;
+
+      // Restrict to numeric input
+      let managerInput = document.getElementById("managerInput");
+      managerInput.addEventListener("input", () => {
+        managerInput.value = managerInput.value.replace(/\D/g, ""); // remove non-numbers
+      });
+
+      // ✅ Allow Enter key to trigger verification
+      managerInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          verifyManager(); // same function you already have
+        }
+      });
+
+      // Open modal
+      window.openManagerQrModal = function(rate) {
+        discountRateTemp = rate;
+        document.getElementById("managerDiscountModal").classList.remove("hidden");
+        document.getElementById("managerVerifySection").classList.remove("hidden");
+        document.getElementById("discountFormSection").classList.add("hidden");
+        managerInput.focus();
+      }
+
+      // Close modal
+      window.closeManagerDiscountModal = function() {
+        document.getElementById("managerDiscountModal").classList.add("hidden");
+        managerInput.value = "";
+      }
+
+      // Manager verification
+      window.verifyManager = async function() {
+        let staffId = managerInput.value.trim();
+        if (!staffId) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Please scan or enter a manager ID."
+          });
+          return;
         }
 
-
-
-
-
-        document.addEventListener("DOMContentLoaded", () => {
-          let discountRateTemp = 0;
-
-          // Restrict to numeric input
-          let managerInput = document.getElementById("managerInput");
-          managerInput.addEventListener("input", () => {
-            managerInput.value = managerInput.value.replace(/\D/g, ""); // remove non-numbers
+        try {
+          let res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              staff_id: staffId
+            })
           });
+          let data = await res.json();
 
-          // ✅ Allow Enter key to trigger verification
-          managerInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              verifyManager(); // same function you already have
-            }
-          });
+          if (data.success) {
+            document.getElementById("managerVerifySection").classList.add("hidden");
+            document.getElementById("discountFormSection").classList.remove("hidden");
 
-          // Open modal
-          window.openManagerQrModal = function(rate) {
-            discountRateTemp = rate;
-            document.getElementById("managerDiscountModal").classList.remove("hidden");
-            document.getElementById("managerVerifySection").classList.remove("hidden");
-            document.getElementById("discountFormSection").classList.add("hidden");
-            managerInput.focus();
-          }
-
-          // Close modal
-          window.closeManagerDiscountModal = function() {
-            document.getElementById("managerDiscountModal").classList.add("hidden");
-            managerInput.value = "";
-          }
-
-          // Manager verification
-          window.verifyManager = async function() {
-            let staffId = managerInput.value.trim();
-            if (!staffId) {
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Please scan or enter a manager ID."
-              });
-              return;
-            }
-
-            try {
-              let res = await fetch("../../app/includes/POS/POSApproveDisc.php", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  staff_id: staffId
-                })
-              });
-              let data = await res.json();
-
-              if (data.success) {
-                document.getElementById("managerVerifySection").classList.add("hidden");
-                document.getElementById("discountFormSection").classList.remove("hidden");
-
-                // Pre-fill discount type & amount
-                document.getElementById("discountType").value = data.type || "PWD";
-                let total = parseFloat(document.getElementById("totalAmount").innerText.replace(/[^0-9.-]+/g, "")) || 0;
-                document.getElementById("discountAmount").value = (total * discountRateTemp).toFixed(2);
-
-                Swal.fire({
-                  icon: "success",
-                  title: "Verified",
-                  text: "Manager approved discount!"
-                });
-
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Denied",
-                  text: data.message || "Not authorized."
-                });
-              }
-            } catch (err) {
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: err.message
-              });
-            }
-          }
-
-          // Apply discount
-          window.applyDiscount = function() {
-            discountRate = discountRateTemp;
-            updateDisplay(); // your existing function
-            closeManagerDiscountModal();
+            // Pre-fill discount type & amount
+            document.getElementById("discountType").value = data.type || "PWD";
+            let total = parseFloat(document.getElementById("totalAmount").innerText.replace(/[^0-9.-]+/g, "")) || 0;
+            document.getElementById("discountAmount").value = (total * discountRateTemp).toFixed(2);
 
             Swal.fire({
               icon: "success",
-              title: "Success",
-              text: "Discount applied!"
+              title: "Verified",
+              text: "Manager approved discount!"
+            });
+
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Denied",
+              text: data.message || "Not authorized."
             });
           }
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: err.message
+          });
+        }
+      }
+
+      // Apply discount
+      window.applyDiscount = function() {
+        discountRate = discountRateTemp;
+        updateDisplay(); // your existing function
+        closeManagerDiscountModal();
+
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Discount applied!"
         });
-      </script>
+      }
+    });
+  </script>
 
 
 
