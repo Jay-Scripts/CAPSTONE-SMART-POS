@@ -188,7 +188,7 @@
 
                           Add Product
                       </a>
-                      <a
+                      <!-- <a
                           data-module="enableProduct"
                           href="#"
                           class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
@@ -205,23 +205,23 @@
                           </svg>
 
                           Enable Product
-                      </a>
+                      </a> -->
                       <a
                           data-module="disableProduct"
                           href="#"
                           class="navItem font-medium flex items-center px-3 py-2 text-sm rounded-lg cursor-pointer transition-opacity duration-200 group-hover:opacity-20 hover:!opacity-100">
                           <svg
-                              class="w-5 h-5 mr-3 text-red-400"
+                              class="w-5 h-5 mr-3 text-blue-400"
                               fill="none"
                               stroke="currentColor"
-                              viewBox="0 0 24 24">
-                              <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M18.364 5.636l-12.728 12.728m0-12.728l12.728 12.728M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                              viewBox="0 0 24 24"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round">
+                              <path d="M12 20h9" />
+                              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
                           </svg>
-                          Disable Product
+                          Adjust Prices
                       </a>
                       <a
                           data-module="productMovementHistory"

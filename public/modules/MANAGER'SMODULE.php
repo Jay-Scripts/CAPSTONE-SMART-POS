@@ -1073,10 +1073,8 @@ json_encode($alerts);
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
         <div class="text-[var(--text-color)]">
-          <h2 class="text-2xl font-bold">Disable Product</h2>
-          <p class="text-sm">
-            Manage your store Product by temporarily disabling products that are out of stock or unavailable.
-          </p>
+          <h2 class="text-xl font-bold text-[var(--text-color)] tracking-tight">Edit Prices</h2>
+          <p class="text-xs opacity-50 text-[var(--text-color)]">Select a category then edit product prices inline</p>
         </div>
       </div>
     </header>
