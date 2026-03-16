@@ -5,7 +5,7 @@ document
 
     const staffID = document.getElementById("staffID").value.trim();
     const staffStatus = document.querySelector(
-      'input[name="staffStatus"]:checked'
+      'input[name="staffStatus"]:checked',
     );
 
     // ✅ Front-end validation
@@ -37,7 +37,7 @@ document
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
 
       // ✅ Safely parse JSON

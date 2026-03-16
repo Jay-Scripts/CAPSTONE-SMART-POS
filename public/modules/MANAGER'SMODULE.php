@@ -254,191 +254,192 @@ json_encode($alerts);
         <section
           id="overview"
           class="bg-[var(--background-color)] rounded-lg shadow portrait:px-2 portrait:py-2 hidden">
-          <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
-            <div class="bg-[var(--background-color)] flex flex-col items-center justify-center">
+          <header class="border-b border-[var(--border-color)] px-6 py-5">
+            <h2 class="text-2xl font-bold text-[var(--text-color)] tracking-tight">Add Product</h2>
+            <p class="text-sm text-gray-500 mt-1"> Add new products to your inventory and manage their details.</p>
+          </header>
+          <div class="bg-[var(--background-color)] flex flex-col items-center justify-center">
 
-              <div>
-                <h2 class="text-2xl font-bold text-[var(--text-color)]">
-                  Analytics Dashboard
-                </h2>
+            <div>
 
-                <?php
-                include "../../app/config/dbConnection.php";
 
-                // Unique variables for this form
-                $ADDSTOCK_prodName = $ADDSTOCK_prodCategory = $ADDSTOCK_prodPrice_medio = $ADDSTOCK_prodPrice_grande = "";
-                $ADDSTOCK_SwalMessage = "";
-                $ADDSTOCK_SwalType = "";
+              <?php
+              include "../../app/config/dbConnection.php";
 
-                // Handle form submission
-                if (isset($_POST['ADDSTOCK_submit'])) {
-                  $ADDSTOCK_prodName = trim($_POST['ADDSTOCK_productName']);
-                  $ADDSTOCK_prodCategory = $_POST['ADDSTOCK_category'] ?? null;
-                  $ADDSTOCK_prodPrice_medio = $_POST['ADDSTOCK_price_medio'] ?? 0;
-                  $ADDSTOCK_prodPrice_grande = $_POST['ADDSTOCK_price_grande'] ?? 0;
+              // Unique variables for this form
+              $ADDSTOCK_prodName = $ADDSTOCK_prodCategory = $ADDSTOCK_prodPrice_medio = $ADDSTOCK_prodPrice_grande = "";
+              $ADDSTOCK_SwalMessage = "";
+              $ADDSTOCK_SwalType = "";
 
-                  // Map categories to folders
-                  $categoryFolders = [
-                    1 => "MILKTEA_MENU",
-                    2 => "FRUITTEA_MENU",
-                    3 => "HOT_BREW",
-                    4 => "PRAF_MENU",
-                    5 => "BROSTY",
-                    6 => "ICEDCOFFEE_MENU",
-                    7 => "PROMOS_MENU",
-                    8 => "ADDONS_MENU"
-                  ];
+              // Handle form submission
+              if (isset($_POST['ADDSTOCK_submit'])) {
+                $ADDSTOCK_prodName = trim($_POST['ADDSTOCK_productName']);
+                $ADDSTOCK_prodCategory = $_POST['ADDSTOCK_category'] ?? null;
+                $ADDSTOCK_prodPrice_medio = $_POST['ADDSTOCK_price_medio'] ?? 0;
+                $ADDSTOCK_prodPrice_grande = $_POST['ADDSTOCK_price_grande'] ?? 0;
 
-                  // File upload
-                  $ADDSTOCK_thumbnailPath = "";
-                  if (isset($_FILES['ADDSTOCK_thumbnail']) && $_FILES['ADDSTOCK_thumbnail']['error'] === UPLOAD_ERR_OK) {
-                    $folderName = $categoryFolders[$ADDSTOCK_prodCategory] ?? "PRODUCTS"; // fallback
-                    $uploadDir = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/";
+                // Map categories to folders
+                $categoryFolders = [
+                  1 => "MILKTEA_MENU",
+                  2 => "FRUITTEA_MENU",
+                  3 => "HOT_BREW",
+                  4 => "PRAF_MENU",
+                  5 => "BROSTY",
+                  6 => "ICEDCOFFEE_MENU",
+                  7 => "PROMOS_MENU",
+                  8 => "ADDONS_MENU"
+                ];
 
-                    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+                // File upload
+                $ADDSTOCK_thumbnailPath = "";
+                if (isset($_FILES['ADDSTOCK_thumbnail']) && $_FILES['ADDSTOCK_thumbnail']['error'] === UPLOAD_ERR_OK) {
+                  $folderName = $categoryFolders[$ADDSTOCK_prodCategory] ?? "PRODUCTS"; // fallback
+                  $uploadDir = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/";
 
-                    $fileName = basename($_FILES['ADDSTOCK_thumbnail']['name']);
-                    $targetFile = $uploadDir . $fileName;
+                  if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-                    if (move_uploaded_file($_FILES['ADDSTOCK_thumbnail']['tmp_name'], $targetFile)) {
-                      $ADDSTOCK_thumbnailPath = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/" . $fileName;
-                    } else {
-                      $ADDSTOCK_SwalMessage = "Failed to upload thumbnail.";
-                      $ADDSTOCK_SwalType = "error";
-                    }
-                  }
+                  $fileName = basename($_FILES['ADDSTOCK_thumbnail']['name']);
+                  $targetFile = $uploadDir . $fileName;
 
-                  // Validation
-                  if (empty($ADDSTOCK_prodName) || empty($ADDSTOCK_prodCategory) || empty($ADDSTOCK_prodPrice_medio) || empty($ADDSTOCK_prodPrice_grande) || empty($ADDSTOCK_thumbnailPath)) {
-                    $ADDSTOCK_SwalMessage = "Please fill all required fields and upload an image.";
-                    $ADDSTOCK_SwalType = "error";
+                  if (move_uploaded_file($_FILES['ADDSTOCK_thumbnail']['tmp_name'], $targetFile)) {
+                    $ADDSTOCK_thumbnailPath = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/" . $fileName;
                   } else {
-                    try {
-                      $conn->beginTransaction();
-
-                      // Insert product
-                      $stmt = $conn->prepare("INSERT INTO product_details (product_name, category_id, thumbnail_path) VALUES (:name, :category, :thumbnail)");
-                      $stmt->execute([
-                        ':name' => htmlspecialchars($ADDSTOCK_prodName),
-                        ':category' => $ADDSTOCK_prodCategory,
-                        ':thumbnail' => $ADDSTOCK_thumbnailPath
-                      ]);
-                      $ADDSTOCK_productId = $conn->lastInsertId();
-
-                      // Insert sizes
-                      $stmtSize = $conn->prepare("INSERT INTO product_sizes (product_id, size, regular_price) VALUES (:product_id, :size, :price)");
-
-                      // Medio
-                      $stmtSize->execute([
-                        ':product_id' => $ADDSTOCK_productId,
-                        ':size' => 'medio',
-                        ':price' => $ADDSTOCK_prodPrice_medio
-                      ]);
-
-                      // Grande
-                      $stmtSize->execute([
-                        ':product_id' => $ADDSTOCK_productId,
-                        ':size' => 'grande',
-                        ':price' => $ADDSTOCK_prodPrice_grande
-                      ]);
-
-                      $conn->commit();
-                      $ADDSTOCK_SwalMessage = "Product added successfully!";
-                      $ADDSTOCK_SwalType = "success";
-                    } catch (Exception $e) {
-                      $conn->rollBack();
-                      $ADDSTOCK_SwalMessage = "Error: " . $e->getMessage();
-                      $ADDSTOCK_SwalType = "error";
-                    }
+                    $ADDSTOCK_SwalMessage = "Failed to upload thumbnail.";
+                    $ADDSTOCK_SwalType = "error";
                   }
                 }
 
-                // Fetch categories
-                $ADDSTOCK_categories = $conn->query("SELECT * FROM category WHERE status='ACTIVE'")->fetchAll(PDO::FETCH_ASSOC);
-                ?>
+                // Validation
+                if (empty($ADDSTOCK_prodName) || empty($ADDSTOCK_prodCategory) || empty($ADDSTOCK_prodPrice_medio) || empty($ADDSTOCK_prodPrice_grande) || empty($ADDSTOCK_thumbnailPath)) {
+                  $ADDSTOCK_SwalMessage = "Please fill all required fields and upload an image.";
+                  $ADDSTOCK_SwalType = "error";
+                } else {
+                  try {
+                    $conn->beginTransaction();
 
-                <div class="flex justify-center items-center p-6  bg-[var(--bg-color)]">
-                  <form method="POST" enctype="multipart/form-data"
-                    class="glass-card w-full  border border-[var(--glass-border)] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
+                    // Insert product
+                    $stmt = $conn->prepare("INSERT INTO product_details (product_name, category_id, thumbnail_path) VALUES (:name, :category, :thumbnail)");
+                    $stmt->execute([
+                      ':name' => htmlspecialchars($ADDSTOCK_prodName),
+                      ':category' => $ADDSTOCK_prodCategory,
+                      ':thumbnail' => $ADDSTOCK_thumbnailPath
+                    ]);
+                    $ADDSTOCK_productId = $conn->lastInsertId();
 
-                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-                      <img src="../assets/SVG/LOGO/BLOGO.svg" alt="Logo" class="h-16 w-auto theme-logo" />
-                    </div>
+                    // Insert sizes
+                    $stmtSize = $conn->prepare("INSERT INTO product_sizes (product_id, size, regular_price) VALUES (:product_id, :size, :price)");
 
-                    <h2 class="text-2xl sm:text-3xl font-bold text-center text-[var(--text-color)] mb-6">
-                      Add Product
-                    </h2>
+                    // Medio
+                    $stmtSize->execute([
+                      ':product_id' => $ADDSTOCK_productId,
+                      ':size' => 'medio',
+                      ':price' => $ADDSTOCK_prodPrice_medio
+                    ]);
 
-                    <!-- Product Name -->
-                    <label class="block mb-4">
-                      <span class="block text-sm font-medium">Product Name <span class="text-red-500">*</span></span>
-                      <input type="text" name="ADDSTOCK_productName" required
+                    // Grande
+                    $stmtSize->execute([
+                      ':product_id' => $ADDSTOCK_productId,
+                      ':size' => 'grande',
+                      ':price' => $ADDSTOCK_prodPrice_grande
+                    ]);
+
+                    $conn->commit();
+                    $ADDSTOCK_SwalMessage = "Product added successfully!";
+                    $ADDSTOCK_SwalType = "success";
+                  } catch (Exception $e) {
+                    $conn->rollBack();
+                    $ADDSTOCK_SwalMessage = "Error: " . $e->getMessage();
+                    $ADDSTOCK_SwalType = "error";
+                  }
+                }
+              }
+
+              // Fetch categories
+              $ADDSTOCK_categories = $conn->query("SELECT * FROM category WHERE status='ACTIVE'")->fetchAll(PDO::FETCH_ASSOC);
+              ?>
+
+              <div class="flex justify-center items-center p-6  bg-[var(--bg-color)]">
+                <form method="POST" enctype="multipart/form-data"
+                  class="glass-card w-full  border border-[var(--glass-border)] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
+
+                  <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                    <img src="../assets/SVG/LOGO/BLOGO.svg" alt="Logo" class="h-16 w-auto theme-logo" />
+                  </div>
+
+                  <h2 class="text-2xl sm:text-3xl font-bold text-center text-[var(--text-color)] mb-6">
+                    Add Product
+                  </h2>
+
+                  <!-- Product Name -->
+                  <label class="block mb-4">
+                    <span class="block text-sm font-medium">Product Name <span class="text-red-500">*</span></span>
+                    <input type="text" name="ADDSTOCK_productName" required
+                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                      placeholder="Enter product name" value="<?= htmlspecialchars($ADDSTOCK_prodName) ?>">
+                  </label>
+
+                  <!-- Category -->
+                  <label class="block mb-4">
+                    <span class="block text-sm font-medium">Category <span class="text-red-500">*</span></span>
+                    <select name="ADDSTOCK_category" required
+                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                      <option value="">Select Category</option>
+                      <?php foreach ($ADDSTOCK_categories as $cat): ?>
+                        <option value="<?= $cat['category_id'] ?>" <?= ($ADDSTOCK_prodCategory == $cat['category_id']) ? 'selected' : '' ?>>
+                          <?= htmlspecialchars($cat['category_name']) ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </label>
+
+                  <!-- Prices side by side -->
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <label>
+                      <span class="block text-sm font-medium">Price (Medio) <span class="text-red-500">*</span></span>
+                      <input type="number" step="0.01" min="0" name="ADDSTOCK_price_medio" required
                         class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                        placeholder="Enter product name" value="<?= htmlspecialchars($ADDSTOCK_prodName) ?>">
+                        placeholder="Enter price for Medio" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_medio) ?>">
                     </label>
 
-                    <!-- Category -->
-                    <label class="block mb-4">
-                      <span class="block text-sm font-medium">Category <span class="text-red-500">*</span></span>
-                      <select name="ADDSTOCK_category" required
-                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                        <option value="">Select Category</option>
-                        <?php foreach ($ADDSTOCK_categories as $cat): ?>
-                          <option value="<?= $cat['category_id'] ?>" <?= ($ADDSTOCK_prodCategory == $cat['category_id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($cat['category_name']) ?>
-                          </option>
-                        <?php endforeach; ?>
-                      </select>
+                    <label>
+                      <span class="block text-sm font-medium">Price (Grande) <span class="text-red-500">*</span></span>
+                      <input type="number" step="0.01" min="0" name="ADDSTOCK_price_grande" required
+                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                        placeholder="Enter price for Grande" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_grande) ?>">
                     </label>
+                  </div>
 
-                    <!-- Prices side by side -->
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                      <label>
-                        <span class="block text-sm font-medium">Price (Medio) <span class="text-red-500">*</span></span>
-                        <input type="number" step="0.01" min="0" name="ADDSTOCK_price_medio" required
-                          class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                          placeholder="Enter price for Medio" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_medio) ?>">
-                      </label>
+                  <!-- Thumbnail -->
+                  <label class="block mb-6">
+                    <span class="block text-sm font-medium">Thumbnail <span class="text-red-500">*</span></span>
+                    <input type="file" name="ADDSTOCK_thumbnail" accept="image/*" required
+                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                  </label>
 
-                      <label>
-                        <span class="block text-sm font-medium">Price (Grande) <span class="text-red-500">*</span></span>
-                        <input type="number" step="0.01" min="0" name="ADDSTOCK_price_grande" required
-                          class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                          placeholder="Enter price for Grande" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_grande) ?>">
-                      </label>
-                    </div>
-
-                    <!-- Thumbnail -->
-                    <label class="block mb-6">
-                      <span class="block text-sm font-medium">Thumbnail <span class="text-red-500">*</span></span>
-                      <input type="file" name="ADDSTOCK_thumbnail" accept="image/*" required
-                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                    </label>
-
-                    <!-- Submit -->
-                    <div class="flex">
-                      <button type="submit" name="ADDSTOCK_submit"
-                        class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-indigo-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-indigo-500">
-                        Add Product
-                      </button>
-                    </div>
-                  </form>
-                </div>
-
-                <?php if (!empty($ADDSTOCK_SwalMessage)): ?>
-                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                  <script>
-                    Swal.fire({
-                      icon: '<?= $ADDSTOCK_SwalType ?>',
-                      title: '<?= addslashes($ADDSTOCK_SwalMessage) ?>',
-                      timer: 2500,
-                      showConfirmButton: false
-                    });
-                  </script>
-                <?php endif; ?>
-
+                  <!-- Submit -->
+                  <div class="flex">
+                    <button type="submit" name="ADDSTOCK_submit"
+                      class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-indigo-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-indigo-500">
+                      Add Product
+                    </button>
+                  </div>
+                </form>
               </div>
+
+              <?php if (!empty($ADDSTOCK_SwalMessage)): ?>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                  Swal.fire({
+                    icon: '<?= $ADDSTOCK_SwalType ?>',
+                    title: '<?= addslashes($ADDSTOCK_SwalMessage) ?>',
+                    timer: 2500,
+                    showConfirmButton: false
+                  });
+                </script>
+              <?php endif; ?>
+
             </div>
+          </div>
           </header>
         </section>
 
@@ -465,7 +466,7 @@ json_encode($alerts);
       =                                                    Sales Report Starts Here                                                            =
       ==========================================================================================================================================
     -->
-        <section id="salesReports" class="bg-[var(--background-color)] rounded-2xl  overflow-hidden hidden">
+        <section id="salesReports" class=" ml-34 bg-[var(--background-color)] rounded-2xl  overflow-hidden hidden">
           <header class="border-b border-[var(--border-color)] px-6 py-5">
             <h2 class="text-2xl font-bold text-[var(--text-color)] tracking-tight">Sales Reports</h2>
             <p class="text-sm text-gray-500 mt-1">Generate and print your store’s summarized reports.</p>
@@ -517,13 +518,13 @@ json_encode($alerts);
       =                                                    Performance Trends Starts Here                                                      =
       ==========================================================================================================================================
     -->
-        <section id="performanceTrend" class="bg-white rounded-lg shadow hidden">
+        <section id="performanceTrend" class="ml-34 bg-white rounded-lg shadow hidden">
           <header
-            class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
+            class="shadow-sm border border-[var(--border-color)] text-[var(--text-color)] bg-[var(--background-color)] px-6 py-4">
             <div class="flex items-center justify-between">
               <div>
                 <h2 class="text-2xl font-bold">Overview</h2>
-                <p class="text-sm text-gray-600">
+                <p class="text-sm">
                   Welcome back, here's what's happening with your store today.
 
                 </p>
@@ -558,7 +559,7 @@ json_encode($alerts);
       =                                                    Refund Starts Here                                                                  =
       ==========================================================================================================================================
     -->
-  <section id="refund" class="rounded-lg shadow hidden">
+  <section id="refund" class="ml-64 rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -603,7 +604,7 @@ json_encode($alerts);
       =                                                     Stock Reports Starts Here                                                            =
       ==========================================================================================================================================
     -->
-  <section id="stockEntry" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow p-6 hidden">
+  <section id="stockEntry" class="ml-64 bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow p-6 hidden">
     <!-- Header -->
     <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-6">
       <div class="flex items-center justify-between">
@@ -634,6 +635,7 @@ json_encode($alerts);
 
 
 
+
   </section>
   <!-- 
       ==========================================================================================================================================
@@ -647,7 +649,7 @@ json_encode($alerts);
     -->
 
 
-  <section id="stockLevel" class="bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow hidden">
+  <section id="stockLevel" class="ml-64 bg-[var(--background-color)] text-[var(--text-color)] rounded-lg shadow hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
@@ -678,7 +680,7 @@ json_encode($alerts);
       =                                                      Stock Alert Starts Here                                                        =
       ==========================================================================================================================================
     -->
-  <section id="lowStockAlerts" class="bg-[var(--background-color)] rounded-lg shadow  text-[var(--text-color)] hidden">
+  <section id="lowStockAlerts" class="ml-64 bg-[var(--background-color)] rounded-lg shadow  text-[var(--text-color)] hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] pb-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
@@ -711,7 +713,7 @@ json_encode($alerts);
       =                                                    Stock Movement History Starts Here                                                  =
       ==========================================================================================================================================
     -->
-  <section id="stocksMovementHistory" class="rounded-lg shadow bg-[var(--background-color)] text-[var(--text-color)] hidden">
+  <section id="stocksMovementHistory" class="ml-64 rounded-lg shadow bg-[var(--background-color)] text-[var(--text-color)] hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 mb-4">
       <div class="flex items-center justify-between">
         <div>
@@ -759,7 +761,7 @@ json_encode($alerts);
       =                                                     Register Staff Starts Here                                                         =
       ==========================================================================================================================================
     -->
-  <section id="registerStaff" class="bg-[var(--background-color)] text-[var(--text-color)] hidden">
+  <section id="registerStaff" class="ml-64 bg-[var(--background-color)] text-[var(--text-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -861,7 +863,7 @@ json_encode($alerts);
   }
   ?>
 
-  <section id="modifyPosition" class="bg-[var(--background-color)] text-[var(--text-color)]">
+  <section id="modifyPosition" class="ml-64 bg-[var(--background-color)] text-[var(--text-color)]">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4 mb-4">
       <h2 class="text-2xl font-bold text-[var(--text-color)]">Modify Staff</h2>
       <p class="text-sm text-[var(--text-color)]">Update or assign a staff member's role.</p>
@@ -900,7 +902,6 @@ json_encode($alerts);
 
 
 
-      // 🔹 Send async request to update roles
       async function sendRoleUpdate(action, staffId, role) {
         const formData = new FormData();
         formData.append("action", action);
@@ -917,12 +918,16 @@ json_encode($alerts);
           Swal.fire({
             icon: data.status,
             title: data.message,
-            timer: 2000,
+            timer: 1500, // show message for 1.5 seconds
             showConfirmButton: false
           });
 
-          // Immediately refresh table after successful update
-          if (data.status === "success") await refreshStaffTable();
+          // Reload the page after 1.5 seconds if successful
+          if (data.status === "success") {
+            setTimeout(() => {
+              location.reload();
+            }, 1500);
+          }
         } catch (err) {
           console.error("Failed to update role:", err);
         }
@@ -983,7 +988,7 @@ json_encode($alerts);
       =                                                      Update Status Starts Here                                                         =
       ==========================================================================================================================================
     -->
-  <section id="modifyStatus" class="bg-[var(--background-color)] hidden">
+  <section id="modifyStatus" class="ml-64 bg-[var(--background-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div
@@ -1032,7 +1037,7 @@ json_encode($alerts);
       =                                                   Log Waste Starts Here                                                                =
       ==========================================================================================================================================
     -->
-  <section id="logWaste" class="rounded-lg shadow hidden">
+  <section id="logWaste" class="ml-64 rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -1063,7 +1068,7 @@ json_encode($alerts);
       =                                                   Disable Product Starts Here                                                          =
       ==========================================================================================================================================
     -->
-  <section id="disableProduct" class="bg-[var(--background-color)] rounded-lg shadow hidden">
+  <section id="disableProduct" class="ml-64 bg-[var(--background-color)] rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -1090,7 +1095,7 @@ json_encode($alerts);
       =                                                   Enable Product Starts Here                                                           =
       ==========================================================================================================================================
     -->
-  <section id="enableProduct" class="bg-[var(background-color)] rounded-lg shadow hidden">
+  <section id="enableProduct" class="ml-64 bg-[var(background-color)] rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -1120,7 +1125,7 @@ json_encode($alerts);
     -->
   <section
     id="productMovementHistory"
-    class="bg-[var(--background-color)] rounded-lg shadow text-[var(--text-color)] hidden">
+    class="ml-64 bg-[var(--background-color)] rounded-lg shadow text-[var(--text-color)] hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -1162,7 +1167,7 @@ json_encode($alerts);
       =                                                   Satisfaction Dashboard Starts Here                                                   =
       ==========================================================================================================================================
     -->
-  <section id="satisfactionDashboard" class="bg-white rounded-lg shadow p-4 md:p-6 hidden">
+  <section id="satisfactionDashboard" class="ml-64 bg-white rounded-lg shadow p-4 md:p-6 hidden">
     <header class="shadow-sm border-b border-gray-200 px-4 py-3 mb-4 md:flex md:justify-between md:items-center">
       <h2 class="text-xl md:text-2xl font-bold">Satisfaction Dashboard</h2>
       <p class="text-sm text-gray-600 mt-2 md:mt-0">Overview of today's feedback</p>
@@ -1185,7 +1190,7 @@ json_encode($alerts);
       =                                                   Complaints Management Starts Here                                                    =
       ==========================================================================================================================================
     -->
-  <section id="complaintsManagement" class="bg-white rounded-lg shadow hidden">
+  <section id="complaintsManagement" class="ml-64 bg-white rounded-lg shadow hidden">
     <header class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
@@ -1330,7 +1335,7 @@ json_encode($alerts);
     -->
   <section
     id="rewards&LoyaltyProgram"
-    class="bg-white rounded-lg shadow hidden">
+    class="ml-64 bg-white rounded-lg shadow hidden">
     <header
       class="shadow-sm border-b border-[var(--border-color)] px-6 py-4">
       <div class="flex items-center justify-between">
@@ -1362,7 +1367,7 @@ json_encode($alerts);
 
 
 
-  <section id="discountDashboard" class="rounded-lg shadow hidden text-[var(--text-color)]">
+  <section id="discountDashboard" class="ml-64 rounded-lg shadow hidden text-[var(--text-color)]">
 
 
     <?php

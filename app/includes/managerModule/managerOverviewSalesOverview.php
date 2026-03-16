@@ -1,39 +1,58 @@
 <?php
+ini_set('display_errors', 0);
+error_reporting(0);
+header('Content-Type: application/json');
 include '../../config/dbConnection.php';
+include "periodHelper.php";
 
-// Initialize array with 0 for each day
-$weekSales = [
-    'Mon' => 0,
-    'Tue' => 0,
-    'Wed' => 0,
-    'Thu' => 0,
-    'Fri' => 0,
-    'Sat' => 0,
-    'Sun' => 0
-];
+$range = getDateRange();
 
-// Get the current week's Monday and Sunday
-$startOfWeek = date('Y-m-d', strtotime('monday this week'));
-$endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+if ($range['mode'] === 'week') {
 
-$sql = "SELECT DATE(date_added) AS sale_date, SUM(TOTAL_AMOUNT) AS total
+    $weekSales = [
+        'Mon' => 0,
+        'Tue' => 0,
+        'Wed' => 0,
+        'Thu' => 0,
+        'Fri' => 0,
+        'Sat' => 0,
+        'Sun' => 0
+    ];
+
+    $sql = "
+        SELECT DATE(date_added) AS sale_date, SUM(TOTAL_AMOUNT) AS total
         FROM REG_TRANSACTION
         WHERE STATUS = 'COMPLETED'
           AND DATE(date_added) BETWEEN :start AND :end
-        GROUP BY DATE(date_added)";
+        GROUP BY DATE(date_added)
+    ";
 
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(':start', $startOfWeek);
-$stmt->bindParam(':end', $endOfWeek);
-$stmt->execute();
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':start', $range['start']);
+    $stmt->bindParam(':end', $range['end']);
+    $stmt->execute();
 
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $day = date('D', strtotime($row['sale_date']));
+        $weekSales[$day] = (float) $row['total'];
+    }
 
-// Fill weekly sales
-foreach ($results as $row) {
-    $dayName = date('D', strtotime($row['sale_date'])); // Mon, Tue, ...
-    $weekSales[$dayName] = (float)$row['total'];
+    echo json_encode($weekSales);
+} elseif ($range['mode'] === 'month') {
+
+    $sql = "
+        SELECT DAY(date_added) AS label, SUM(TOTAL_AMOUNT) AS total
+        FROM REG_TRANSACTION
+        WHERE STATUS = 'COMPLETED'
+          AND DATE(date_added) BETWEEN :start AND :end
+        GROUP BY DAY(date_added)
+        ORDER BY label ASC
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':start', $range['start']);
+    $stmt->bindParam(':end', $range['end']);
+    $stmt->execute();
+
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
-
-// Return JSON for JavaScript
-echo json_encode($weekSales);

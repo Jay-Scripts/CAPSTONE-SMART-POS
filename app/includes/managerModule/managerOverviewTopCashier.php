@@ -2,18 +2,21 @@
 ini_set('display_errors', 0);
 error_reporting(0);
 header('Content-Type: application/json');
+
 include "../../config/dbConnection.php";
 include "periodHelper.php";
 
 $range = getDateRange();
 
 $sql = "
-    SELECT pm.TYPE, SUM(pm.AMOUNT_SENT - pm.CHANGE_AMOUNT) AS total_amount
-    FROM PAYMENT_METHODS pm
-    JOIN REG_TRANSACTION rt ON pm.REG_TRANSACTION_ID = rt.REG_TRANSACTION_ID
+    SELECT si.staff_name, SUM(rt.TOTAL_AMOUNT) AS total_sales
+    FROM REG_TRANSACTION rt
+    JOIN STAFF_INFO si ON rt.STAFF_ID = si.STAFF_ID
     WHERE rt.STATUS = 'COMPLETED'
       AND DATE(rt.date_added) BETWEEN :start AND :end
-    GROUP BY pm.TYPE
+    GROUP BY rt.STAFF_ID, si.staff_name
+    ORDER BY total_sales DESC
+    LIMIT 5
 ";
 
 $stmt = $conn->prepare($sql);
