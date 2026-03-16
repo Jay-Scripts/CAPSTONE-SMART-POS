@@ -11,7 +11,7 @@ const categories = [
 async function loadProducts(categoryId, targetId) {
   try {
     const response = await fetch(
-      `../../app/includes/POS/POSRealTimeProductCheckStatus.php?category_id=${categoryId}`
+      `../../app/includes/POS/POSRealTimeProductCheckStatus.php?category_id=${categoryId}`,
     );
     const html = await response.text();
     document.getElementById(targetId).innerHTML = html;

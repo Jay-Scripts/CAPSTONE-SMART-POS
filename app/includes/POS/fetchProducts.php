@@ -213,23 +213,107 @@ foreach ($rows as $row) {
                 }).join(', ') : 'None';
 
             container.innerHTML += `
-      <div class="flex flex-col border-b border-gray-200 py-2 group">
-        <div class="flex justify-between items-center">
-          <span class="text-sm">${item.quantity}x ${product.product_name}${sizeLabel}</span>
-          <div class="flex items-center gap-3">
-            <span class="font-semibold">₱${subtotal.toFixed(2)}</span>
-            <button onclick="editCartItem(${item.indexes[0]})" class="text-blue-500 hover:text-blue-700 transition">Edit</button>
-            <button onclick="removeFromCart(${item.indexes.join(',')})" class="text-red-500 hover:text-red-700 transition">Delete</button>
+      <div style="
+        display:flex; flex-direction:column;
+        padding:10px 0;
+        border-bottom:1px solid var(--container-border);
+      ">
+        <div style="display:flex; align-items:flex-start; gap:8px;">
+
+          <!-- qty bubble -->
+          <div style="
+            flex-shrink:0; width:24px; height:24px; border-radius:50%;
+            background:var(--container-border);
+            display:flex; align-items:center; justify-content:center;
+            font-size:10px; font-weight:700; color:var(--text-color);
+          ">${item.quantity}</div>
+
+          <!-- name + details -->
+          <div style="flex:1; min-width:0;">
+            <p style="font-size:12px; font-weight:600; color:var(--text-color); margin:0; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${product.product_name}${sizeLabel}
+            </p>
+          ${addonsText !== 'None' ? `
+  <div style="margin-top:5px;">
+    <p style="font-size:10px; font-weight:600; color:var(--text-color); opacity:.6; margin:0 0 2px;">Add-ons</p>
+    ${item.addons.map(id => {
+      const addon = addonsList.find(a => a.ADD_ONS_ID == id);
+      return addon ? `<p style="font-size:10px; color:var(--text-color); opacity:.5; margin:0 0 1px; padding-left:8px;">· ${addon.ADD_ONS_NAME} (+₱${parseFloat(addon.PRICE).toFixed(2)})</p>` : '';
+    }).join('')}
+  </div>` : ''}
+
+${modsText !== 'None' ? `
+  <div style="margin-top:4px;">
+    <p style="font-size:10px; font-weight:600; color:var(--text-color); opacity:.6; margin:0 0 2px;">Modifications</p>
+    ${item.modifications.map(id => {
+      const mod = modsList.find(m => m.MODIFICATION_ID == id);
+      return mod ? `<p style="font-size:10px; color:var(--text-color); opacity:.5; margin:0 0 1px; padding-left:8px;">· ${mod.MODIFICATION_NAME}</p>` : '';
+    }).join('')}
+  </div>` : ''}
           </div>
-        </div>
-        <div class="text-xs ml-5 mt-1 space-y-0.5">
-          <div><b>Add-ons:</b> ${addonsText}</div>
-          <div><b>Mods:</b> ${modsText}</div>
+
+          <!-- price + actions -->
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
+            <span style="font-size:13px; font-weight:700; color:var(--text-color);">₱${subtotal.toFixed(2)}</span>
+            <div style="display:flex; gap:4px;">
+
+              <!-- Edit btn -->
+              <button
+                onclick="editCartItem(${item.indexes[0]})"
+                title="Edit"
+                style="
+                  width:28px; height:28px; border-radius:8px; border:none; cursor:pointer;
+                  background:var(--container-border);
+                  display:flex; align-items:center; justify-content:center;
+                  transition:opacity .15s;
+                "
+                onmouseover="this.style.opacity='.7'"
+                onmouseout="this.style.opacity='1'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="var(--text-color)" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </button>
+
+              <!-- Delete btn -->
+              <button
+                onclick="removeFromCart(${item.indexes.join(',')})"
+                title="Remove"
+                style="
+                  width:28px; height:28px; border-radius:8px; border:none; cursor:pointer;
+                  background:#fee2e2;
+                  display:flex; align-items:center; justify-content:center;
+                  transition:opacity .15s;
+                "
+                onmouseover="this.style.opacity='.7'"
+                onmouseout="this.style.opacity='1'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="#ef4444" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                  <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                </svg>
+              </button>
+
+            </div>
+          </div>
+
         </div>
       </div>`;
         });
 
-        container.innerHTML += `<div class="text-right font-semibold mt-2">Total: ₱${cartTotal.toFixed(2)}</div>`;
+        container.innerHTML += `
+  <div style="
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0 4px; margin-top:4px;
+  ">
+    <span style="font-size:11px; opacity:.5; color:var(--text-color);">Subtotal</span>
+    <span style="font-size:15px; font-weight:700; color:var(--text-color);">₱${cartTotal.toFixed(2)}</span>
+  </div>`;
 
         originalTotal = cartTotal;
         updateDisplay();

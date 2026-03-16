@@ -16,7 +16,7 @@ function showModule(moduleId) {
   });
   document.getElementById(moduleId).classList.remove("hidden");
   const selectedLabel = document.querySelector(
-    `label[for="${moduleId}_module"]`
+    `label[for="${moduleId}_module"]`,
   );
 }
 
