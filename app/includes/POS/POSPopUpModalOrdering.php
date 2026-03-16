@@ -8,127 +8,167 @@ $modifications = $mods_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<!-- Modal -->
-<div id="productModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center ">
-    <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-md p-5 relative animate-[fadeIn_0.3s_ease]">
-        <button onclick="closeModal()" class="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-lg font-bold">&times;</button>
-        <div class="flex flex-col items-center">
-            <img id="modalThumb" src="" alt="Product" class="w-32 h-32 rounded-lg object-cover mb-3">
-            <h2 class="text-lg font-semibold text-gray-800" id="productName"></h2>
-        </div>
+<!-- Product Order Modal -->
+<div id="productModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center">
+    <div class="bg-[var(--background-color)] text-[var(--text-color)] border border-[var(--container-border)]
+                rounded-2xl shadow-2xl w-11/12 max-w-md mx-4 animate-[fadeIn_0.25s_ease] flex flex-col max-h-[90vh]">
 
-        <!-- Size -->
-        <div id="sizeOptions" class="mt-4">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Select Size</h3>
-            <div id="sizesContainer" class="flex flex-col gap-2"></div>
-        </div>
-
-        <!-- Add-ons -->
-        <div class="mt-2">
-            <h3 class="text-sm font-semibold text-gray-700 mb-1">Add-ons</h3>
-            <div class="flex flex-wrap gap-2">
-                <?php foreach ($addons as $addon): ?>
-                    <label class="relative flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-lg cursor-pointer 
-                          hover:bg-green-50 transition transform hover:scale-105">
-                        <!-- Hidden checkbox -->
-                        <input type="checkbox" class="addon-checkbox peer absolute opacity-0 w-0 h-0"
-                            data-id="<?= $addon['ADD_ONS_ID'] ?>"
-                            data-price="<?= $addon['PRICE'] ?>">
-                        <!-- Visible label content -->
-                        <span class="text-gray-700 text-sm font-medium peer-checked:bg-green-100 peer-checked:border-green-400 
-                             peer-checked:text-green-700 px-2 py-1 rounded-lg transition">
-                            <?= htmlspecialchars($addon['ADD_ONS_NAME']) ?>
-                            <span class="text-gray-500 text-xs">(+₱<?= number_format($addon['PRICE'], 2) ?>)</span>
-                        </span>
-                    </label>
-                <?php endforeach; ?>
+        <!-- ── HEADER ── -->
+        <div class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[var(--container-border)] shrink-0">
+            <div class="flex items-center gap-3">
+                <img id="modalThumb" src="" alt="Product"
+                    class="w-12 h-12 rounded-xl object-cover border border-[var(--container-border)]">
+                <h2 class="text-base font-bold text-[var(--text-color)] leading-tight" id="productName"></h2>
             </div>
+            <button onclick="closeModal()"
+                class="w-8 h-8 flex items-center justify-center rounded-full border border-[var(--container-border)]
+                       text-[var(--text-color)] hover:bg-red-500 hover:text-white hover:border-red-500
+                       transition-all duration-200 text-lg leading-none shrink-0">
+                &times;
+            </button>
         </div>
 
+        <!-- ── SCROLLABLE BODY ── -->
+        <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4"
+            style="scrollbar-width: thin; scrollbar-color: var(--container-border) transparent;">
 
-        <!-- Modifications -->
-        <!-- Ice Level -->
-        <div class="mt-2">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Ice Level</h3>
-            <div class="flex flex-wrap gap-2" id="iceLevel">
-                <?php foreach ($modifications as $mod): ?>
-                    <?php if ($mod['MODIFICATION_ID'] >= 1 && $mod['MODIFICATION_ID'] <= 2): ?>
-                        <label class="relative flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-lg  cursor-pointer 
-                              hover:bg-blue-50 transition transform hover:scale-105">
-                            <!-- Hidden checkbox -->
-                            <input type="checkbox" class="mod-checkbox peer absolute opacity-0 w-0 h-0"
-                                value="<?= htmlspecialchars($mod['MODIFICATION_ID']) ?>">
-                            <!-- Visible label content -->
-                            <span class="text-gray-700 text-sm font-medium peer-checked:bg-blue-100 px-3 py-1 rounded-lg peer-checked:border-blue-400 
-                                 peer-checked:text-blue-700 transition">
-                                <?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>
+            <!-- Size -->
+            <div id="sizeOptions">
+                <p class="text-xs font-semibold uppercase tracking-wide opacity-50 text-[var(--text-color)] mb-2">Select Size</p>
+                <div id="sizesContainer" class="flex flex-col gap-2"></div>
+            </div>
+
+            <!-- Add-ons -->
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide opacity-50 text-[var(--text-color)] mb-2">Add-ons</p>
+                <div class="flex flex-wrap gap-2">
+                    <?php foreach ($addons as $addon): ?>
+                        <label class="relative cursor-pointer select-none">
+                            <input type="checkbox" class="addon-checkbox peer absolute opacity-0 w-0 h-0"
+                                data-id="<?= $addon['ADD_ONS_ID'] ?>"
+                                data-price="<?= $addon['PRICE'] ?>">
+                            <span class="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-xl
+                                     border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                                     text-[var(--text-color)] transition-all duration-150 active:scale-95
+                                     peer-checked:bg-green-500 peer-checked:text-white peer-checked:border-green-500">
+                                <?= htmlspecialchars($addon['ADD_ONS_NAME']) ?>
+                                <span class="opacity-70">+₱<?= number_format($addon['PRICE'], 2) ?></span>
                             </span>
                         </label>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
 
-
-        <!-- Sugar Level -->
-        <div class="mt-2">
-            <h3 class="text-sm font-semibold text-gray-700 mb-2">Sugar Level</h3>
-            <div class="flex flex-wrap gap-2" id="sugarLevel">
-                <?php foreach ($modifications as $mod): ?>
-                    <?php if ($mod['MODIFICATION_ID'] >= 3 && $mod['MODIFICATION_ID'] <= 6): ?>
-                        <label class="relative flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-lg cursor-pointer 
-                              hover:bg-red-50 transition transform hover:scale-105">
-                            <!-- Hidden checkbox -->
-                            <input type="checkbox" class="mod-checkbox peer absolute opacity-0 w-0 h-0"
-                                value="<?= htmlspecialchars($mod['MODIFICATION_ID']) ?>">
-                            <!-- Visible label content -->
-                            <div class="text-gray-700 text-sm font-medium peer-checked:bg-red-100 px-3 py-1 rounded-lg peer-checked:border-red-400 
-                                 peer-checked:text-red-700 transition">
-                                <?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>
-                            </div>
-                        </label>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+            <!-- Ice Level -->
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide opacity-50 text-[var(--text-color)] mb-2">Ice Level</p>
+                <div class="flex flex-wrap gap-2" id="iceLevel">
+                    <?php foreach ($modifications as $mod): ?>
+                        <?php if ($mod['MODIFICATION_ID'] >= 1 && $mod['MODIFICATION_ID'] <= 2): ?>
+                            <label class="relative cursor-pointer select-none">
+                                <input type="checkbox" class="mod-checkbox peer absolute opacity-0 w-0 h-0"
+                                    value="<?= htmlspecialchars($mod['MODIFICATION_ID']) ?>">
+                                <span class="flex items-center px-3 py-1.5 text-xs font-semibold rounded-xl
+                                     border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                                     text-[var(--text-color)] transition-all duration-150 active:scale-95
+                                     peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500">
+                                    <?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>
+                                </span>
+                            </label>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
 
-        <script>
-            // Make checkboxes behave like radio buttons
-            function singleCheck(containerId) {
-                const container = document.getElementById(containerId);
-                container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    cb.addEventListener('change', () => {
-                        if (cb.checked) {
-                            container.querySelectorAll('input[type="checkbox"]').forEach(other => {
-                                if (other !== cb) other.checked = false;
-                            });
-                        }
+            <!-- Sugar Level -->
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide opacity-50 text-[var(--text-color)] mb-2">Sugar Level</p>
+                <div class="flex flex-wrap gap-2" id="sugarLevel">
+                    <?php foreach ($modifications as $mod): ?>
+                        <?php if ($mod['MODIFICATION_ID'] >= 3 && $mod['MODIFICATION_ID'] <= 6): ?>
+                            <label class="relative cursor-pointer select-none">
+                                <input type="checkbox" class="mod-checkbox peer absolute opacity-0 w-0 h-0"
+                                    value="<?= htmlspecialchars($mod['MODIFICATION_ID']) ?>">
+                                <span class="flex items-center px-3 py-1.5 text-xs font-semibold rounded-xl
+                                     border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                                     text-[var(--text-color)] transition-all duration-150 active:scale-95
+                                     peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500">
+                                    <?= htmlspecialchars($mod['MODIFICATION_NAME']) ?>
+                                </span>
+                            </label>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <script>
+                function singleCheck(containerId) {
+                    const container = document.getElementById(containerId);
+                    container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                        cb.addEventListener('change', () => {
+                            if (cb.checked) {
+                                container.querySelectorAll('input[type="checkbox"]').forEach(other => {
+                                    if (other !== cb) other.checked = false;
+                                });
+                            }
+                        });
                     });
-                });
-            }
+                }
+                singleCheck('iceLevel');
+                singleCheck('sugarLevel');
+            </script>
 
-            singleCheck('iceLevel');
-            singleCheck('sugarLevel');
-        </script>
+        </div>
+        <!-- ── END SCROLLABLE BODY ── -->
 
-        <!-- Quantity -->
-        <div class="flex items-center justify-between mt-2">
-            <span class="text-sm font-medium text-gray-700">Quantity:</span>
-            <div class="flex items-center space-x-2">
-                <button id="decreaseQty" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 rounded">−</button>
-                <input id="quantity" type="number" value="1" min="1" class="w-12 text-center border rounded" readonly>
-                <button id="increaseQty" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 rounded">+</button>
+        <!-- ── FOOTER ── -->
+        <div class="px-5 py-4 border-t border-[var(--container-border)] shrink-0 space-y-3">
+
+            <!-- Quantity + Total -->
+            <div class="flex items-center justify-between">
+
+                <!-- Qty stepper -->
+                <div class="flex items-center gap-1">
+                    <span class="text-xs font-semibold uppercase tracking-wide opacity-50 text-[var(--text-color)] mr-2">Qty</span>
+                    <button id="decreaseQty"
+                        class="w-8 h-8 rounded-xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                               text-[var(--text-color)] font-bold text-lg flex items-center justify-center
+                               hover:bg-[var(--text-color)] hover:text-[var(--background-color)]
+                               active:scale-90 transition-all duration-150">
+                        −
+                    </button>
+                    <input id="quantity" type="number" value="1" min="1" readonly
+                        class="w-10 h-8 text-center text-sm font-bold bg-transparent text-[var(--text-color)]
+                               border border-[var(--container-border)] rounded-xl focus:outline-none" />
+                    <button id="increaseQty"
+                        class="w-8 h-8 rounded-xl border border-[var(--container-border)] bg-[var(--calc-bg-btn)]
+                               text-[var(--text-color)] font-bold text-lg flex items-center justify-center
+                               hover:bg-[var(--text-color)] hover:text-[var(--background-color)]
+                               active:scale-90 transition-all duration-150">
+                        +
+                    </button>
+                </div>
+
+                <!-- Total -->
+                <div class="text-right">
+                    <p class="text-xs opacity-50 text-[var(--text-color)] uppercase tracking-wide">Total</p>
+                    <p class="text-xl font-bold text-[var(--text-color)]">₱<span id="subtotal">0</span></p>
+                </div>
             </div>
-        </div>
 
-        <!-- Total -->
-        <div class="mt-2 text-right text-sm font-semibold text-gray-800">
-            Total: ₱<span id="subtotal">0</span>
-        </div>
+            <!-- Add to Order -->
+            <button onclick="addToOrder()"
+                class="w-full py-3 rounded-2xl bg-green-600 hover:bg-green-500 active:scale-[0.98]
+                       text-white font-bold text-sm tracking-wide flex items-center justify-center gap-2
+                       transition-all duration-200 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 -960 960 960" fill="currentColor">
+                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                </svg>
+                Add to Order
+            </button>
 
-        <!-- Add to Order -->
-        <div class="mt-4 flex justify-end">
-            <button class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg shadow" onclick="addToOrder()">Add to Order</button>
         </div>
+        <!-- ── END FOOTER ── -->
+
     </div>
 </div>
