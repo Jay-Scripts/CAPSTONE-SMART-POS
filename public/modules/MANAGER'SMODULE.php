@@ -256,29 +256,25 @@ json_encode($alerts);
           class="bg-[var(--background-color)] rounded-lg shadow portrait:px-2 portrait:py-2 hidden">
           <header class="border-b border-[var(--border-color)] px-6 py-5">
             <h2 class="text-2xl font-bold text-[var(--text-color)] tracking-tight">Add Product</h2>
-            <p class="text-sm text-gray-500 mt-1"> Add new products to your inventory and manage their details.</p>
+            <p class="text-sm text-gray-500 mt-1">Add new products to your inventory and manage their details.</p>
           </header>
+
           <div class="bg-[var(--background-color)] flex flex-col items-center justify-center">
-
             <div>
-
 
               <?php
               include "../../app/config/dbConnection.php";
 
-              // Unique variables for this form
               $ADDSTOCK_prodName = $ADDSTOCK_prodCategory = $ADDSTOCK_prodPrice_medio = $ADDSTOCK_prodPrice_grande = "";
               $ADDSTOCK_SwalMessage = "";
               $ADDSTOCK_SwalType = "";
 
-              // Handle form submission
               if (isset($_POST['ADDSTOCK_submit'])) {
-                $ADDSTOCK_prodName = trim($_POST['ADDSTOCK_productName']);
-                $ADDSTOCK_prodCategory = $_POST['ADDSTOCK_category'] ?? null;
-                $ADDSTOCK_prodPrice_medio = $_POST['ADDSTOCK_price_medio'] ?? 0;
+                $ADDSTOCK_prodName        = trim($_POST['ADDSTOCK_productName']);
+                $ADDSTOCK_prodCategory    = $_POST['ADDSTOCK_category'] ?? null;
+                $ADDSTOCK_prodPrice_medio  = $_POST['ADDSTOCK_price_medio'] ?? 0;
                 $ADDSTOCK_prodPrice_grande = $_POST['ADDSTOCK_price_grande'] ?? 0;
 
-                // Map categories to folders
                 $categoryFolders = [
                   1 => "MILKTEA_MENU",
                   2 => "FRUITTEA_MENU",
@@ -290,29 +286,24 @@ json_encode($alerts);
                   8 => "ADDONS_MENU"
                 ];
 
-                // File upload
                 $ADDSTOCK_thumbnailPath = "";
                 if (isset($_FILES['ADDSTOCK_thumbnail']) && $_FILES['ADDSTOCK_thumbnail']['error'] === UPLOAD_ERR_OK) {
-                  $folderName = $categoryFolders[$ADDSTOCK_prodCategory] ?? "PRODUCTS"; // fallback
-                  $uploadDir = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/";
-
+                  $folderName = $categoryFolders[$ADDSTOCK_prodCategory] ?? "PRODUCTS";
+                  $uploadDir  = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/";
                   if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-
-                  $fileName = basename($_FILES['ADDSTOCK_thumbnail']['name']);
+                  $fileName   = basename($_FILES['ADDSTOCK_thumbnail']['name']);
                   $targetFile = $uploadDir . $fileName;
-
                   if (move_uploaded_file($_FILES['ADDSTOCK_thumbnail']['tmp_name'], $targetFile)) {
                     $ADDSTOCK_thumbnailPath = "../assets/IMAGES/MENU IMAGES/" . $folderName . "/" . $fileName;
                   } else {
                     $ADDSTOCK_SwalMessage = "Failed to upload thumbnail.";
-                    $ADDSTOCK_SwalType = "error";
+                    $ADDSTOCK_SwalType    = "error";
                   }
                 }
 
-                // Validation
                 if (empty($ADDSTOCK_prodName) || empty($ADDSTOCK_prodCategory) || empty($ADDSTOCK_prodPrice_medio) || empty($ADDSTOCK_prodPrice_grande) || empty($ADDSTOCK_thumbnailPath)) {
                   $ADDSTOCK_SwalMessage = "Please fill all required fields and upload an image.";
-                  $ADDSTOCK_SwalType = "error";
+                  $ADDSTOCK_SwalType    = "error";
                 } else {
                   try {
                     $conn->beginTransaction();
@@ -320,61 +311,69 @@ json_encode($alerts);
                     // Insert product
                     $stmt = $conn->prepare("INSERT INTO product_details (product_name, category_id, thumbnail_path) VALUES (:name, :category, :thumbnail)");
                     $stmt->execute([
-                      ':name' => htmlspecialchars($ADDSTOCK_prodName),
-                      ':category' => $ADDSTOCK_prodCategory,
+                      ':name'      => htmlspecialchars($ADDSTOCK_prodName),
+                      ':category'  => $ADDSTOCK_prodCategory,
                       ':thumbnail' => $ADDSTOCK_thumbnailPath
                     ]);
                     $ADDSTOCK_productId = $conn->lastInsertId();
 
                     // Insert sizes
                     $stmtSize = $conn->prepare("INSERT INTO product_sizes (product_id, size, regular_price) VALUES (:product_id, :size, :price)");
+                    $stmtSize->execute([':product_id' => $ADDSTOCK_productId, ':size' => 'medio',  ':price' => $ADDSTOCK_prodPrice_medio]);
+                    $stmtSize->execute([':product_id' => $ADDSTOCK_productId, ':size' => 'grande', ':price' => $ADDSTOCK_prodPrice_grande]);
 
-                    // Medio
-                    $stmtSize->execute([
-                      ':product_id' => $ADDSTOCK_productId,
-                      ':size' => 'medio',
-                      ':price' => $ADDSTOCK_prodPrice_medio
-                    ]);
+                    // Insert ingredient ratios
+                    $ratioIngredients = $_POST['ratio_ingredient'] ?? [];
+                    $ratioAmounts     = $_POST['ratio_amount']     ?? [];
+                    $ratioSizes       = $_POST['ratio_size']       ?? [];
 
-                    // Grande
-                    $stmtSize->execute([
-                      ':product_id' => $ADDSTOCK_productId,
-                      ':size' => 'grande',
-                      ':price' => $ADDSTOCK_prodPrice_grande
-                    ]);
+                    if (!empty($ratioIngredients)) {
+                      $stmtRatio = $conn->prepare("
+                INSERT INTO product_ingredient_ratio (product_id, ingredient_name, ingredient_ratio, size)
+                VALUES (:product_id, :ingredient_name, :ingredient_ratio, :size)
+              ");
+                      foreach ($ratioIngredients as $i => $ingName) {
+                        $ingName = strtolower(trim($ingName));
+                        $amount  = floatval($ratioAmounts[$i] ?? 0);
+                        $size    = $ratioSizes[$i] ?? 'medio';
+                        if (empty($ingName) || $amount <= 0) continue;
+                        $stmtRatio->execute([
+                          ':product_id'       => $ADDSTOCK_productId,
+                          ':ingredient_name'  => $ingName,
+                          ':ingredient_ratio' => $amount,
+                          ':size'             => $size,
+                        ]);
+                      }
+                    }
 
                     $conn->commit();
                     $ADDSTOCK_SwalMessage = "Product added successfully!";
-                    $ADDSTOCK_SwalType = "success";
+                    $ADDSTOCK_SwalType    = "success";
                   } catch (Exception $e) {
                     $conn->rollBack();
                     $ADDSTOCK_SwalMessage = "Error: " . $e->getMessage();
-                    $ADDSTOCK_SwalType = "error";
+                    $ADDSTOCK_SwalType    = "error";
                   }
                 }
               }
 
-              // Fetch categories
               $ADDSTOCK_categories = $conn->query("SELECT * FROM category WHERE status='ACTIVE'")->fetchAll(PDO::FETCH_ASSOC);
               ?>
 
-              <div class="flex justify-center items-center p-6  bg-[var(--bg-color)]">
+              <div class="flex justify-center items-center p-6 bg-[var(--bg-color)]">
                 <form method="POST" enctype="multipart/form-data"
-                  class="glass-card w-full  border border-[var(--glass-border)] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
+                  class="glass-card w-full border border-[var(--glass-border)] rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 transition-all">
 
                   <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
                     <img src="../assets/SVG/LOGO/BLOGO.svg" alt="Logo" class="h-16 w-auto theme-logo" />
                   </div>
-
-                  <h2 class="text-2xl sm:text-3xl font-bold text-center text-[var(--text-color)] mb-6">
-                    Add Product
-                  </h2>
+                  <h2 class="text-2xl sm:text-3xl font-bold text-center text-[var(--text-color)] mb-6">Add Product</h2>
 
                   <!-- Product Name -->
                   <label class="block mb-4">
                     <span class="block text-sm font-medium">Product Name <span class="text-red-500">*</span></span>
                     <input type="text" name="ADDSTOCK_productName" required
-                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition"
                       placeholder="Enter product name" value="<?= htmlspecialchars($ADDSTOCK_prodName) ?>">
                   </label>
 
@@ -382,7 +381,7 @@ json_encode($alerts);
                   <label class="block mb-4">
                     <span class="block text-sm font-medium">Category <span class="text-red-500">*</span></span>
                     <select name="ADDSTOCK_category" required
-                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition">
                       <option value="">Select Category</option>
                       <?php foreach ($ADDSTOCK_categories as $cat): ?>
                         <option value="<?= $cat['category_id'] ?>" <?= ($ADDSTOCK_prodCategory == $cat['category_id']) ? 'selected' : '' ?>>
@@ -392,20 +391,19 @@ json_encode($alerts);
                     </select>
                   </label>
 
-                  <!-- Prices side by side -->
+                  <!-- Prices -->
                   <div class="grid grid-cols-2 gap-4 mb-4">
                     <label>
                       <span class="block text-sm font-medium">Price (Medio) <span class="text-red-500">*</span></span>
                       <input type="number" step="0.01" min="0" name="ADDSTOCK_price_medio" required
-                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                        placeholder="Enter price for Medio" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_medio) ?>">
+                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition"
+                        placeholder="0.00" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_medio) ?>">
                     </label>
-
                     <label>
                       <span class="block text-sm font-medium">Price (Grande) <span class="text-red-500">*</span></span>
                       <input type="number" step="0.01" min="0" name="ADDSTOCK_price_grande" required
-                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                        placeholder="Enter price for Grande" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_grande) ?>">
+                        class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition"
+                        placeholder="0.00" value="<?= htmlspecialchars($ADDSTOCK_prodPrice_grande) ?>">
                     </label>
                   </div>
 
@@ -413,16 +411,71 @@ json_encode($alerts);
                   <label class="block mb-6">
                     <span class="block text-sm font-medium">Thumbnail <span class="text-red-500">*</span></span>
                     <input type="file" name="ADDSTOCK_thumbnail" accept="image/*" required
-                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                      class="w-full mt-1 border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition">
                   </label>
 
-                  <!-- Submit -->
-                  <div class="flex">
-                    <button type="submit" name="ADDSTOCK_submit"
-                      class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-indigo-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-indigo-500">
-                      Add Product
-                    </button>
+                  <!-- ── Ingredient Ratios ── -->
+                  <div class="mb-6">
+                    <div class="flex items-center justify-between mb-2">
+                      <div>
+                        <span class="block text-sm font-medium">Ingredient Ratios</span>
+                        <span class="text-xs text-gray-400">Ingredients consumed per order — matches inventory item names exactly</span>
+                      </div>
+                      <button type="button" id="addRatioRow"
+                        class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 transition shrink-0">
+                        + Add Row
+                      </button>
+                    </div>
+
+                    <!-- Column headers -->
+                    <div class="grid grid-cols-[2fr_1fr_1fr_28px] gap-2 mb-1 px-1">
+                      <span class="text-xs text-gray-400 font-medium">Ingredient name</span>
+                      <span class="text-xs text-gray-400 font-medium">Amount</span>
+                      <span class="text-xs text-gray-400 font-medium">Size</span>
+                      <span></span>
+                    </div>
+
+                    <div id="ratioRows" class="flex flex-col gap-2">
+                      <?php
+                      // Default rows based on your data pattern
+                      $defaultRows = [
+                        ['cup',          1,  'medio'],
+                        ['cup',          1,  'grande'],
+                        ['straw',        1,  'medio'],
+                        ['straw',        1,  'grande'],
+                        ['sealing film', 1,  'medio'],
+                        ['sealing film', 1,  'grande'],
+                        ['syrup',        40, 'medio'],
+                        ['syrup',        80, 'grande'],
+                      ];
+                      foreach ($defaultRows as $r): ?>
+                        <div class="ratio-row grid grid-cols-[2fr_1fr_1fr_28px] gap-2 items-center">
+                          <input type="text" name="ratio_ingredient[]" value="<?= $r[0] ?>"
+                            placeholder="e.g. tea, coffee, syrup"
+                            class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                          <input type="number" name="ratio_amount[]" value="<?= $r[1] ?>" min="0" step="0.01"
+                            placeholder="qty"
+                            class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                          <select name="ratio_size[]"
+                            class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                            <option value="medio" <?= $r[2] === 'medio'    ? 'selected' : '' ?>>Medio</option>
+                            <option value="grande" <?= $r[2] === 'grande'   ? 'selected' : '' ?>>Grande</option>
+                            <option value="promo" <?= $r[2] === 'promo'    ? 'selected' : '' ?>>Promo</option>
+                            <option value="hot brew" <?= $r[2] === 'hot brew' ? 'selected' : '' ?>>Hot Brew</option>
+                          </select>
+                          <button type="button" onclick="this.closest('.ratio-row').remove()"
+                            class="text-red-400 hover:text-red-600 text-xl font-bold leading-none transition">×</button>
+                        </div>
+                      <?php endforeach; ?>
+                    </div>
                   </div>
+
+                  <!-- Submit -->
+                  <button type="submit" name="ADDSTOCK_submit"
+                    class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-indigo-700 hover:scale-[1.02] transition-transform focus:ring-2 focus:ring-indigo-500">
+                    Add Product
+                  </button>
+
                 </form>
               </div>
 
@@ -438,9 +491,31 @@ json_encode($alerts);
                 </script>
               <?php endif; ?>
 
+              <script>
+                document.getElementById('addRatioRow').addEventListener('click', () => {
+                  const row = document.createElement('div');
+                  row.className = 'ratio-row grid grid-cols-[2fr_1fr_1fr_28px] gap-2 items-center';
+                  row.innerHTML = `
+            <input type="text" name="ratio_ingredient[]" placeholder="e.g. tea, coffee, syrup"
+              class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+            <input type="number" name="ratio_amount[]" min="0" step="0.01" placeholder="qty"
+              class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+            <select name="ratio_size[]"
+              class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+              <option value="medio">Medio</option>
+              <option value="grande">Grande</option>
+              <option value="promo">Promo</option>
+              <option value="hot brew">Hot Brew</option>
+            </select>
+            <button type="button" onclick="this.closest('.ratio-row').remove()"
+              class="text-red-400 hover:text-red-600 text-xl font-bold leading-none transition">×</button>`;
+                  document.getElementById('ratioRows').appendChild(row);
+                  row.querySelector('input[type="text"]').focus();
+                });
+              </script>
+
             </div>
           </div>
-          </header>
         </section>
 
 
