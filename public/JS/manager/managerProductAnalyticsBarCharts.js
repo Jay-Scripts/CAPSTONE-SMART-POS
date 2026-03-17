@@ -5,13 +5,13 @@ async function updateCategoryChart(
   canvasId,
   chartLabel,
   indexAxis = "y",
-  bgColor = "#60a5fa"
+  bgColor = "#60a5fa",
 ) {
   const ctx = document.getElementById(canvasId).getContext("2d");
 
   try {
     const res = await fetch(
-      `../../app/includes/managerModule/managerProductAnalyticsBarCharts.php?category_id=${categoryId}`
+      `../../app/includes/managerModule/managerProductAnalyticsBarCharts.php?category_id=${categoryId}`,
     );
     const data = await res.json();
 
@@ -44,7 +44,7 @@ async function updateCategoryChart(
       charts[canvasId].data.labels = labels;
       charts[canvasId].data.datasets[0].data = sales;
       charts[canvasId].data.datasets[0].backgroundColor = labels.map(
-        () => bgColor
+        () => bgColor,
       ); // ✅ fix
       charts[canvasId].update();
     }
@@ -64,6 +64,6 @@ setInterval(() => {
     "srIcedCoffeeChart",
     "Iced Coffee Sales",
     "x",
-    "#1FB4C2"
+    "#1FB4C2",
   );
 }, 1000);

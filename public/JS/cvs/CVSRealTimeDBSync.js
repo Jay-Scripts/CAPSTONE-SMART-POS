@@ -14,7 +14,7 @@ async function loadOrders() {
           <div class="bg-[var(--panel-bg)] rounded-lg p-3 shadow-sm">
             <p class="text-3xl text-[var(--text-color)] font-semibold">#${id}</p>
           </div>
-        `
+        `,
         )
         .join("");
     } else {
@@ -26,10 +26,17 @@ async function loadOrders() {
       servingDiv.innerHTML = data.serving
         .map(
           (id) => `
-          <div class="bg-green-600 rounded-lg p-3 shadow-sm">
-            <p class="text-white font-bold text-3xl">#${id}</p>
+          <div  class="flex items-center justify-start  gap-2 px-4 py-2 rounded-2xl
+                      border border-green-500/30 bg-green-500/10
+">
+              <div class="w-2 h-10 rounded-full bg-green-500 shrink-0"></div>
+
+               <div> <p class="text-xs opacity-50 text-[var(--text-color)] uppercase tracking-wide font-semibold">Order</p>
+
+            <p class="text-2xl font-bold text-[var(--text-color)]">#${id}</p></div>
+              
           </div>
-        `
+        `,
         )
         .join("");
     } else {

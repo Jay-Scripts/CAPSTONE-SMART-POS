@@ -7,7 +7,8 @@
   <title>Customer View System</title>
   <script src="app.js" defer></script>
   <link href="../css/style.css" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
   <link rel="shortcut icon" href="../assets/favcon/cvs.ico" type="image/x-icon" />
 </head>
 

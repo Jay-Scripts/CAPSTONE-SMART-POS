@@ -149,6 +149,7 @@
                 <canvas id="ovSalesChart" height="100"></canvas>
             </article>
 
+
             <!-- Top Selling Products -->
             <article class="glass-card rounded-2xl border border-[var(--container-border)] bg-[var(--glass-bg)] shadow-sm p-5 flex flex-col gap-3">
                 <div class="flex items-center gap-2">
@@ -163,7 +164,23 @@
                     </div>
                 </div>
                 <canvas id="topProductsChart" height="100"></canvas>
+            </article><!-- Top Cashiers -->
+            <article class="glass-card rounded-2xl border border-[var(--container-border)] bg-[var(--glass-bg)] shadow-sm p-5 flex flex-col gap-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-500" viewBox="0 -960 960 960" fill="currentColor">
+                            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-[var(--text-color)] leading-tight">Top Cashiers</h3>
+                        <p class="text-xs opacity-50 text-[var(--text-color)]">Ranked by total sales</p>
+                    </div>
+                </div>
+                <canvas id="topCashierChart" height="100"></canvas>
             </article>
+
+
 
         </div>
 
@@ -186,20 +203,24 @@
                 <canvas id="paymentChart" height="100"></canvas>
             </article>
 
-            <!-- Top Cashiers -->
+            <!-- Transaction Source — swapped above Top Cashiers -->
             <article class="glass-card rounded-2xl border border-[var(--container-border)] bg-[var(--glass-bg)] shadow-sm p-5 flex flex-col gap-3">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-500" viewBox="0 -960 960 960" fill="currentColor">
-                            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z" />
+                    <div class="w-8 h-8 rounded-lg bg-cyan-500/15 flex items-center justify-center shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-cyan-500" viewBox="0 -960 960 960" fill="currentColor">
+                            <path d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-400H160v400Zm0-480h640v-80H160v80Z" />
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-[var(--text-color)] leading-tight">Top Cashiers</h3>
-                        <p class="text-xs opacity-50 text-[var(--text-color)]">Ranked by total sales</p>
+                        <h3 class="text-sm font-bold text-[var(--text-color)] leading-tight">Transactions by Source</h3>
+                        <p class="text-xs opacity-50 text-[var(--text-color)]">POS vs Kiosk vs Rewards App</p>
                     </div>
                 </div>
-                <canvas id="topCashierChart" height="100"></canvas>
+                <div class="flex justify-center">
+                    <div style="width:200px; height:200px;">
+                        <canvas id="orderSourceChart"></canvas>
+                    </div>
+                </div>
             </article>
 
         </div>

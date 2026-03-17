@@ -5,7 +5,7 @@ let weeklySalesChart = null;
 let topProductsChart = null;
 let paymentChart = null;
 let topCashierChart = null;
-
+let orderSourceChart = null;
 function destroyCharts() {
   if (weeklySalesChart) {
     weeklySalesChart.destroy();
@@ -22,6 +22,10 @@ function destroyCharts() {
   if (topCashierChart) {
     topCashierChart.destroy();
     topCashierChart = null;
+  }
+  if (orderSourceChart) {
+    orderSourceChart.destroy();
+    orderSourceChart = null;
   }
 }
 
@@ -132,7 +136,61 @@ function getSelectedPeriod() {
   const [start, end] = val.split("|");
   return { mode: "week", start, end };
 }
+// ================================================================
+// Order Source Chart (POS vs Kiosk vs Rewards App)
+// ================================================================
+async function updateOrderSourceChart() {
+  const canvas = document.getElementById("orderSourceChart");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
 
+  try {
+    const { mode, start, end } = getSelectedPeriod();
+    const res = await fetch(
+      `../../app/includes/managerModule/managerOverviewOrderSource.php?mode=${mode}&start=${start}&end=${end}`,
+    );
+    const data = await res.json();
+
+    const labels = ["POS", "KIOSK", "REWARDS APP"];
+    const values = [data.POS, data.KIOSK, data["REWARDS APP"]];
+    const colors = ["#3b82f6", "#10b981", "#f59e0b"];
+
+    if (orderSourceChart) {
+      orderSourceChart.data.datasets[0].data = values;
+      orderSourceChart.update();
+    } else {
+      orderSourceChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels,
+          datasets: [
+            {
+              data: values,
+              backgroundColor: colors,
+              borderWidth: 2,
+              hoverOffset: 8,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          animation: { duration: 600 },
+          plugins: {
+            legend: { position: "bottom" },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.label}: ${ctx.parsed} transactions`,
+              },
+            },
+          },
+          cutout: "65%",
+        },
+      });
+    }
+  } catch (err) {
+    console.error("Error updating order source chart:", err);
+  }
+}
 function onMonthChange() {
   const month = parseInt(document.getElementById("monthSel").value);
   populateWeeks(month, new Date().getFullYear(), false);
@@ -168,17 +226,17 @@ function onPeriodChange() {
 })();
 
 // ================================================================
-// Shared bar color palette — one color per bar index
+// Shared bar color palette
 // ================================================================
 const BAR_COLORS = [
-  "#3b82f6", // blue
-  "#8b5cf6", // purple
-  "#10b981", // green
-  "#f59e0b", // amber
-  "#ef4444", // red
-  "#06b6d4", // cyan
-  "#f97316", // orange
-  "#ec4899", // pink
+  "#3b82f6",
+  "#8b5cf6",
+  "#10b981",
+  "#f59e0b",
+  "#ef4444",
+  "#06b6d4",
+  "#f97316",
+  "#ec4899",
 ];
 
 function getBarColors(count) {
@@ -189,7 +247,41 @@ function getBarColors(count) {
 }
 
 // ================================================================
-// KPI
+// Animated KPI number counter
+// ================================================================
+function animateNumber(elementId, targetValue, prefix = "", decimals = 0) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+
+  const start = parseFloat(el.dataset.current || 0);
+  const end = parseFloat(targetValue);
+  if (start === end) return;
+
+  const duration = 700;
+  const startTime = performance.now();
+
+  function tick(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    const current = start + (end - start) * eased;
+
+    el.textContent = prefix + current.toFixed(decimals);
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      el.textContent = prefix + end.toFixed(decimals);
+      el.dataset.current = end;
+    }
+  }
+
+  el.dataset.current = start;
+  requestAnimationFrame(tick);
+}
+
+// ================================================================
+// KPI — animated numbers
 // ================================================================
 async function fetchKPI() {
   try {
@@ -200,12 +292,9 @@ async function fetchKPI() {
     const data = await res.json();
 
     if (data.status === "success") {
-      document.getElementById("salesAmount").textContent =
-        "₱ " + parseFloat(data.total_sales).toFixed(2);
-      document.getElementById("transactions").textContent =
-        data.total_transactions;
-      document.getElementById("itemsSold").textContent =
-        data.total_products_sold;
+      animateNumber("salesAmount", parseFloat(data.total_sales), "₱ ", 2);
+      animateNumber("transactions", parseInt(data.total_transactions), "", 0);
+      animateNumber("itemsSold", parseInt(data.total_products_sold), "", 0);
     }
   } catch (err) {
     console.error("Error fetching KPI:", err);
@@ -213,7 +302,7 @@ async function fetchKPI() {
 }
 
 // ================================================================
-// Sales Overview Chart
+// Sales Overview Chart — smooth line movement
 // ================================================================
 async function updateWeeklySalesChart() {
   const canvas = document.getElementById("ovSalesChart");
@@ -240,7 +329,7 @@ async function updateWeeklySalesChart() {
     if (weeklySalesChart) {
       weeklySalesChart.data.labels = labels;
       weeklySalesChart.data.datasets[0].data = salesData;
-      weeklySalesChart.update("none");
+      weeklySalesChart.update(); // ← default animation, line moves smoothly
     } else {
       weeklySalesChart = new Chart(ctx, {
         type: "line",
@@ -261,6 +350,7 @@ async function updateWeeklySalesChart() {
         },
         options: {
           responsive: true,
+          animation: { duration: 600, easing: "easeInOutQuart" },
           plugins: { legend: { display: false } },
           scales: {
             y: { beginAtZero: true, ticks: { callback: (v) => "₱" + v } },
@@ -274,7 +364,7 @@ async function updateWeeklySalesChart() {
 }
 
 // ================================================================
-// Top Products Chart
+// Top Products Chart — smooth bar growth
 // ================================================================
 async function updateTopProductsChart() {
   const canvas = document.getElementById("topProductsChart");
@@ -296,22 +386,19 @@ async function updateTopProductsChart() {
       topProductsChart.data.labels = labels;
       topProductsChart.data.datasets[0].data = values;
       topProductsChart.data.datasets[0].backgroundColor = colors;
-      topProductsChart.update("none");
+      topProductsChart.update(); // ← animated
     } else {
       topProductsChart = new Chart(ctx, {
         type: "bar",
         data: {
           labels,
           datasets: [
-            {
-              label: "Items Sold",
-              data: values,
-              backgroundColor: colors,
-            },
+            { label: "Items Sold", data: values, backgroundColor: colors },
           ],
         },
         options: {
           responsive: true,
+          animation: { duration: 600, easing: "easeInOutQuart" },
           plugins: { legend: { display: false } },
           scales: { y: { beginAtZero: true } },
         },
@@ -323,7 +410,7 @@ async function updateTopProductsChart() {
 }
 
 // ================================================================
-// Payment Breakdown Chart
+// Payment Breakdown Chart — smooth pie update
 // ================================================================
 async function updatePaymentBreakdownChart() {
   const canvas = document.getElementById("paymentChart");
@@ -345,21 +432,14 @@ async function updatePaymentBreakdownChart() {
       paymentChart.data.labels = labels;
       paymentChart.data.datasets[0].data = values;
       paymentChart.data.datasets[0].backgroundColor = colors;
-      paymentChart.update("none");
+      paymentChart.update(); // ← animated
     } else {
       paymentChart = new Chart(ctx, {
         type: "pie",
-        data: {
-          labels,
-          datasets: [
-            {
-              data: values,
-              backgroundColor: colors,
-            },
-          ],
-        },
+        data: { labels, datasets: [{ data: values, backgroundColor: colors }] },
         options: {
           responsive: true,
+          animation: { duration: 600 },
           plugins: { legend: { position: "bottom" } },
         },
       });
@@ -370,7 +450,7 @@ async function updatePaymentBreakdownChart() {
 }
 
 // ================================================================
-// Top Cashier Chart
+// Top Cashier Chart — smooth bar growth
 // ================================================================
 async function updateTopCashierChart() {
   const canvas = document.getElementById("topCashierChart");
@@ -392,22 +472,19 @@ async function updateTopCashierChart() {
       topCashierChart.data.labels = labels;
       topCashierChart.data.datasets[0].data = values;
       topCashierChart.data.datasets[0].backgroundColor = colors;
-      topCashierChart.update("none");
+      topCashierChart.update(); // ← animated
     } else {
       topCashierChart = new Chart(ctx, {
         type: "bar",
         data: {
           labels,
           datasets: [
-            {
-              label: "₱ Sales",
-              data: values,
-              backgroundColor: colors,
-            },
+            { label: "₱ Sales", data: values, backgroundColor: colors },
           ],
         },
         options: {
           responsive: true,
+          animation: { duration: 600, easing: "easeInOutQuart" },
           plugins: { legend: { display: false } },
           scales: {
             y: { beginAtZero: true, ticks: { callback: (v) => "₱" + v } },
@@ -421,13 +498,14 @@ async function updateTopCashierChart() {
 }
 
 // ================================================================
-// Initial load + polling every 30 seconds (silent — no destroy)
+// Initial load + polling every 5 seconds
 // ================================================================
 fetchKPI();
 updateWeeklySalesChart();
 updateTopProductsChart();
 updatePaymentBreakdownChart();
 updateTopCashierChart();
+updateOrderSourceChart();
 
 setInterval(() => {
   fetchKPI();
@@ -435,4 +513,5 @@ setInterval(() => {
   updateTopProductsChart();
   updatePaymentBreakdownChart();
   updateTopCashierChart();
-}, 30000);
+  updateOrderSourceChart();
+}, 5000);

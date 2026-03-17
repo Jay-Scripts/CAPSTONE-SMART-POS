@@ -303,7 +303,7 @@
         container.innerHTML = data.map(id => `
           <div class="flex items-center justify-between gap-3 px-4 py-3 rounded-2xl
                       border border-green-500/30 bg-green-500/10
-                      animate-[fadeIn_0.2s_ease]">
+                    ">
 
             <!-- Order number -->
             <div class="flex items-center gap-3">
