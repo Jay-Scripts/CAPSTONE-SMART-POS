@@ -260,8 +260,8 @@ try {
 
         /* ======== QR / Barcode (if needed) ======== */
         .qr-code {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
         }
 
         /* Optional: extra space at the bottom to feed paper */
@@ -389,8 +389,11 @@ try {
         const posLink = `http://${serverIP}/SmartPOS1/public/modules/SATISFACTIONRating.php`;
         new QRCode(document.getElementById("qrCode"), {
             text: posLink,
-            width: 100,
-            height: 100
+            width: 150,
+            /* changed from 100 */
+            height: 150,
+            /* changed from 100 */
+            correctLevel: QRCode.CorrectLevel.L /* add this — simpler QR = easier to scan */
         });
 
 
