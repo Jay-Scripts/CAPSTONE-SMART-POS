@@ -82,47 +82,67 @@
   </style>
 </head>
 
-<body
-  class="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-[#fdebd0] to-[#f8e8d0] overflow-hidden">
-  <!-- Milk Tea Cup -->
-  <div class="relative w-44 h-60 sm:w-60 sm:h-80">
-    <div
-      class="absolute inset-0 border-4 border-[#d97d54] rounded-3xl overflow-hidden shadow-lg">
-      <div class="milk-tea-fill"></div>
+<body class="min-h-screen flex flex-col items-center justify-center gap-8 bg-[#fdf8f4]">
+
+  <div class="flex flex-col items-center gap-5">
+    <!-- Spinner -->
+    <div class="relative w-12 h-12">
+      <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+        <circle cx="24" cy="24" r="20" stroke="#e8d5c4" stroke-width="3" />
+        <circle cx="24" cy="24" r="20" stroke="#d97d54" stroke-width="3"
+          stroke-linecap="round" stroke-dasharray="30 96"
+          style="transform-origin:center; animation: spin 1s linear infinite;" />
+      </svg>
     </div>
 
-    <!-- Boba Pearls -->
-    <div class="boba" style="bottom: 4rem; left: 1.5rem"></div>
-    <div
-      class="boba"
-      style="bottom: 5rem; left: 3rem; animation-delay: 0.3s"></div>
-    <div
-      class="boba"
-      style="bottom: 6rem; left: 2rem; animation-delay: 0.6s"></div>
-    <div
-      class="boba"
-      style="bottom: 7rem; left: 2.5rem; animation-delay: 0.9s"></div>
+    <!-- Text -->
+    <div class="text-center">
+      <p class="text-lg font-medium text-[#3a2a1f]">Logging in</p>
+      <p class="text-sm text-[#a07a60] mt-1" id="subtext">Verifying your credentials...</p>
+    </div>
 
-    <!-- Floating bubbles -->
-    <div
-      class="bubble"
-      style="left: 20px; bottom: 20px; animation-delay: 0s"></div>
-    <div
-      class="bubble"
-      style="left: 40px; bottom: 15px; animation-delay: 1s"></div>
-    <div
-      class="bubble"
-      style="left: 28px; bottom: 10px; animation-delay: 0.5s"></div>
+    <!-- Dots -->
+    <div class="flex gap-1.5 items-center">
+      <span class="dot w-1.5 h-1.5 rounded-full bg-[#d97d54]" style="animation: pulse 1.2s ease-in-out infinite;"></span>
+      <span class="dot w-1.5 h-1.5 rounded-full bg-[#d97d54]" style="animation: pulse 1.2s ease-in-out 0.2s infinite;"></span>
+      <span class="dot w-1.5 h-1.5 rounded-full bg-[#d97d54]" style="animation: pulse 1.2s ease-in-out 0.4s infinite;"></span>
+    </div>
   </div>
 
-  <!-- SMART POS Text -->
-  <h1
-    class="absolute bottom-10 text-2xl sm:text-3xl font-bold text-[#d97d54]">
-    Logging In...
-  </h1>
+  <p class="text-xs text-[#c4a898] tracking-widest uppercase">Big Brew POS</p>
+
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: scale(0.85);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
 
   <script>
-    // Simulate loading and redirect to login after 3 seconds
+    const msgs = ["Verifying your credentials...", "Almost there...", "Redirecting you now..."];
+    let i = 0;
+    const sub = document.getElementById("subtext");
+    const iv = setInterval(() => {
+      i++;
+      if (i < msgs.length) sub.textContent = msgs[i];
+      else clearInterval(iv);
+    }, 900);
+
     setTimeout(() => {
       window.location.href = "../../modules/BVS.php";
     }, 2500);
