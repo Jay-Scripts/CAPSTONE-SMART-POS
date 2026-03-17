@@ -386,7 +386,7 @@ try {
         const posPath = "/SmartPOS1/public/modules/SATISFACTIONRating.php";
 
         const serverIP = '<?= $serverIP ?>';
-        const posLink = `http://${serverIP}:8080/SmartPOS1/public/modules/SATISFACTIONRating.php`;
+        const posLink = `http://${serverIP}/SmartPOS1/public/modules/SATISFACTIONRating.php`;
         new QRCode(document.getElementById("qrCode"), {
             text: posLink,
             width: 100,
