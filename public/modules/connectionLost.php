@@ -100,12 +100,12 @@
     -->
     <script>
         const checker = setInterval(() => {
-            fetch("../../app/config/dbConnection.php")
+            fetch("../../app/config/dbConnection.php?check=1")
                 .then(res => res.text())
                 .then(data => {
                     if (data.includes("Connected")) {
                         clearInterval(checker);
-                        history.back(); // go back to last page
+                        history.back();
                     }
                 })
                 .catch(() => {

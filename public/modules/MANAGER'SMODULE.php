@@ -1651,6 +1651,21 @@ json_encode($alerts);
     });
   </script>
 
+  <script>
+    const checker = setInterval(() => {
+      fetch("../../app/config/dbConnection.php?check=1")
+        .then(res => res.text())
+        .then(data => {
+          if (!data.includes("Connected")) {
+            window.location.href = "connectionLost.php";
+          }
+        })
+        .catch(() => {
+          window.location.href = "connectionLost.php";
+        });
+    }, 1000);
+  </script>
+
 </body>
 
 </html>
