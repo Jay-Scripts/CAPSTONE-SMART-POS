@@ -308,7 +308,7 @@ json_encode($alerts);
                   try {
                     $conn->beginTransaction();
 
-                    // Insert product
+                    // ── Insert product ──
                     $stmt = $conn->prepare("INSERT INTO product_details (product_name, category_id, thumbnail_path) VALUES (:name, :category, :thumbnail)");
                     $stmt->execute([
                       ':name'      => htmlspecialchars($ADDSTOCK_prodName),
@@ -317,12 +317,12 @@ json_encode($alerts);
                     ]);
                     $ADDSTOCK_productId = $conn->lastInsertId();
 
-                    // Insert sizes
+                    // ── Insert sizes ──
                     $stmtSize = $conn->prepare("INSERT INTO product_sizes (product_id, size, regular_price) VALUES (:product_id, :size, :price)");
                     $stmtSize->execute([':product_id' => $ADDSTOCK_productId, ':size' => 'medio',  ':price' => $ADDSTOCK_prodPrice_medio]);
                     $stmtSize->execute([':product_id' => $ADDSTOCK_productId, ':size' => 'grande', ':price' => $ADDSTOCK_prodPrice_grande]);
 
-                    // Insert ingredient ratios
+                    // ── Insert ingredient ratios ──
                     $ratioIngredients = $_POST['ratio_ingredient'] ?? [];
                     $ratioAmounts     = $_POST['ratio_amount']     ?? [];
                     $ratioSizes       = $_POST['ratio_size']       ?? [];
@@ -346,6 +346,34 @@ json_encode($alerts);
                       }
                     }
 
+                    // ── Insert initial inventory_item entry (optional) ──
+                    $initQty        = floatval($_POST['init_quantity'] ?? 0);
+                    $initUnit       = $_POST['init_unit']         ?? 'ml';
+                    $initInvCat     = intval($_POST['init_inv_category'] ?? 1);
+                    $initDateMade   = $_POST['init_date_made']    ?? date('Y-m-d');
+                    $initDateExpiry = $_POST['init_date_expiry']  ?? date('Y-m-d', strtotime('+6 months'));
+                    $managerId      = $_SESSION['staff_id']       ?? 1;
+
+                    if ($initQty > 0) {
+                      $stmtInv = $conn->prepare("
+                INSERT INTO inventory_item
+                (inv_category_id, item_name, added_by, product_id, category_id, unit, quantity, date_made, date_expiry)
+                VALUES
+                (:inv_category_id, :item_name, :added_by, :product_id, :category_id, :unit, :quantity, :date_made, :date_expiry)
+              ");
+                      $stmtInv->execute([
+                        ':inv_category_id' => $initInvCat,
+                        ':item_name'       => strtolower(htmlspecialchars($ADDSTOCK_prodName)),
+                        ':added_by'        => $managerId,
+                        ':product_id'      => $ADDSTOCK_productId,
+                        ':category_id'     => $ADDSTOCK_prodCategory,
+                        ':unit'            => $initUnit,
+                        ':quantity'        => $initQty,
+                        ':date_made'       => $initDateMade,
+                        ':date_expiry'     => $initDateExpiry,
+                      ]);
+                    }
+
                     $conn->commit();
                     $ADDSTOCK_SwalMessage = "Product added successfully!";
                     $ADDSTOCK_SwalType    = "success";
@@ -357,7 +385,18 @@ json_encode($alerts);
                 }
               }
 
+              // Fetch categories
               $ADDSTOCK_categories = $conn->query("SELECT * FROM category WHERE status='ACTIVE'")->fetchAll(PDO::FETCH_ASSOC);
+
+              // Fetch inventory categories for initial stock section
+              $ADDSTOCK_invCats = $conn->query("SELECT inv_category_id, category_name FROM inventory_category ORDER BY category_name ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+              // Fetch existing ingredient names for datalist
+              $existingIngredientNames = $conn->query("
+        SELECT DISTINCT item_name FROM inventory_item
+        WHERE item_name IS NOT NULL AND item_name != ''
+        ORDER BY item_name ASC
+      ")->fetchAll(PDO::FETCH_COLUMN);
               ?>
 
               <div class="flex justify-center items-center p-6 bg-[var(--bg-color)]">
@@ -368,6 +407,13 @@ json_encode($alerts);
                     <img src="../assets/SVG/LOGO/BLOGO.svg" alt="Logo" class="h-16 w-auto theme-logo" />
                   </div>
                   <h2 class="text-2xl sm:text-3xl font-bold text-center text-[var(--text-color)] mb-6">Add Product</h2>
+
+                  <!-- Shared datalist for ingredient names -->
+                  <datalist id="ingredientNamesList">
+                    <?php foreach ($existingIngredientNames as $ing): ?>
+                      <option value="<?= htmlspecialchars($ing) ?>">
+                      <?php endforeach; ?>
+                  </datalist>
 
                   <!-- Product Name -->
                   <label class="block mb-4">
@@ -419,7 +465,7 @@ json_encode($alerts);
                     <div class="flex items-center justify-between mb-2">
                       <div>
                         <span class="block text-sm font-medium">Ingredient Ratios</span>
-                        <span class="text-xs text-gray-400">Ingredients consumed per order — matches inventory item names exactly</span>
+                        <span class="text-xs text-gray-400">Ingredients consumed per order — must match inventory item names exactly</span>
                       </div>
                       <button type="button" id="addRatioRow"
                         class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 transition shrink-0">
@@ -427,7 +473,6 @@ json_encode($alerts);
                       </button>
                     </div>
 
-                    <!-- Column headers -->
                     <div class="grid grid-cols-[2fr_1fr_1fr_28px] gap-2 mb-1 px-1">
                       <span class="text-xs text-gray-400 font-medium">Ingredient name</span>
                       <span class="text-xs text-gray-400 font-medium">Amount</span>
@@ -437,7 +482,6 @@ json_encode($alerts);
 
                     <div id="ratioRows" class="flex flex-col gap-2">
                       <?php
-                      // Default rows based on your data pattern
                       $defaultRows = [
                         ['cup',          1,  'medio'],
                         ['cup',          1,  'grande'],
@@ -451,6 +495,8 @@ json_encode($alerts);
                       foreach ($defaultRows as $r): ?>
                         <div class="ratio-row grid grid-cols-[2fr_1fr_1fr_28px] gap-2 items-center">
                           <input type="text" name="ratio_ingredient[]" value="<?= $r[0] ?>"
+                            list="ingredientNamesList"
+                            autocomplete="off"
                             placeholder="e.g. tea, coffee, syrup"
                             class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
                           <input type="number" name="ratio_amount[]" value="<?= $r[1] ?>" min="0" step="0.01"
@@ -467,6 +513,54 @@ json_encode($alerts);
                             class="text-red-400 hover:text-red-600 text-xl font-bold leading-none transition">×</button>
                         </div>
                       <?php endforeach; ?>
+                    </div>
+                  </div>
+
+                  <!-- ── Initial Inventory Entry ── -->
+                  <div class="mb-6 border border-[var(--glass-border)] rounded-xl p-4">
+                    <span class="block text-sm font-medium mb-1">Initial Inventory Stock</span>
+                    <span class="block text-xs text-gray-400 mb-4">Optional — skip if adding stock separately via the Inventory module</span>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                      <label>
+                        <span class="block text-xs font-medium text-gray-500 mb-1">Inventory Category</span>
+                        <select name="init_inv_category"
+                          class="w-full border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                          <?php foreach ($ADDSTOCK_invCats as $ic): ?>
+                            <option value="<?= $ic['inv_category_id'] ?>"><?= htmlspecialchars($ic['category_name']) ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </label>
+                      <label>
+                        <span class="block text-xs font-medium text-gray-500 mb-1">Unit</span>
+                        <select name="init_unit"
+                          class="w-full border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                          <option value="ml">Milliliters (ml)</option>
+                          <option value="g">Grams (g)</option>
+                          <option value="pcs">Pieces (pcs)</option>
+                        </select>
+                      </label>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                      <label>
+                        <span class="block text-xs font-medium text-gray-500 mb-1">Initial Quantity</span>
+                        <input type="number" name="init_quantity" min="0" step="0.01"
+                          class="w-full border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition"
+                          placeholder="0">
+                      </label>
+                      <label>
+                        <span class="block text-xs font-medium text-gray-500 mb-1">Date Made</span>
+                        <input type="date" name="init_date_made"
+                          class="w-full border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition"
+                          value="<?= date('Y-m-d') ?>">
+                      </label>
+                      <label>
+                        <span class="block text-xs font-medium text-gray-500 mb-1">Expiry Date</span>
+                        <input type="date" name="init_date_expiry"
+                          class="w-full border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 transition"
+                          value="<?= date('Y-m-d', strtotime('+6 months')) ?>">
+                      </label>
                     </div>
                   </div>
 
@@ -496,7 +590,10 @@ json_encode($alerts);
                   const row = document.createElement('div');
                   row.className = 'ratio-row grid grid-cols-[2fr_1fr_1fr_28px] gap-2 items-center';
                   row.innerHTML = `
-            <input type="text" name="ratio_ingredient[]" placeholder="e.g. tea, coffee, syrup"
+            <input type="text" name="ratio_ingredient[]"
+              list="ingredientNamesList"
+              autocomplete="off"
+              placeholder="e.g. tea, coffee, syrup"
               class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">
             <input type="number" name="ratio_amount[]" min="0" step="0.01" placeholder="qty"
               class="border bg-[var(--background-color)] rounded-lg border-[var(--glass-border)] px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 transition">

@@ -1,6 +1,14 @@
       <?php
         try {
             // 
+            // Fetch all distinct item names for dropdown
+            $existingItemNames = $conn->query("
+    SELECT DISTINCT item_name 
+    FROM inventory_item 
+    WHERE item_name IS NOT NULL 
+      AND item_name != ''
+    ORDER BY item_name ASC
+")->fetchAll(PDO::FETCH_COLUMN);
             //   ==========================================================================================================================================
             //   =                                                          Inventory categories                                                          =
             //   ==========================================================================================================================================
